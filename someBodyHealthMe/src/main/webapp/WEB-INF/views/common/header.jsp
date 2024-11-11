@@ -2,42 +2,53 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- header 시작 -->
-<div id="main_logo">
-	<h1 class="align-center"><a>회원제 게시판</a></h1>
-</div>
-<div id="main_nav">
-	<ul>
-	    <li>
-	    	<a href="${pageContext.request.contextPath}/board/list.do">게시판</a>
-	    </li>
-	    <c:if test="${!empty user_num && user_auth == 9}">
-	    <li>
-	    	<a href="${pageContext.request.contextPath}/member/adminList.do">회원관리</a>
-	    </li>
-	    </c:if>
-	    <c:if test="${!empty user_num}">
-	    <li><a href="${pageContext.request.contextPath}/member/myPage.do">MY페이지</a></li>
-	    </c:if>
-	    <!-- 프로필사진 표시 시작 -->
-	    <c:if test="${!empty user_num && !empty user_photo}">
-	    <li class="menu-profile"><img src="${pageContext.request.contextPath}/upload/${user_photo}" width="25" height="25" class="my-photo"></li>
-	    </c:if>
-	    <c:if test="${!empty user_num && empty user_photo}">
-	    <li class="menu-profile"><img src="${pageContext.request.contextPath}/images/face.png" width="25" height="25" class="my-photo"></li>
-	    </c:if>
-	    <!-- 프로필사진 표시 끝 -->
-		<c:if test="${!empty user_num}">
-		<li class="menu-logout">
-			[<span>${user_id}</span>]
-			<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a>
-		</li>
-		</c:if>
-		<c:if test="${empty user_num}">
-		<li><a href="${pageContext.request.contextPath}/member/registerUserForm.do">회원가입</a></li>
-		<li><a href="${pageContext.request.contextPath}/member/loginForm.do">로그인</a></li>
-		</c:if>
-	</ul>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>header</title>
+    <script src="https://kit.fontawesome.com/8e490eaab5.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar__logo">
+            <i class="fa-solid fa-fire"></i>
+            <a href="">Some Body Health Me</a>
+        </div>
+        <ul class="navbar__menu">
+            <li><a href="${pageContext.request.contextPath}/board/list.do">소통공간</a></li>
+            <li><a href="${pageContext.request.contextPath}/healthitem/healthitem.do">헬스용품</a></li>
+            <li><a href="${pageContext.request.contextPath}/mybody/mybody.do">건강지킴이</a></li>
+            <li><a href="${pageContext.request.contextPath}/pt/pt.do">PT</a></li>
+            <li><a href="${pageContext.request.contextPath}/member/membership.do">회원권</a></li>
+        </ul>
+
+        <ul class="navbar__button">
+            <li><div class='button'><a href="${pageContext.request.contextPath}/member/register.do">회원가입</a></div></li>
+            <li><div class='button'><a href="${pageContext.request.contextPath}/member/login.do">로그인</a></div></li>
+        </ul>
+
+        <!-- Toggle button -->
+        <a href="#" class="navbar__toggleBtn">
+            <i class="fa-solid fa-bars"></i>
+        </a>
+    </div>
+</body>
+<script type="text/javascript" defer>
+    	//모바일 토글 키
+	    const toggleBtn = document.querySelector('.navbar__toggleBtn');
+	    const menu = document.querySelector('.navbar__menu');
+	
+	    toggleBtn.addEventListener('click', () => {
+	        menu.classList.toggle('active');
+	    });
+</script>
+</html>
+
 <!-- header 끝 -->
 
 

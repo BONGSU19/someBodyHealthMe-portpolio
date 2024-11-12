@@ -13,7 +13,7 @@
     <div id="box_out">
         <div id="box_in_1">
             <img src="${pageContext.request.contextPath}/images/image 1.png" alt="">
-//ㅁㄴㅇㅁㄴㅇㅁㄴㄴㅁ
+//ㅁㄴㅇㅁㄴㅇㅁㄴㄴㅁㅇㅇㅇ
             <p>커뮤니티</p>
         </div>
         <div class="box_in_2">

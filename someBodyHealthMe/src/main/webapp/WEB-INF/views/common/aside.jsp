@@ -13,7 +13,6 @@
     <div id="box_out">
         <div id="box_in_1">
             <img src="${pageContext.request.contextPath}/images/image 1.png" alt="">
-//ㅁㄴㅇㅁㄴㅇㅁㄴㄴㅁㅇㅇㅇ
             <p>커뮤니티</p>
         </div>
         <div class="box_in_2">
@@ -56,7 +55,7 @@
        // 두 이미지 경로 설정
 const image1 = "${pageContext.request.contextPath}/images/free-icon-down-2732661%201.png";
 
-const image2 = "images/free-icon-down-2732661 2.png"; // 두 번째 이미지
+const image2 = "${pageContext.request.contextPath}/images/free-icon-down-2732661%202.png"; // 두 번째 이미지
 
 // 모든 드롭다운 버튼에 이벤트 리스너 적용
 document.querySelectorAll('.dropdown-button').forEach(function(button) {

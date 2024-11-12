@@ -28,7 +28,7 @@
         </ul>
 
         <ul class="navbar__button">
-            <li><div class='button'><a href="${pageContext.request.contextPath}/member/register.do">회원가입</a></div></li>
+            <li><div class='button'><a href="${pageContext.request.contextPath}/member/registerUserForm.do">회원가입</a></div></li>
             <li><div class='button'><a href="${pageContext.request.contextPath}/member/login.do">로그인</a></div></li>
         </ul>
 

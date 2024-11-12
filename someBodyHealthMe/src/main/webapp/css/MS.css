@@ -101,3 +101,64 @@ margin-left:53px;
     margin-top:43px;
 }
 /*어사이드 끝*/
+
+.message{
+width:1000px;
+}
+#chat1{
+	width:350px;
+height:800px;
+border:1px solid rgba(0, 0, 0, .25) ;
+float:left;
+}
+#chat2{
+	width:878px;
+	border:1px solid rgba(0, 0, 0, .25) ;
+	height:800px;
+float:right;
+}
+.search-box{
+	width:330px;
+	height:74px;
+	border:5px;
+ border-radius: 12px;
+	background-color: rgba(217,217,217,0.58);
+	margin:0 auto;
+	padding-top:18px;
+	
+}
+
+.user-profile{
+	width:72px;
+	height:72px;
+	background-color:rgb(217,217,217);
+	 border-radius: 100%;
+	   background-image: url("../images/User.png");
+	  background-repeat: no-repeat;
+background-position: center;
+
+}
+#chat2_1{
+	width:876px;
+	border:1px solid rgba(0, 0, 0, .25) ;
+	height:124px;
+}
+#chat2_2{
+	width:876px;
+	height:674px;
+	border:1px solid rgba(0, 0, 0, .25) ;
+	background-color:rgba(0, 0, 0, .25);
+}
+
+
+footer{
+	height:250px;
+	width:100%;
+	background-color: rgba(217,217,217,0.58);
+}
+
+
+
+
+
+

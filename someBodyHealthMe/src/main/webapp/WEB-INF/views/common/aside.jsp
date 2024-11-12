@@ -51,10 +51,7 @@
         </div>
 
     </div>
-<div class="main-wrap">
 
-
-</div>
     <script>
        // 두 이미지 경로 설정
 const image1 = "${pageContext.request.contextPath}/images/free-icon-down-2732661%201.png";

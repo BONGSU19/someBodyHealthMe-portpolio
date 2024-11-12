@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MS.css" type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/MS.css" type="text/css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <style>
@@ -24,32 +25,51 @@
 		<div id="chat1">
 			<p class="message">메시지</p>
 			<div class="search-box">
-				<img src="${pageContext.request.contextPath}/images/Search.png">
-				
+				<img src="${pageContext.request.contextPath}/images/Search.png"
+					style="float: left;">
+
+				<form action="">
+
+					<input type="text"
+						style="float: left; margin-left: 23px; height: 42px; width: 220px;">
+				</form>
+
 			</div>
 			<div class="chat1_1">
 				<div class="user-profile"></div>
-				<p>강연권</p>
-				<p>안녕하세요</p>
+				<div class="name-content">
+					<p>강연권</p>
+					<p>안녕하세요</p>
+				</div>
 			</div>
 		</div>
 		<div id="chat2">
 			<div id="chat2_1">
 				<div class="chat1_1">
 					<div class="user-profile"></div>
-			<div class="name-content">
-					<p>강연권</p>
-					<p>안녕하세요</p>
-			</div>
+					<div class="name-content">
+						<p>강연권</p>
+						<p>안녕하세요</p>
+					</div>
 				</div>
 			</div>
-
+	<div style="clear:both;"></div>
 			<div id="chat2_2">
 				<div clas="chat-request">
 					<div class="user-profile"></div>
 				</div>
 				<div clas="chat-response"></div>
 			</div>
+		</div>
+	
+		<div class="chat3">
+			<form action="">
+			
+			<input type="text">
+			</form>
+			
+			<img alt="" src="${pageContext.request.contextPath}/images/Send.png" width="48px" height="48px" >
+		
 		</div>
 	</div>
 </body>

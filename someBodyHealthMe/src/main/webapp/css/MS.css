@@ -114,7 +114,7 @@ float:left;
 #chat2{
 	width:878px;
 	border:1px solid rgba(0, 0, 0, .25) ;
-	height:800px;
+	height:700px;
 float:right;
 }
 .search-box{
@@ -137,6 +137,9 @@ float:right;
 	  background-repeat: no-repeat;
 background-position: center;
 float:left;
+margin-top:35px;
+margin-left:18px;
+margin-right:18px;
 
 }
 #chat2_1{
@@ -152,8 +155,29 @@ float:left;
 }
 .name-content{
 	float:left;
+	margin-top:35px;
+}
+.chat3{
+	width:876px;
+	height:100px;
+float:right;
 }
 
+
+.chat3 input{
+width:709px;
+height:81px;
+border-radius:12px;
+background-color:gray;
+float:left;
+margin-left:56px;
+}
+
+.chat3 img{
+margin-top:15px;
+float:left;
+margin-left:15px;
+}
 footer{
 	height:250px;
 	width:100%;

@@ -1,4 +1,4 @@
--- USER 테이블 생성
+-- USER 테이블 생성 1
 CREATE TABLE USER (
     user_num NUMBER NOT NULL,                       -- 사용자 고유 ID (Primary Key)
     login_id VARCHAR2(30) NOT NULL,                 -- 사용자 로그인 ID (Unique Key)

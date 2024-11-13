@@ -11,7 +11,7 @@ public class MyStatusModifyFormAction implements Action{
 		// TODO Auto-generated method stub
 		
 		
-		return "mybody/myStatusModify.jsp";
+		return "mybody/myStatusModifyForm.jsp";
 	}
 	
 }

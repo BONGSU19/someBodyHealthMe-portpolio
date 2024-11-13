@@ -8,7 +8,7 @@ import kr.controller.Action;
 public class ListAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		//JSP 경로 반환
+		//JSP 경로 반환/
 		return "board/list.jsp";
 	}
 }

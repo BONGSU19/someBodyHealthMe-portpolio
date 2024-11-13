@@ -32,9 +32,7 @@
 				<ul class="search">
 					<li>
 						<select name="keyfield">
-							<option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>제목</option>
-							<option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>작성자ID</option>
-							<option value="3" <c:if test="${param.keyfield==3}">selected</c:if>>내용</option>
+							<option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>상품명</option>
 						</select>
 					</li>
 					<li>
@@ -64,15 +62,13 @@
 			 	<th>제목</th>
 			 	<th>작성자</th>
 			 	<th>작성일</th>
-			 	<th>조회</th>
 			 </tr>
-			 <c:forEach var="board" items="${list}">
+			 <c:forEach var="goods" items="${list}">
 			 	<tr>
-			 		<td>${board.board_num}</td>
-			 		<td><a href="detail.do?board_num=${board.board_num}">${board.title}</a></td>
-			 		<td>${board.id}</td>
-			 		<td>${board.reg_date}</td>
-			 		<td>${board.hit}</td>
+			 		<td>${goods.goods_num}</td>
+			 		<td><a href="detail.do?goods_num=${goods.goods_num}">${goods.goods_name}</a></td>
+			 		<td>${goods.nick_name}</td>
+			 		<td>${goods.goods_date}</td>
 			 	</tr>
 			 </c:forEach>
 			</table>

@@ -1,16 +1,16 @@
 package kr.goods.vo;
 
-import java.sql.Date;
-
 public class GoodsReviewVO {
 	private long re_num;
 	private String re_content;
 	private int re_rating;
-	private Date re_date;
-	private Date re_mdate;
+	private String re_date;
+	private String re_mdate;
 	private String re_ip;
 	private long goods_num;
 	private long user_num;
+	
+	private String nick_name;
 	
 	public long getRe_num() {
 		return re_num;
@@ -30,16 +30,16 @@ public class GoodsReviewVO {
 	public void setRe_rating(int re_rating) {
 		this.re_rating = re_rating;
 	}
-	public Date getRe_date() {
+	public String getRe_date() {
 		return re_date;
 	}
-	public void setRe_date(Date re_date) {
+	public void setRe_date(String re_date) {
 		this.re_date = re_date;
 	}
-	public Date getRe_mdate() {
+	public String getRe_mdate() {
 		return re_mdate;
 	}
-	public void setRe_mdate(Date re_mdate) {
+	public void setRe_mdate(String re_mdate) {
 		this.re_mdate = re_mdate;
 	}
 	public String getRe_ip() {
@@ -59,5 +59,13 @@ public class GoodsReviewVO {
 	}
 	public void setUser_num(long user_num) {
 		this.user_num = user_num;
+	}
+	
+	public String getNick_name() {
+		return nick_name;
+	}
+
+	public void setNick_name(String nick_name) {
+		this.nick_name = nick_name;
 	}
 }

@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.goods.dao.GoodsDAO;
 import kr.goods.vo.GoodsVO;
+import kr.util.PagingUtil;
 import kr.controller.Action;
-//import kr.util.PagingUtil;
 
 public class ListAction implements Action{
 
@@ -21,19 +21,19 @@ public class ListAction implements Action{
 			String keyword = request.getParameter("keyword");
 			
 			GoodsDAO dao = GoodsDAO.getInstance();
-			//int count = dao.getBoardCount(keyfield, keyword);
+			int count = dao.getGoodsCount(keyfield, keyword);
 			
 			//페이지 처리
-			//PagingUtil page = new PagingUtil(keyfield, keyword, Integer.parseInt(pageNum),count,20,10,"list.do");
+			PagingUtil page = new PagingUtil(keyfield, keyword, Integer.parseInt(pageNum),count,20,10,"list.do");
 			
 			List<GoodsVO> list = null;
-			//if(count > 0 ) {
-				//list = dao.getListBoard(page.getStartRow(), page.getEndRow(), keyfield, keyword);
-			//}
+			if(count > 0 ) {
+				list = dao.getListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword);
+			}
 			
-			//request.setAttribute("count", count);
-			//request.setAttribute("list", list);
-			//request.setAttribute("page", page.getPage());
+			request.setAttribute("count", count);
+			request.setAttribute("list", list);
+			request.setAttribute("page", page.getPage());
 			
 
 			return "board/list.jsp";

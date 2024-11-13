@@ -7,45 +7,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>aside</title>
     <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MS.css" type="text/css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/css/MS.css" type="text/css">
 </head>
 <body>
     <div id="box_out">
         <div id="box_in_1">
-            <!-- 아이콘을 텍스트 앞에 배치 -->
-            <i class="fa-solid fa-chart-simple fa-3x"></i>
-            <p>건강지킴이</p>
+            <img src="${pageContext.request.contextPath}/images/image 1.png" alt="">
+            <p>커뮤니티</p>
         </div>
-        <div id="box_in_2">
+        <div class="box_in_2">
             <div class="dropdown">
                 <button class="dropdown-button toggle-button">소통공간 
-                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
+                   <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                    <a href="${pageContext.request.contextPath}/mybody/myStatus.do">건강 정보 확인</a>
-                    <a href="${pageContext.request.contextPath}/mybody/monthlyInbodyData.do">월별 인바디 확인</a>
+                  <a href="#">공지사항</a>
+                  <a href="#">오늘 운동 완료</a>
+                  <a href="#">자유 게시판</a>
                 </div>
-            </div>
+              </div>
+              
+              <div class="dropdown">
+                <button class="dropdown-button toggle-button">지원하기
+                   <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
+                </button>
+                <div class="dropdown-content">
+                  <a href="#">지원 신청</a>
+                  <a href="#">지원 결과확인</a>
+   
+                </div>
+              </div>
 
-            <div class="dropdown">
-                <button class="dropdown-button toggle-button">식단 정보
-                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
+              <div class="dropdown">
+                <button class="dropdown-button toggle-button">1대1문의
+                   <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                    <a href="${pageContext.request.contextPath}/mydiet/makeDietForm.do">내 식단 보기</a>
-                    <a href="${pageContext.request.contextPath}/mydiet/noteDietForm.do">식단 기록</a>
-                    <a href="${pageContext.request.contextPath}/mydiet/myDiet.do">사용자 지정 식단</a>
-                    <a href="${pageContext.request.contextPath}/mydiet/requestDiet.do">식단 등록 요청</a>
-                    <a href="${pageContext.request.contextPath}/mydiet/requestDietList.do">식단 등록 요청 내역</a>
+                  <a href="#">문의하기</a>
+                  
                 </div>
-            </div>
+              </div>
         </div>
+
     </div>
 
     <script>
        // 두 이미지 경로 설정
 const image1 = "${pageContext.request.contextPath}/images/free-icon-down-2732661%201.png";
+
 const image2 = "${pageContext.request.contextPath}/images/free-icon-down-2732661%202.png"; // 두 번째 이미지
 
 // 모든 드롭다운 버튼에 이벤트 리스너 적용

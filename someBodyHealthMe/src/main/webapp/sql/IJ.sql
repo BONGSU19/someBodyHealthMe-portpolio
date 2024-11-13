@@ -10,7 +10,7 @@ create table goods(
  goods_date date default sysdate not null,
  goods_mdate date,
  goods_quantity number(5) default 1 not null,
- constraint goods_pk primary key (goods_num),
+ constraint goods_pk primary key (goods_num)
 );
 create sequence goods_seq;
 
@@ -76,8 +76,21 @@ create table pt(
 );
 create sequence pt_seq;
 
+-- 장바구니
+create table cart(
+ cart_num number not null,
+ goods_num number not null,
+ user_num number not null,
+ cart_quantity number(3) not null,
+ cart_check number(1) not null,
+ constraint cart_pk primary key (cart_num),
+ constraint goods_num foreign key (goods_num) references goods (goods_num),
+ constraint user_num foreign key (user_num) references suser (user_num)
+);
+create sequence cart_seq;
+
 --주문
-create table order(
+create table orders(
  order_num number not null,
  user_num number not null,
  goods_num number not null,
@@ -94,18 +107,7 @@ create table order(
 );
 create sequence order_seq;
 
--- 장바구니
-create table cart(
- cart_num number not null,
- goods_num number not null,
- user_num number not null,
- cart_quantity number(3) not null,
- cart_check number(1) not null,
- constraint cart_pk primary key (cart_num),
- constraint goods_num foreign key (goods_num) references goods (goods_num),
- constraint user_num foreign key (user_num) references suser (user_num)
-);
-create sequence cart_seq;
+
 
 
 

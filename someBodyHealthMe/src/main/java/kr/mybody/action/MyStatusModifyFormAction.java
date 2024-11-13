@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.controller.Action;
 
-public class MyStatusModifyAction implements Action{
+public class MyStatusModifyFormAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub

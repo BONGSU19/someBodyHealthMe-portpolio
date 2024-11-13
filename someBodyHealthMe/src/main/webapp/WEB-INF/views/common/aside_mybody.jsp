@@ -33,7 +33,7 @@
                     <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                    <a href="${pageContext.request.contextPath}/mydiet/makeDiet.do">식단 구성 하기</a>
+                    <a href="${pageContext.request.contextPath}/mydiet/makeDietForm.do">내 식단 보기</a>
                     <a href="${pageContext.request.contextPath}/mydiet/noteDiet.do">식단 기록</a>
                     <a href="${pageContext.request.contextPath}/mydiet/myDiet.do">사용자 지정 식단</a>
                     <a href="${pageContext.request.contextPath}/mydiet/requestDiet.do">식단 등록 요청</a>

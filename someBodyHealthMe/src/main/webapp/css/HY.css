@@ -356,3 +356,111 @@ input[type="submit"]:active {
     transform: translateY(2px); /* 클릭 시 텍스트가 아래로 살짝 이동 */
 }
 
+/*==================================
+    Main Content 영역
+==================================*/
+.main-content-nutrition {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Meal Record Boxes (아침, 점심, 저녁, 간식) */
+.meal-records {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2개의 열로 나눔 */
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.meal-box {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meal-box h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.meal-box textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    resize: none;
+}
+
+/* 사람 몸 모양 이미지 */
+.body-image {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.body-image img {
+    width: 300px;
+    height: auto;
+}
+
+/* 영양소 정보 섹션 */
+.nutrition-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nutrition-info h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.nutrition-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.nutrition-box p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.gauge {
+    width: 70%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.gauge-bar {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s ease;
+}
+
+/* 모바일 화면에서 레이아웃 조정 */
+@media screen and (max-width: 768px) {
+    .meal-records {
+        grid-template-columns: 1fr; /* 모바일에서 1열로 배치 */
+    }
+
+    .nutrition-info {
+        padding: 15px;
+    }
+
+    .gauge {
+        width: 100%;
+    }
+}
+
+

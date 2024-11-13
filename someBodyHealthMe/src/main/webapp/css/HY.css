@@ -106,42 +106,6 @@ a {
 }
 
 
-/* 모바일 화면에서 메뉴 스타일 변경 */
-@media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column; /* 메뉴 세로로 배치 */
-        align-items: flex-start; /* 왼쪽 정렬 */
-        padding: 8px 24px; /* 패딩 값 조정 */
-    }
-
-    .navbar__menu {
-        display: none; /* 메뉴 숨김 */
-        flex-direction: column; /* 세로로 배치 */
-        align-items: center;
-        width: 100%; /* 메뉴 너비 100% */
-    }
-
-    .navbar__menu li {
-        width: 100%; /* 메뉴 항목 너비 100% */
-        text-align: center; /* 텍스트 중앙 정렬 */
-    }
-
-    .navbar__button {
-        display: none; /* 버튼 숨김 */
-        justify-content: center;
-        width: 100%; /* 버튼 너비 100% */
-    }
-
-    .navbar__toggleBtn {
-        display: block; /* 모바일 화면에서는 토글 버튼 표시 */
-    }
-
-    .navbar__menu.active,
-    .navbar__icons.active {
-        display: flex; /* 메뉴가 활성화되면 표시 */
-    }
-}
-
 /*==================================
 aside 영역
 ==================================*/
@@ -448,19 +412,165 @@ input[type="submit"]:active {
     transition: width 0.3s ease;
 }
 
-/* 모바일 화면에서 레이아웃 조정 */
-@media screen and (max-width: 768px) {
-    .meal-records {
-        grid-template-columns: 1fr; /* 모바일에서 1열로 배치 */
-    }
 
-    .nutrition-info {
-        padding: 15px;
-    }
 
-    .gauge {
-        width: 100%;
-    }
+/* =======================================
+    Main Content 영역 (기존 스타일 유지)
+======================================= */
+.main-content-diet {
+    padding: 20px;
+    border: 2px solid #ddd; /* 연한 회색 외곽선 */
+    border-radius: 12px; /* 둥근 모서리 */
+    background-color: #fff; /* 배경색 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 20px auto; /* 가운데 정렬 */
+    overflow: hidden; /* 안쪽 콘텐츠가 벗어나지 않도록 처리 */
 }
 
+/* =======================================
+    식사 유형 선택 버튼 (아침, 점심, 저녁, 간식)
+======================================= */
+.meal-selection {
+    margin-bottom: 40px;
+}
+
+.meal-selection h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.meal-buttons button {
+    padding: 12px 25px;
+    margin-right: 15px;
+    font-size: 1.1rem;
+    background-color: #f7f7f7;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.meal-buttons button:hover {
+    background-color: #4caf50;
+    color: white;
+}
+
+.meal-buttons button.selected {
+    background-color: #4caf50;
+    color: white;
+    border: 2px solid #4caf50;
+}
+
+/* =======================================
+    음식 검색 기능
+======================================= */
+.food-search {
+    margin-bottom: 40px;
+    text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+.search-box {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    border: 2px solid #ccc; /* 테두리 추가 */
+    padding: 5px;
+    border-radius: 8px; /* 외곽선 둥글게 */
+    max-width: 600px; /* 최대 너비 제한 */
+    margin: 0 auto; /* 중앙 배치 */
+}
+
+#food-search {
+    width: 80%; /* 입력창 너비 */
+    padding: 12px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none; /* 테두리 없애기 */
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+#food-search:focus {
+    outline: none; /* 포커스시 테두리 제거 */
+    border: 2px solid #4caf50; /* 포커스시 초록색 테두리 */
+}
+
+.search-box button {
+    padding: 12px;
+    background-color: #f7f7f7;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-box button:hover {
+    background-color: #4caf50;
+    color: white;
+}
+
+
+/*=======================================
+    음식 검색 팝업
+======================================= */
+.search-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: absolute; /* 절대 위치로 중앙 정렬 */
+    top: 50%; /* 화면의 50% 지점 */
+    left: 50%; /* 화면의 50% 지점 */
+    transform: translate(-50%, -50%); /* 정확히 중앙으로 이동 */
+}
+
+.popup-content h4 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.popup-content input {
+    width: 80%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.popup-content input:focus {
+    border-color: #4caf50;
+}
+
+.popup-content .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.popup-content .close:hover {
+    color: #f44336;
+}
 

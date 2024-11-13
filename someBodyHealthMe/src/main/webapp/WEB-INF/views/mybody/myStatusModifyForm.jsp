@@ -20,6 +20,59 @@
         <!-- Main Content 영역 추가 -->
         <div class="main-content">
 
+            <!-- 사용자 정보 섹션 (키, 체중, BMI 등) -->
+            <section class="user-info">
+            
+                <div class="title">
+                    <h2>사용자 건강 정보</h2>
+                </div>
+
+                <!-- 사용자 정보 입력 폼 -->
+                <form action="${pageContext.request.contextPath}/mybody/saveHealthInfo.do" method="post">
+                    <div class="info-box">
+                        <div class="info-item">
+                            <label for="height" class="label">키:</label>
+                            <input type="number" id="height" name="height" placeholder="예: 170" required>
+                        </div>
+                        <div class="info-item">
+                            <label for="weight" class="label">체중:</label>
+                            <input type="number" id="weight" name="weight" placeholder="예: 70" required>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label for="age" class="label">나이:</label>
+                            <input type="number" id="age" name="age" placeholder="예: 24" required>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label for="goal" class="label">운동 목표:</label>
+                            <select id="goal" name="goal">
+                                <option value="maintain">유지</option>
+                                <option value="gain">증가</option>
+                                <option value="lose">감량</option>
+                            </select>
+                        </div>
+                        <div class="info-item">
+                            <label for="gender" class="label">성별:</label>
+                            <select id="gender" name="gender">
+                                <option value="male">남성</option>
+                                <option value="female">여성</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 폼 제출 버튼 -->
+                    <!-- 폼 제출 버튼 수정 -->
+<div id="submit-button" class="button">
+    <form action="${pageContext.request.contextPath}/mybody/myStatusSubmit.do" method="post" id="status-form">
+        <!-- 폼 입력 필드들 (예시: 키, 체중 등) -->
+        <input type="submit" value="제출" id="submit-btn"/>
+    </form>
+</div>
+
+                </form>
+            </section>
+
         </div>
     </div>
 </body>

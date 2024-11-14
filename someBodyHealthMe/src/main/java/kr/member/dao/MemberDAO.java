@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 import kr.member.vo.MemberVO;
 import kr.util.DBUtil;
-
+ 
 public class MemberDAO {
     private static MemberDAO instance = new MemberDAO();
 
@@ -142,5 +142,38 @@ public class MemberDAO {
 
         System.out.println("Is Duplicate: " + isDuplicate);  // 최종 중복 여부 출력
         return isDuplicate;
+    }
+		// 로그인 메서드
+    public MemberVO checkLogin(String loginId, String password) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        MemberVO member = null;
+        String sql = "SELECT u.user_num, u.login_id, u.status, d.nick_name, d.name " +
+                     "FROM SUSER u LEFT JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
+                     "WHERE u.login_id = ? AND u.password = ?"; // password 컬럼이 실제 테이블의 컬럼명과 일치해야 함
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, loginId);
+            pstmt.setString(2, password);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                member = new MemberVO();
+                member.setUser_num(rs.getLong("user_num"));
+                member.setLogin_id(rs.getString("login_id"));
+                member.setStatus(rs.getInt("status"));
+                member.setNick_name(rs.getString("nick_name"));
+                member.setName(rs.getString("name"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("로그인 중 오류 발생: " + e.getMessage());
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+        return member;
     }
 }

@@ -65,7 +65,7 @@ public class BoardDAO {
 				if(keyfield.equals("3")) sub_sql = " WHERE nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
 			}
 			
-			sql = "SELECT count(*) FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)" +  sub_sql + ") USING(user_num);";
+			sql = "SELECT COUNT(*) FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) " +  sub_sql;
 			
 			pstmt = conn.prepareStatement(sql);
 			if(keyword != null && !"".equals(keyword)){
@@ -105,14 +105,11 @@ public class BoardDAO {
 			if(keyword != null && !"".equals(keyword)) {
 				if(keyfield.equals("1")) sub_sql = " WHERE board_title LIKE '%' || ? || '%'";//제목으로 검색
 				if(keyfield.equals("2")) sub_sql = " WHERE board_content LIKE '%' || ? || '%'";//내용으로 검색
-				if(keyfield.equals("3")) sub_sql = " WHERE board_content LIKE '%' || ? || '%'";//닉네임으로 검색
-			}
+				if(keyfield.equals("3")) sub_sql = " WHERE nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
+			}		
 			
-			
-			
-			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM "
-					+ "SELECT COUNT(*) FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num)" + sub_sql + " ORDER BY board_num DESCa) "
-					+ "WHERE rnum >= ? AND rnum <= ?";
+			//SQL맞음 고치지 말아
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM (SELECT * FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING (user_num) "  + sub_sql + " ) a) WHERE rnum >= ? AND rnum <= ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -130,7 +127,9 @@ public class BoardDAO {
 				board.setBoard_title(rs.getString("board_title"));
 				board.setBoard_regdate(rs.getString("board_regdate"));
 				board.setBoard_modifydate(rs.getString("board_modifydate"));
-				board.setBoard_count(rs.getLong("board_count"));		
+				board.setBoard_count(rs.getLong("board_count"));
+				board.setNick_name(rs.getString("nick_name"));
+				board.setLogin_id(rs.getString("login_id"));
 				
 				list.add(board);
 			}

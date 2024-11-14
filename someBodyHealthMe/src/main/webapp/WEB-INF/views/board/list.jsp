@@ -100,6 +100,10 @@
     <div class="container">
         <h2>소통공간</h2>
         <div class="content-main">
+        	<c:if test="${list==null}">
+            	<div>표시할 게시물이 없습니다.</div>   		
+            </c:if>
+                
             <table>
                 <tr>
                     <th>글번호</th>
@@ -108,20 +112,15 @@
                     <th>작성일</th>
                     <th>조회수</th>
                 </tr>
+                <c:forEach var="board" items="${list}">
                 <tr>
-                    <td>1</td>
-                    <td><a href="detail.do">제목입니다.</a></td>
-                    <td>닉네임</td>
-                    <td>2024/11/02</td>
-                    <td>16</td>
+                    <td>${board.board_num}</td>
+                    <td><a href="detail.do">${board.board_title}</a></td>
+                    <td>${board.nick_name}</td>
+                    <td>${board.board_regdate }</td>
+                    <td>${board.board_count }</td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>두 번째 게시글</td>
-                    <td>홍길동</td>
-                    <td>2024/11/01</td>
-                    <td>25</td>
-                </tr>
+                </c:forEach>
             </table>
 
             <!-- 글등록 버튼 -->

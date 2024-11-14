@@ -173,4 +173,55 @@ public class MemberDAO {
         }
         return member;
     }
+    	//아이디 찾기 메서드
+    	public String findAccountByNameAndEmail(String name, String email) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+    	    ResultSet rs = null;
+    	    String loginId = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        String sql = "SELECT u.login_id " +
+    	                     "FROM SUSER u " +
+    	                     "JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
+    	                     "WHERE d.name = ? AND d.email = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setString(1, name);
+    	        pstmt.setString(2, email);
+
+    	        rs = pstmt.executeQuery();
+    	        if (rs.next()) {
+    	            loginId = rs.getString("login_id");
+    	        }
+    	    } finally {
+    	        DBUtil.executeClose(rs, pstmt, conn);
+    	    }
+    	    return loginId;
+    	}
+    	//비밀번호 찾기 메서드
+    	public String findPasswordByLoginIdAndEmail(String loginId, String email) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+    	    ResultSet rs = null;
+    	    String password = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        
+    	        String sql = "SELECT d.password FROM SUSER u JOIN SUSER_DETAIL d ON u.user_num = d.user_num WHERE u.login_id = ? AND d.email = ?";
+    	        
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setString(1, loginId);
+    	        pstmt.setString(2, email);
+
+    	        rs = pstmt.executeQuery();
+    	        if (rs.next()) {
+    	            password = rs.getString("password");
+    	        }
+    	    } finally {
+    	        DBUtil.executeClose(rs, pstmt, conn);
+    	    }
+    	    return password;
+    	}
 }

@@ -9,12 +9,12 @@ import kr.controller.Action;
 public class WriteFormAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		HttpSession session = request.getSession();
-//		Long user_num = (Long)session.getAttribute("user_num");
-//		
-//		if(user_num == null) {
-//			return "redirect:/member/loginForm.do";
-//		}
+		HttpSession session = request.getSession();
+		Long user_num = (Long)session.getAttribute("user_num");
+		
+		if(user_num == null) {
+			return "redirect:/member/loginForm.do";
+		}
 
 		return "board/writeForm.jsp";
 	}

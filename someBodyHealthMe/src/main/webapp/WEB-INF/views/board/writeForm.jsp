@@ -19,12 +19,13 @@
         flex-grow: 1;
         overflow-y: auto;
         text-align: center;
+        margin:0 auto;
         margin-top: 43px;
-        margin-left: 43px;
+ 
         padding: 20px;
         background-color: #ffffff;
         border: 1px solid #ddd;
-        float:left;
+        
     }
 
     .write-form {
@@ -87,7 +88,7 @@
 </style>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+
 
 <div class="container">
     <h2>글등록</h2>

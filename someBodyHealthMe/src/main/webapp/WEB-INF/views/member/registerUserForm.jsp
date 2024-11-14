@@ -9,7 +9,7 @@
 <script type="text/javascript">
     $(function(){
         let idChecked = 0, nicknameChecked = 0, emailChecked = 0, phoneChecked = 0;
- 
+
         // 아이디 중복 체크
         $('#id_check').click(function(){
             const loginId = $('#loginId').val().trim();

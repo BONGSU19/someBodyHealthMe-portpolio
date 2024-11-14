@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 import kr.member.vo.MemberVO;
 import kr.util.DBUtil;
- 
+
 public class MemberDAO {
     private static MemberDAO instance = new MemberDAO();
 

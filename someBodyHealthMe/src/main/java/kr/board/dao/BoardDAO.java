@@ -41,8 +41,9 @@ public class BoardDAO {
 		}finally {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
-
 	}
+	
+	//글의 총 개수 
 	
 
 }

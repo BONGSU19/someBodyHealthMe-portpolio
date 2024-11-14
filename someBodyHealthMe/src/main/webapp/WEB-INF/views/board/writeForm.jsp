@@ -95,8 +95,8 @@
         <form action="write.do" method="POST" enctype="multipart/form-data">
             <!-- 게시판 선택 -->
             <div class="form-group">
-                <label for="board">게시판 선택</label>
-                <select id="board" name="board" required>
+                <label for="board_category">게시판 선택</label>
+                <select id="board_category" name="board_category" required>
                 	<c:if test="${user_auth >=9}"><option value="1">공지사항</option></c:if>                    
                     <option value="2">자유게시판</option>
                     <option value="3">오늘운동완료</option>
@@ -105,14 +105,14 @@
 
             <!-- 제목 입력 -->
             <div class="form-group">
-                <label for="boar_title">제목</label>
+                <label for="board_title">제목</label>
                 <input type="text" id="board_title" name="board_title" required placeholder="제목을 입력하세요">
             </div>
 
             <!-- 첨부파일 -->
             <div class="form-group">
-                <label for="file">첨부파일</label>
-                <input type="file" id="file" name="file">
+                <label for="board_attachment">첨부파일</label>
+                <input type="file" id="board_attachment" name="board_attachment">
             </div>
 
             <!-- 내용 입력 -->

@@ -4,8 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
+import kr.util.FileUtil;
 
 public class WriteAction implements Action{
 	@Override
@@ -24,11 +26,17 @@ public class WriteAction implements Action{
 		BoardVO board = new BoardVO();
 		board.setBoard_category(request.getParameter("board_category"));
 		board.setBoard_title(request.getParameter("baord_title"));
+		board.setBoard_attachment(FileUtil.uploadFile(request, "board_attachment"));
 		//board.setUser_num(user_num);
+//		
+//		BoardDAO dao = BoardDAO.getInstance();
+//		dao.insertBoard(board);		
 		
+		request.setAttribute("notice_msg", "글쓰기 완료!");
+		request.setAttribute("notice_url", 
+				   request.getContextPath()+"/board/list.do");
 		
-		
-		return null;
+		return "common/alert_view.jsp";
 	}
 }
 

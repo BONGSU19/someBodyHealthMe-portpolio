@@ -110,7 +110,7 @@
                 </tr>
                 <tr>
                     <td>1</td>
-                    <td>제목입니다.</td>
+                    <td><a href="detail.do">제목입니다.</a></td>
                     <td>닉네임</td>
                     <td>2024/11/02</td>
                     <td>16</td>

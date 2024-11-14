@@ -36,7 +36,7 @@ public class FriendVO {
 
 
 
-	    private String nick_Name;      // 사용자의 별명
+	    private String nick_name;      // 사용자의 별명
 	    private String name;          // 사용자의 이름
 	    private String email;         // 사용자의 이메일 주소
 	    private String password;      // 사용자 비밀번호
@@ -45,11 +45,11 @@ public class FriendVO {
 	    private String birth_Date;     // 사용자의 생년월일
 	    private Date modify_Date;      // 수정일
 	    private int center_Num;
-		public String getNick_Name() {
-			return nick_Name;
+		public String getNick_name() {
+			return nick_name;
 		}
-		public void setNick_Name(String nick_Name) {
-			this.nick_Name = nick_Name;
+		public void setNick_Name(String nick_name) {
+			this.nick_name = nick_name;
 		}
 		public String getName() {
 			return name;

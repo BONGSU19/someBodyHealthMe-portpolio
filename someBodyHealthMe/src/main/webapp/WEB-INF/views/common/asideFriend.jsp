@@ -17,33 +17,32 @@
         </div>
         <div class="box_in_2">
             <div class="dropdown">
-                <button class="dropdown-button toggle-button">소통공간 
+                <button class="dropdown-button toggle-button">친구만들기
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">공지사항</a>
-                  <a href="#">오늘 운동 완료</a>
-                  <a href="#">자유 게시판</a>
+                  <a href="${pageContext.request.contextPath}/friendSearch/friendList.do">친구 검색</a>
+                  <a href="#">받은 요청</a>
                 </div>
               </div>
               
               <div class="dropdown">
-                <button class="dropdown-button toggle-button">지원하기
+                <button class="dropdown-button toggle-button">메시지
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">지원 신청</a>
-                  <a href="#">지원 결과확인</a>
+                  <a href="#">메시지 보내기</a>
+         
    
                 </div>
               </div>
 
               <div class="dropdown">
-                <button class="dropdown-button toggle-button">1대1문의
+                <button class="dropdown-button toggle-button">친구 만들기 정보
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">문의하기</a>
+             
                   
                 </div>
               </div>

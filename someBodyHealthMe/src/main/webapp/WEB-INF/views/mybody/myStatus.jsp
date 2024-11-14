@@ -32,27 +32,23 @@
                 <div class="info-box">
                     <div class="info-item">
                         <span class="label">키:</span>
-                        <span class="value">${member.id}</span> <!-- 예시값 -->
+                        <span class="value">${mybodystatus.height}</span> <!-- 예시값 -->
                     </div>
                     <div class="info-item">
                         <span class="label">체중:</span>
-                        <span class="value">${member.id}</span> <!-- 예시값 -->
+                        <span class="value">${mybodystatus.weight}</span> <!-- 예시값 -->
                     </div>
                     <div class="info-item">
                         <span class="label">BMI 지수:</span>
-                        <span class="value">${member.id}</span> <!-- 예시값 -->
-                    </div>
-                    <div class="info-item">
-                        <span class="label">과체중 여부:</span>
-                        <span class="value">${member.id}</span> <!-- 예시값 -->
+                        <span class="value">${mybodystatus.bmi}</span> <!-- 예시값 -->
                     </div>
                     <div class="info-item">
                         <span class="label">운동 목표:</span>
-                        <span class="value">${member.id}</span> <!-- 예시값 -->
+                        <span class="value">${mybodystatus.goal}</span> <!-- 예시값 -->
                     </div>
                     <div class="info-item">
                         <span class="label">성별:</span>
-                        <span class="value">${member.id}</span> <!-- 예시값 -->
+                        <span class="value">${mybodystatus.gender}</span> <!-- 예시값 -->
                     </div>
                 </div>
             </section>

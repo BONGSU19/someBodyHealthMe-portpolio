@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/loginForm.css" type="text/css">
-</head> <!-- 누락된 </head> 태그 추가 -->
+</head>
 <body>  
     <div class="page-main">
         <div class="content-main">
@@ -27,14 +27,14 @@
                 </div>
                 <div class="align-center">
                     <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/findAccountForm.do'">계정 찾기</button>
-                    <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/resetPasswordForm.do'">비밀번호 초기화</button>
+                    <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/findPasswordForm.do'">비밀번호 초기화</button>
+                    <button type="button" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">홈으로</button>
                 </div>
-                <!-- 조건에 따른 오류 메시지 표시 -->
                 <% if (request.getAttribute("errorMessage") != null) { %>
                     <div class="error-message"><%= request.getAttribute("errorMessage") %></div>
                 <% } %>
             </form>
-        </div>	
+        </div>
     </div>
 </body>
 </html>

@@ -36,7 +36,7 @@ public class ListAction implements Action{
 			request.setAttribute("page", page.getPage());
 			
 
-			return "board/list.jsp";
+			return "goods/list.jsp";
 	}
 	
 }

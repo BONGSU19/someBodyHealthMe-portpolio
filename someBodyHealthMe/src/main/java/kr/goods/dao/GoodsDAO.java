@@ -61,9 +61,6 @@ public class GoodsDAO {
 			if(keyword != null && !"".equals(keyword)) {
 				//검색처리
 				if(keyfield.equals("1")) sub_sql += "where goods_name like '%' || ? || '%'";
-				//강사님께 여쭤본 후 수정해야할 사항
-				//else if(keyfield.equals("2")) sub_sql += "where id like '%' || ? || '%'";
-				//else if(keyfield.equals("3")) sub_sql += "where content like '%' || ? || '%'";
 			}
 			//sql 문 작성
 			sql = "select count(*) from goods " + sub_sql;

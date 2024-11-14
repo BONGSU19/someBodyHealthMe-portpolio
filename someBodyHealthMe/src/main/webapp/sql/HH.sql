@@ -1,5 +1,5 @@
 -- USER 테이블 생성 1
-CREATE TABLE USER (
+CREATE TABLE SUSER (
     user_num NUMBER NOT NULL,                       -- 사용자 고유 ID (Primary Key)
     login_id VARCHAR2(30) NOT NULL,                 -- 사용자 로그인 ID (Unique Key)
     status NUMBER(1) NOT NULL,                      -- 계정의 상태 (0: 탈퇴, 1: 일반 사용자, 2: 트레이너, 3:사무직 관리자, 4: 마스터 관리자, 5: 정지)
@@ -8,7 +8,7 @@ CREATE TABLE USER (
 );
 
 -- USER_DETAIL 테이블 생성
-CREATE TABLE USER_DETAIL (
+CREATE TABLE SUSER_DETAIL (
     user_num NUMBER NOT NULL,                       -- 사용자 고유 ID (Primary Key, Foreign Key from USER)
     nick_name VARCHAR2(30) NOT NULL,                -- 사용자의 별명 (Unique Key)
     name VARCHAR2(50) NOT NULL,                     -- 사용자의 이름
@@ -16,7 +16,7 @@ CREATE TABLE USER_DETAIL (
     password VARCHAR2(50) NOT NULL,                 -- 사용자 ID의 비밀번호
     phone VARCHAR2(15) NOT NULL,                    -- 사용자의 전화번호 (Unique Key)
     registration_date DATE DEFAULT SYSDATE NOT NULL,-- 사용자의 가입일자
-    birth_date VARCHAR2(6) NOT NULL,                -- 사용자의 생년월일
+    birth_date VARCHAR2(8) NOT NULL,                -- 사용자의 생년월일
     modify_date DATE,                               -- 수정일
     center_num NUMBER(1) NOT NULL,                  -- 센터번호 (1: 강남점, 2: 강북점)
     CONSTRAINT user_detail_pk PRIMARY KEY (user_num),

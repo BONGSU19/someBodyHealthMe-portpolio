@@ -1,4 +1,4 @@
-package kr.mybody.dao;
+package kr.mybody.vo;
 
 import java.sql.Date;
 

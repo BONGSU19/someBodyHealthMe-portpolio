@@ -1,7 +1,7 @@
 package kr.member.vo;
 
 import java.sql.Date;
-
+//
 public class MemberVO {
     private long user_num; // 회원번호 (USER 테이블의 PK)
     private String login_id; // 로그인 ID

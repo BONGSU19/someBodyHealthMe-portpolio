@@ -20,7 +20,7 @@
         </div>
         <ul class="navbar__menu">
             <li><a href="${pageContext.request.contextPath}/board/list.do">소통공간</a></li>
-            <li><a href="${pageContext.request.contextPath}/goods/list123.do">헬스용품</a></li>
+            <li><a href="${pageContext.request.contextPath}/goods/list.do">헬스용품</a></li>
             <li><a href="${pageContext.request.contextPath}/mybody/myStatus.do">건강지킴이</a></li>
             <li><a href="${pageContext.request.contextPath}/pt/pt.do">PT</a></li>
             <li><a href="${pageContext.request.contextPath}/member/membership.do">회원권</a></li>

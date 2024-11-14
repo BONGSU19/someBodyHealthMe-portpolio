@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- header 시작 -->
 <!DOCTYPE html>
@@ -28,8 +27,20 @@
         </ul>
 
         <ul class="navbar__button">
-            <li><div class='button'><a href="${pageContext.request.contextPath}/member/registerUserForm.do">회원가입</a></div></li>
-            <li><div class='button'><a href="${pageContext.request.contextPath}/member/login.do">로그인</a></div></li>
+            <c:choose>
+                <c:when test="${sessionScope.status == 1}">
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/mypage.do">MYPAGE</a></div></li>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
+                </c:when>
+                <c:when test="${sessionScope.status == 2 || sessionScope.status == 3 || sessionScope.status == 4}">
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/admin/adminPage.do">관리자페이지</a></div></li>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
+                </c:when>
+                <c:otherwise>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/registerUserForm.do">회원가입</a></div></li>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/loginForm.do">로그인</a></div></li>
+                </c:otherwise>
+            </c:choose>
         </ul>
 
         <!-- Toggle button -->
@@ -39,17 +50,13 @@
     </div>
 </body>
 <script type="text/javascript" defer>
-    	//모바일 토글 키
-	    const toggleBtn = document.querySelector('.navbar__toggleBtn');
-	    const menu = document.querySelector('.navbar__menu');
-	
-	    toggleBtn.addEventListener('click', () => {
-	        menu.classList.toggle('active');
-	    });
+    // 모바일 토글 키
+    const toggleBtn = document.querySelector('.navbar__toggleBtn');
+    const menu = document.querySelector('.navbar__menu');
+
+    toggleBtn.addEventListener('click', () => {
+        menu.classList.toggle('active');
+    });
 </script>
 </html>
-
 <!-- header 끝 -->
-
-
-

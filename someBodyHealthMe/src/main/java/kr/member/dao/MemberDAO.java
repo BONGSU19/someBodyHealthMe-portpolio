@@ -144,33 +144,30 @@ public class MemberDAO {
         return isDuplicate;
     }
 		// 로그인 메서드
-    public MemberVO checkLogin(String loginId, String password) throws Exception {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        MemberVO member = null;
-        String sql = "SELECT u.user_num, u.login_id, u.status, d.nick_name, d.name " +
-                     "FROM SUSER u LEFT JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
-                     "WHERE u.login_id = ? AND u.password = ?"; // password 컬럼이 실제 테이블의 컬럼명과 일치해야 함
+    	public MemberVO checkLogin(String loginId, String password) throws Exception {
+    		Connection conn = null;
+    		PreparedStatement pstmt = null;
+    		ResultSet rs = null;
+    		MemberVO member = null;
 
         try {
             conn = DBUtil.getConnection();
+            String sql = "SELECT u.user_num, u.login_id, u.status, d.name " +
+                         "FROM SUSER u " +
+                         "JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
+                         "WHERE u.login_id = ? AND d.password = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loginId);
             pstmt.setString(2, password);
-            rs = pstmt.executeQuery();
 
+            rs = pstmt.executeQuery();
             if (rs.next()) {
                 member = new MemberVO();
                 member.setUser_num(rs.getLong("user_num"));
                 member.setLogin_id(rs.getString("login_id"));
                 member.setStatus(rs.getInt("status"));
-                member.setNick_name(rs.getString("nick_name"));
-                member.setName(rs.getString("name"));
+                member.setName(rs.getString("name"));  // name 필드를 추가하여 설정
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("로그인 중 오류 발생: " + e.getMessage());
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
         }

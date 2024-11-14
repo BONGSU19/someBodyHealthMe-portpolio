@@ -4,12 +4,13 @@ create table goods(
  goods_name varchar2(60) not null,
  goods_price number(7) not null,
  goods_info clob null,
- goods_stock number(9) not null,
  goods_category varchar2(45) not null,
- goods_img varchar2(400),
+ goods_img1 varchar2(400) not null,
+ goods_img2 varchar2(400) not null,
  goods_date date default sysdate not null,
  goods_mdate date,
- goods_quantity number(5) default 1 not null,
+ goods_quantity number(7) not null,
+ goods_status number(1) not null, --표시여부(판매 가능 여부) 1:미표시 2:표시
  constraint goods_pk primary key (goods_num)
 );
 create sequence goods_seq;
@@ -52,7 +53,7 @@ create table sale(
 create table membership(
  mem_num number not null,
  user_num number not null,
- payment_status number(1) not null
+ payment_status number(1) not null,
  mem_type number(1) not null,
  mem_startdate date not null,
  mem_enddate date not null,
@@ -101,8 +102,8 @@ create table orders(
  order_address varchar2(90) not null,
  order_quantity number(3) not null,
  constraint order_pk primary key (order_num),
- constraint order_fk1 foreign key (user_num) references suser (user_num)
- constraint order_fk2 foreign key (goods_num) references goods (goods_num)
+ constraint order_fk1 foreign key (user_num) references suser (user_num),
+ constraint order_fk2 foreign key (goods_num) references goods (goods_num),
  constraint order_fk3 foreign key (cart_num) references cart (cart_num)
 );
 create sequence order_seq;

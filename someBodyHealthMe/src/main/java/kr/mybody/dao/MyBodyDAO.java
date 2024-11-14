@@ -37,8 +37,7 @@ public class MyBodyDAO{
 			conn = DBUtil.getConnection();
 			
 			//SQL문 작성
-			sql = "SELECT * FROM healthInfo JOIN suser_detail "
-					+ "USING(user_num) WHERE user_num=?";
+			sql = "SELECT * FROM healthInfo WHERE user_num=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -72,5 +71,43 @@ public class MyBodyDAO{
 		return mybodystatus;
 		
 	}
+	
+	public void insertMyBodyStatus(MyBodyStatusVO myBodyStatus)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			//커넥션풀로부터 커넥션을 할당
+			conn = DBUtil.getConnection();
+			
+			
+			sql = "INSERT INTO HealthInfo (user_num, height, weight, age, bmi, goal, gender, createdat, modifydate) "
+			           + "VALUES (?, ?, ?, ?, ?, ?, ?, SYSDATE, NULL)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setLong(1, myBodyStatus.getUserNum()); // user_num
+            pstmt.setDouble(2, myBodyStatus.getHeight());   // height
+            pstmt.setDouble(3, myBodyStatus.getWeight());   // weight
+            pstmt.setInt(4, myBodyStatus.getAge());      // age
+            pstmt.setDouble(5, myBodyStatus.getBmi());   // bmi
+            pstmt.setString(6, myBodyStatus.getGoal());  // goal
+            pstmt.setString(7, myBodyStatus.getGender()); // gender
+			
+			//SQL문 실행시 모두 성공하면 commit
+			conn.commit();			
+			
+		}catch(Exception e) {
+			//SQL문이 하나라도 실패하면 rollback
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+
+			DBUtil.executeClose(null, pstmt, conn);
+		}		
+	}
+	
 	
 }

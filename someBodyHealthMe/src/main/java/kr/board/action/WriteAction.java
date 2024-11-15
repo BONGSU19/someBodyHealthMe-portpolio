@@ -12,11 +12,12 @@ import kr.util.FileUtil;
 public class WriteAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		HttpSession session = request.getSession();
-//		Long user_num = (Long)session.getAttribute("user_num");
-//		if(user_num == null) {//로그인인 되지 않은 경우
-//			return "redirect:/member/loginForm.do";		
-//		}
+		HttpSession session = request.getSession();
+		Long user_num = (Long)session.getAttribute("user_num");
+		
+		if(user_num == null) {//로그인인 되지 않은 경우
+			return "redirect:/member/loginForm.do";		
+		}
 		
 		//로그인이 된 경우
 		//전송된 데이터 인코딩 처리
@@ -24,13 +25,14 @@ public class WriteAction implements Action{
 		
 		//VO생성
 		BoardVO board = new BoardVO();
-		board.setBoard_category(request.getParameter("board_category"));
-		board.setBoard_title(request.getParameter("baord_title"));
+		board.setBoard_category(Integer.parseInt(request.getParameter("board_category")));
+		board.setBoard_title(request.getParameter("board_title"));
 		board.setBoard_attachment(FileUtil.uploadFile(request, "board_attachment"));
-		//board.setUser_num(user_num);
-//		
-//		BoardDAO dao = BoardDAO.getInstance();
-//		dao.insertBoard(board);		
+		board.setBoard_content(request.getParameter("board_content"));
+		board.setUser_num(user_num);
+		
+		BoardDAO dao = BoardDAO.getInstance();
+		dao.insertBoard(board);		
 		
 		request.setAttribute("notice_msg", "글쓰기 완료!");
 		request.setAttribute("notice_url", 

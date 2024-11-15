@@ -8,7 +8,7 @@ public class BoardVO {
 	private String board_regdate;//등록일
 	private String board_modifydate;//수정일
 	private long board_count;//조회수
-	private String board_category;//게시판 카테고리
+	private int board_category;//게시판 카테고리
 	private long user_num;//회원번호
 	private String nick_name;//닉네임
 	private String login_id; //아이디
@@ -56,10 +56,10 @@ public class BoardVO {
 	public void setBoard_count(long board_count) {
 		this.board_count = board_count;
 	}
-	public String getBoard_category() {
+	public int getBoard_category() {
 		return board_category;
 	}
-	public void setBoard_category(String board_category) {
+	public void setBoard_category(int board_category) {
 		this.board_category = board_category;
 	}
 	public long getUser_num() {

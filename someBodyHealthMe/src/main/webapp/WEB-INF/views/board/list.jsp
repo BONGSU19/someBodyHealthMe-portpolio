@@ -73,7 +73,7 @@
             margin-top: 20px;
         }
 
-        #search-bar select, #search-bar input[type="text"], #search-bar button {
+        #search-bar select, #search-bar input[type="search"], #search-bar input[type="submit"]{
             padding: 10px;
             margin-right: 10px;
             font-size: 1rem;
@@ -81,13 +81,13 @@
             border: 1px solid #ccc;
         }
 
-        #search-bar button {
+        #search-bar input[type="submit"] {
             background-color: #D9D9D9;
             color: black;
             cursor: pointer;
         }
 
-        #search-bar button:hover {
+        #search-bar input[type="submit"]:hover {
             background-color: #8f9399;
         }
         
@@ -100,6 +100,10 @@
     <div class="container">
         <h2>소통공간</h2>
         <div class="content-main">
+        	<c:if test="${list==null}">
+            	<div>표시할 게시물이 없습니다.</div>   		
+            </c:if>
+                
             <table>
                 <tr>
                     <th>글번호</th>
@@ -108,20 +112,15 @@
                     <th>작성일</th>
                     <th>조회수</th>
                 </tr>
+                <c:forEach var="board" items="${list}">
                 <tr>
-                    <td>1</td>
-                    <td><a href="detail.do">제목입니다.</a></td>
-                    <td>닉네임</td>
-                    <td>2024/11/02</td>
-                    <td>16</td>
+                    <td>${board.board_num}</td>
+                    <td><a href="detail.do">${board.board_title}</a></td>
+                    <td>${board.nick_name}</td>
+                    <td>${board.board_regdate }</td>
+                    <td>${board.board_count }</td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>두 번째 게시글</td>
-                    <td>홍길동</td>
-                    <td>2024/11/01</td>
-                    <td>25</td>
-                </tr>
+                </c:forEach>
             </table>
 
             <!-- 글등록 버튼 -->
@@ -130,15 +129,17 @@
             </div>
 
             <!-- 검색바 -->
-            <div id="search-bar">
-                <select id="search-condition">
-                    <option value="board_title">제목</option>
-                    <option value="board_content">내용</option>
-                    <option value="nick_name">닉네임</option>
-                </select>
-                <input type="text" placeholder="검색어 입력" id="search-input">
-                <button onclick="location.href='#'">검색</button>
-            </div>
+            <form action="list.do" method="get" >
+            	<div id="search-bar">
+              	  <select name="keyfield">
+               	     <option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>제목</option>
+               	     <option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>내용</option>
+                     <option value="3" <c:if test="${param.keyfield==3}">selected</c:if>>닉네임</option>
+             	   </select>
+              	   <input type="search" placeholder="검색어 입력" id="search-input" name="keyword">
+             	   <input type="submit" value="검색">
+            	</div>
+            </form>
         </div>
     </div>
 </body>

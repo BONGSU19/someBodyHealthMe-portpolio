@@ -29,15 +29,16 @@ public class GoodsDAO {
 		try {
 			conn = DBUtil.getConnection();
 			//SQL문 작성
-			sql = "INSERT INTO goods (goods_num, goods_name, goods_price, goods_info, goods_stock, "
-					+ "goods_category, goods_img, goods_date) VALUES (goods_seq.nextval,?,?,?,?,?,?,SYSDATE)";
+			sql = "INSERT INTO goods (goods_num, goods_name, goods_price, goods_info, "
+					+ "goods_category, goods_img1, goods_img2, goods_date, goods_status) VALUES (goods_seq.nextval,?,?,?,?,?,?,SYSDATE,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, goods.getGoods_name());
 			pstmt.setInt(2, goods.getGoods_price());
 			pstmt.setString(3, goods.getGoods_info());
-			pstmt.setInt(4, goods.getGoods_stock());
-			pstmt.setString(5, goods.getGoods_category());
-			pstmt.setString(6, goods.getGoods_img());
+			pstmt.setString(4, goods.getGoods_category());
+			pstmt.setString(5, goods.getGoods_img1());
+			pstmt.setString(6, goods.getGoods_img2());
+			pstmt.setInt(7, goods.getGoods_status());
 			pstmt.executeUpdate();
 		}catch(Exception e) {
 			throw new Exception(e);
@@ -146,9 +147,10 @@ public class GoodsDAO {
 				goods.setGoods_name(rs.getString("goods_name"));
 				goods.setGoods_price(rs.getInt("goods_price"));
 				goods.setGoods_info(rs.getString("goods_info"));
-				goods.setGoods_stock(rs.getInt("goods_stock"));
 				goods.setGoods_category(rs.getString("goods_category"));
-				goods.setGoods_img(rs.getString("goods_img"));				
+				goods.setGoods_img1(rs.getString("goods_img1"));
+				goods.setGoods_img2(rs.getString("goods_img2"));
+				goods.setGoods_status(rs.getInt("goods_status"));
 			}
 		}catch (Exception e) {
 			throw new Exception(e);
@@ -184,20 +186,22 @@ public class GoodsDAO {
 		try {
 			conn =DBUtil.getConnection();
 
-			if(goods.getGoods_img()!=null && !"".equals(goods.getGoods_img())) {
+			if(goods.getGoods_img1()!=null && !"".equals(goods.getGoods_img1())) {
 				sub_sql += ",goods_img=?";
 			}
-			sql = "update goods set goods_name=?,goods_price=?,goods_info=?,goods_stock=?,"
-					+ "goods_category=?,goods_mdate=SYSDATE" + sub_sql
+			sql = "update goods set goods_name=?,goods_price=?,goods_info=?,"
+					+ "goods_category=?,goods_img1,goods_img2,goods_mdate=SYSDATE,goods_status=?" + sub_sql
 					+" where goods_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(++cnt, goods.getGoods_name());
 			pstmt.setInt(++cnt, goods.getGoods_price());
 			pstmt.setString(++cnt, goods.getGoods_info());
-			pstmt.setInt(++cnt, goods.getGoods_stock());
 			pstmt.setString(++cnt, goods.getGoods_category());
-			if(goods.getGoods_img()!=null && !"".equals(goods.getGoods_img())) {
-				pstmt.setString(++cnt, goods.getGoods_img());
+			pstmt.setString(++cnt, goods.getGoods_img1());
+			pstmt.setString(++cnt, goods.getGoods_img2());
+			pstmt.setInt(++cnt, goods.getGoods_status());
+			if(goods.getGoods_img1()!=null && !"".equals(goods.getGoods_img1())) {
+				pstmt.setString(++cnt, goods.getGoods_img1());
 			}
 			pstmt.setLong(++cnt, goods.getGoods_num());
 			pstmt.executeUpdate();

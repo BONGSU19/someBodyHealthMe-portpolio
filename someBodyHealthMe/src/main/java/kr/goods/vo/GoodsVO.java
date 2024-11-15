@@ -7,13 +7,13 @@ public class GoodsVO {
 	private String goods_name;
 	private int goods_price;
 	private String goods_info;
-	private int goods_stock;
 	private String goods_category;
-	private String goods_img;
+	private String goods_img1;
+	private String goods_img2;
 	private Date goods_date;
 	private Date goods_mdate;
 	private int goods_quantity;
-	
+	private int goods_status;
 	public long getGoods_num() {
 		return goods_num;
 	}
@@ -38,23 +38,23 @@ public class GoodsVO {
 	public void setGoods_info(String goods_info) {
 		this.goods_info = goods_info;
 	}
-	public int getGoods_stock() {
-		return goods_stock;
-	}
-	public void setGoods_stock(int goods_stock) {
-		this.goods_stock = goods_stock;
-	}
 	public String getGoods_category() {
 		return goods_category;
 	}
 	public void setGoods_category(String goods_category) {
 		this.goods_category = goods_category;
 	}
-	public String getGoods_img() {
-		return goods_img;
+	public String getGoods_img1() {
+		return goods_img1;
 	}
-	public void setGoods_img(String goods_img) {
-		this.goods_img = goods_img;
+	public void setGoods_img1(String goods_img1) {
+		this.goods_img1 = goods_img1;
+	}
+	public String getGoods_img2() {
+		return goods_img2;
+	}
+	public void setGoods_img2(String goods_img2) {
+		this.goods_img2 = goods_img2;
 	}
 	public Date getGoods_date() {
 		return goods_date;
@@ -73,5 +73,13 @@ public class GoodsVO {
 	}
 	public void setGoods_quantity(int goods_quantity) {
 		this.goods_quantity = goods_quantity;
-	}	
+	}
+	public int getGoods_status() {
+		return goods_status;
+	}
+	public void setGoods_status(int goods_status) {
+		this.goods_status = goods_status;
+	}
+	
+		
 }

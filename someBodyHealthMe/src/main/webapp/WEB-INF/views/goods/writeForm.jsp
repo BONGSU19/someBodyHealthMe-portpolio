@@ -118,19 +118,35 @@ body {
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
 		<div class="content-main">
-			<h2>게시판 글쓰기</h2>
+			<h2>상품 등록</h2>
 			<form id="write_form" action="write.do" method="post" enctype="multipart/form-data">
 				<ul>
-					<li><label for="goods_name">제목</label> 
+					<li><label for="goods_name">상품명</label> 
 					<input type="text" name="goods_name" id="goods_name" maxlength="50" class="input-check">
 					</li>
 					
-					<li><label for="goods_info">내용</label> 
+					<li><label for="goods_price">가격</label> 
+					<input type="text" name="goods_price" id="goods_price" maxlength="50" class="input-check">
+					</li>
+					
+					<li><label for="goods_info">상품 설명</label> 
 					<textarea rows="5" cols="40" name="goods_info" id="goods_info" class="input-check"></textarea>
+					</li>
+					
+					<li><label for="goods_category">카테고리</label> 
+					<input type="text" name="goods_category" id="goods_category" maxlength="50" class="input-check">
 					</li>
 					
 					<li><label for="goods_img1">이미지</label> 
 					<input type="file" name="goods_img1" id="goods_img1" accept="image/gif,image/png,image/jpeg">
+					</li>
+					
+					<li><label for="goods_img2">상세 이미지</label> 
+					<input type="file" name="goods_img2" id="goods_img2" accept="image/gif,image/png,image/jpeg">
+					</li>
+					
+					<li><label for="goods_status">상태</label> 
+					<input type="text" name="goods_status" id="goods_status" maxlength="50" class="input-check">
 					</li>
 					
 				</ul>

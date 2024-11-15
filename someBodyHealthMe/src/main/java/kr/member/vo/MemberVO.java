@@ -1,21 +1,21 @@
 package kr.member.vo;
 
 import java.sql.Date;
-//
+
 public class MemberVO {
     private long user_num; // 회원번호 (USER 테이블의 PK)
     private String login_id; // 로그인 ID
-    private int status; // 계정 상태 (int로 수정)
-    private String nick_name; // 닉네임 (USER_DETAIL 테이블)
+    private int status; // 계정 상태
+    private String nick_name; // 닉네임
     private String name; // 이름
     private String email; // 이메일
     private String password; // 비밀번호
     private String phone; // 전화번호
     private Date registration_date; // 가입 날짜
-    private String birth_date; // 생년월일 (String으로 수정)
+    private String birth_date; // 생년월일
     private Date modify_date; // 수정 날짜
-    private int center_num; // 센터 번호 (1 = 강남, 2 = 강북)
-    private int admin_code; // 관리자 코드
+    private int center_num; // 센터 번호
+    private String photo; // 프로필 사진 경로
 
     // 비밀번호 일치 여부 체크
     public boolean isCheckedPassword(String inputPassword) {
@@ -43,7 +43,7 @@ public class MemberVO {
         return status;
     }
 
-    public void setStatus(int status) {  // 수정된 부분
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -119,11 +119,11 @@ public class MemberVO {
         this.center_num = center_num;
     }
 
-    public int getAdmin_code() {
-        return admin_code;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setAdmin_code(int admin_code) {
-        this.admin_code = admin_code;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

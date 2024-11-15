@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- header 시작 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +15,7 @@
     <div class="navbar">
         <div class="navbar__logo">
             <i class="fa-solid fa-fire"></i>
-            <a href="">Some Body Health Me</a>
+            <a href="${pageContext.request.contextPath}/main/main.do">Some Body Health Me</a>
         </div>
         <ul class="navbar__menu">
             <li><a href="${pageContext.request.contextPath}/board/list.do">소통공간</a></li>
@@ -27,22 +26,7 @@
         </ul>
 
         <ul class="navbar__button">
-            <c:choose>
-                <c:when test="${sessionScope.status == 1}">
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/myPage.do">MYPAGE</a></div></li>
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
-                </c:when>
-                <c:when test="${sessionScope.status == 2 || sessionScope.status == 3 || sessionScope.status == 4}">
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/admin/adminPage.do">관리자페이지</a></div></li>
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
-                </c:when>
-                <c:otherwise>
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/registerUserForm.do">회원가입</a></div></li>
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/loginForm.do">로그인</a></div></li>
-                </c:otherwise>
-            </c:choose>
-        </ul>
-
+            <!-- 로그인 여부 확인 -->
         <!-- Toggle button -->
         <a href="#" class="navbar__toggleBtn">
             <i class="fa-solid fa-bars"></i>
@@ -59,4 +43,3 @@
     });
 </script>
 </html>
-<!-- header 끝 -->

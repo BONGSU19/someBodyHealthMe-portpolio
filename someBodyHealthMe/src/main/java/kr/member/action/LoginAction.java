@@ -20,20 +20,19 @@ public class LoginAction implements Action {
 
         if (member != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user_num", member.getUser_num());
-            session.setAttribute("user_name", member.getName());
-            session.setAttribute("status", member.getStatus());
+            session.setAttribute("user_num", member.getUser_num()); // 사용자 번호 저장
+            session.setAttribute("user_name", member.getName());   // 사용자 이름 저장
+            session.setAttribute("status", member.getStatus());    // 사용자 권한 저장
 
-            // JavaScript를 직접 출력하여 alert와 페이지 이동을 처리
-            response.setContentType("text/html; charset=UTF-8");
-            response.getWriter().write("<script>");
-            response.getWriter().write("alert('" + member.getName() + "님, 환영합니다!');");
-            response.getWriter().write("location.href='" + request.getContextPath() + "/main/main.do';");
-            response.getWriter().write("</script>");
-            return null;
+            // 성공 메시지와 리디렉션 설정
+            request.setAttribute("notice_msg", member.getName() + "님, 환영합니다!");
+            request.setAttribute("notice_url", request.getContextPath() + "/main/main.do");
+
+            return "common/alert_view.jsp"; // 성공 시 알림창 표시
         } else {
+            // 로그인 실패 시 처리
             request.setAttribute("errorMessage", "아이디 또는 비밀번호가 일치하지 않습니다.");
-            return "/member/loginForm.jsp";
+            return "member/loginForm.jsp";
         }
     }
 }

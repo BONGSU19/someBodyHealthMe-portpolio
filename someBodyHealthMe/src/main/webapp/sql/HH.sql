@@ -7,7 +7,6 @@ CREATE TABLE SUSER (
     CONSTRAINT user_login_id_uk UNIQUE (login_id)
 );
 
--- USER_DETAIL 테이블 생성
 CREATE TABLE SUSER_DETAIL (
     user_num NUMBER NOT NULL,                       -- 사용자 고유 ID (Primary Key, Foreign Key from USER)
     nick_name VARCHAR2(30) NOT NULL,                -- 사용자의 별명 (Unique Key)
@@ -19,13 +18,13 @@ CREATE TABLE SUSER_DETAIL (
     birth_date VARCHAR2(8) NOT NULL,                -- 사용자의 생년월일
     modify_date DATE,                               -- 수정일
     center_num NUMBER(1) NOT NULL,                  -- 센터번호 (1: 강남점, 2: 강북점)
+    photo VARCHAR2(255) DEFAULT 'default_user_photo.png', -- 프로필 사진 
     CONSTRAINT user_detail_pk PRIMARY KEY (user_num),
-    CONSTRAINT user_detail_user_fk FOREIGN KEY (user_num) REFERENCES USER(user_num),
+    CONSTRAINT user_detail_user_fk FOREIGN KEY (user_num) REFERENCES SUSER(user_num),
     CONSTRAINT user_detail_nick_name_uk UNIQUE (nick_name),
     CONSTRAINT user_detail_email_uk UNIQUE (email),
     CONSTRAINT user_detail_phone_uk UNIQUE (phone)
 );
-
 -- USER 테이블용 시퀀스 생성 (필요시)
 CREATE SEQUENCE user_seq
     START WITH 1

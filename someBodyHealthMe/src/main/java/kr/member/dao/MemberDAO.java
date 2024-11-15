@@ -37,14 +37,10 @@ public class MemberDAO {
             if (rs.next()) {
                 userNum = rs.getLong(1);
             }
-            System.out.println("Generated userNum: " + userNum);
 
-            // 관리자 코드에 따라 STATUS 설정
-            int status = 1;  // 기본값 1 (일반 사용자)
-            int adminCode = member.getAdmin_code();  // admin_code는 int 타입이므로 바로 처리
-
-            // 관리자 코드가 4인 경우만 마스터 관리자 처리
-            if (adminCode == 4) {  
+            // STATUS 설정: 기본값 1 (일반 사용자)
+            int status = 1;
+            if (member.getStatus() == 4) {  // 입력값에서 STATUS가 4로 설정된 경우
                 status = 4;  // 마스터 관리자
             }
 
@@ -53,9 +49,8 @@ public class MemberDAO {
             pstmt2 = conn.prepareStatement(sql);
             pstmt2.setLong(1, userNum);
             pstmt2.setString(2, member.getLogin_id());
-            pstmt2.setInt(3, member.getStatus()); // 설정된 status 값 사용
-            int result1 = pstmt2.executeUpdate();
-            System.out.println("SUSER insert result: " + result1 + ", status: " + member.getStatus()); // 확인용 로그
+            pstmt2.setInt(3, status); // 설정된 status 값 사용
+            pstmt2.executeUpdate();
 
             // SUSER_DETAIL 테이블에 데이터 삽입
             sql = "INSERT INTO SUSER_DETAIL (user_num, nick_name, name, email, password, phone, registration_date, birth_date, center_num) "
@@ -71,28 +66,23 @@ public class MemberDAO {
 
             // 센터 코드 유효성 체크: 센터 코드가 반드시 선택되어야 함
             int centerCode = member.getCenter_num();
-            if (centerCode == 0) {  // centerCode가 0이면 예외 발생
+            if (centerCode == 0) {
                 throw new Exception("센터를 선택하세요.");
             }
             pstmt3.setInt(8, centerCode);
 
             pstmt3.executeUpdate();
-            System.out.println("Inserted into SUSER_DETAIL with nick_name: " + member.getNick_name());
-
             conn.commit();
-            System.out.println("Transaction committed successfully.");
 
         } catch (Exception e) {
             if (conn != null) conn.rollback();
-            System.out.println("Transaction rolled back due to an error.");
-            e.printStackTrace();
-            throw new Exception("회원가입 중 오류 발생: " + e.getMessage());
+            throw new Exception("회원가입 중 오류 발생: " + e.getMessage(), e);
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
             DBUtil.executeClose(null, pstmt2, null);
             DBUtil.executeClose(null, pstmt3, null);
         }
-    }
+    }    
     // 아이디 중복 체크
     public boolean isDuplicateId(String loginId) throws Exception {
         return checkDuplicate("SUSER", "login_id", loginId);
@@ -223,5 +213,105 @@ public class MemberDAO {
     	        DBUtil.executeClose(rs, pstmt, conn);
     	    }
     	    return password;
+    	}
+    	//프로필 상세 조회
+    	public MemberVO getUserProfile(long userNum) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+    	    ResultSet rs = null;
+    	    MemberVO member = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        String sql = "SELECT u.user_num, u.login_id, u.status, " +
+    	                     "d.nick_name, d.name, d.email, d.phone, " +
+    	                     "d.birth_date, d.registration_date, d.center_num, d.photo " +
+    	                     "FROM SUSER u " +
+    	                     "JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
+    	                     "WHERE u.user_num = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setLong(1, userNum);
+
+    	        rs = pstmt.executeQuery();
+    	        if (rs.next()) {
+    	            member = new MemberVO();
+    	            member.setUser_num(rs.getLong("user_num"));
+    	            member.setLogin_id(rs.getString("login_id"));
+    	            member.setStatus(rs.getInt("status"));
+    	            member.setNick_name(rs.getString("nick_name"));
+    	            member.setName(rs.getString("name"));
+    	            member.setEmail(rs.getString("email"));
+    	            member.setPhone(rs.getString("phone"));
+    	            member.setBirth_date(rs.getString("birth_date"));
+    	            member.setRegistration_date(rs.getDate("registration_date"));
+    	            member.setCenter_num(rs.getInt("center_num"));
+    	            member.setPhoto(rs.getString("photo")); // 프로필 사진 추가
+    	        }
+    	    } finally {
+    	        DBUtil.executeClose(rs, pstmt, conn);
+    	    }
+    	    return member;
+    	}
+    	// 사용자 프로필 수정
+    		public void updateUserProfile(MemberVO member) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        String sql = "UPDATE SUSER_DETAIL " +
+    	                     "SET nick_name = ?, name = ?, email = ?, phone = ?, birth_date = ?, center_num = ? " +
+    	                     "WHERE user_num = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setString(1, member.getNick_name());
+    	        pstmt.setString(2, member.getName());
+    	        pstmt.setString(3, member.getEmail());
+    	        pstmt.setString(4, member.getPhone());
+    	        pstmt.setString(5, member.getBirth_date());
+    	        pstmt.setInt(6, member.getCenter_num());
+    	        pstmt.setLong(7, member.getUser_num());
+
+    	        pstmt.executeUpdate();
+    	    } finally {
+    	        DBUtil.executeClose(null, pstmt, conn);
+    	    }
+    	}
+    	// 프로필 사진 수정
+    	public void updateUserPhoto(long userNum, String photo) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        String sql = "UPDATE SUSER_DETAIL SET photo = ? WHERE user_num = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setString(1, photo);
+    	        pstmt.setLong(2, userNum);
+
+    	        pstmt.executeUpdate();
+    	    } finally {
+    	        DBUtil.executeClose(null, pstmt, conn);
+    	    }
+    	}
+
+    	// 프로필 사진 삭제
+    	public void deleteUserPhoto(long userNum) throws Exception {
+    	    updateUserPhoto(userNum, null); // 사진 경로를 NULL로 설정
+    	}
+    	// 회원 탈퇴 처리 (비활성화)
+    	public void deactivateUser(long userNum) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        String sql = "UPDATE SUSER SET status = 0 WHERE user_num = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setLong(1, userNum);
+
+    	        pstmt.executeUpdate();
+    	    } finally {
+    	        DBUtil.executeClose(null, pstmt, conn);
+    	    }
     	}
 }

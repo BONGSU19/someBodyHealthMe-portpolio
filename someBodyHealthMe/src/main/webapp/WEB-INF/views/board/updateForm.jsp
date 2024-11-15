@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소통공간 글쓰기</title>
+<title>소통공간 글수정</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <style type="text/css">
     body {            
@@ -28,7 +28,7 @@
         
     }
 
-    .write-form {
+    .update-form {
         text-align: left;
         width: 100%;
         margin-top: 20px;
@@ -91,23 +91,24 @@
 
 
 <div class="container">
-    <h2>글등록</h2>
-    <div class="write-form">
-        <form action="write.do" method="POST" enctype="multipart/form-data">
+    <h2>글수정</h2>
+    <div class="update-form">
+        <form action="update.do" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="board_num" value="${board.board_num}">
             <!-- 게시판 선택 -->
             <div class="form-group">
-                <label for="board_category">게시판 선택</label>
-                <select id="board_category" name="board_category" required>
-                	<c:if test="${status >= 4}"><option value="1">공지사항</option></c:if>                    
-                    <option value="2">자유게시판</option>
-                    <option value="3">오늘운동완료</option>
-                </select>
+                <label for="board_category">게시판 </label>
+               	<span>
+               		<c:if test="${board.board_category == 1}">공지사항</c:if>
+               		<c:if test="${board.board_category == 2}">자유게시판</c:if>
+               		<c:if test="${board.board_category == 3}">오늘 운동 완료</c:if>
+               	</span>
             </div>
 
             <!-- 제목 입력 -->
             <div class="form-group">
                 <label for="board_title">제목</label>
-                <input type="text" id="board_title" name="board_title" required placeholder="제목을 입력하세요">
+                <input type="text" id="board_title" name="board_title" required placeholder="제목을 입력하세요" value="${board.board_title}">
             </div>
 
             <!-- 첨부파일 -->
@@ -119,12 +120,12 @@
             <!-- 내용 입력 -->
             <div class="form-group">
                 <label for="board_content">내용</label>
-                <textarea id="board_content" name="board_content" required placeholder="내용을 입력하세요" rows="300"></textarea>
+                <textarea id="board_content" name="board_content" required placeholder="내용을 입력하세요" rows="300">${board.board_content}</textarea>
             </div>
 
             <!-- 제출 버튼 -->
             <div class="submit-btn-container">
-                <input type="submit" value="등록">
+                <input type="submit" value="수정">
             </div>
         </form>
     </div>

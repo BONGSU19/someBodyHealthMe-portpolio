@@ -99,11 +99,7 @@
 <jsp:include page="/WEB-INF/views/common/aside.jsp"/>
     <div class="container">
         <h2>소통공간</h2>
-        <div class="content-main">
-        	<c:if test="${list==null}">
-            	<div>표시할 게시물이 없습니다.</div>   		
-            </c:if>
-                
+        <div class="content-main">                
             <table>
                 <tr>
                     <th>글번호</th>
@@ -111,17 +107,21 @@
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
-                </tr>
+                </tr>                
                 <c:forEach var="board" items="${list}">
                 <tr>
                     <td>${board.board_num}</td>
-                    <td><a href="detail.do">${board.board_title}</a></td>
+                    <td><a href="detail.do?board_num=${board.board_num}">${board.board_title}</a></td>
                     <td>${board.nick_name}</td>
                     <td>${board.board_regdate }</td>
                     <td>${board.board_count }</td>
                 </tr>
                 </c:forEach>
             </table>
+            <c:if test="${count==0}">
+            	<div>표시할 게시물이 없습니다.</div>   		
+            </c:if>
+            ${page}
 
             <!-- 글등록 버튼 -->
             <div class="write-btn-container">

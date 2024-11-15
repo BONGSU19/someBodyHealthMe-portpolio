@@ -18,6 +18,7 @@ public class WriteAction implements Action{
 		if(user_num == null) {//로그인이 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
+
 		//로그인된 경우
 		//전송된 데이터 인코딩 처리
 		request.setCharacterEncoding("utf-8");
@@ -29,6 +30,7 @@ public class WriteAction implements Action{
 		goods.setGoods_category(request.getParameter("goods_category"));
 		goods.setGoods_img1(FileUtil.uploadFile(request, "goods_img1"));
 		goods.setGoods_img2(FileUtil.uploadFile(request, "goods_img2"));
+		goods.setGoods_quantity(Integer.parseInt(request.getParameter("goods_quantity")));
 		goods.setGoods_status(Integer.parseInt(request.getParameter("goods_status")));
 		
 		GoodsDAO dao = GoodsDAO.getInstance();

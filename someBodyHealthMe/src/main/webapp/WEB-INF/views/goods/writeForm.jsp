@@ -4,100 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시판 글쓰기</title>
+<title>회원 가입</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
-	<style type="text/css">
-
-body {
-            
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            width: 60%;
-            height: 100%;
-            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
-            overflow-y: auto; /* 세로 스크롤 추가 */
-            text-align: center;
- 			margin-top:43px;
- 			margin-left:43px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd; /* 외부 테두리 */
-    		float:left;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            table-layout: fixed;  /* 고정된 테이블 레이아웃 */
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #D9D9D9;
-            color: black;
-        }
-
-        /* 글등록 버튼 스타일 */
-        .write-btn-container {
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .write-btn-container input[type="button"] {
-            background-color: #D9D9D9;
-            color: black;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            border-radius: 5px;
-        }
-
-        .write-btn-container input[type="button"]:hover {
-            background-color: #8f9399;
-        }
-
-        /* 검색 바 스타일 */
-        #search-bar {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        #search-bar select, #search-bar input[type="text"], #search-bar button {
-            padding: 10px;
-            margin-right: 10px;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        #search-bar button {
-            background-color: #D9D9D9;
-            color: black;
-            cursor: pointer;
-        }
-
-        #search-bar button:hover {
-            background-color: #8f9399;
-        }
-
-</style>
+	href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			//게시판  유효성 체크 
+			//상품 등록 유효성 체크
 			$('#write_form').submit(function(){
+				const radio = document.querySelectorAll('input[type=radio]:checked');
+				if(radio.length<1){
+					alert('상품표시여부를 지정하세요!');
+					return false;
+				}
+				
+				
 				const items = document.querySelectorAll('.input-check');
 				for(let i=0; i<items.length;i++){
 					if(items[i].value.trim()==''){
@@ -108,7 +29,7 @@ body {
 						return false;
 					}
 				}//end of for
-			});//end of submit
+			});
 		});
 	
 	</script>
@@ -116,39 +37,41 @@ body {
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
 		<div class="content-main">
 			<h2>상품 등록</h2>
-			<form id="write_form" action="write.do" method="post" enctype="multipart/form-data">
+			<form id="write_form" action="write.do" enctype="multipart/form-data" method="post">
 				<ul>
-					<li><label for="goods_name">상품명</label> 
-					<input type="text" name="goods_name" id="goods_name" maxlength="50" class="input-check">
+					<li>
+					<label>상품표시여부</label> 
+					<input type="radio" name="goods_status" value="1" id="status1">미표시
+					<input type="radio" name="goods_status" value="2" id="status2">표시
+					<li>
+					<label for="goods_name">상품명</label> 
+					<input type="text" name="goods_name" id="goods_name" maxlength="10" class="input-check">
 					</li>
-					
-					<li><label for="goods_price">가격</label> 
-					<input type="text" name="goods_price" id="goods_price" maxlength="50" class="input-check">
+					<li>
+					<label for="goods_category">카테고리</label> 
+					<input type="text" name="goods_category" id="goods_category" maxlength="30" class="input-check">
 					</li>
-					
-					<li><label for="goods_info">상품 설명</label> 
-					<textarea rows="5" cols="40" name="goods_info" id="goods_info" class="input-check"></textarea>
+					<li>
+					<label for="goods_price">가격</label> 
+					<input type="number" name="goods_price" id="goods_price" min="1" max="999999999" class="input-check">
 					</li>
-					
-					<li><label for="goods_category">카테고리</label> 
-					<input type="text" name="goods_category" id="goods_category" maxlength="50" class="input-check">
+					<li>
+					<label for="goods_quantity">수량</label> 
+					<input type="number" name="goods_quantity" id="goods_quantity" min="0" max="9999999" class="input-check">
 					</li>
-					
-					<li><label for="goods_img1">이미지</label> 
-					<input type="file" name="goods_img1" id="goods_img1" accept="image/gif,image/png,image/jpeg">
+					<li>
+					<label for="goods_img1">상품사진1</label>
+					<input type="file" name="goods_img1" id="goods_img1" accept="image/gif,image/png,image/jpeg" class="input-check">
 					</li>
-					
-					<li><label for="goods_img2">상세 이미지</label> 
+					<li>
+					<label for="goods_img2">상품사진2</label>
 					<input type="file" name="goods_img2" id="goods_img2" accept="image/gif,image/png,image/jpeg">
+					<li>
+					<label for="goods_info">상품설명</label> 
+					<textarea rows="5" cols="30" name="goods_info" id="goods_info" class="input-check"></textarea>
 					</li>
-					
-					<li><label for="goods_status">상태</label> 
-					<input type="text" name="goods_status" id="goods_status" maxlength="50" class="input-check">
-					</li>
-					
 				</ul>
 				<div class="align-center">
 					<input type="submit" value="등록"> 
@@ -159,3 +82,5 @@ body {
 	</div>
 </body>
 </html>
+
+

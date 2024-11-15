@@ -30,7 +30,7 @@ public class GoodsDAO {
 			conn = DBUtil.getConnection();
 			//SQL문 작성
 			sql = "INSERT INTO goods (goods_num, goods_name, goods_price, goods_info, "
-					+ "goods_category, goods_img1, goods_img2, goods_date, goods_status) VALUES (goods_seq.nextval,?,?,?,?,?,?,SYSDATE,?)";
+					+ "goods_category, goods_img1, goods_img2, goods_date, goods_quantity, goods_status) VALUES (goods_seq.nextval,?,?,?,?,?,?,SYSDATE,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, goods.getGoods_name());
 			pstmt.setInt(2, goods.getGoods_price());
@@ -38,7 +38,8 @@ public class GoodsDAO {
 			pstmt.setString(4, goods.getGoods_category());
 			pstmt.setString(5, goods.getGoods_img1());
 			pstmt.setString(6, goods.getGoods_img2());
-			pstmt.setInt(7, goods.getGoods_status());
+			pstmt.setInt(7, goods.getGoods_quantity());
+			pstmt.setInt(8, goods.getGoods_status());
 			pstmt.executeUpdate();
 		}catch(Exception e) {
 			throw new Exception(e);
@@ -48,31 +49,34 @@ public class GoodsDAO {
 	}
 
 	//전체글 개수/검색글 개수
-	public int getGoodsCount(String keyfield, String keyword) throws Exception{
+	public int getGoodsCount(String keyfield, String keyword, int goods_status) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		String sub_sql = "";
+		int cnt = 0;
 		int count = 0;
 
 		try {
 			conn = DBUtil.getConnection();
 
-			if(keyword != null && !"".equals(keyword)) {
+			if(keyword!=null && !"".equals(keyword)) {
 				//검색처리
-				if(keyfield.equals("1")) sub_sql += "where goods_name like '%' || ? || '%'";
+				if(keyfield.equals("1")) sub_sql += "And goods_name like '%' || ? || '%' ";
+				else if (keyfield.equals("2")) sub_sql += "And goods_info like '%' || ? || '%' ";
 			}
 			//sql 문 작성
-			sql = "select count(*) from goods " + sub_sql;
+			sql = "select count(*) from goods where goods_status > ? " + sub_sql;
 			//pre어쩌구 생성
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(++cnt, goods_status);
 			if(keyword != null && !"".equals(keyword)) {
-				pstmt.setString(1, keyword);
+				pstmt.setString(++cnt, keyword);
 			}
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				count = rs.getInt(1);
+			if(rs.next()) {
+				count= rs.getInt(1);
 			}
 		}catch (Exception e) {
 			throw new Exception(e);
@@ -82,7 +86,7 @@ public class GoodsDAO {
 		return count;
 	}
 	//전체글 목록/검색글 목록
-	public List<GoodsVO> getListGoods(int start, int end, String keyfield, String keyword) throws Exception{
+	public List<GoodsVO> getListGoods(int start, int end, String keyfield, String keyword, int goods_status) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -92,30 +96,33 @@ public class GoodsDAO {
 		int cnt = 0;
 		try {
 			conn = DBUtil.getConnection();
-
-			if(keyword != null && !"".equals(keyword)) {
+			if(keyword!=null && !"".equals(keyword)) {
 				//검색처리
-				if(keyfield.equals("1")) sub_sql += "where goods_name like '%' || ? || '%'";
-				//강사님께 여쭤본 후 수정해야할 사항
-				//else if(keyfield.equals("2")) sub_sql += "where id like '%' || ? || '%'";
-				//else if(keyfield.equals("3")) sub_sql += "where content like '%' || ? || '%'";
+				if(keyfield.equals("1")) sub_sql += "And goods_like '%' || ? || '%' ";
+				else if (keyfield.equals("2")) sub_sql += "And goods_info like '%' || ? || '%' ";
 			}
-			sql = "select * from (select a.*, rownum rnum from (select * from goods where "
-					+ sub_sql + " order by goods_num desc)a) where rnum >= ? and rnum <= ?";
+			//status의 값이 0이면 , 1(미표시),2(표시) 모두호출 --->관리자용 
+			//status의 값이 1이면, 2(표시) 호출 -> 사용자용
+			sql = "select * from (select a.*, rownum rnum from (select * from goods where goods_status > ?" +sub_sql
+					+" order by goods_num desc)a) where rnum >= ? and rnum <= ?"	;
 			pstmt = conn.prepareStatement(sql);
-
+			pstmt.setInt(++cnt, goods_status);
 			if(keyword != null && !"".equals(keyword)) {
 				pstmt.setString(++cnt, keyword);
 			}
-			pstmt.setInt(++cnt, start); // 번호가 달라지기 때문에 1,2,3으로 지정하면 안됨
-			pstmt.setInt(++cnt, end); // 번호가 달라지기 때문에 1,2,3으로 지정하면 안됨
+			pstmt.setInt(++cnt, start);
+			pstmt.setInt(++cnt, end);
 			rs = pstmt.executeQuery();
 			list = new ArrayList<GoodsVO>();
-
 			while (rs.next()) {
 				GoodsVO goods = new GoodsVO();
+				goods.setGoods_num(rs.getLong("goods_num"));
 				goods.setGoods_name(StringUtil.useNoHtml(rs.getString("goods_name")));
+				goods.setGoods_category(rs.getString("goods_category"));
 				goods.setGoods_price(rs.getInt("goods_price"));
+				goods.setGoods_quantity(rs.getInt("goods_quantity"));
+				goods.setGoods_date(rs.getDate("goods_date"));
+				goods.setGoods_status(rs.getInt("goods_status"));
 
 				list.add(goods);
 			}

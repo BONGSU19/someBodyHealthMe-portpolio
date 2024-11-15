@@ -27,7 +27,7 @@
                         } else if(response.isRequestSent=='duple'){
                             alert("중복");
                         }else{
-                        	alert("시ㄹ패.");
+                        	alert("실패.");
                         }
                     },
                     error: function() {

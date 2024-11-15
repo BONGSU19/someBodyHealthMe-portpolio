@@ -26,7 +26,8 @@
             
             	<div class="title">
             		<h2>사용자 건강 정보</h2>
-            		<div id='modify-button' class='button'><a href="${pageContext.request.contextPath}/mybody/myStatusModifyForm.do">수정</a></div>
+            		<div id='modify-button' class='button'><a href="${pageContext.request.contextPath}/mybody/myStatusInsertForm.do">수정</a></div>
+            		<div id='insert-button' class='button'><a href="${pageContext.request.contextPath}/mybody/myStatusInsertForm.do">등록</a></div>
             	</div>
                 
                 <div class="info-box">

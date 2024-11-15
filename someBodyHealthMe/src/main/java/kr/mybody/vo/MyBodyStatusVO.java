@@ -6,8 +6,8 @@ public class MyBodyStatusVO {
 	
 	// 필드 정의 (테이블 컬럼에 대응)
     private long healthInfoID;    // HealthInfoID
-    private double height;        // Height
-    private double weight;        // Weight
+    private int height;        // Height
+    private int weight;        // Weight
     private int age;              // Age
     private double bmi;           // BMI
     private String goal;          // Goal
@@ -26,13 +26,13 @@ public class MyBodyStatusVO {
 	public double getHeight() {
 		return height;
 	}
-	public void setHeight(double height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
 	public double getWeight() {
 		return weight;
 	}
-	public void setWeight(double weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 	public int getAge() {

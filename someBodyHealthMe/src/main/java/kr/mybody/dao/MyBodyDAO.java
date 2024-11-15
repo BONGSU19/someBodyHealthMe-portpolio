@@ -72,42 +72,59 @@ public class MyBodyDAO{
 		
 	}
 	
-	public void insertMyBodyStatus(MyBodyStatusVO myBodyStatus)throws Exception{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		
-		try {
-			//커넥션풀로부터 커넥션을 할당
-			conn = DBUtil.getConnection();
-			
-			
-			sql = "INSERT INTO HealthInfo (user_num, height, weight, age, bmi, goal, gender, createdat, modifydate) "
-			           + "VALUES (?, ?, ?, ?, ?, ?, ?, SYSDATE, NULL)";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			
-			pstmt.setLong(1, myBodyStatus.getUserNum()); // user_num
-            pstmt.setDouble(2, myBodyStatus.getHeight());   // height
-            pstmt.setDouble(3, myBodyStatus.getWeight());   // weight
-            pstmt.setInt(4, myBodyStatus.getAge());      // age
-            pstmt.setDouble(5, myBodyStatus.getBmi());   // bmi
-            pstmt.setString(6, myBodyStatus.getGoal());  // goal
-            pstmt.setString(7, myBodyStatus.getGender()); // gender
-			
-			//SQL문 실행시 모두 성공하면 commit
-			conn.commit();			
-			
-		}catch(Exception e) {
-			//SQL문이 하나라도 실패하면 rollback
-			conn.rollback();
-			throw new Exception(e);
-		}finally {
+	public void insertMyBodyStatus(MyBodyStatusVO myBodyStatus) throws Exception {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    String sql = null;
 
-			DBUtil.executeClose(null, pstmt, conn);
-		}		
+	    try {
+	        // 커넥션풀로부터 커넥션을 할당
+	        conn = DBUtil.getConnection();
+	        
+	        // 자동 커밋 비활성화
+	        conn.setAutoCommit(false);
+
+	        // BMI 계산 (height는 cm로 입력되었을 것으로 가정)
+	        double heightInMeters = myBodyStatus.getHeight() / 100.0;  // height를 m 단위로 변환
+	        double bmi = myBodyStatus.getWeight() / (heightInMeters * heightInMeters);  // BMI 계산
+	        
+	        sql = "INSERT INTO HealthInfo (healthinfoid, user_num, height, weight, age, bmi, goal, gender, createdat, modifydate) "
+	                + "VALUES (healthinfo_seq.nextval, ?, ?, ?, ?, ?, ?, ?, SYSDATE, NULL)";
+	        
+	        pstmt = conn.prepareStatement(sql);
+	        
+	        pstmt.setLong(1, myBodyStatus.getUserNum()); // user_num
+	        pstmt.setInt(2, myBodyStatus.getHeight());  // height
+	        pstmt.setInt(3, myBodyStatus.getWeight());  // weight
+	        pstmt.setInt(4, myBodyStatus.getAge());     // age
+	        pstmt.setDouble(5, bmi);                    // bmi (계산된 값)
+	        pstmt.setString(6, myBodyStatus.getGoal()); // goal
+	        pstmt.setString(7, myBodyStatus.getGender()); // gender
+	        
+	        pstmt.executeUpdate();
+
+	        // SQL문 실행 시 모두 성공하면 commit
+	        conn.commit();            
+	        
+	    } catch (Exception e) {
+	        // 예외가 발생하면 롤백
+	        if (conn != null) {
+	            conn.rollback();
+	        }
+	        throw new Exception(e);
+	    } finally {
+	        // 커넥션이 null이 아닐 경우 자동 커밋을 다시 원래 상태로 복구
+	        if (conn != null) {
+	            try {
+	                conn.setAutoCommit(true); // 자동 커밋을 다시 true로 설정
+	            } catch (SQLException se) {
+	                se.printStackTrace();
+	            }
+	        }
+	        // DB 자원 해제
+	        DBUtil.executeClose(null, pstmt, conn);
+	    }        
 	}
-	
+
 	
 }

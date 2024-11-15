@@ -56,21 +56,21 @@
                         <div class="info-item">
                             <label for="goal" class="label">운동 목표:</label>
                             <select id="goal" name="goal">
-                                <option value="maintain" 
-                                        ${healthInfo.goal == 'maintain' ? 'selected' : ''}>유지</option>
-                                <option value="gain" 
-                                        ${healthInfo.goal == 'gain' ? 'selected' : ''}>증가</option>
-                                <option value="lose" 
-                                        ${healthInfo.goal == 'lose' ? 'selected' : ''}>감량</option>
+                                <option value="유지" 
+                                        ${healthInfo.goal == '유지' ? 'selected' : ''}>유지</option>
+                                <option value="증가" 
+                                        ${healthInfo.goal == '증가' ? 'selected' : ''}>증가</option>
+                                <option value="감량" 
+                                        ${healthInfo.goal == '감량' ? 'selected' : ''}>감량</option>
                             </select>
                         </div>
 
                         <div class="info-item">
                             <label for="gender" class="label">성별:</label>
                             <select id="gender" name="gender">
-                                <option value="male" 
+                                <option value="M" 
                                         ${healthInfo.gender == 'male' ? 'selected' : ''}>남성</option>
-                                <option value="female" 
+                                <option value="F" 
                                         ${healthInfo.gender == 'female' ? 'selected' : ''}>여성</option>
                             </select>
                         </div>

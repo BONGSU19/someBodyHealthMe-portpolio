@@ -5,7 +5,7 @@ import java.sql.Date;
 public class MyBodyStatusVO {
 	
 	// 필드 정의 (테이블 컬럼에 대응)
-    private long healthInfoID;    // HealthInfoID
+    private int healthInfoID;    // HealthInfoID
     private int height;        // Height
     private int weight;        // Weight
     private int age;              // Age
@@ -17,19 +17,19 @@ public class MyBodyStatusVO {
     private long userNum;         // user_num
     
     
-	public long getHealthInfoID() {
+	public int getHealthInfoID() {
 		return healthInfoID;
 	}
-	public void setHealthInfoID(long healthInfoID) {
+	public void setHealthInfoID(int healthInfoID) {
 		this.healthInfoID = healthInfoID;
 	}
-	public double getHeight() {
+	public int getHeight() {
 		return height;
 	}
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	public double getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 	public void setWeight(int weight) {
@@ -77,14 +77,9 @@ public class MyBodyStatusVO {
 	public void setUserNum(long userNum) {
 		this.userNum = userNum;
 	}
+    
+    
 	
-	// toString 메소드 (옵션)
-    @Override
-    public String toString() {
-        return "Healthinfo [healthInfoID=" + healthInfoID + ", height=" + height + ", weight=" + weight 
-                + ", age=" + age + ", bmi=" + bmi + ", goal=" + goal + ", gender=" + gender 
-                + ", createdAt=" + createdAt + ", modifyDate=" + modifyDate + ", userNum=" + userNum + "]";
-    }
     
     
 }

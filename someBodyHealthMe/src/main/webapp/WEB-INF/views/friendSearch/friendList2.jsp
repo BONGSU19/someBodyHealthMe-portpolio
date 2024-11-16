@@ -36,7 +36,26 @@
                 });
             });
         });
-    </script>
+
+ $(document).ready(function() {
+     // 현재 페이지 URL 가져오기
+     var currentPage = window.location.pathname;
+
+     // 모든 링크에 대해 현재 페이지와 일치하는 링크에 'current-page' 클래스 추가
+     $('.link, .link2').each(function() {
+         var linkHref = $(this).attr('href');
+         
+         // 링크의 pathname을 비교하여 현재 페이지와 일치하는지 확인
+         var linkPathname = new URL(linkHref, window.location.href).pathname;
+         
+         // 현재 페이지와 링크의 경로가 일치하면 'current-page' 클래스 추가
+         if (linkPathname === currentPage) {
+             $(this).addClass('current-page');  // 현재 페이지에 해당하는 링크 강조
+         }
+     });
+ });
+</script>
+ 
 
       
 </head>
@@ -45,7 +64,17 @@
     <jsp:include page="/WEB-INF/views/common/asideFriend.jsp"/>
     <div class="main-wrap">
 		<a href="${pageContext.request.contextPath}/friendSearch/friendList.do">전체 보기</a>
-		<a  href="${pageContext.request.contextPath}/friendSearch/friendList2.do?center_num=1">지점으로 보기</a>
+		<a href="${pageContext.request.contextPath}/friendSearch/friendList2.do?center_num=1">지점으로 보기</a>
+		
+		
+		
+		
+		<p>
+		
+		<a href="${pageContext.request.contextPath}/friendSearch/friendList2.do?center_num=1"  id="center1" class="link">강남지점 회원 목록</a>
+		<a href="${pageContext.request.contextPath}/friendSearch/friendList2.do?center_num=2" id="center2" class="link">강북지점 회원 목록</a>
+		
+		
     	<form id="search_form" action="friendList.do"
 		                                    method="get">
 			<ul class="search">
@@ -96,5 +125,26 @@
             </c:forEach>
         </table>
     </div>
+    
+    <script>
+  window.onload = function() {
+    // 현재 URL의 쿼리 파라미터(center_num)를 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const centerNum = urlParams.get('center_num'); // '1' 또는 '2' 등의 값이 들어옴
+
+    // 모든 링크에서 'active' 클래스를 제거
+    const links = document.querySelectorAll('.link');
+    links.forEach(link => {
+      link.style.color = '';  // 원래 색상으로 되돌리기
+    });
+
+    // 현재 선택된 링크에만 색상을 변경
+    if (centerNum === '1') {
+      document.getElementById('center1').style.color = 'red'; // 강남지점
+    } else if (centerNum === '2') {
+      document.getElementById('center2').style.color = 'red'; // 강북지점
+    }
+  };
+</script>
 </body>
 </html>

@@ -65,23 +65,23 @@ public class FriendDAO {
 		String sql2="select * from friend where user_num=? and receiver_num=? ";
 		PreparedStatement pstmt2=null;
 		try {
-			
-			
+
+
 			pstmt2= conn.prepareStatement(sql2);
 			pstmt2.setLong(1, user_num);
 			pstmt2.setLong(2, receiver);
 
 			rs= pstmt2.executeQuery();
 			if(!rs.next()) {
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, user_num);
-			pstmt.setLong(2, receiver);
-			pstmt.executeUpdate();
-			isRequestSent ="success";
+
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setLong(1, user_num);
+				pstmt.setLong(2, receiver);
+				pstmt.executeUpdate();
+				isRequestSent ="success";
 			}else {
 				isRequestSent = "duple";
-			
+
 
 			}
 		} catch (SQLException e) {
@@ -145,23 +145,92 @@ public class FriendDAO {
 	}
 
 	//사용 유저들 나열시키기
-
-	public  List<FriendVO> getMember()throws Exception{
+	public int getMemberCountByAdmin(String keyfield,
+			String keyword)
+					throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String sql = null;
+		String sub_sql = "";
+		int count = 0;
 
+		try {
+			//커넥션풀로부터 커넥션을 할당
+			conn = DBUtil.getConnection();
+
+			if(keyword != null && !"".equals(keyword)) {
+				//검색 처리
+				if(keyfield.equals("1")) sub_sql += "WHERE login_id LIKE '%' || ? || '%'";
+				else if(keyfield.equals("2")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+				else if(keyfield.equals("3")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+			}
+
+			//SQL문 작성
+			sql = "SELECT COUNT(*) FROM suser LEFT OUTER JOIN "
+					+ "suser_detail USING(user_num) " + sub_sql;
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			if(keyword != null && !"".equals(keyword)) {
+				pstmt.setString(1, keyword);
+			}
+			//SQL문 실행
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				count = rs.getInt(1);
+			}			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}		
+		return count;
+	}
+
+
+
+	public  List<FriendVO> getMember(int start,
+		    int end,String keyfield,String keyword)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sub_sql="";
 		String sql = null;
 		List<FriendVO> friends = new ArrayList<>();
+		int cnt=0;
 		try {
 			//커넥션풀로부터 커넥션을 할당
 			conn = DBUtil.getConnection();
 			//SQL문 작성
-			sql = "SELECT * FROM SUSER_DETAIL";
+
+
+
+
+			if(keyword != null && !"".equals(keyword)) {
+				//검색 처리
+				if(keyfield.equals("1")) sub_sql += "WHERE login_id LIKE '%' || ? || '%'";
+				else if(keyfield.equals("2")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+				else if(keyfield.equals("3")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+			}	
+
+			//SQL문 작성
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum "
+					+ "FROM (SELECT * FROM suser LEFT OUTER JOIN "
+					+ "suser_detail USING(user_num) " + sub_sql
+					+ " ORDER BY user_num DESC NULLS LAST)a) "
+					+ "WHERE rnum >= ? AND rnum <=?";
+			
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			if(keyword != null && !"".equals(keyword)) {
+				pstmt.setString(++cnt, keyword);
+			}
+			pstmt.setInt(++cnt, start);
+			pstmt.setInt(++cnt, end);
 
 
 			//PreparedStatement 객체 생성
-			pstmt = conn.prepareStatement(sql);
+			
 			//?에 데이터 바인딩
 
 			//SQL문 실행
@@ -190,6 +259,75 @@ public class FriendDAO {
 	}
 
 
+	public  List<FriendVO> centerGetMember(int start,
+		    int end,String keyfield,String keyword,int center_num)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sub_sql="";
+		String sql = null;
+		List<FriendVO> friends = new ArrayList<>();
+		int cnt=0;
+		try {
+			//커넥션풀로부터 커넥션을 할당
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+
+
+
+
+			if(keyword != null && !"".equals(keyword)) {
+				//검색 처리
+				if(keyfield.equals("1")) sub_sql += "WHERE login_id LIKE '%' || ? || '%'";
+				else if(keyfield.equals("2")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+				else if(keyfield.equals("3")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+			}	
+			sub_sql += (sub_sql.contains("WHERE") ? " AND" : " WHERE") + " center_num = ?";
+			//SQL문 작성
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum "
+					+ "FROM (SELECT * FROM suser LEFT OUTER JOIN "
+					+ "suser_detail USING(user_num) " + sub_sql
+					+ " ORDER BY user_num DESC NULLS LAST)a) "
+					+ "WHERE rnum >= ? AND rnum <=?";
+			
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			if(keyword != null && !"".equals(keyword)) {
+				pstmt.setString(++cnt, keyword);
+			}
+			pstmt.setInt(++cnt, center_num);
+			pstmt.setInt(++cnt, start);
+			pstmt.setInt(++cnt, end);
+
+
+			//PreparedStatement 객체 생성
+			
+			//?에 데이터 바인딩
+
+			//SQL문 실행
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				FriendVO friend = new FriendVO();
+				friend = new FriendVO();
+				friend.setUser_Num(rs.getInt("user_Num"));
+				friend.setNick_Name(rs.getString("nick_name"));
+				friend.setName(rs.getString("name"));
+				friend.setEmail(rs.getString("email"));
+				friend.setPassword(rs.getString("password"));
+				friend.setPhone(rs.getString("phone"));
+				friend.setRegistration_Date(rs.getDate("registration_date"));
+				friend.setBirth_Date(rs.getString("birth_date"));
+				friend.setModify_Date(rs.getDate("MODIFY_DATE"));
+				friend.setCenter_Num(rs.getInt("center_num"));
+				friends.add(friend);
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}		
+		return friends;
+	}
 
 
 

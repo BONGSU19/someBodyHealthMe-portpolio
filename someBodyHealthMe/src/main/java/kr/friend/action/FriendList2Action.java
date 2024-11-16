@@ -14,7 +14,7 @@ import kr.member.vo.MemberVO;
 import kr.util.PagingUtil;
 
 
-public class FriendListAction implements Action {
+public class FriendList2Action implements Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -26,7 +26,7 @@ public class FriendListAction implements Action {
 
 		
 		}
-		
+		int center_num=Integer.parseInt(request.getParameter("center_num"));
 		FriendDAO dao = FriendDAO.getInstance();
 		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
@@ -39,17 +39,17 @@ public class FriendListAction implements Action {
 			                         "friendList.do");
 
 	if(count > 0) {
-		list = dao.getMember(
+		list = dao.centerGetMember(
 				       page.getStartRow(),
 				       page.getEndRow(),
-				       keyfield,keyword);
+				       keyfield,keyword,center_num);
 	}
 		
 		
 		
 
 		request.setAttribute("list", list);
-		return "friendSearch/friendList.jsp";
+		return "friendSearch/friendList2.jsp";
 	}
 
 }

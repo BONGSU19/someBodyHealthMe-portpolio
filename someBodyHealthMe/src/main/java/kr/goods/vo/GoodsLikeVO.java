@@ -4,6 +4,13 @@ public class GoodsLikeVO {
 	private long goods_num;
 	private long user_num;
 	
+	public GoodsLikeVO() {}
+	
+	public GoodsLikeVO(long goods_num, long user_num) {
+		this.goods_num = goods_num;
+		this.user_num = user_num;
+	}
+	
 	public long getGoods_num() {
 		return goods_num;
 	}

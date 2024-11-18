@@ -79,6 +79,19 @@
 			<p>
 				${goods.goods_info}
 			</p>
+			
+			<div class="content-main">
+				<ul class="detail-sub">
+				<li>
+					<%-- 좋아요 --%>
+					<img id="output_like" data-num="${goods.goods_num}"
+					  src="${pageContext.request.contextPath}/images/fav01.gif" width="50">
+					좋아요
+					<span id="output_lcount"></span>                                         
+				</li>
+				</ul>
+			</div>
+			
 		</c:if>
 	</div>
 </div>

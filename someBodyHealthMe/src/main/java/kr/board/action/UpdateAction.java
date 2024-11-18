@@ -19,7 +19,7 @@ public class UpdateAction implements Action{
 		}
 		//로그인시
 		//전송된 데이터 인코딩
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8"); 
 		//글번호 반환
 		long board_num = Long.parseLong(request.getParameter("board_num"));
 		

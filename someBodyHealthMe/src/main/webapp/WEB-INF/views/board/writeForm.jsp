@@ -20,7 +20,7 @@
         overflow-y: auto;
         text-align: center;
         margin:0 auto;
-        margin-top: 43px;
+        margin-top: 43px; 
  
         padding: 20px;
         background-color: #ffffff;

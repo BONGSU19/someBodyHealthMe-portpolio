@@ -17,7 +17,7 @@ public class DeleteAction implements Action{
 		if(user_num == null) {//비로그인
 			return "redirect:member/loginForm.do";
 		}
-		//로그인시
+		//로그인시 
 		//전송된 데이터 인코딩
 		request.setCharacterEncoding("utf-8");
 		//글번호 반환

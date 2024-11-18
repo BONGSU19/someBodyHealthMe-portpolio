@@ -21,7 +21,7 @@ public class WriteAction implements Action{
 		
 		//로그인이 된 경우
 		//전송된 데이터 인코딩 처리
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8"); 
 		
 		//VO생성
 		BoardVO board = new BoardVO();

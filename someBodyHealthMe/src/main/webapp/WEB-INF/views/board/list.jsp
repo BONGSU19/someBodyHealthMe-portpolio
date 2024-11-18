@@ -17,7 +17,7 @@
         .container {
             width: 60%;
             height: 100%;
-            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
+            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */ 
             overflow-y: auto; /* 세로 스크롤 추가 */
             text-align: center;
  			margin-top:43px;

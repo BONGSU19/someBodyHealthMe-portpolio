@@ -17,7 +17,7 @@
     body h2 {
         background-color: #D9D9D9;
         width: 150px;
-        margin-bottom: 20px;
+        margin-bottom: 20px; 
     }
 
     .container {

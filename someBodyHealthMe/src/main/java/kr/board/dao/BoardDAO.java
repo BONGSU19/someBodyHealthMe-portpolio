@@ -19,8 +19,8 @@ public class BoardDAO {
 
 	//글등록
 	public void insertBoard(BoardVO board) throws Exception{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
+		Connection conn = null; 
+		PreparedStatement pstmt = null; 
 		String sql;
 
 		try {

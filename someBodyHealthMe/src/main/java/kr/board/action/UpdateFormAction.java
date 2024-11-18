@@ -19,7 +19,7 @@ public class UpdateFormAction implements Action{
 		}
 		//로그인
 		//전송된 데이터 인코딩
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("utf-8"); 
 		long board_num = Long.parseLong(request.getParameter("board_num"));
 		
 		BoardDAO dao = BoardDAO.getInstance();

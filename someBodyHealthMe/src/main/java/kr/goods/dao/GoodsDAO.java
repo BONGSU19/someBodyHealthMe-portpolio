@@ -98,7 +98,7 @@ public class GoodsDAO {
 			conn = DBUtil.getConnection();
 			if(keyword!=null && !"".equals(keyword)) {
 				//검색처리
-				if(keyfield.equals("1")) sub_sql += "And goods_like '%' || ? || '%' ";
+				if(keyfield.equals("1")) sub_sql += "And goods_name '%' || ? || '%' ";
 				else if (keyfield.equals("2")) sub_sql += "And goods_info like '%' || ? || '%' ";
 			}
 			//status의 값이 0이면 , 1(미표시),2(표시) 모두호출 --->관리자용 

@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>상품관리</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
 <style type="text/css">
 	 body {
             
@@ -146,26 +147,18 @@
 	<c:if test="${count > 0}">
 	 	<table>
 	 		<tr>
-	 			<th>번호</th>
 	 			<th>카테고리</th>
 	 			<th>상품명</th>
 	 			<th>가격</th>
-	 			<th>재고수</th>
-	 			<th>등록일</th>
-	 			<th>상태</th>
+	 			<th>미리보기</th>
 	 		</tr>
 	 		<c:forEach var="goods" items="${list}">
 	 		<tr>
-	 			<td>${goods.goods_num}</td>
 	 			<td>${goods.goods_category}</td>
 	 			<td><a href="detail.do?goods_num=${goods.goods_num}">${goods.goods_name}</a></td>
 	 			<td><fmt:formatNumber value="${goods.goods_price}"/>원</td>
-	 			<td><fmt:formatNumber value="${goods.goods_quantity}"/></td>
-	 			<td>${goods.goods_date}</td>
-	 			<td>
-	 				<c:if test="${goods.goods_status ==1}">미표시</c:if>
-	 				<c:if test="${goods.goods_status ==2}">표시</c:if>
-	 			</td>
+	 			<c:out value="${goods.goods_img1}" />
+	 			<td><img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100"></td>
 	 		</tr>
 	 		</c:forEach>
 	 	</table>

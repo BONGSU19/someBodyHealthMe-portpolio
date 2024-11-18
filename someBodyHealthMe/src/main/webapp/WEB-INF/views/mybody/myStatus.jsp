@@ -49,6 +49,12 @@
                         <span class="label">체중:</span>
                         <span class="value">${mybodystatus.weight}</span> <!-- 예시값 -->
                     </div>
+                    
+                    <div class="info-item">
+                        <span class="label">나이:</span>
+                        <span class="value">${mybodystatus.age}</span> <!-- 예시값 -->
+                    </div>
+                    
                     <div class="info-item">
                         <span class="label">BMI 지수:</span>
                         <span class="value">${mybodystatus.bmi}</span> <!-- 예시값 -->

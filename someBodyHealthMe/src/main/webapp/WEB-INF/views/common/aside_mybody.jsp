@@ -24,7 +24,7 @@
                 </button>
                 <div class="dropdown-content">
                     <a href="${pageContext.request.contextPath}/mybody/myStatus.do">건강 정보 확인</a>
-                    <a href="${pageContext.request.contextPath}/mybody/monthlyInbodyData.do">월별 인바디 확인</a>
+                    <a href="${pageContext.request.contextPath}/mybody/inbodyStatus.do">월별 인바디 확인</a>
                 </div>
             </div>
 

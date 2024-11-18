@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import kr.member.vo.MemberVO;
 import kr.mybody.vo.MyBodyStatusVO;
+import kr.mybody.vo.InbodyStatusVO;
 import kr.util.DBUtil;
 
 public class MyBodyDAO{
@@ -128,6 +130,16 @@ public class MyBodyDAO{
 	    }        
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//내 건강 정보 수정
 	
 	public void updateMyBodyStatus(MyBodyStatusVO myBodyStatus) throws Exception {
@@ -186,7 +198,99 @@ public class MyBodyDAO{
 	        DBUtil.executeClose(null, pstmt, conn);
 	    }
 	}
+	
+	
+	
+	public List<InbodyStatusVO> getMonthlyInBodyData(Long user_num) throws Exception {
+        List<InbodyStatusVO> inbodyStatusList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql = null;
 
+        try {
+            // 커넥션 할당
+            conn = DBUtil.getConnection();
 
+            // SQL 쿼리: 월별 평균 근육량과 체지방률 조회
+            sql = "SELECT TO_CHAR(MeasurementDate, 'YYYY-MM') AS month, "
+                   + "AVG(MuscleMass) AS avg_muscle_mass, "
+                   + "AVG(BodyFatPercentage) AS avg_body_fat_percentage "
+                   + "FROM InBody "
+                   + "WHERE user_num = ? "  // 로그인된 유저에 대해서만 조회
+                   + "GROUP BY TO_CHAR(MeasurementDate, 'YYYY-MM') "
+                   + "ORDER BY month";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, user_num);  // user_num을 바인딩
+            rs = pstmt.executeQuery();
+
+            // 결과 처리
+            while (rs.next()) {
+                InbodyStatusVO inBodyStatus = new InbodyStatusVO();
+                inBodyStatus.setMonth(rs.getString("month"));
+                inBodyStatus.setAvgMuscleMass(rs.getDouble("avg_muscle_mass"));
+                inBodyStatus.setAvgBodyFatPercentage(rs.getDouble("avg_body_fat_percentage"));
+                
+                // 리스트에 추가
+                inbodyStatusList.add(inBodyStatus);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        } finally {
+            // 자원 해제
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+
+        return inbodyStatusList;
+    }
+	
+	public List<InbodyStatusVO> getMonthlyInBodyData() throws Exception {
+		
+	    List<InbodyStatusVO> inbodyStatusList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = null;
+
+	    try {
+	        // 커넥션 할당
+	        conn = DBUtil.getConnection();
+
+	        // SQL 쿼리: 월별 평균 근육량과 체지방률 조회
+	        sql = "SELECT TO_CHAR(MeasurementDate, 'YYYY-MM') AS month, "
+	                   + "AVG(MuscleMass) AS avg_muscle_mass, "
+	                   + "AVG(BodyFatPercentage) AS avg_body_fat_percentage "
+	                   + "FROM InBody "
+	                   + "GROUP BY TO_CHAR(MeasurementDate, 'YYYY-MM') "
+	                   + "ORDER BY month";
+
+	        pstmt = conn.prepareStatement(sql);
+	        rs = pstmt.executeQuery();
+
+	        // 결과 처리
+	        while (rs.next()) {
+	            InbodyStatusVO inBodyStatus = new InbodyStatusVO();
+	            inBodyStatus.setMonth(rs.getString("month"));
+	            inBodyStatus.setAvgMuscleMass(rs.getDouble("avg_muscle_mass"));
+	            inBodyStatus.setAvgBodyFatPercentage(rs.getDouble("avg_body_fat_percentage"));
+	            
+	            // 리스트에 추가
+	            inbodyStatusList.add(inBodyStatus);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new Exception(e);
+	    } finally {
+	        // 자원 해제
+	        DBUtil.executeClose(rs, pstmt, conn);
+	    }
+
+	    return inbodyStatusList;
+	}
+	
+	
+	
 	
 }

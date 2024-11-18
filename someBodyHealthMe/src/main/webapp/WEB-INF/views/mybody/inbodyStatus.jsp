@@ -1,75 +1,59 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>건강지킴이</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인바디 상태</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="page-main">
-        <!-- Header 영역 (기존 include) -->
-        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-        
-        <!-- Aside 영역 (기존 include) -->
-        <jsp:include page="/WEB-INF/views/common/aside_mybody.jsp"/>
+    <h2>월별 인바디 그래프</h2>
 
-        <!-- Main Content 영역 추가 -->
-        <div class="main-content">
-            <!-- 사용자 정보 섹션 (키, 체중, BMI 등) -->
-            <section class="user-info">
-            
-                <div class="title">
-                    <h2>사용자 건강 정보</h2>
-                    
-                    <!-- 조건에 따라 수정 또는 등록 버튼 표시 -->
-                    <c:if test="${not empty mybodystatus}">
-                        <!-- mybodystatus가 존재하면 수정 버튼 보이기 -->
-                        <div id='modify-button' class='button'>
-                            <a href="${pageContext.request.contextPath}/mybody/myStatusModifyForm.do">수정</a>
-                        </div>
-                    </c:if>
-                    
-                    <c:if test="${empty mybodystatus}">
-                        <!-- mybodystatus가 비어 있으면 등록 버튼 보이기 -->
-                        <div id='insert-button' class='button'>
-                            <a href="${pageContext.request.contextPath}/mybody/myStatusInsertForm.do">등록</a>
-                        </div>
-                    </c:if>
-                </div>
-                
-                <div class="info-box">
-                    <div class="info-item">
-                        <span class="label">키:</span>
-                        <span class="value">${mybodystatus.height}</span> <!-- 예시값 -->
-                    </div>
-                    <div class="info-item">
-                        <span class="label">체중:</span>
-                        <span class="value">${mybodystatus.weight}</span> <!-- 예시값 -->
-                    </div>
-                    
-                    <div class="info-item">
-                        <span class="label">나이:</span>
-                        <span class="value">${mybodystatus.age}</span> <!-- 예시값 -->
-                    </div>
-                    
-                    <div class="info-item">
-                        <span class="label">BMI 지수:</span>
-                        <span class="value">${mybodystatus.bmi}</span> <!-- 예시값 -->
-                    </div>
-                    <div class="info-item">
-                        <span class="label">운동 목표:</span>
-                        <span class="value">${mybodystatus.goal}</span> <!-- 예시값 -->
-                    </div>
-                    <div class="info-item">
-                        <span class="label">성별:</span>
-                        <span class="value">${mybodystatus.gender}</span> <!-- 예시값 -->
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
+    <!-- Canvas for Chart.js -->
+    <canvas id="inbodyChart" width="400" height="200"></canvas>
+
+    <script>
+        // 데이터를 JSP에서 받아오기 (EL 표현식)
+        var months = [];
+        var avgMuscleMass = [];
+        var avgBodyFatPercentage = [];
+        
+        // EL로 전달된 데이터를 자바스크립트 배열로 변환
+        <c:forEach var="data" items="${inbodyData}">
+            months.push('${data.month}');
+            avgMuscleMass.push(${data.avgMuscleMass});
+            avgBodyFatPercentage.push(${data.avgBodyFatPercentage});
+        </c:forEach>
+
+        // Chart.js로 그래프 그리기
+        var ctx = document.getElementById('inbodyChart').getContext('2d');
+        var inbodyChart = new Chart(ctx, {
+            type: 'line',  // 라인 차트
+            data: {
+                labels: months,  // x축: 월
+                datasets: [{
+                    label: '평균 근육량',
+                    data: avgMuscleMass,  // y축: 평균 근육량
+                    borderColor: 'rgba(75, 192, 192, 1)',  // 라인 색
+                    fill: false  // 채우지 않음
+                }, {
+                    label: '평균 체지방률',
+                    data: avgBodyFatPercentage,  // y축: 평균 체지방률
+                    borderColor: 'rgba(255, 99, 132, 1)',  // 라인 색
+                    fill: false  // 채우지 않음
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

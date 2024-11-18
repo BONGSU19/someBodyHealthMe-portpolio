@@ -14,8 +14,20 @@ CREATE TABLE Healthinfo (
 );
 
 -- 시퀀스 생성 (HealthInfoID 자동 증가)
-CREATE SEQUENCE Healthinfo_seq
-    START WITH 1
-    INCREMENT BY 1
-    NOCACHE
-    NOCYCLE;
+
+
+    
+CREATE TABLE InBody (
+  InBodyID         NUMBER NOT NULL,               -- 인바디 기록 고유 코드
+  MeasurementDate   DATE NOT NULL,                 -- 측정 날짜 (날짜와 시간을 저장)
+  MuscleMass        NUMBER NOT NULL,               -- 근육량
+  BodyFatPercentage NUMBER NOT NULL,               -- 체지방률
+  CreatedAt         DATE NOT NULL,                 -- 데이터 생성 시간
+  modify_date       DATE NOT NULL,                 -- 수정일
+  user_num          NUMBER NOT NULL,               -- 각 사용자를 구별하는 고유 ID
+  CONSTRAINT InBody_PK PRIMARY KEY (InBodyID)     -- 기본 키 제약 조건 추가
+);
+
+CREATE SEQUENCE InBodyID_seq;
+
+

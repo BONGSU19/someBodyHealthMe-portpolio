@@ -1,0 +1,61 @@
+package kr.appl.action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.appl.dao.ApplDAO;
+import kr.appl.vo.ApplVO;
+import kr.controller.Action;
+import kr.util.FileUtil;
+
+public class WriteAction implements Action{
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		Long user_num = (Long)session.getAttribute("user_num");
+		
+		if(user_num == null) {
+			return "redirect:/member/loginForm.do";
+		}
+		//전송된 데이터 인코딩 처리
+		request.setCharacterEncoding("utf-8");
+		
+		//vo 생성 및 전송된 데이터 담기
+		ApplVO appl =  new ApplVO();
+		appl.setAppl_attachment(request.getParameter("appl_attachment"));//첨부파일 처리해줘야함
+		appl.setCareer(Integer.parseInt(request.getParameter("career")));
+		appl.setContent(request.getParameter("content"));
+		appl.setField(Integer.parseInt(request.getParameter("field")));
+		appl.setSource(request.getParameter("source"));
+		appl.setAppl_center(Integer.parseInt(request.getParameter("appl_center")));
+		appl.setUser_num(user_num);
+		
+		
+		ApplDAO dao = ApplDAO.getInstance();
+		//지원 신청
+		dao.insertAppl(appl);	
+		
+		request.setAttribute("notice_msg", "지원 신청 완료");
+		request.setAttribute("notice_url", 
+				   request.getContextPath()+"/appl/writeForm.do");
+		
+		
+		return "/common/alert_view.jsp";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

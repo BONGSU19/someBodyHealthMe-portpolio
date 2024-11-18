@@ -13,3 +13,21 @@ create table board(
 );
 
 create sequence board_seq;
+
+create table application(
+	appl_num number not null,
+	field number(1) not null,
+	appl_status number(1) default 1 not null, 
+	appl_attachment varchar2(400),
+	appl_regdate date default sysdate not null,
+	appl_modifydate date,
+	career number(1) not null,
+	content varchar2(1500) not null,
+	source varchar2(150),
+	appl_center number(3) not null,
+	user_num number not null,
+	constraint application_pk primary key (appl_num),
+	constraint application_fk foreign key (user_num) references suser (user_num)
+);
+
+create sequence appl_seq;

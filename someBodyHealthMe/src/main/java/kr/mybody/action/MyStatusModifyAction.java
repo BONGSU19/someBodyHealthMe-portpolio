@@ -37,7 +37,7 @@ public class MyStatusModifyAction implements Action {
 
         // MyBodyDAO 객체를 통해 데이터베이스에 데이터 삽입
         MyBodyDAO dao = MyBodyDAO.getInstance();
-        dao.insertMyBodyStatus(myBodyStatus);
+        dao.updateMyBodyStatus(myBodyStatus);
 
         // 완료 메시지 설정
         request.setAttribute("notice_msg", "수정 완료!");

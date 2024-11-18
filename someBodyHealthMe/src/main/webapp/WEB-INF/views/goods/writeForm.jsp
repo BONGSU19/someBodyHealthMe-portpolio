@@ -4,39 +4,76 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 가입</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
-	<script type="text/javascript">
-		$(function(){
-			//상품 등록 유효성 체크
-			$('#write_form').submit(function(){
-				const radio = document.querySelectorAll('input[type=radio]:checked');
-				if(radio.length<1){
-					alert('상품표시여부를 지정하세요!');
+<title>상품 등록</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
+<style type="text/css">
+	 body {
+            
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 60%;
+            height: 100%;
+            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */ 
+            overflow-y: auto; /* 세로 스크롤 추가 */
+            text-align: center;
+ 			margin-top:43px;
+ 			margin-left:43px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #ddd; /* 외부 테두리 */
+    		float:left;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            table-layout: fixed;  /* 고정된 테이블 레이아웃 */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #D9D9D9;
+            color: black;
+        }
+</style>
+<script type="text/javascript">
+	$(function(){
+		//상품 등록 유효성 체크
+		$('#write_form').submit(function(){
+			const radio = document.querySelectorAll(
+					'input[type=radio]:checked');
+			if(radio.length<1){
+				alert('상품표시여부를 지정하세요!');
+				return false;
+			}
+			
+			const items = document.querySelectorAll('.input-check');
+			for(let i=0;i<items.length;i++){
+				if(items[i].value.trim()==''){
+					const label = document.querySelector(
+							       'label[for="'+items[i].id+'"]');
+					alert(label.textContent + ' 필수 입력');
+					items[i].value='';
+					items[i].focus();
 					return false;
 				}
-				
-				
-				const items = document.querySelectorAll('.input-check');
-				for(let i=0; i<items.length;i++){
-					if(items[i].value.trim()==''){
-						const label = document.querySelector('label[for="'+items[i].id+'"]');
-						alert(label.textContent + ' 필수입력');
-						items[i].value='';
-						$(items[i]).focus();
-						return false;
-					}
-				}//end of for
-			});
+			}//end of for
 		});
-	
-	</script>
+	});
+</script>
 </head>
 <body>
-	<div class="page-main">
-		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
 		<div class="content-main">
 			<h2>상품 등록</h2>
 			<form id="write_form" action="write.do" enctype="multipart/form-data" method="post">

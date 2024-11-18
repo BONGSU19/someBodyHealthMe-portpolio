@@ -9,8 +9,6 @@ import javax.servlet.http.HttpSession;
 import kr.goods.dao.GoodsDAO;
 import kr.goods.vo.GoodsVO;
 import kr.util.PagingUtil;
-import kr.board.dao.BoardDAO;
-import kr.board.vo.BoardVO;
 import kr.controller.Action;
 
 public class ListAction implements Action{
@@ -22,6 +20,7 @@ public class ListAction implements Action{
 		if(user_num == null) {//로그인 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
+		
 		
 		String pageNum =request.getParameter("pageNum");
 		if(pageNum == null) pageNum ="1";

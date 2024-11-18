@@ -18,6 +18,10 @@ public class WriteAction implements Action{
 		if(user_num == null) {//로그인이 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
+		Integer status = (Integer)session.getAttribute("status");
+		if(status != 4) {//관리자로 로그인하지 않은 경우
+			return "common/notice.jsp";
+		}
 
 		//로그인된 경우
 		//전송된 데이터 인코딩 처리

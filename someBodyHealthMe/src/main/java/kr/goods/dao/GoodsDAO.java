@@ -21,7 +21,7 @@ public class GoodsDAO {
 	}
 	private GoodsDAO() {}
 
-	//글 등록 (상품등록)
+	//관리자 상품등록
 	public void insertGoods(GoodsVO goods)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -134,7 +134,7 @@ public class GoodsDAO {
 
 		return list;
 	}
-	//상품 상세
+	//관리자 / 사용자 - 상품 상세
 	public GoodsVO getGoods(long goods_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -158,6 +158,7 @@ public class GoodsDAO {
 				goods.setGoods_img1(rs.getString("goods_img1"));
 				goods.setGoods_img2(rs.getString("goods_img2"));
 				goods.setGoods_status(rs.getInt("goods_status"));
+				goods.setGoods_quantity(rs.getInt("goods_quantity"));
 			}
 		}catch (Exception e) {
 			throw new Exception(e);
@@ -167,7 +168,7 @@ public class GoodsDAO {
 
 		return goods;
 	}
-	//이미지삭제
+	//관리자 - 이미지삭제
 	public void deleteImg(long goods_num)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -182,7 +183,7 @@ public class GoodsDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
-	//상품 수정
+	//관리자 - 상품 수정
 	public void updateGoods(GoodsVO goods)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -218,7 +219,7 @@ public class GoodsDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
-	//글 삭제
+	//관리자 - 상품 삭제
 	public void deleteGoods(long goods_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -284,7 +285,7 @@ public class GoodsDAO {
 
 	//회원번호와 게시물 번호를 이용한 좋아요 정보
 	//(회원이 게시물을 호출했을 때 좋아요 선택 여부 표시) 내가 선택한 좋아요 목록!
-	public GoodsLikeVO selectFav(GoodsLikeVO likeVO) throws Exception{
+	public GoodsLikeVO selectLike(GoodsLikeVO likeVO) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -313,7 +314,7 @@ public class GoodsDAO {
 	}
 
 	//좋아요 등록
-	public void insertFav(GoodsLikeVO likeVO) throws Exception{
+	public void insertLike(GoodsLikeVO likeVO) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = null;

@@ -6,6 +6,7 @@ public class CartVO {
 	private long user_num;
 	private int cart_quantity;
 	private int cart_check;
+	private int sub_total;
 	
 	public long getCart_num() {
 		return cart_num;
@@ -36,5 +37,11 @@ public class CartVO {
 	}
 	public void setCart_check(int cart_check) {
 		this.cart_check = cart_check;
+	}
+	public int getSub_total() {
+		return sub_total;
+	}
+	public void setSub_total(int sub_total) {
+		this.sub_total = sub_total;
 	}
 }

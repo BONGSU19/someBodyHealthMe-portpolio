@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,8 +33,14 @@
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">지원 신청</a>
-                  <a href="#">지원 결과확인</a>
+                  <a href="${pageContext.request.contextPath}/appl/writeForm.do">지원 신청</a>
+                  <c:if test="${!empty user_num && status < 3}">
+                  <a href="${pageContext.request.contextPath}/appl/list.do?user_num=${user_num}">지원 결과확인</a>
+                  </c:if>
+                  <c:if test="${!empty user_num && status >=3}">
+                  <a href="#">지원 목록 보기</a>
+                  </c:if>
+                  
    
                 </div>
               </div>

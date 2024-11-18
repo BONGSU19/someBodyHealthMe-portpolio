@@ -1,0 +1,27 @@
+package kr.goods.action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.controller.Action;
+import kr.goods.dao.GoodsDAO;
+import kr.goods.vo.GoodsVO;
+import kr.util.StringUtil;
+
+public class DetailAction implements Action{
+	
+	@Override
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 상품번호 반환
+		long goods_num = Long.parseLong(request.getParameter("goods_num"));
+		GoodsDAO dao = GoodsDAO.getInstance();
+		GoodsVO goods = dao.getGoods(goods_num);
+		
+		//상품설명 줄바꿈 처리(HTML 태그 허용)
+		goods.setGoods_info(StringUtil.useBrHtml(goods.getGoods_info()));
+		
+		request.setAttribute("goods", goods);
+		//JSP 경로 반환
+		return "goods/detail.jsp";
+	}
+}

@@ -1,103 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>글 상세</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+<title>상품 상세</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/board.fav.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/board.reply.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.item-detail.js"></script>
 </head>
 <body>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="content-main">
-		<h2>${board.title}</h2>
-		<ul class="detail-info">
-			<li>
-				<c:if test="${!empty board.photo}">
-				<img src="${pageContext.request.contextPath}/upload/${board.photo}" width="40" height="40" class="my-photo">
-				</c:if>
-				<c:if test="${empty board.photo}">
-				<img src="${pageContext.request.contextPath}/images/face.png" width="40" height="40" class="my-photo">
-				</c:if>
-			</li>
-			<li>
-			${board.id}<br>
-			조회 : ${board.hit}
-			</li>
-		</ul>
-		<hr size="1" noshade="noshade" width="100%">
-		<c:if test="${!empty board.filename}">
-			<div class="align-center">
-				<img src="${pageContext.request.contextPath}/upload/${board.filename}" class="detail-img">
+		<c:if test="${goods.goods_status == 1}">
+			<div class="result-diplay" >
+				<div class="align-center">
+					본 상품은 판매 중지되었습니다.
+					<p>
+					<input type="button" value="판매상품 보기" onclick="location.href='List.do'">
+				</div>
 			</div>
 		</c:if>
-		<p>
-			${board.content}
-		</p>
-		<hr size="1" noshade="noshade" width="100%">
-		<ul class="detail-sub">
-			<li>
-				<%--좋아요--%>
-				<img id="output_fav" data-num="${board.board_num}" src="${pageContext.request.contextPath}/images/fav01.gif" width="50">
-				좋아요
-				<span id="output_fcount"></span>
-			</li>
-			<li>
-				<c:if test="${!empty board.modify_date}">
-				최근 수정일 : ${board.modify_date}
-				</c:if>
-				작성일 : ${board.reg_date}
-				<!-- 로그인한 회원번호와 작성자 회원번호가 일치해야 수정, 삭제 가능 -->
-				<c:if test="${user_num == board.mem_num}">
-				<input type="button" value="수정" onclick="location.href='updateForm.do?board_num=${board.board_num}'">
-				<input type="button" value="삭제" id="delete_btn">
-				<script type="text/javascript">
-					const delete_btn = document.getElementById('delete_btn');
-					//이벤트 연결
-					delete_btn.onclick=function(){
-						let choice = confirm('삭제하시겠습니까?');
-						if(choice){
-							location.replace('delete.do?board_num=${board.board_num}');
-						}
-					}
-					
-				</script>
-				</c:if>
-			</li>
-		</ul>
-		<!-- 댓글시작 -->
-		<div id="reply_div">
-			<span class="re-title">댓글 달기</span>
-			<form id="re_form">
-				<input type="hidden" name="board_num" value="${board.board_num}" id="board_num">
-				<textarea rows="3" cols="50" name="re_content" id="re_content" class="rep-content"
-				<c:if test="${empty user_num}">disabled="disabled"</c:if>
-				><c:if test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
-				<c:if test="${!empty user_num}">
-				<div id="re_first">
-					<span class="letter-count">300/300</span>
-				</div>
-				<div id="re_second" class="align-right">
-					<input type="submit" value="전송">
-				</div>
-				</c:if>
-			</form>
-		</div>
-		<!-- 댓글 목록 출력 시작 -->
-		<div id="output"></div>
-		<div class="paging-button" style="display:none;">
-			<input type="button" value="다음글 보기">
-		</div>
-		<div id="loading" style="display: none;">
-			<img src="${pageContext.request.contextPath}/images/loading.gif" width="50" height="50">
-		</div>		
-		<!-- 댓글 목록 출력 끝 -->
-		<!-- 댓글끝 -->
+		<c:if test="${goods.goods_status == 2}">
+			<h3 class="align-center">${goods.goods_name}</h3>
+			<div class="item-image">
+				<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="400">
+			</div>
+			<div class="item-detail">
+				<form id="goods_cart">
+					<input type="hidden" name="goods_num" value="${goods.goods_num}" id="goods_num">
+					<input type="hidden" name="goods_price" value="${goods.goods_price}" id="goods_price">
+					<input type="hidden" name="goods_quantity" value="${goods.goods_quantity}" id="goods_quantity">
+					<ul>
+						<li>
+							가격 : <b><fmt:formatNumber value="${goods.goods_price}"/></b>
+						</li>
+						<li>
+							재고 : <span><fmt:formatNumber value="${goods.goods_quantity}"/></span>
+						</li>
+						<c:if test="${goods.goods_quantity > 0}">
+						<li>
+							<label for="cart_quantity">구매수량</label>
+							<input type="number" name="cart_quantity" min="1" max="${goods.goods_quantity}"
+								   autocomplete="off" id="cart_quantity" class="quantity-width">
+						</li>
+						<li>
+							<span id="item_total_txt">총주문 금액 : 0원</span>
+						</li>
+						<li>
+							<input type="submit" value="장바구니에 담기">
+						</li>
+						</c:if>
+						<c:if test="${goods.goods_quantity == 0}">
+						<li class="align-center">
+							<span class="sold-out">품절</span>
+						</li>
+						</c:if>
+					</ul>
+				</form>
+			</div>
+			<hr size="1" noshade="noshade" width="100%">
+			<p>
+				${goods.goods_info}
+			</p>
+		</c:if>
 	</div>
 </div>
 </body>

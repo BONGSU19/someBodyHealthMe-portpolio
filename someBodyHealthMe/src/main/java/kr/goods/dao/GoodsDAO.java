@@ -422,8 +422,8 @@ public class GoodsDAO {
 				review.setRe_num(rs.getLong("re_num"));
 				review.setRe_date(DurationFromNow.getTimeDiffLabel(rs.getString("re_date")));
 
-				if(rs.getString("re_modifydate")!=null) {
-					review.setRe_mdate(rs.getString("re_modifydate"));
+				if(rs.getString("re_mdate")!=null) {
+					review.setRe_mdate(rs.getString("re_mdate"));
 				}
 
 				review.setRe_content(StringUtil.useBrNoHtml(rs.getString("re_content")));
@@ -442,7 +442,7 @@ public class GoodsDAO {
 	}
 
 	//댓글 상세 (리뷰 수정, 삭제시 작성자 회원번호 체크용도로 사용)
-	public GoodsReviewVO getGoodsRevi(long re_num) throws Exception{
+	public GoodsReviewVO getGoodsReview(long re_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

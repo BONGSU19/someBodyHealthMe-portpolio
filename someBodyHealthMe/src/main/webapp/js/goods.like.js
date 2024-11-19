@@ -7,7 +7,7 @@ $(function(){
 		$.ajax({
 			url:'getLike.do',
 			type:'post',
-			data:{board_num:$('#output_like').attr('data-num')},
+			data:{goods_num:$('#output_like').attr('data-num')},
 			dataType:'json',
 			success:function(param){
 				displayLike(param);
@@ -25,7 +25,7 @@ $(function(){
 		$.ajax({
 			url:'writeLike.do',
 			type:'post',
-			data:{board_num:$(this).attr('data-num')},
+			data:{goods_num:$(this).attr('data-num')},
 			dataType:'json',
 			success:function(param){
 				if(param.result=='logout'){

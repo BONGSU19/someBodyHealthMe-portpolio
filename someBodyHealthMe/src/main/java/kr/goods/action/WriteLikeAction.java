@@ -19,8 +19,7 @@ public class WriteLikeAction implements Action{
 		Map<String,Object> mapAjax = 
 				              new HashMap<String,Object>();
 		HttpSession session = request.getSession();
-		Long user_num = 
-				(Long)session.getAttribute("user_num");
+		Long user_num = (Long)session.getAttribute("user_num");
 		if(user_num==null) {//로그인이 되지 않은 경우
 			mapAjax.put("result", "logout");
 		}else {//로그인이 된 경우

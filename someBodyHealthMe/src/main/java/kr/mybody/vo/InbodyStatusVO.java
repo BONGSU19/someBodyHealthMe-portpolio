@@ -77,4 +77,5 @@ public class InbodyStatusVO {
     public void setAvgBodyFatPercentage(double avgBodyFatPercentage) {
         this.avgBodyFatPercentage = avgBodyFatPercentage;
     }
+
 }

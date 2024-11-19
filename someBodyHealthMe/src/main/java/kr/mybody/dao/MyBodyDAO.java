@@ -1,14 +1,15 @@
 package kr.mybody.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.mybody.vo.MyBodyStatusVO;
 import kr.mybody.vo.InbodyStatusVO;
+import kr.mybody.vo.MyBodyStatusVO;
 import kr.util.DBUtil;
 
 public class MyBodyDAO{
@@ -293,8 +294,6 @@ public class MyBodyDAO{
 	//내 건강 정보 등록
 	
 	public void insertInbodyStatus(InbodyStatusVO inbodyStatus) throws Exception {
-		
-	
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
 	    String sql = null;
@@ -311,14 +310,21 @@ public class MyBodyDAO{
 	                + "VALUES (INBODY_SEQ.nextval, ?, ?, ?, ?, SYSDATE, NULL)";
 
 	        pstmt = conn.prepareStatement(sql);
+	        
 	        // 사용자 번호 (user_num)
 	        pstmt.setLong(1, inbodyStatus.getUserNum());
+	        
 	        // 측정일 (MeasurementDate) -> `Date` 타입이므로 `java.sql.Date`로 변환
-	        pstmt.setDate(2, inbodyStatus.getMeasurementDate());
+	        // 날짜만 필요하므로 시간을 제외한 날짜만 설정
+	        Date sqlDate = new Date(inbodyStatus.getMeasurementDate().getTime());
+	        pstmt.setDate(2, sqlDate);  // `getTime()`으로 밀리초 단위의 long 값 반환 후 `java.sql.Date`로 변환
+	        
 	        // 근육량 (MuscleMass)
 	        pstmt.setDouble(3, inbodyStatus.getMuscleMass());
+	        
 	        // 체지방률 (BodyFatPercentage)
 	        pstmt.setDouble(4, inbodyStatus.getBodyFatPercentage());
+	        
 	        // SQL문 실행
 	        pstmt.executeUpdate();
 
@@ -344,6 +350,7 @@ public class MyBodyDAO{
 	        DBUtil.executeClose(null, pstmt, conn);
 	    }       
 	}
+
 	
 }
 		

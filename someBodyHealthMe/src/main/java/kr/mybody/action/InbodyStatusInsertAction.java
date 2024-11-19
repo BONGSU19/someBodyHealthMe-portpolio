@@ -1,12 +1,14 @@
 package kr.mybody.action;
 
+import java.sql.Date;  // java.sql.Date import
+import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
 import kr.mybody.dao.MyBodyDAO;
-import kr.mybody.vo.MyBodyStatusVO;
+import kr.mybody.vo.InbodyStatusVO;
 
 public class InbodyStatusInsertAction implements Action {
 
@@ -18,34 +20,45 @@ public class InbodyStatusInsertAction implements Action {
         Long user_num = (Long) session.getAttribute("user_num");
 
         if (user_num == null) {
-            // 로그인되지 않은 경우, 로그인 페이지로 리다이렉트
             return "redirect:/member/loginForm.do";
         }
 
         // 로그인된 경우
-        // 전송된 데이터 인코딩 처리
         request.setCharacterEncoding("utf-8");
 
         // 자바빈(VO) 생성
-        MyBodyStatusVO myBodyStatus = new MyBodyStatusVO();
-        myBodyStatus.setUserNum(user_num);  // 세션에서 가져온 user_num을 VO에 설정
-        myBodyStatus.setHeight(Integer.parseInt(request.getParameter("height")));
-        myBodyStatus.setWeight(Integer.parseInt(request.getParameter("weight")));
-        myBodyStatus.setAge(Integer.parseInt(request.getParameter("age")));
-        myBodyStatus.setGoal(request.getParameter("goal"));  // height -> goal 수정
-        myBodyStatus.setGender(request.getParameter("gender"));
+        InbodyStatusVO inbodyStatus = new InbodyStatusVO();
+        inbodyStatus.setUserNum(user_num);  // 세션에서 가져온 user_num을 VO에 설정
+
+        // 측정 날짜 받기
+        String measurementDateStr = request.getParameter("measurementDate");
+        
+        // 날짜 형식 처리 (java.sql.Date를 직접 생성)
+        if (measurementDateStr != null && !measurementDateStr.isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date measurementDate = new Date(sdf.parse(measurementDateStr).getTime());  // String을 java.sql.Date로 변환
+            inbodyStatus.setMeasurementDate(measurementDate);  // VO에 설정
+        }
+
+        // 근육량, 체지방률 등을 VO에 설정
+        String muscleMassStr = request.getParameter("muscleMass");
+        String bodyFatPercentageStr = request.getParameter("bodyFatPercentage");
+        
+        if (muscleMassStr != null && !muscleMassStr.isEmpty()) {
+            inbodyStatus.setMuscleMass(Double.parseDouble(muscleMassStr));
+        }
+        if (bodyFatPercentageStr != null && !bodyFatPercentageStr.isEmpty()) {
+            inbodyStatus.setBodyFatPercentage(Double.parseDouble(bodyFatPercentageStr));
+        }
 
         // MyBodyDAO 객체를 통해 데이터베이스에 데이터 삽입
         MyBodyDAO dao = MyBodyDAO.getInstance();
-        dao.insertMyBodyStatus(myBodyStatus);
+        dao.insertInbodyStatus(inbodyStatus);
 
         // 완료 메시지 설정
         request.setAttribute("notice_msg", "등록 완료!");
         request.setAttribute("notice_url", request.getContextPath() + "/mybody/myStatus.do");
 
-        // 포워딩할 JSP 페이지 반환 (null로 두면 기본적으로 리다이렉트 처리)
         return "common/alert_view.jsp";
     }
-
-
 }

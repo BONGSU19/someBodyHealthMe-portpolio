@@ -27,18 +27,18 @@
                 </div>
 
                 <!-- 사용자 정보 입력 폼 -->
-                <form action="${pageContext.request.contextPath}/mybody/myStatusInsert.do" method="post">
+                <form action="${pageContext.request.contextPath}/mybody/inbodyStatusInsert.do" method="post">
                     <div class="info-box">
                         <div class="info-item">
-						    <label for="height" class="label">키:</label>
-						    <input type="text" id="height" name="height" 
-						           placeholder="예: 170" 
-						           value="${not empty healthInfo.height ? healthInfo.height : ''}" 
-						           pattern="\d*" maxlength="5" required>
+						    <label for="height" class="label">인바디 측정 날짜</label>
+						    <input type="date" id="measurementDate" name="measurementDate" 
+						       placeholder="날짜를 선택하세요" 
+						       value="${not empty inbodyData.measurementDate ? inbodyData.measurementDate : ''}" 
+						       required>
 							</div>
 						
 							<div class="info-item">
-							    <label for="weight" class="label">체중:</label>
+							    <label for="weight" class="label">근육량(kg)</label>
 							    <input type="text" id="weight" name="weight" 
 							           placeholder="예: 70" 
 							           value="${not empty healthInfo.weight ? healthInfo.weight : ''}" 

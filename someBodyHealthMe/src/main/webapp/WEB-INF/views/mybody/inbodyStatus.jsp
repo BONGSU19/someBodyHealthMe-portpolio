@@ -6,22 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인바디 상태</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* 차트를 담을 div를 가운데 정렬 */
-        #chartContainer {
-            width: 90%;               /* 가로 크기 90%로 설정 */
-            max-width: 1000px;        /* 최대 너비 1000px로 설정 */
-            height: 400px;            /* 고정 높이 설정 (세로 크기) */
-            margin: 50px auto;        /* 가로 가운데 정렬 */
-        }
-
-        /* Canvas는 부모 div 크기에 맞게 100% */
-        #inbodyChart {
-            width: 100%;              /* 부모 div에 맞게 가로 크기 */
-            height: 100%;             /* 부모 div에 맞게 세로 크기 */
-        }
-    </style>
 </head>
 <body>
     <h2 style="text-align: center;">월별 인바디 그래프</h2>
@@ -72,5 +58,25 @@
             }
         });
     </script>
+    
+    <div class="button-box">
+	    <c:if test="${not empty inbodyData}">
+		    <!-- mybodystatus가 존재하면 수정 버튼 보이기 -->
+			    <div id='modify-button' class='button'>
+			   	<a href="${pageContext.request.contextPath}/mybody/inbodyStatusInsertForm.do">수정</a>
+		    </div>
+	    </c:if>
+	    
+		    <!-- mybodystatus가 존재하면 수정 버튼 보이기 -->
+			    <div id='insert-button' class='button'>
+			   	<a href="${pageContext.request.contextPath}/mybody/inbodyStatusModifyForm.do">등록</a>
+		    </div>
+	    
+    </div>
+    
+    
+    
+    
+    
 </body>
 </html>

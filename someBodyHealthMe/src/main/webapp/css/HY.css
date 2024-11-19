@@ -588,3 +588,27 @@ input[type="submit"]:active {
     color: #f44336;
 }
 
+.button-box {
+    display: flex;            /* 버튼들을 가로로 배치 */
+    justify-content: center;  /* 버튼들 사이에 일정 간격 주기 */
+    align-items: center;      /* 버튼들을 세로로 가운데 정렬 */
+    gap: 20px;                /* 버튼들 사이에 간격을 줌 */
+    background-color: #fff;   /* 배경색 설정 */
+    padding: 20px;            /* 내부 여백 */
+    border-radius: 10px;      /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+/* 차트를 담을 div를 가운데 정렬 */
+#chartContainer {
+    width: 90%;               /* 가로 크기 90%로 설정 */
+    max-width: 1000px;        /* 최대 너비 1000px로 설정 */
+    height: 400px;            /* 고정 높이 설정 (세로 크기) */
+    margin: 50px auto;        /* 가로 가운데 정렬 */
+}
+
+/* Canvas는 부모 div 크기에 맞게 100% */
+#inbodyChart {
+    width: 100%;              /* 부모 div에 맞게 가로 크기 */
+    height: 100%;             /* 부모 div에 맞게 세로 크기 */
+}

@@ -7,19 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인바디 상태</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* 차트를 담을 div를 가운데 정렬 */
+        #chartContainer {
+            width: 90%;               /* 가로 크기 90%로 설정 */
+            max-width: 1000px;        /* 최대 너비 1000px로 설정 */
+            height: 400px;            /* 고정 높이 설정 (세로 크기) */
+            margin: 50px auto;        /* 가로 가운데 정렬 */
+        }
+
+        /* Canvas는 부모 div 크기에 맞게 100% */
+        #inbodyChart {
+            width: 100%;              /* 부모 div에 맞게 가로 크기 */
+            height: 100%;             /* 부모 div에 맞게 세로 크기 */
+        }
+    </style>
 </head>
 <body>
-    <h2>월별 인바디 그래프</h2>
+    <h2 style="text-align: center;">월별 인바디 그래프</h2>
 
-    <!-- Canvas for Chart.js -->
-    <canvas id="inbodyChart" width="400" height="200"></canvas>
+    <div id="chartContainer">
+        <canvas id="inbodyChart"></canvas>
+    </div>
 
     <script>
         // 데이터를 JSP에서 받아오기 (EL 표현식)
         var months = [];
         var avgMuscleMass = [];
         var avgBodyFatPercentage = [];
-        
+
         // EL로 전달된 데이터를 자바스크립트 배열로 변환
         <c:forEach var="data" items="${inbodyData}">
             months.push('${data.month}');
@@ -46,10 +62,11 @@
                 }]
             },
             options: {
-                responsive: true,
+                responsive: true,  // 반응형 설정
+                maintainAspectRatio: false,  // 비율을 자동으로 맞추도록 설정
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true  // y축 0부터 시작
                     }
                 }
             }

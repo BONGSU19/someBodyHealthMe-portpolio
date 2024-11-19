@@ -110,7 +110,7 @@
                     <label for="trainer">미확인</label>
                     <input type="radio" id="field" name="appl_status" value="1" required>
                     <label for="office">확인</label>
-                    <input type="radio" id="all" name="appl_status" value="9" required checked>
+                    <input type="radio" id="field" name="appl_status" value="9" required>
                     <label for="all">전체</label>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                     <label for="trainer">트레이너</label>
                     <input type="radio" id="field" name="field" value="3" required>
                     <label for="office">사무직원</label>
-                    <input type="radio" id="all" name="all" value="9" required checked>
+                    <input type="radio" id="all" name="field" value="9" required>
                     <label for="all">전체</label>
                 </div>
             </div>
@@ -138,7 +138,7 @@
                     <label for="experienced">경력</label>
                     <input type="radio" id="career" name="career" value="2" required>
                     <label for="newbie">신입</label>
-                    <input type="radio" id="career" name="career" value="9" required checked>
+                    <input type="radio" id="career" name="career" value="9" required>
                     <label for="all">전체</label>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                 <select id="appl_center" name="appl_center" required>
                     <option value="1">강남점</option>
                     <option value="2">강북점</option>
-                    <option value="0" selected>전지점</option>
+                    <option value="9">전지점</option>
                 </select>
             </div>
             <br>
@@ -187,6 +187,8 @@
             <c:if test="${empty list}">
             	<div>표시할 게시물이 없습니다.</div>   		
             </c:if> 
+            ${page}
+            
         </div>
     </div>
 </body>

@@ -9,6 +9,7 @@ public class FriendVO {
     private Date created_At;
     private long user_Num;        
     private String status;
+    private String status2;
 	public long getFriend_Num() {
 		return friend_Num;
 	}
@@ -33,7 +34,12 @@ public class FriendVO {
 	public void setStatus(String status) {
 		this.status = status;
 	}   
-
+	public String getStatus2() {
+		return status2;
+	}
+	public void setStatus2(String status2) {
+		this.status2 = status2;
+	}   
 
 
 	    private String nick_name;      // 사용자의 별명

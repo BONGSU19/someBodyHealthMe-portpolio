@@ -5,8 +5,8 @@
     receiver_num number not null,-- 유저 번호 (Foreign Key)
     status VARCHAR2(10) NOT NULL,                 -- 친구 수락 상태 표시 ('요청1', '수락2', '거절3')
     CONSTRAINT friend_pk PRIMARY KEY (friend_num),  -- 친구번호를 기본키로 설정
-    CONSTRAINT friend_user_fk FOREIGN KEY (user_num) REFERENCES SUSER(user_num),
-    CONSTRAINT friend_user_fk FOREIGN KEY (receiver_num) REFERENCES SUSER(user_num)-- 유저 번호에 대한 외래키 설정
+    CONSTRAINT friend_user_fk FOREIGN KEY (user_num) REFERENCES SUSER_detail(user_num),
+    CONSTRAINT friend_user_fk FOREIGN KEY (receiver_num) REFERENCES SUSER_detail(user_num)-- 유저 번호에 대한 외래키 설정
 );
 
 

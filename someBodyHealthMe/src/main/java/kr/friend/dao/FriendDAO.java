@@ -55,7 +55,7 @@ public class FriendDAO {
 
 
 
-	// 친구 요청 추가 (보내는 사람과 받는 사람)
+	// 친구 요청 추가 (보내는 사람과 받는 사람) 요청 보내기
 	public String sendFriendRequest(Long user_num, Long receiver) throws Exception {
 		String isRequestSent = "";
 		ResultSet rs=null;
@@ -98,6 +98,36 @@ public class FriendDAO {
 	}
 
 
+	public String sendFriendRequest2(Long user_num, Long receiver) throws Exception {
+		String isRequestSent = "";
+		ResultSet rs=null;
+		conn=  DBUtil.getConnection();
+		
+		String sql2= "delete from friend  where user_num=? and receiver_num=? ";
+				
+		PreparedStatement pstmt2=null;
+		try {
+
+
+			pstmt2= conn.prepareStatement(sql2);
+			pstmt2.setLong(1, user_num);
+			pstmt2.setLong(2, receiver);
+
+			pstmt2.executeQuery();
+	
+			isRequestSent ="success";
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return isRequestSent;
+	}
 
 
 	// 친구 추가 메서드
@@ -159,11 +189,11 @@ public class FriendDAO {
 			//커넥션풀로부터 커넥션을 할당
 			conn = DBUtil.getConnection();
 
-			if(keyword != null && !"".equals(keyword)) {
-				//검색 처리
-				if(keyfield.equals("1")) sub_sql += "WHERE login_id LIKE '%' || ? || '%'";
-				else if(keyfield.equals("2")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
-				else if(keyfield.equals("3")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+			if (keyword != null && !"".equals(keyword)) {
+			    //검색 처리
+			    if (keyfield.equals("1")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+			    else if (keyfield.equals("2")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+			 
 			}
 
 			//SQL문 작성
@@ -190,7 +220,7 @@ public class FriendDAO {
 
 
 	public  List<FriendVO> getMember(int start,
-		    int end,String keyfield,String keyword)throws Exception{
+		    int end,String keyfield,String keyword,Long user_num)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -206,27 +236,47 @@ public class FriendDAO {
 
 
 
-			if(keyword != null && !"".equals(keyword)) {
-				//검색 처리
-				if(keyfield.equals("1")) sub_sql += "WHERE login_id LIKE '%' || ? || '%'";
-				else if(keyfield.equals("2")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
-				else if(keyfield.equals("3")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
-			}	
+			if (keyword != null && !"".equals(keyword)) {
+			    //검색 처리
+			    if (keyfield.equals("1")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+			    else if (keyfield.equals("2")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+			 
+			}
 
-			//SQL문 작성
-			sql = "SELECT * FROM (SELECT a.*, rownum rnum "
-					+ "FROM (SELECT * FROM suser LEFT OUTER JOIN "
-					+ "suser_detail USING(user_num) " + sub_sql
-					+ " ORDER BY user_num DESC NULLS LAST)a) "
-					+ "WHERE rnum >= ? AND rnum <=?";
+			// Add the user number condition
 			
-			//PreparedStatement 객체 생성
+
+			// SQL 문 작성
+			sql = """
+					SELECT user_num, nick_name, center_num, status, rnum,name
+					FROM (
+					    SELECT a.user_num, a.nick_name,a.name, a.center_num, a.status, rownum AS rnum  -- rownum을 별칭으로 지정
+					    FROM (
+					        SELECT s.user_num AS user_num,
+					               s.nick_name AS nick_name,
+					               s.center_num AS center_num,
+					               s.name,
+					               NVL(f.status, 'None') AS status
+					        FROM suser_detail s
+					        LEFT JOIN friend f 
+					            ON (s.user_num = f.receiver_num AND f.user_num = ?)  -- 로그인한 사용자가 친구 요청을 보낸 경우
+					       -- 로그인한 사용자가 친구 요청을 받은 경우
+					        """ + sub_sql + """ 
+					        ORDER BY s.user_num DESC NULLS LAST
+					    ) a
+					)
+					WHERE rnum >= ? AND rnum <= ?
+""";
+		
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(++cnt, user_num);
 			if(keyword != null && !"".equals(keyword)) {
 				pstmt.setString(++cnt, keyword);
 			}
+			
 			pstmt.setInt(++cnt, start);
 			pstmt.setInt(++cnt, end);
+			
 
 
 			//PreparedStatement 객체 생성
@@ -238,16 +288,11 @@ public class FriendDAO {
 			while(rs.next()) {
 				FriendVO friend = new FriendVO();
 				friend = new FriendVO();
-				friend.setUser_Num(rs.getInt("user_Num"));
+				friend.setUser_Num(rs.getLong("user_Num"));
 				friend.setNick_Name(rs.getString("nick_name"));
 				friend.setName(rs.getString("name"));
-				friend.setEmail(rs.getString("email"));
-				friend.setPassword(rs.getString("password"));
-				friend.setPhone(rs.getString("phone"));
-				friend.setRegistration_Date(rs.getDate("registration_date"));
-				friend.setBirth_Date(rs.getString("birth_date"));
-				friend.setModify_Date(rs.getDate("MODIFY_DATE"));
 				friend.setCenter_Num(rs.getInt("center_num"));
+				friend.setStatus(rs.getString("status"));
 				friends.add(friend);
 			}
 		}catch(Exception e) {
@@ -260,7 +305,7 @@ public class FriendDAO {
 
 
 	public  List<FriendVO> centerGetMember(int start,
-		    int end,String keyfield,String keyword,int center_num)throws Exception{
+		    int end,String keyfield,String keyword,int center_num ,Long user_num)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -284,14 +329,30 @@ public class FriendDAO {
 			}	
 			sub_sql += (sub_sql.contains("WHERE") ? " AND" : " WHERE") + " center_num = ?";
 			//SQL문 작성
-			sql = "SELECT * FROM (SELECT a.*, rownum rnum "
-					+ "FROM (SELECT * FROM suser LEFT OUTER JOIN "
-					+ "suser_detail USING(user_num) " + sub_sql
-					+ " ORDER BY user_num DESC NULLS LAST)a) "
-					+ "WHERE rnum >= ? AND rnum <=?";
+			sql = """
+					SELECT user_num, nick_name, center_num, status, rnum,name
+					FROM (
+					    SELECT a.user_num, a.nick_name,a.name, a.center_num, a.status, rownum AS rnum  -- rownum을 별칭으로 지정
+					    FROM (
+					        SELECT s.user_num AS user_num,
+					               s.nick_name AS nick_name,
+					               s.center_num AS center_num,
+					               s.name,
+					               NVL(f.status, 'None') AS status
+					        FROM suser_detail s
+					        LEFT JOIN friend f 
+					            ON (s.user_num = f.receiver_num AND f.user_num = ?)  -- 로그인한 사용자가 친구 요청을 보낸 경우
+					       -- 로그인한 사용자가 친구 요청을 받은 경우
+					        """ + sub_sql + """ 
+					        ORDER BY s.user_num DESC NULLS LAST
+					    ) a
+					)
+					WHERE rnum >= ? AND rnum <= ?
+""";
 			
 			//PreparedStatement 객체 생성
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(++cnt, user_num);
 			if(keyword != null && !"".equals(keyword)) {
 				pstmt.setString(++cnt, keyword);
 			}
@@ -309,16 +370,11 @@ public class FriendDAO {
 			while(rs.next()) {
 				FriendVO friend = new FriendVO();
 				friend = new FriendVO();
-				friend.setUser_Num(rs.getInt("user_Num"));
+				friend.setUser_Num(rs.getLong("user_Num"));
 				friend.setNick_Name(rs.getString("nick_name"));
 				friend.setName(rs.getString("name"));
-				friend.setEmail(rs.getString("email"));
-				friend.setPassword(rs.getString("password"));
-				friend.setPhone(rs.getString("phone"));
-				friend.setRegistration_Date(rs.getDate("registration_date"));
-				friend.setBirth_Date(rs.getString("birth_date"));
-				friend.setModify_Date(rs.getDate("MODIFY_DATE"));
 				friend.setCenter_Num(rs.getInt("center_num"));
+				friend.setStatus(rs.getString("status"));
 				friends.add(friend);
 			}
 		}catch(Exception e) {

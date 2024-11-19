@@ -42,7 +42,7 @@ public class FriendList2Action implements Action {
 		list = dao.centerGetMember(
 				       page.getStartRow(),
 				       page.getEndRow(),
-				       keyfield,keyword,center_num);
+				       keyfield,keyword,center_num,user_num);
 	}
 		
 		

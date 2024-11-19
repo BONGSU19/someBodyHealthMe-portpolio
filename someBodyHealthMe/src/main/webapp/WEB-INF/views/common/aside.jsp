@@ -35,10 +35,10 @@
                 <div class="dropdown-content">
                   <a href="${pageContext.request.contextPath}/appl/writeForm.do">지원 신청</a>
                   <c:if test="${!empty user_num && status < 3}">
-                  <a href="${pageContext.request.contextPath}/appl/list.do?user_num=${user_num}">지원 결과확인</a>
+                  <a href="${pageContext.request.contextPath}/appl/listByUser.do?user_num=${user_num}">지원 목록</a>
                   </c:if>
                   <c:if test="${!empty user_num && status >=3}">
-                  <a href="#">지원 목록 보기</a>
+                  <a href="${pageContext.request.contextPath}/appl/listByAdmin.do">지원 목록 보기</a>
                   </c:if>
                   
    

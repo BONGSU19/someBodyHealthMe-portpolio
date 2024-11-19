@@ -195,21 +195,25 @@ public class GoodsDAO {
 			conn =DBUtil.getConnection();
 
 			if(goods.getGoods_img1()!=null && !"".equals(goods.getGoods_img1())) {
-				sub_sql += ",goods_img=?";
+				sub_sql += ",goods_img1=?";
+			}
+			if(goods.getGoods_img2()!=null && !"".equals(goods.getGoods_img2())) {
+				sub_sql += ",goods_img2=?";
 			}
 			sql = "update goods set goods_name=?,goods_price=?,goods_info=?,"
-					+ "goods_category=?,goods_img1,goods_img2,goods_mdate=SYSDATE,goods_status=?" + sub_sql
+					+ "goods_category=?,goods_mdate=SYSDATE,goods_status=?" + sub_sql
 					+" where goods_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(++cnt, goods.getGoods_name());
 			pstmt.setInt(++cnt, goods.getGoods_price());
 			pstmt.setString(++cnt, goods.getGoods_info());
 			pstmt.setString(++cnt, goods.getGoods_category());
-			pstmt.setString(++cnt, goods.getGoods_img1());
-			pstmt.setString(++cnt, goods.getGoods_img2());
 			pstmt.setInt(++cnt, goods.getGoods_status());
 			if(goods.getGoods_img1()!=null && !"".equals(goods.getGoods_img1())) {
 				pstmt.setString(++cnt, goods.getGoods_img1());
+			}
+			if(goods.getGoods_img2()!=null && !"".equals(goods.getGoods_img2())) {
+				pstmt.setString(++cnt, goods.getGoods_img2());
 			}
 			pstmt.setLong(++cnt, goods.getGoods_num());
 			pstmt.executeUpdate();
@@ -308,7 +312,7 @@ public class GoodsDAO {
 		}catch (Exception e) {
 			throw new Exception(e);
 		}finally {
-			DBUtil.executeClose(null, pstmt, conn);
+			DBUtil.executeClose(rs, pstmt, conn);
 		}
 		return like;
 	}

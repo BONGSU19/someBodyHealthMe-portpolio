@@ -15,6 +15,19 @@
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<div class="content-main">
+	<c:if test="${status == 4}">
+		<input type="button" value="상품 수정" onclick="location.href='updateForm.do?goods_num=${goods.goods_num}'">
+		<input type="button" value="상품 삭제" id="delete_btn">
+		<script type="text/javascript">
+			const delete_btn = document.getElementById('delete_btn');
+			delete_btn.onclick=function(){
+				let choice = confirm('삭제하시겠습니까?');
+				if(choice){
+					location.replace('delete.do?goods_num=${goods.goods_num}');
+				}
+			};
+		</script>
+	</c:if>
 		<c:if test="${goods.goods_status == 1}">
 			<div class="result-diplay" >
 				<div class="align-center">
@@ -66,6 +79,19 @@
 			<p>
 				${goods.goods_info}
 			</p>
+			
+			<div class="content-main">
+				<ul class="detail-sub">
+				<li>
+					<%-- 좋아요 --%>
+					<img id="output_like" data-num="${goods.goods_num}"
+					  src="${pageContext.request.contextPath}/images/fav01.gif" width="50">
+					좋아요
+					<span id="output_lcount"></span>                                         
+				</li>
+				</ul>
+			</div>
+			
 		</c:if>
 	</div>
 </div>

@@ -290,7 +290,61 @@ public class MyBodyDAO{
 	    return inbodyStatusList;
 	}
 	
+	//내 건강 정보 등록
 	
+	public void insertInbodyStatus(InbodyStatusVO inbodyStatus) throws Exception {
+		
 	
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    String sql = null;
+
+	    try {
+	        // 커넥션풀로부터 커넥션을 할당
+	        conn = DBUtil.getConnection();
+	        
+	        // 자동 커밋 비활성화
+	        conn.setAutoCommit(false);
+	        
+	        // SQL 쿼리: InBody 테이블에 인바디 데이터 삽입
+	        sql = "INSERT INTO InBody (INBODYID, USER_NUM, MEASUREMENTDATE, MUSCLEMASS, BODYFATPERCENTAGE, CREATEDAT, MODIFY_DATE) "
+	                + "VALUES (INBODY_SEQ.nextval, ?, ?, ?, ?, SYSDATE, NULL)";
+
+	        pstmt = conn.prepareStatement(sql);
+	        // 사용자 번호 (user_num)
+	        pstmt.setLong(1, inbodyStatus.getUserNum());
+	        // 측정일 (MeasurementDate) -> `Date` 타입이므로 `java.sql.Date`로 변환
+	        pstmt.setDate(2, inbodyStatus.getMeasurementDate());
+	        // 근육량 (MuscleMass)
+	        pstmt.setDouble(3, inbodyStatus.getMuscleMass());
+	        // 체지방률 (BodyFatPercentage)
+	        pstmt.setDouble(4, inbodyStatus.getBodyFatPercentage());
+	        // SQL문 실행
+	        pstmt.executeUpdate();
+
+	        // SQL문 실행 시 모두 성공하면 commit
+	        conn.commit();
+	        
+	    } catch (Exception e) {
+	        // 예외가 발생하면 롤백
+	        if (conn != null) {
+	            conn.rollback();
+	        }
+	        throw new Exception(e);
+	    } finally {
+	        // 커넥션이 null이 아닐 경우 자동 커밋을 다시 원래 상태로 복구
+	        if (conn != null) {
+	            try {
+	                conn.setAutoCommit(true); // 자동 커밋을 다시 true로 설정
+	            } catch (SQLException se) {
+	                se.printStackTrace();
+	            }
+	        }
+	        // DB 자원 해제
+	        DBUtil.executeClose(null, pstmt, conn);
+	    }       
+	}
 	
 }
+		
+	

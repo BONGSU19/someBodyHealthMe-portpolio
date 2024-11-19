@@ -115,7 +115,7 @@ public class ApplDAO {
 	}
 
 	//총 지원 개수 구하기 - 관리자
-	public int getApplicationCount(String keyword,int appl_status,int field,int career,int appl_center) throws Exception{
+	public int getApplicationCount(String name,int appl_status,int field,int career,int appl_center) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -127,7 +127,7 @@ public class ApplDAO {
 		try {
 			conn = DBUtil.getConnection();
 
-			if(appl_status != 9) sub_sql = "WHERE 1=1 ";//전체(지원상태)
+			if(appl_status == 9) sub_sql = "WHERE 1=1 ";//전체(지원상태)
 			else sub_sql = "WHERE appl_status = ? ";//field 1
 
 			if(field != 9) sub_sql += " AND field = ?";//(분야)		
@@ -136,7 +136,7 @@ public class ApplDAO {
 
 			if(appl_center != 0) sub_sql += " AND appl_center=?"; //지점번호
 
-			if(keyword != null && !"".equals(keyword)) {
+			if(name != null && !"".equals(name)) {
 				sub_sql += " AND name = '%' || ? || '%'";
 			}
 
@@ -149,8 +149,8 @@ public class ApplDAO {
 			pstmt.setInt(++cnt, career);
 			pstmt.setInt(++cnt, appl_center);
 
-			if(keyword != null && !"".equals(keyword)) {
-				pstmt.setString(++cnt, keyword);
+			if(name != null && !"".equals(name)) {
+				pstmt.setString(++cnt, name);
 			}
 
 			rs = pstmt.executeQuery();
@@ -168,14 +168,14 @@ public class ApplDAO {
 
 
 	//지원 목록 보기 관리자
-	public List<ApplVO> getListByAdmin(String keyword,int appl_status,int field,int career,int appl_center) throws Exception{
+	public List<ApplVO> getListByAdmin(int start,int end,String name,int appl_status,int field,int career,int appl_center) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		int cnt = 0;
 		String sub_sql="";
-		List<ApplVO> list = null;
+		List<ApplVO> list = new ArrayList<ApplVO>();
 
 
 		try {
@@ -190,11 +190,14 @@ public class ApplDAO {
 
 			if(appl_center != 0) sub_sql += " AND appl_center=?"; //지점번호
 
-			if(keyword != null && !"".equals(keyword)) {
+			if(name != null && !"".equals(name)) {
 				sub_sql += " AND name = '%' || ? || '%'";
 			}
 
-			sql = "SELECT * FROM application JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) " + sub_sql +" ORDER BY appl_status";
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM "
+					+ "(SELECT * FROM application JOIN "
+					+ "(SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) " + sub_sql + ")a)"
+							+ " WHERE rnum >=? AND rnum <=?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -202,17 +205,18 @@ public class ApplDAO {
 			pstmt.setInt(++cnt, field);
 			pstmt.setInt(++cnt, career);
 			pstmt.setInt(++cnt, appl_center);
-
-			if(keyword != null && !"".equals(keyword)) {
-				pstmt.setString(++cnt, keyword);
+			if(name != null && !"".equals(name)) {
+				pstmt.setString(++cnt, name);
 			}
+			pstmt.setInt(++cnt, start);
+			pstmt.setInt(++cnt, end);
 
 			rs = pstmt.executeQuery();
 			list = new ArrayList<ApplVO>();
 
 			while(rs.next()) {
 				ApplVO appl = new ApplVO();
-				appl.setAppl_num(rs.getLong("aapl_num"));
+				appl.setAppl_num(rs.getLong("appl_num"));
 				appl.setField(rs.getInt("field"));
 				appl.setCareer(rs.getInt("career"));
 				appl.setAppl_center(rs.getInt("appl_center"));

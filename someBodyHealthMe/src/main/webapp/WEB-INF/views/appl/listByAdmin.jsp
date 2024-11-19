@@ -17,7 +17,7 @@
         .container {
             width: 60%;
             height: 100%;
-            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
+            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */ 
             overflow-y: auto; /* 세로 스크롤 추가 */
             text-align: center;
  			margin-top:43px;
@@ -97,22 +97,38 @@
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/aside.jsp"/>
-    <div class="container">
-        <h2>지원정보</h2>
-        <div class="content-main">
-       	<b>자바스크립트로 조건 체크 하여 변경불가능하게 만들기 AND 데이터 가져와서 표시하기,관리자 열람시 appl_status 값 변경(detailaction)작업</b>
-       	<form action="write.do" method="get" enctype="multipart/form-data">
+	<div class="container">
+        <h2>나의 지원 목록</h2>
+        <div class="content-main"> 
+        	<!-- 관리자 검색 조건 -->
+          	<form action="listByAdmin.do" method="get" enctype="multipart/form-data">
+          	<!-- 확인 상태 -->
+          	<div class="form-group">   	    	
+                <label>확인 상태</label>
+                <div>
+                    <input type="radio" id="field" name="appl_status" value="0" required>
+                    <label for="trainer">미확인</label>
+                    <input type="radio" id="field" name="appl_status" value="1" required>
+                    <label for="office">확인</label>
+                    <input type="radio" id="all" name="appl_status" value="9" required checked>
+                    <label for="all">전체</label>
+                </div>
+            </div>
+            <br>
+           
             <!-- 지원 분야 -->
-            <div class="form-group">
+            <div class="form-group">   	    	
                 <label>지원 분야</label>
                 <div>
                     <input type="radio" id="field" name="field" value="2" required>
                     <label for="trainer">트레이너</label>
                     <input type="radio" id="field" name="field" value="3" required>
                     <label for="office">사무직원</label>
+                    <input type="radio" id="all" name="all" value="9" required checked>
+                    <label for="all">전체</label>
                 </div>
             </div>
-            <br><br>
+            <br>
 
             <!-- 경력 유무 -->
             <div class="form-group">
@@ -122,56 +138,56 @@
                     <label for="experienced">경력</label>
                     <input type="radio" id="career" name="career" value="2" required>
                     <label for="newbie">신입</label>
+                    <input type="radio" id="career" name="career" value="9" required checked>
+                    <label for="all">전체</label>
                 </div>
             </div>
-            <br><br>
-            
-            <!-- 지원 경로 -->
-            <div class="form-group">
-                <label for="source">지원 경로</label>
-                <textarea id="appl_source" name="source" rows="4" cols="50" placeholder="지원 경로를 입력하세요..."></textarea>
-            </div>
-	        <br><br>
-	        
-            <!-- 지원 지점 선택 -->
+            <br>
+           
+	        <!-- 지원 지점 선택 -->
             <div class="form-group">
                 <label for="appl_center">지원 지점</label>
                 <select id="appl_center" name="appl_center" required>
                     <option value="1">강남점</option>
                     <option value="2">강북점</option>
+                    <option value="0" selected>전지점</option>
                 </select>
             </div>
-
-            <br><br>
-            <!-- 자기소개 -->
-            <div class="form-group">
-                <label for="content">자기소개</label>
-                <textarea id="appl_content" name="content" rows="5" cols="50" placeholder="자기소개를 입력하세요..." required></textarea>
-            </div>
-
-            <br><br>
-            <!-- 첨부파일 -->
-            <div class="form-group">
-                <label for="appl_attachment">첨부파일</label>
-                <input type="file" id="appl_attachment" name="appl_attachment" accept=".jpg,.png,.pdf,.docx" />
-            </div>
-            
             <br>
-            <!-- 수정 버튼 -->
-            <c:if test="${appl.user_num == user_num && appl.appl_status == 0}">            
+            <input type="search" name="name">
+            <!-- 제출 버튼 -->
             <div class="form-group">
-                <button type="button" class="btn btn-primary" onclick="location.href='/appl/updateForm.do'">수정</button>
+                <button type="submit" class="btn btn-primary">검색</button>
             </div>
-            </c:if>
+        </form>
             
-            <!-- 관리자 전환 버튼 -->
-            <c:if test="${status==4 || status==2 && appl.user_num != user_num}">                       
-            <div class="form-group">
-                <button type="button" class="btn btn-primary" onclick="location.href='#'">수정</button>
-            </div>
-            </c:if>            
-        </form> 
-        </div>        	
+            <table>
+                <tr>
+                    <th>지원번호</th>
+                    <th>지원분야</th>
+                    <th>지원지점</th>
+                    <th>등록일(수정일)</th>
+                    <th>확인 상태</th>
+                </tr>                
+                <c:forEach var="appl" items="${list}">
+                <tr>
+                    <td><a href="detail.do?appl_num=${appl.appl_num}">${appl.appl_num}</a></td>
+                    <td>${appl.field}</td>
+                    <td>${appl.appl_center}</td>
+                    <c:if test="${!empty appl.appl_modifydate }">
+                    <td>${appl.appl_modifydate}</td>
+                    </c:if>
+                    <c:if test="${empty appl.appl_modifydate }">
+                   	<td>${appl.appl_regdate}</td>
+                    </c:if>
+                    <td>${appl.appl_status}</td>
+                </tr>
+                </c:forEach>
+            </table>
+            <c:if test="${empty list}">
+            	<div>표시할 게시물이 없습니다.</div>   		
+            </c:if> 
+        </div>
     </div>
 </body>
 

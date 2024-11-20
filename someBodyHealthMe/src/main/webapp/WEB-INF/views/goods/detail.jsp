@@ -104,7 +104,7 @@
 					<label><input type="radio" name="re_rating" value="3" id="rating3"> 3점	</label>
 					<label><input type="radio" name="re_rating" value="4" id="rating4"> 4점	</label>
 					<label><input type="radio" name="re_rating" value="5" id="rating5"> 5점	</label>
-				</div>  --> 
+				</div>  -->
 				<textarea rows="3" cols="50" name="re_content" id="re_content" class="rep-content"
 				<c:if test="${empty user_num}">disabled="disabled"</c:if>
 				><c:if test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>

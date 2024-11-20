@@ -292,44 +292,27 @@ public class MemberDAO {
     	public void updateUserProfileDynamic(MemberVO member) throws Exception {
     	    Connection conn = null;
     	    PreparedStatement pstmt = null;
-    	    StringBuilder sql = new StringBuilder("UPDATE SUSER_DETAIL SET ");
 
     	    try {
     	        conn = DBUtil.getConnection();
 
-    	        // 동적 SQL 생성
-    	        List<Object> params = new ArrayList<>();
-    	        if (member.getNick_name() != null) {
-    	            sql.append("nick_name = ?, ");
-    	            params.add(member.getNick_name());
-    	        }
-    	        if (member.getEmail() != null) {
-    	            sql.append("email = ?, ");
-    	            params.add(member.getEmail());
-    	        }
-    	        if (member.getPhone() != null) {
-    	            sql.append("phone = ?, ");
-    	            params.add(member.getPhone());
-    	        }
-    	        if (member.getBirth_date() != null) {
-    	            sql.append("birth_date = ?, ");
-    	            params.add(member.getBirth_date());
-    	        }
+    	        // 기존 사용자 정보 조회
+    	        MemberVO existingMember = getUserProfile(member.getUser_num());
 
-    	        // 마지막 쉼표 제거 및 WHERE 절 추가
-    	        if (params.isEmpty()) {
-    	            throw new Exception("수정할 값이 없습니다.");
-    	        }
-    	        sql.setLength(sql.length() - 2);
-    	        sql.append(" WHERE user_num = ?");
-    	        params.add(member.getUser_num());
+    	        // 기존 값을 유지하도록 처리
+    	        String nick_name = member.getNick_name() != null ? member.getNick_name() : existingMember.getNick_name();
+    	        String email = member.getEmail() != null ? member.getEmail() : existingMember.getEmail();
+    	        String phone = member.getPhone() != null ? member.getPhone() : existingMember.getPhone();
+    	        String birth_date = member.getBirth_date() != null ? member.getBirth_date() : existingMember.getBirth_date();
 
-    	        pstmt = conn.prepareStatement(sql.toString());
-
-    	        // 파라미터 바인딩
-    	        for (int i = 0; i < params.size(); i++) {
-    	            pstmt.setObject(i + 1, params.get(i));
-    	        }
+    	        // 동적 업데이트 SQL
+    	        String sql = "UPDATE SUSER_DETAIL SET nick_name = ?, email = ?, phone = ?, birth_date = ? WHERE user_num = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setString(1, nick_name);
+    	        pstmt.setString(2, email);
+    	        pstmt.setString(3, phone);
+    	        pstmt.setString(4, birth_date);
+    	        pstmt.setLong(5, member.getUser_num());
 
     	        pstmt.executeUpdate();
     	    } finally {

@@ -395,6 +395,36 @@ public class MyBodyDAO{
 
 
 	
+	public InbodyStatusVO getInbodyDataByDate(Long user_num, Date measurementDate) throws Exception {
+	    InbodyStatusVO inbodyStatus = null;
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        conn = DBUtil.getConnection();
+	        String sql = "SELECT MeasurementDate, MuscleMass, BodyFatPercentage "
+	                   + "FROM InBody WHERE user_num = ? AND MeasurementDate = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setLong(1, user_num);
+	        pstmt.setDate(2, measurementDate);
+	        rs = pstmt.executeQuery();
+
+	        if (rs.next()) {
+	            inbodyStatus = new InbodyStatusVO();
+	            inbodyStatus.setMeasurementDate(rs.getDate("MeasurementDate"));
+	            inbodyStatus.setMuscleMass(rs.getDouble("MuscleMass"));
+	            inbodyStatus.setBodyFatPercentage(rs.getDouble("BodyFatPercentage"));
+	        }
+	    } finally {
+	        DBUtil.executeClose(rs, pstmt, conn);
+	    }
+
+	    return inbodyStatus;
+	}
+
+
+	
 	
 }
 		

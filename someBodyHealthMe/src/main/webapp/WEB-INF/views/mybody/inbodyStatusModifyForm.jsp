@@ -28,61 +28,52 @@
 
                 <!-- 사용자가 등록한 모든 인바디 데이터 목록 -->
                 <div class="info-box">
-                    <h3>등록된 인바디 데이터</h3>
-                    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusEdit.do" method="get">
-                        <select name="measurementDate" id="measurementDate">
-                            <option value="">인바디 데이터를 선택하세요</option>
-                            <!-- 데이터 목록 출력 -->
-                            <c:forEach var="inbody" items="${inbodyStatusList}">
-                                <option value="${inbody.measurementDate}">
-                                    ${inbody.measurementDate} (근육량: ${inbody.muscleMass}kg, 체지방률: ${inbody.bodyFatPercentage}%)
-                                </option>
-                            </c:forEach>
-                        </select>
-                        <input type="submit" value="수정할 데이터 선택"/>
-                    </form>
-                </div>
-
-                <!-- 인바디 데이터 수정 폼 -->
-                <form action="${pageContext.request.contextPath}/mybody/inbodyStatusUpdate.do" method="post">
-                    <div class="info-box">
-                        <div class="info-item">
-                            <label for="measurementDate" class="label">인바디 측정 날짜</label>
-                            <input type="date" id="measurementDate" name="measurementDate" 
-                                   value="${not empty inbodyData.measurementDate ? inbodyData.measurementDate : ''}" 
-                                   required>
-                        </div>
-
-                        <div class="info-item">
-                            <label for="muscleMass" class="label">근육량(kg)</label>
-                            <input type="text" id="muscleMass" name="muscleMass" 
-                                   value="${not empty inbodyData.muscleMass ? inbodyData.muscleMass : ''}" 
-                                   pattern="\d*" maxlength="5" required>
-                        </div>
-                        
-                        <div class="info-item">
-                            <label for="bodyFatPercentage" class="label">체지방률(%)</label>
-                            <input type="text" id="bodyFatPercentage" name="bodyFatPercentage" 
-                                   value="${not empty inbodyData.bodyFatPercentage ? inbodyData.bodyFatPercentage : ''}" 
-                                   pattern="\d*" maxlength="5" required>
-                        </div>
-
-                        <div class="info-item">
-                            <label for="weight" class="label">체중(kg)</label>
-                            <input type="text" id="weight" name="weight" 
-                                   value="${not empty inbodyData.weight ? inbodyData.weight : ''}" 
-                                   pattern="\d*" maxlength="5" required>
-                        </div>
-                    </div>
-
-                    <!-- 폼 제출 버튼 -->
-                    <div id="submit-button" class="button">
-                        <input type="submit" value="수정" id="submit-btn"/>
-                    </div>
-                </form>
-            </section>
-
-        </div>
-    </div>
+		    <h3>등록된 인바디 데이터</h3>
+		    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusEdit.do" method="post">
+		        <select name="measurementDate" id="measurementDate">
+		            <option value="">인바디 데이터를 선택하세요</option>
+		            <!-- 데이터 목록 출력 -->
+		            <c:forEach var="inbody" items="${inbodyStatusList}">
+		                <option value="${inbody.measurementDate}">
+		                    ${inbody.measurementDate} (근육량: ${inbody.muscleMass}kg, 체지방률: ${inbody.bodyFatPercentage}%)
+		                </option>
+		            </c:forEach>
+		        </select>
+		        <input type="submit" value="수정할 데이터 선택"/>
+		    </form>
+		</div>
+		
+		<!-- 선택된 인바디 데이터를 자동으로 수정 폼에 채우기 -->
+		<c:if test="${not empty inbodyStatus}">
+		    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusUpdate.do" method="post">
+		        <div class="info-box">
+		            <div class="info-item">
+		                <label for="measurementDate" class="label">인바디 측정 날짜</label>
+		                <input type="date" id="measurementDate" name="measurementDate" 
+		                       value="${inbodyStatus.measurementDate}" required readonly />
+		            </div>
+		
+		            <div class="info-item">
+		                <label for="muscleMass" class="label">근육량(kg)</label>
+		                <input type="text" id="muscleMass" name="muscleMass" 
+		                       value="${inbodyStatus.muscleMass}" required />
+		            </div>
+		
+		            <div class="info-item">
+		                <label for="bodyFatPercentage" class="label">체지방률(%)</label>
+		                <input type="text" id="bodyFatPercentage" name="bodyFatPercentage" 
+		                       value="${inbodyStatus.bodyFatPercentage}" required />
+		            </div>
+		
+		            <div class="info-item">
+		                <label for="weight" class="label">체중(kg)</label>
+		                <input type="text" id="weight" name="weight" 
+		                       value="${inbodyStatus.weight}" required />
+		            </div>
+		
+		            <input type="submit" value="수정 완료"/>
+		        </div>
+		    </form>
+		</c:if>
 </body>
 </html>

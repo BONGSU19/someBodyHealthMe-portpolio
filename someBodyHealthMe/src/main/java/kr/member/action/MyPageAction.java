@@ -23,13 +23,15 @@
 	        MemberDAO dao = MemberDAO.getInstance();
 	        MemberVO member = dao.getUserProfile(user_num);
 	        
+	     // 회원 정보 및 권한 체크
 	        if (member == null || member.getStatus() != 1) {
+	        	// 잘못된 접근 시 알림 메시지 설정
 	            request.setAttribute("notice_msg", "잘못된 접근입니다.");
 	            request.setAttribute("notice_url", request.getContextPath() + "/main/main.do");
 	            return "common/alert_view.jsp";
 	        }
-	        //if(user_num != null && member.getStatus() != 1) { 코드 보류
-	        	//return "common/notice.jsp";
+	        //if(user_num != null && member.getStatus() != 1) { 잠깐 보류
+	    	//return "common/notice.jsp";
 	
 	        // 사용자 정보를 JSP에 전달
 	        request.setAttribute("member", member);

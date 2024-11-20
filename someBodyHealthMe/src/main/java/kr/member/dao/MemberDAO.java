@@ -3,6 +3,8 @@ package kr.member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.member.vo.MemberVO;
 import kr.util.DBUtil;
@@ -13,7 +15,7 @@ public class MemberDAO {
     public static MemberDAO getInstance() {
         return instance;
     }
-
+   
     private MemberDAO() {}
 
     // 회원 가입
@@ -253,23 +255,81 @@ public class MemberDAO {
     	    return member;
     	}
     	// 사용자 프로필 수정
-    		public void updateUserProfile(MemberVO member) throws Exception {
+    	public void updateUserProfile(MemberVO member) throws Exception {
     	    Connection conn = null;
     	    PreparedStatement pstmt = null;
 
     	    try {
     	        conn = DBUtil.getConnection();
-    	        String sql = "UPDATE SUSER_DETAIL " +
-    	                     "SET nick_name = ?, name = ?, email = ?, phone = ?, birth_date = ?, center_num = ? " +
-    	                     "WHERE user_num = ?";
+
+    	        // 중복 체크
+    	        if (isDuplicateNickname(member.getNick_name())) {
+    	            throw new Exception("이미 사용 중인 닉네임입니다.");
+    	        }
+    	        if (isDuplicateEmail(member.getEmail())) {
+    	            throw new Exception("이미 사용 중인 이메일입니다.");
+    	        }
+    	        if (isDuplicatePhone(member.getPhone())) {
+    	            throw new Exception("이미 사용 중인 전화번호입니다.");
+    	        }
+
+    	        // 업데이트 SQL 실행
+    	        String sql = "UPDATE SUSER_DETAIL SET nick_name = ?, name = ?, email = ?, phone = ?, birth_date = ? WHERE user_num = ?";
     	        pstmt = conn.prepareStatement(sql);
     	        pstmt.setString(1, member.getNick_name());
     	        pstmt.setString(2, member.getName());
     	        pstmt.setString(3, member.getEmail());
     	        pstmt.setString(4, member.getPhone());
     	        pstmt.setString(5, member.getBirth_date());
-    	        pstmt.setInt(6, member.getCenter_num());
-    	        pstmt.setLong(7, member.getUser_num());
+    	        pstmt.setLong(6, member.getUser_num());
+
+    	        pstmt.executeUpdate();
+    	    } finally {
+    	        DBUtil.executeClose(null, pstmt, conn);
+    	    }
+    	}
+    	// 사용자 프로필 동적 업데이트
+    	public void updateUserProfileDynamic(MemberVO member) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+    	    StringBuilder sql = new StringBuilder("UPDATE SUSER_DETAIL SET ");
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+
+    	        // 동적 SQL 생성
+    	        List<Object> params = new ArrayList<>();
+    	        if (member.getNick_name() != null) {
+    	            sql.append("nick_name = ?, ");
+    	            params.add(member.getNick_name());
+    	        }
+    	        if (member.getEmail() != null) {
+    	            sql.append("email = ?, ");
+    	            params.add(member.getEmail());
+    	        }
+    	        if (member.getPhone() != null) {
+    	            sql.append("phone = ?, ");
+    	            params.add(member.getPhone());
+    	        }
+    	        if (member.getBirth_date() != null) {
+    	            sql.append("birth_date = ?, ");
+    	            params.add(member.getBirth_date());
+    	        }
+
+    	        // 마지막 쉼표 제거 및 WHERE 절 추가
+    	        if (params.isEmpty()) {
+    	            throw new Exception("수정할 값이 없습니다.");
+    	        }
+    	        sql.setLength(sql.length() - 2);
+    	        sql.append(" WHERE user_num = ?");
+    	        params.add(member.getUser_num());
+
+    	        pstmt = conn.prepareStatement(sql.toString());
+
+    	        // 파라미터 바인딩
+    	        for (int i = 0; i < params.size(); i++) {
+    	            pstmt.setObject(i + 1, params.get(i));
+    	        }
 
     	        pstmt.executeUpdate();
     	    } finally {
@@ -293,7 +353,6 @@ public class MemberDAO {
     	        DBUtil.executeClose(null, pstmt, conn);
     	    }
     	}
-
     	// 프로필 사진 삭제
     	public void deleteUserPhoto(long userNum) throws Exception {
     	    updateUserPhoto(userNum, null); // 사진 경로를 NULL로 설정

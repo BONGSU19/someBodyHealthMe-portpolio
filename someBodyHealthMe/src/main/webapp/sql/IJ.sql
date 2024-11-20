@@ -82,11 +82,10 @@ create table cart(
  cart_num number not null,
  goods_num number not null,
  user_num number not null,
- cart_quantity number(3) not null,
- cart_check number(1) not null,
+ order_quantity number not null,
  constraint cart_pk primary key (cart_num),
- constraint goods_num foreign key (goods_num) references goods (goods_num),
- constraint user_num foreign key (user_num) references suser (user_num)
+ constraint goods_num_fk1 foreign key (goods_num) references goods (goods_num),
+ constraint user_num_fk2 foreign key (user_num) references suser (user_num)
 );
 create sequence cart_seq;
 

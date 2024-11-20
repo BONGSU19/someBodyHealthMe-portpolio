@@ -16,12 +16,12 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 		<div class="content-main">
 			<h2>장바구니</h2>
-			<c:if test="${empty list }">
+			<c:if test="${empty list}">
 			<div class="result-display">
 			장바구니에 담은 상품이 없습니다.
 			</div>
 			</c:if>
-			<c:if test="${!empty list }">
+			<c:if test="${!empty list}">
 				<form id="cart_order" action="${pageContext.request.contextPath}/order/orderForm.do">
 					<table>
 						<tr>
@@ -40,7 +40,7 @@
 								</td>
 								<td class="align-center">
 									<c:if test="${cart.goodsVO.goods_status == 1}">[판매중지]</c:if>
-									<c:if test="${cart.goodsVO.goods_quantity < cart.order_quantity}">[수량부족]<br><small>삭제 후 재고 수량 확인</small></c:if>
+									<c:if test="${cart.goodsVO.goods_quantity < cart.goodsVO.goods_quantity}">[수량부족]<br><small>삭제 후 재고 수량 확인</small></c:if>
 									<c:if test="${cart.goodsVO.goods_status==2  and cart.goodsVO.goods_quantity >= cart.order_quantity}">
 									<input type="number" name="order_quantity" min="1" max="${cart.goodsVO.goods_quantity}" autocomplete="off"
 									value="${cart.order_quantity}" class="quantity-width">

@@ -6,18 +6,11 @@ public class CartVO {
 	private long cart_num;
 	private long goods_num;
 	private int order_quantity;
-	private int cart_check;
 	private long user_num;
 	private int sub_total;
 	
 	private GoodsVO goodsVO;
 	
-	public GoodsVO getGoodsVO() {
-		return goodsVO;
-	}
-	public void setGoodsVO(GoodsVO goodsVO) {
-		this.goodsVO = goodsVO;
-	}
 	public long getCart_num() {
 		return cart_num;
 	}
@@ -42,16 +35,16 @@ public class CartVO {
 	public void setOrder_quantity(int order_quantity) {
 		this.order_quantity = order_quantity;
 	}
-	public int getCart_check() {
-		return cart_check;
-	}
-	public void setCart_check(int cart_check) {
-		this.cart_check = cart_check;
-	}
 	public int getSub_total() {
 		return sub_total;
 	}
 	public void setSub_total(int sub_total) {
 		this.sub_total = sub_total;
+	}
+	public GoodsVO getGoodsVO() {
+		return goodsVO;
+	}
+	public void setGoodsVO(GoodsVO goodsVO) {
+		this.goodsVO = goodsVO;
 	}
 }

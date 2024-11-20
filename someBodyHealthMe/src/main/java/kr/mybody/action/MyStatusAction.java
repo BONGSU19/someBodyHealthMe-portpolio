@@ -21,9 +21,6 @@ public class MyStatusAction implements Action{
 		}
 		//로그인이 된 경우
 		
-		
-		
-		
 		MyBodyDAO dao = MyBodyDAO.getInstance();
 		MyBodyStatusVO mybodystatus = dao.getMyBodyStatus(user_num);
 		

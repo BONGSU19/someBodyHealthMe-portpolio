@@ -18,7 +18,7 @@ public class InbodyStatusInsertFormAction implements Action{
 			return "redirect:/member/loginForm.do";
 		}
 		
-		return "/mybody/inbodyStatusInsertForm.jsp";
+		return "mybody/inbodyStatusInsertForm.jsp";
 	}
 	
 }

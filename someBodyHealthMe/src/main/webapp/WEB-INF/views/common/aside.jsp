@@ -32,9 +32,9 @@
                 <button class="dropdown-button toggle-button">지원하기
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
-                <div class="dropdown-content">
-                  <a href="${pageContext.request.contextPath}/appl/writeForm.do">지원 신청</a>
+                <div class="dropdown-content">                  
                   <c:if test="${!empty user_num && status <= 3}">
+                  <a href="${pageContext.request.contextPath}/appl/writeForm.do">지원 신청</a>
                   <a href="${pageContext.request.contextPath}/appl/listByUser.do">내 지원 목록</a>
                   </c:if>
                   <c:if test="${!empty user_num && status >=3}">

@@ -307,7 +307,7 @@ public class MyBodyDAO{
 	        
 	        // SQL 쿼리: InBody 테이블에 인바디 데이터 삽입
 	        sql = "INSERT INTO InBody (INBODYID, USER_NUM, MEASUREMENTDATE, MUSCLEMASS, BODYFATPERCENTAGE, CREATEDAT, MODIFY_DATE) "
-	                + "VALUES (INBODY_SEQ.nextval, ?, ?, ?, ?, SYSDATE, NULL)";
+	                + "VALUES (INBODYID_SEQ.nextval, ?, ?, ?, ?, SYSDATE, NULL)";
 
 	        pstmt = conn.prepareStatement(sql);
 	        
@@ -317,7 +317,7 @@ public class MyBodyDAO{
 	        // 측정일 (MeasurementDate) -> `Date` 타입이므로 `java.sql.Date`로 변환
 	        // 날짜만 필요하므로 시간을 제외한 날짜만 설정
 	        Date sqlDate = new Date(inbodyStatus.getMeasurementDate().getTime());
-	        pstmt.setDate(2, sqlDate);  // `getTime()`으로 밀리초 단위의 long 값 반환 후 `java.sql.Date`로 변환
+	        pstmt.setDate(2, sqlDate); 
 	        
 	        // 근육량 (MuscleMass)
 	        pstmt.setDouble(3, inbodyStatus.getMuscleMass());
@@ -351,6 +351,50 @@ public class MyBodyDAO{
 	    }       
 	}
 
+	public List<InbodyStatusVO> getAllInbodyData(Long user_num) throws Exception {
+	    List<InbodyStatusVO> inbodyStatusList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = null;
+
+	    try {
+	        // 커넥션 할당
+	        conn = DBUtil.getConnection();
+
+	        // SQL 쿼리: user_num에 해당하는 모든 인바디 데이터 조회
+	        sql = "SELECT MeasurementDate, MuscleMass, BodyFatPercentage "
+	              + "FROM InBody "
+	              + "WHERE user_num = ? "
+	              + "ORDER BY MeasurementDate DESC";  // 날짜별로 최신순 정렬
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setLong(1, user_num);  // 로그인된 유저에 대해서만 조회
+	        rs = pstmt.executeQuery();
+
+	        // 결과 처리
+	        while (rs.next()) {
+	            InbodyStatusVO inbodyStatus = new InbodyStatusVO();
+	            inbodyStatus.setMeasurementDate(rs.getDate("MeasurementDate"));
+	            inbodyStatus.setMuscleMass(rs.getDouble("MuscleMass"));
+	            inbodyStatus.setBodyFatPercentage(rs.getDouble("BodyFatPercentage"));
+	            
+	            // 리스트에 추가
+	            inbodyStatusList.add(inbodyStatus);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new Exception(e);
+	    } finally {
+	        // 자원 해제
+	        DBUtil.executeClose(rs, pstmt, conn);
+	    }
+
+	    return inbodyStatusList;
+	}
+
+
+	
 	
 }
 		

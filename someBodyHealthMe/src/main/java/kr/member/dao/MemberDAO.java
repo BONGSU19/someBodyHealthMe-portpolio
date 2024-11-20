@@ -3,6 +3,8 @@ package kr.member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.member.vo.MemberVO;
 import kr.util.DBUtil;
@@ -13,7 +15,7 @@ public class MemberDAO {
     public static MemberDAO getInstance() {
         return instance;
     }
-
+   
     private MemberDAO() {}
 
     // 회원 가입
@@ -134,18 +136,18 @@ public class MemberDAO {
         return isDuplicate;
     }
 		// 로그인 메서드
-    	public MemberVO checkLogin(String loginId, String password) throws Exception {
-    		Connection conn = null;
-    		PreparedStatement pstmt = null;
-    		ResultSet rs = null;
-    		MemberVO member = null;
+    public MemberVO checkLogin(String loginId, String password) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        MemberVO member = null;
 
         try {
             conn = DBUtil.getConnection();
             String sql = "SELECT u.user_num, u.login_id, u.status, d.name " +
                          "FROM SUSER u " +
                          "JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
-                         "WHERE u.login_id = ? AND d.password = ?";
+                         "WHERE u.login_id = ? AND d.password = ? AND u.status != 0"; // 상태값이 0이 아닌 경우만 로그인 가능
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loginId);
             pstmt.setString(2, password);
@@ -156,7 +158,7 @@ public class MemberDAO {
                 member.setUser_num(rs.getLong("user_num"));
                 member.setLogin_id(rs.getString("login_id"));
                 member.setStatus(rs.getInt("status"));
-                member.setName(rs.getString("name"));  // name 필드를 추가하여 설정
+                member.setName(rs.getString("name"));
             }
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
@@ -253,23 +255,64 @@ public class MemberDAO {
     	    return member;
     	}
     	// 사용자 프로필 수정
-    		public void updateUserProfile(MemberVO member) throws Exception {
+    	public void updateUserProfile(MemberVO member) throws Exception {
     	    Connection conn = null;
     	    PreparedStatement pstmt = null;
 
     	    try {
     	        conn = DBUtil.getConnection();
-    	        String sql = "UPDATE SUSER_DETAIL " +
-    	                     "SET nick_name = ?, name = ?, email = ?, phone = ?, birth_date = ?, center_num = ? " +
-    	                     "WHERE user_num = ?";
+
+    	        // 중복 체크
+    	        if (isDuplicateNickname(member.getNick_name())) {
+    	            throw new Exception("이미 사용 중인 닉네임입니다.");
+    	        }
+    	        if (isDuplicateEmail(member.getEmail())) {
+    	            throw new Exception("이미 사용 중인 이메일입니다.");
+    	        }
+    	        if (isDuplicatePhone(member.getPhone())) {
+    	            throw new Exception("이미 사용 중인 전화번호입니다.");
+    	        }
+
+    	        // 업데이트 SQL 실행
+    	        String sql = "UPDATE SUSER_DETAIL SET nick_name = ?, name = ?, email = ?, phone = ?, birth_date = ? WHERE user_num = ?";
     	        pstmt = conn.prepareStatement(sql);
     	        pstmt.setString(1, member.getNick_name());
     	        pstmt.setString(2, member.getName());
     	        pstmt.setString(3, member.getEmail());
     	        pstmt.setString(4, member.getPhone());
     	        pstmt.setString(5, member.getBirth_date());
-    	        pstmt.setInt(6, member.getCenter_num());
-    	        pstmt.setLong(7, member.getUser_num());
+    	        pstmt.setLong(6, member.getUser_num());
+
+    	        pstmt.executeUpdate();
+    	    } finally {
+    	        DBUtil.executeClose(null, pstmt, conn);
+    	    }
+    	}
+    	// 사용자 프로필 동적 업데이트
+    	public void updateUserProfileDynamic(MemberVO member) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+
+    	        // 기존 사용자 정보 조회
+    	        MemberVO existingMember = getUserProfile(member.getUser_num());
+
+    	        // 기존 값을 유지하도록 처리
+    	        String nick_name = member.getNick_name() != null ? member.getNick_name() : existingMember.getNick_name();
+    	        String email = member.getEmail() != null ? member.getEmail() : existingMember.getEmail();
+    	        String phone = member.getPhone() != null ? member.getPhone() : existingMember.getPhone();
+    	        String birth_date = member.getBirth_date() != null ? member.getBirth_date() : existingMember.getBirth_date();
+
+    	        // 동적 업데이트 SQL
+    	        String sql = "UPDATE SUSER_DETAIL SET nick_name = ?, email = ?, phone = ?, birth_date = ? WHERE user_num = ?";
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setString(1, nick_name);
+    	        pstmt.setString(2, email);
+    	        pstmt.setString(3, phone);
+    	        pstmt.setString(4, birth_date);
+    	        pstmt.setLong(5, member.getUser_num());
 
     	        pstmt.executeUpdate();
     	    } finally {
@@ -293,7 +336,6 @@ public class MemberDAO {
     	        DBUtil.executeClose(null, pstmt, conn);
     	    }
     	}
-
     	// 프로필 사진 삭제
     	public void deleteUserPhoto(long userNum) throws Exception {
     	    updateUserPhoto(userNum, null); // 사진 경로를 NULL로 설정

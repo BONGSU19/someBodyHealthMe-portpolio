@@ -53,21 +53,6 @@
                                    pattern="\d*" maxlength="5" required>
                         </div>
 
-                        <div class="info-item">
-                            <label for="weight" class="label">체중(kg)</label>
-                            <input type="text" id="weight" name="weight" 
-                                   placeholder="예: 70" 
-                                   value="${not empty inbodyData.weight ? inbodyData.weight : ''}" 
-                                   pattern="\d*" maxlength="5" required>
-                        </div>
-
-                        <div class="info-item">
-                            <label for="bmi" class="label">BMI</label>
-                            <input type="text" id="bmi" name="bmi" 
-                                   placeholder="자동 계산" 
-                                   value="${not empty inbodyData.bmi ? inbodyData.bmi : ''}" 
-                                   readonly>
-                        </div>
                     </div>
 
                     <!-- 폼 제출 버튼 -->

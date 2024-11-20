@@ -27,7 +27,7 @@ create table goods_review(
  user_num number not null,
  constraint review_pk primary key (re_num),
  constraint review_fk1 foreign key (goods_num) references goods (goods_num),
- constraint review_fk2 foreign key (user_num) references suser (user_num)
+ constraint review_fk2 foreign key (user_num) references suser_detail (user_num)
 );
 create sequence review_seq;
 

@@ -408,7 +408,7 @@ public class GoodsDAO {
 		String sql = null;
 		try {
 			conn = DBUtil.getConnection();
-			sql = "select * from (select a.*, rownum rnum from (SELECT * FROM goods_review JOIN suser "
+			sql = "select * from (select a.*, rownum rnum from (SELECT * FROM goods_review JOIN suser_detail "
 					+ "USING(user_num) WHERE goods_num = ? ORDER BY re_num desc)a) "
 					+ "WHERE rnum >=? AND rnum <=?";
 			pstmt = conn.prepareStatement(sql);
@@ -423,13 +423,13 @@ public class GoodsDAO {
 				review.setRe_date(DurationFromNow.getTimeDiffLabel(rs.getString("re_date")));
 
 				if(rs.getString("re_mdate")!=null) {
-					review.setRe_mdate(rs.getString("re_mdate"));
+					review.setRe_mdate(DurationFromNow.getTimeDiffLabel(rs.getString("re_mdate")));
 				}
 
 				review.setRe_content(StringUtil.useBrNoHtml(rs.getString("re_content")));
 				review.setGoods_num(rs.getLong("goods_num"));
 				review.setUser_num(rs.getLong("user_num"));
-				review.setNick_name("nick_name");
+				review.setNick_name(rs.getString("nick_name"));
 
 				list.add(review);
 			}

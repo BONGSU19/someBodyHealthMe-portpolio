@@ -15,7 +15,7 @@ $(function(){
 		$.ajax({
 			url:'listReply.do',
 			type : 'post',
-			data:{pageNum:pageNum, rowCount:rowCount, goods_num:$('#goods_num').val()},
+			data:{pageNum:pageNum, rowCount:rowCount, goods_num:$('#goods_num').val(), status:$('#status').val()},
 			dataType :'json',
 			success:function(param){
 				//로딩 이미지 감추기
@@ -39,8 +39,9 @@ $(function(){
 					
 					//로그인한 회원번호와 작성자의 회원번호 일치 여부 체크
 					if(param.user_num == item.user_num){
-						//로그인한 회원번호와 작성자 회원번호 일치
-						output += ' <input type ="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';
+						output += ' <input type ="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';						
+						output += ' <input type ="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+					}else if(param.user_num == 26){
 						output += ' <input type ="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
 					}
 					output += '<hr size="1" noshade width="100%">';
@@ -216,7 +217,7 @@ $(function(){
 		}else{//300자 이하인경우
 			let remain = 300 - inputLength;
 			remain +='/300';
-			if($(this).attr('nick_name') == 
+			if($(this).attr('id') == 
 			're_content'){
 				//등록폼 글자수
 				$('#re_first .letter-count').text(remain);

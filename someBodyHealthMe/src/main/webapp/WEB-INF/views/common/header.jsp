@@ -21,6 +21,9 @@
         <ul class="navbar__menu">
             <li><a href="${pageContext.request.contextPath}/board/list.do">소통공간</a></li>
             <li><a href="${pageContext.request.contextPath}/goods/list.do">헬스용품</a></li>
+            <c:if test="${!empty user_num}">
+			<li><a href="${pageContext.request.contextPath}/cart/list.do">장바구니</a></li>
+			</c:if>
             <li><a href="${pageContext.request.contextPath}/friendSearch/friendList.do">친구만들기</a></li>
             <li><a href="${pageContext.request.contextPath}/mybody/myStatus.do">건강지킴이</a></li>
             <li><a href="${pageContext.request.contextPath}/pt/pt.do">PT</a></li>

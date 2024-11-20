@@ -9,7 +9,7 @@
 <title>상품 상세</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.item-detail.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.goods-detail.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/goods.like.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/goods.reply.js"></script>
 </head>
@@ -63,7 +63,7 @@
 								   autocomplete="off" id="cart_quantity" class="quantity-width">
 						</li>
 						<li>
-							<span id="item_total_txt">총주문 금액 : 0원</span>
+							<span id="goods_total_txt">총주문 금액 : 0원</span>
 						</li>
 						<li>
 							<input type="submit" value="장바구니에 담기">

@@ -1,13 +1,23 @@
-package kr.order.vo;
+package kr.cart.vo;
+
+import kr.goods.vo.GoodsVO;
 
 public class CartVO {
 	private long cart_num;
 	private long goods_num;
-	private long user_num;
-	private int cart_quantity;
+	private int order_quantity;
 	private int cart_check;
+	private long user_num;
 	private int sub_total;
 	
+	private GoodsVO goodsVO;
+	
+	public GoodsVO getGoodsVO() {
+		return goodsVO;
+	}
+	public void setGoodsVO(GoodsVO goodsVO) {
+		this.goodsVO = goodsVO;
+	}
 	public long getCart_num() {
 		return cart_num;
 	}
@@ -26,11 +36,11 @@ public class CartVO {
 	public void setUser_num(long user_num) {
 		this.user_num = user_num;
 	}
-	public int getCart_quantity() {
-		return cart_quantity;
+	public int getOrder_quantity() {
+		return order_quantity;
 	}
-	public void setCart_quantity(int cart_quantity) {
-		this.cart_quantity = cart_quantity;
+	public void setOrder_quantity(int order_quantity) {
+		this.order_quantity = order_quantity;
 	}
 	public int getCart_check() {
 		return cart_check;

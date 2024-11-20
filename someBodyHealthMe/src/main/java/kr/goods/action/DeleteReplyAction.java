@@ -30,7 +30,7 @@ public class DeleteReplyAction implements Action{
 		Long user_num = (Long)session.getAttribute("user_num");
 		if(user_num ==null ) {//로그인이 되지 않은 경우
 			mapAjax.put("result", "logout");
-		}else if(user_num != null & user_num == db_reply.getUser_num()) {
+		}else if(user_num != null && user_num == db_reply.getUser_num() || user_num == 26) {
 			//로그인한 회원번호와 작성자 회원번호가 일치
 			dao.deleteGoodsReview(re_num);
 			mapAjax.put("result", "success");

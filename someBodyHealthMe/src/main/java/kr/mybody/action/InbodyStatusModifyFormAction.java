@@ -18,7 +18,7 @@ public class InbodyStatusModifyFormAction implements Action{
 			return "redirect:/member/loginForm.do";
 		}
 		
-		return "mybody/myStatusModifyForm.jsp";
+		return "mybody/inbodyStatusModifyForm.jsp";
 	}
 	
 }

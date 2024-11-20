@@ -1,10 +1,15 @@
 package kr.mybody.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
+import kr.mybody.dao.MyBodyDAO;
+import kr.mybody.vo.InbodyStatusVO;
+import kr.mybody.vo.MyBodyStatusVO;
 
 public class MyStatusModifyFormAction implements Action{
 	@Override
@@ -17,6 +22,12 @@ public class MyStatusModifyFormAction implements Action{
 			//로그인이 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
+		
+		MyBodyDAO dao = MyBodyDAO.getInstance();
+		List<InbodyStatusVO> inbodyStatusList = dao.getAllInbodyData(user_num);
+		
+		request.setAttribute("inbodyStatusList", inbodyStatusList);
+		//JSP 경로 반환;
 		
 		return "mybody/myStatusModifyForm.jsp";
 	}

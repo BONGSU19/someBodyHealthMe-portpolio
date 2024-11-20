@@ -351,6 +351,50 @@ public class MyBodyDAO{
 	    }       
 	}
 
+	public List<InbodyStatusVO> getAllInbodyData(Long user_num) throws Exception {
+	    List<InbodyStatusVO> inbodyStatusList = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = null;
+
+	    try {
+	        // 커넥션 할당
+	        conn = DBUtil.getConnection();
+
+	        // SQL 쿼리: user_num에 해당하는 모든 인바디 데이터 조회
+	        sql = "SELECT MeasurementDate, MuscleMass, BodyFatPercentage, Weight "
+	              + "FROM InBody "
+	              + "WHERE user_num = ? "
+	              + "ORDER BY MeasurementDate DESC";  // 날짜별로 최신순 정렬
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setLong(1, user_num);  // 로그인된 유저에 대해서만 조회
+	        rs = pstmt.executeQuery();
+
+	        // 결과 처리
+	        while (rs.next()) {
+	            InbodyStatusVO inbodyStatus = new InbodyStatusVO();
+	            inbodyStatus.setMeasurementDate(rs.getDate("MeasurementDate"));
+	            inbodyStatus.setMuscleMass(rs.getDouble("MuscleMass"));
+	            inbodyStatus.setBodyFatPercentage(rs.getDouble("BodyFatPercentage"));
+	            
+	            // 리스트에 추가
+	            inbodyStatusList.add(inbodyStatus);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new Exception(e);
+	    } finally {
+	        // 자원 해제
+	        DBUtil.executeClose(rs, pstmt, conn);
+	    }
+
+	    return inbodyStatusList;
+	}
+
+
+	
 	
 }
 		

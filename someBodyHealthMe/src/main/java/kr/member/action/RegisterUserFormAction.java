@@ -10,4 +10,4 @@ public class RegisterUserFormAction implements Action {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return "member/registerUserForm.jsp";
     }
-}
+}             

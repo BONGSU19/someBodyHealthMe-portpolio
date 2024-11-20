@@ -33,8 +33,12 @@
                     <li><div class="button"><a href="${pageContext.request.contextPath}/member/myPage.do">MYPAGE</a></div></li>
                     <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
                 </c:when>
-                <c:when test="${sessionScope.status == 2 || sessionScope.status == 3 || sessionScope.status == 4}">
-                    <li><div class="button"><a href="${pageContext.request.contextPath}/member	/adminPage.do">관리자페이지</a></div></li>
+                <c:when test="${sessionScope.status == 2 || sessionScope.status == 3 }">
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/managerPage.do">매니저페이지</a></div></li>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
+                </c:when>
+                <c:when test="${sessionScope.status == 4}">
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/adminPage.do">관리자페이지</a></div></li>
                     <li><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
                 </c:when>
                 <c:otherwise>

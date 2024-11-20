@@ -136,18 +136,18 @@ public class MemberDAO {
         return isDuplicate;
     }
 		// 로그인 메서드
-    	public MemberVO checkLogin(String loginId, String password) throws Exception {
-    		Connection conn = null;
-    		PreparedStatement pstmt = null;
-    		ResultSet rs = null;
-    		MemberVO member = null;
+    public MemberVO checkLogin(String loginId, String password) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        MemberVO member = null;
 
         try {
             conn = DBUtil.getConnection();
             String sql = "SELECT u.user_num, u.login_id, u.status, d.name " +
                          "FROM SUSER u " +
                          "JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
-                         "WHERE u.login_id = ? AND d.password = ?";
+                         "WHERE u.login_id = ? AND d.password = ? AND u.status != 0"; // 상태값이 0이 아닌 경우만 로그인 가능
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loginId);
             pstmt.setString(2, password);
@@ -158,7 +158,7 @@ public class MemberDAO {
                 member.setUser_num(rs.getLong("user_num"));
                 member.setLogin_id(rs.getString("login_id"));
                 member.setStatus(rs.getInt("status"));
-                member.setName(rs.getString("name"));  // name 필드를 추가하여 설정
+                member.setName(rs.getString("name"));
             }
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);

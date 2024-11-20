@@ -307,7 +307,7 @@ public class MyBodyDAO{
 	        
 	        // SQL 쿼리: InBody 테이블에 인바디 데이터 삽입
 	        sql = "INSERT INTO InBody (INBODYID, USER_NUM, MEASUREMENTDATE, MUSCLEMASS, BODYFATPERCENTAGE, CREATEDAT, MODIFY_DATE) "
-	                + "VALUES (INBODY_SEQ.nextval, ?, ?, ?, ?, SYSDATE, NULL)";
+	                + "VALUES (INBODYID_SEQ.nextval, ?, ?, ?, ?, SYSDATE, NULL)";
 
 	        pstmt = conn.prepareStatement(sql);
 	        
@@ -317,7 +317,7 @@ public class MyBodyDAO{
 	        // 측정일 (MeasurementDate) -> `Date` 타입이므로 `java.sql.Date`로 변환
 	        // 날짜만 필요하므로 시간을 제외한 날짜만 설정
 	        Date sqlDate = new Date(inbodyStatus.getMeasurementDate().getTime());
-	        pstmt.setDate(2, sqlDate);  // `getTime()`으로 밀리초 단위의 long 값 반환 후 `java.sql.Date`로 변환
+	        pstmt.setDate(2, sqlDate); 
 	        
 	        // 근육량 (MuscleMass)
 	        pstmt.setDouble(3, inbodyStatus.getMuscleMass());

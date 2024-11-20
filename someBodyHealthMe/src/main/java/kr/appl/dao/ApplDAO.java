@@ -91,8 +91,37 @@ public class ApplDAO {
 		return list;		
 	}
 	
+	//지원 사항 수정하기
+	public void updateAppl(ApplVO appl) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "UPDATE application SET field = ?, career= ?, content=?, source=?, appl_center=? ,appl_modifydate = SYSDATE "
+					+ "WHERE appl_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, appl.getField());
+			pstmt.setInt(2, appl.getCareer());
+			pstmt.setString(3, appl.getContent());
+			pstmt.setString(4, appl.getSource());
+			pstmt.setInt(5, appl.getAppl_center());
+			pstmt.setLong(6, appl.getAppl_num());
+			
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 
-	//지원 취소
+	//지원 취소 %%수정 해야함
 	public void deleteAppl(long appl_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -106,6 +135,7 @@ public class ApplDAO {
 			pstmt = conn.prepareCall(sql);
 
 			pstmt.setLong(1, appl_num);			
+			
 
 		}catch(Exception e) {
 			throw new Exception(e);			
@@ -175,9 +205,7 @@ public class ApplDAO {
 
 
 		try {
-			conn = DBUtil.getConnection();
-			
-			
+			conn = DBUtil.getConnection();			
 			
 			for(int i=1 ; i<keys.size(); i += 2) {
 				if(keys.get(i) != null) {//숫자가 넘어 왔어
@@ -200,10 +228,6 @@ public class ApplDAO {
 			}
 			
 			
-			//검사용
-			System.out.println("name = " + name);
-			System.out.println("cnt = " + cnt + ", value = " + name );
-			
 			for(int i=1 ; i<keys.size(); i += 2) {
 				if(keys.get(i) != null) {//숫자가 넘어 왔어
 					int keyValue = Integer.parseInt(keys.get(i));
@@ -213,14 +237,9 @@ public class ApplDAO {
 					}
 				}
 			}
-			System.out.println(sql);//성공
+		
 			pstmt.setInt(++cnt, start);
-			System.out.println("cnt = " + cnt + ", start = " + start);
-			
 			pstmt.setInt(++cnt, end);
-			System.out.println("cnt = " + cnt + ", end = " + end);
-
-			System.out.println(sql);
 			
 			rs = pstmt.executeQuery();
 			list = new ArrayList<ApplVO>();

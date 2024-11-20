@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.appl.dao.ApplDAO;
+import kr.appl.vo.ApplVO;
 import kr.controller.Action;
 
 public class UpdateFormAction implements Action{
@@ -15,8 +17,17 @@ public class UpdateFormAction implements Action{
 		if(user_num == null) {//로그인이 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
+		long appl_num = Long.parseLong(request.getParameter("appl_num"));
+		ApplDAO dao = ApplDAO.getInstance();
+		ApplVO appl = dao.getAppl(appl_num);
 		
-	
-		return null;
+		if(appl.getUser_num() != user_num) {//작성자 수정자 일치 여부
+			return "redirect:/common/notice.jsp";
+		}
+		//업데이트 화면 전송
+		
+		request.setAttribute("appl", appl);	
+		
+		return "appl/updateForm.jsp";
 	}
 }

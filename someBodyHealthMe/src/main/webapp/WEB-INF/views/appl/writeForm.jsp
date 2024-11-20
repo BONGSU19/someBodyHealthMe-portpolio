@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소통공간</title>
+<title>지원하기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <style type="text/css">
 	 body {
@@ -101,7 +101,7 @@
         <h2>지원하기</h2>
         <div class="content-main">
         
-       	<form action="write.do" method="get" enctype="multipart/form-data">
+       	<form action="write.do" method="post" enctype="multipart/form-data">
             <!-- 지원 분야 -->
             <div class="form-group">
                 <label>지원 분야</label>

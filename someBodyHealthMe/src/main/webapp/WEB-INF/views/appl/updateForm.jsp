@@ -17,7 +17,7 @@
         .container {
             width: 60%;
             height: 100%;
-            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */ 
+            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */
             overflow-y: auto; /* 세로 스크롤 추가 */
             text-align: center;
  			margin-top:43px;
@@ -93,42 +93,52 @@
         
 
 </style>
+<script type="text/javascript">
+	window.onload = function(){
+		const field = document.getElementsByName('field');
+		for (let i = 0; i < field.length; i++) {
+	        if (field[i].value == Number(${appl.field})) {
+	            field[i].checked = true;  // 일치하는 라디오 버튼을 체크
+	            break;  // 일치하는 값을 찾으면 반복문 종료
+	        }
+	    }
+		const career = document.getElementsByName('career');
+		for (let i = 0; i < career.length; i++) {
+	        if (career[i].value == Number(${appl.career})) {
+	        	career[i].checked = true;  // 일치하는 라디오 버튼을 체크
+	            break;  // 일치하는 값을 찾으면 반복문 종료
+	        }
+	    }
+		const appl_center = document.getElementsByName('appl_center');
+		for (let i = 0; i < appl_center.length; i++) {
+	        if (appl_center[i].value == Number(${appl.appl_center})) {
+	        	appl_center[i].selected = true;  // 일치하는 라디오 버튼을 체크
+	            break;  // 일치하는 값을 찾으면 반복문 종료
+	        }
+	    }		
+	};
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/aside.jsp"/>
-	<div class="container">
-        <h2>지원 목록</h2>
-        <div class="content-main"> 
-        	<!-- 관리자 검색 조건 -->
-          	<form action="listByAdmin.do" method="get" enctype="multipart/form-data">
-          	<!-- 확인 상태 -->
-          	<div class="form-group">   	    	
-                <label>확인 상태</label>
-                <div>
-                    <input type="radio" id="field" name="appl_status" value="0" required>
-                    <label for="trainer">미확인</label>
-                    <input type="radio" id="field" name="appl_status" value="1" required>
-                    <label for="office">확인</label>
-                    <input type="radio" id="field" name="appl_status" value="9" required>
-                    <label for="all">전체</label>
-                </div>
-            </div>
-            <br>
-           
+    <div class="container">
+        <h2>지원내용수정</h2>
+        <div class="content-main">
+        
+       	<form action="update.do" method="post" enctype="multipart/form-data">
             <!-- 지원 분야 -->
-            <div class="form-group">   	    	
-                <label>지원 분야</label>
+            <div class="form-group">
+            	<input type="hidden" name="appl_num" value = "${appl.appl_num}">
+                <label for="field">지원 분야</label>
                 <div>
                     <input type="radio" id="field" name="field" value="2" required>
                     <label for="trainer">트레이너</label>
                     <input type="radio" id="field" name="field" value="3" required>
                     <label for="office">사무직원</label>
-                    <input type="radio" id="all" name="field" value="9" required>
-                    <label for="all">전체</label>
                 </div>
             </div>
-            <br>
+            <br><br>
 
             <!-- 경력 유무 -->
             <div class="form-group">
@@ -138,58 +148,47 @@
                     <label for="experienced">경력</label>
                     <input type="radio" id="career" name="career" value="2" required>
                     <label for="newbie">신입</label>
-                    <input type="radio" id="career" name="career" value="9" required>
-                    <label for="all">전체</label>
                 </div>
             </div>
-            <br>
-           
-	        <!-- 지원 지점 선택 -->
+            <br><br>
+            
+            <!-- 지원 경로 -->
+            <div class="form-group">
+                <label for="source">지원 경로</label>
+                <textarea id="appl_source" name="source" rows="4" cols="50" placeholder="지원 경로를 입력하세요...">${appl.source}</textarea>
+            </div>
+	        <br><br>
+	        
+            <!-- 지원 지점 선택 -->
             <div class="form-group">
                 <label for="appl_center">지원 지점</label>
                 <select id="appl_center" name="appl_center" required>
                     <option value="1">강남점</option>
                     <option value="2">강북점</option>
-                    <option value="9">전지점</option>
                 </select>
             </div>
-            <br>
-            <input type="search" name="name">
+			
+            <br><br>
+            <!-- 자기소개 -->
+            <div class="form-group">
+                <label for="content">자기소개</label>
+                <textarea id="appl_content" name="content" rows="5" cols="50" placeholder="자기소개를 입력하세요..." required>${appl.content }</textarea>
+            </div>
+
+            <br><br>
+            <!-- 첨부파일 -->
+            <div class="form-group">
+                <label for="appl_attachment">첨부파일</label>
+                <input type="file" id="appl_attachment" name="appl_attachment" accept=".jpg,.png,.pdf,.docx" />
+            </div>
+            
+            <br><br>
             <!-- 제출 버튼 -->
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">검색</button>
+                <button type="submit" class="btn btn-primary">수정</button>
             </div>
-        </form>
-            
-            <table>
-                <tr>
-                    <th>지원번호</th>
-                    <th>지원분야</th>
-                    <th>지원지점</th>
-                    <th>등록일(수정일)</th>
-                    <th>확인 상태</th>
-                </tr>                
-                <c:forEach var="appl" items="${list}">
-                <tr>
-                    <td><a href="detail.do?appl_num=${appl.appl_num}">${appl.appl_num}</a></td>
-                    <td>${appl.field}</td>
-                    <td>${appl.appl_center}</td>
-                    <c:if test="${!empty appl.appl_modifydate }">
-                    <td>${appl.appl_modifydate}</td>
-                    </c:if>
-                    <c:if test="${empty appl.appl_modifydate }">
-                   	<td>${appl.appl_regdate}</td>
-                    </c:if>
-                    <td>${appl.appl_status}</td>
-                </tr>
-                </c:forEach>
-            </table>
-            <c:if test="${empty list}">
-            	<div>표시할 게시물이 없습니다.</div>   		
-            </c:if> 
-            ${page}
-            
-        </div>
+        </form> 
+        </div>        	
     </div>
 </body>
 

@@ -10,7 +10,7 @@
 <style type="text/css">
 	 body {
             
-            min-height: 100vh;
+            min-height: 120vh;
             margin: 0;
         }
 
@@ -93,14 +93,42 @@
         
 
 </style>
+<script type="text/javascript">
+	window.onload = function(){
+		const field = document.getElementsByName('field');
+		for (let i = 0; i < field.length; i++) {
+	        if (field[i].value == Number(${appl.field})) {
+	            field[i].checked = true;  // 일치하는 라디오 버튼을 체크
+	            break;  // 일치하는 값을 찾으면 반복문 종료
+	        }
+	    }
+		const career = document.getElementsByName('career');
+		for (let i = 0; i < career.length; i++) {
+	        if (career[i].value == Number(${appl.career})) {
+	        	career[i].checked = true;  // 일치하는 라디오 버튼을 체크
+	            break;  // 일치하는 값을 찾으면 반복문 종료
+	        }
+	    }
+		const appl_center = document.getElementsByName('appl_center');
+		for (let i = 0; i < appl_center.length; i++) {
+	        if (appl_center[i].value == Number(${appl.appl_center})) {
+	        	appl_center[i].selected = true;  // 일치하는 라디오 버튼을 체크
+	            break;  // 일치하는 값을 찾으면 반복문 종료
+	        }
+	    }		
+	};
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <jsp:include page="/WEB-INF/views/common/aside.jsp"/>
     <div class="container">
-        <h2>지원정보</h2>
+        <h2>지원 상세 페이지</h2>
         <div class="content-main">
-       	<b>자바스크립트로 조건 체크 하여 변경불가능하게 만들기 AND 데이터 가져와서 표시하기,관리자 열람시 appl_status 값 변경(detailaction)작업</b>
+       	<b>
+       		자바스크립트로 조건 체크 하여 변경불가능하게 만들기 AND 데이터 가져와서 표시하기,관리자 열람시 appl_status 값 변경(detailaction)작업
+       		목록 처리(최종관리자와 사무직원의 목록 분기(내지원목록, 지원목록))
+       	</b>
        	<form action="write.do" method="get" enctype="multipart/form-data">
             <!-- 지원 분야 -->
             <div class="form-group">
@@ -129,7 +157,7 @@
             <!-- 지원 경로 -->
             <div class="form-group">
                 <label for="source">지원 경로</label>
-                <textarea id="appl_source" name="source" rows="4" cols="50" placeholder="지원 경로를 입력하세요..."></textarea>
+                <textarea id="appl_source" name="source" rows="4" cols="50" placeholder="지원 경로를 입력하세요...">${appl.source}</textarea>
             </div>
 	        <br><br>
 	        
@@ -146,7 +174,7 @@
             <!-- 자기소개 -->
             <div class="form-group">
                 <label for="content">자기소개</label>
-                <textarea id="appl_content" name="content" rows="5" cols="50" placeholder="자기소개를 입력하세요..." required></textarea>
+                <textarea id="appl_content" name="content" rows="5" cols="50" placeholder="자기소개를 입력하세요..." required>${appl.content}</textarea>
             </div>
 
             <br><br>
@@ -160,16 +188,27 @@
             <!-- 수정 버튼 -->
             <c:if test="${appl.user_num == user_num && appl.appl_status == 0}">            
             <div class="form-group">
-                <button type="button" class="btn btn-primary" onclick="location.href='/appl/updateForm.do'">수정</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='updateForm.do?appl_num=${appl.appl_num}'">수정</button> <br>
+                <button type="button" class="btn btn-primary" onclick="location.href='delete.do?appl_num=${appl.appl_num}'">삭제</button>
             </div>
             </c:if>
             
             <!-- 관리자 전환 버튼 -->
             <c:if test="${status==4 || status==2 && appl.user_num != user_num}">                       
             <div class="form-group">
-                <button type="button" class="btn btn-primary" onclick="location.href='#'">수정</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='#'">관리자 전환</button>
             </div>
-            </c:if>            
+            </c:if>
+            <!-- 목록 -->
+            <div class="form-group">
+            	<c:if test="${appl.user_num == user_num}">              	
+                <input type="button" onclick="location.href='listByUser.do'" value="나의 지원 목록">           
+            	</c:if>
+            	
+            	<c:if test="${status==4 || status==2 && appl.user_num != user_num}"> 
+				<input type="button" onclick="location.href='listByAdmin.do'" value="지원자 목록">
+				</c:if> 
+            </div>            
         </form> 
         </div>        	
     </div>

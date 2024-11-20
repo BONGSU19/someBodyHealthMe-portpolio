@@ -29,7 +29,6 @@ public class ListByAdminAction implements Action{
 		//페이지 처리
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum==null)pageNum = "1";
-		String addKey ="";
 		
 		
 		String name = request.getParameter("name");		
@@ -48,16 +47,19 @@ public class ListByAdminAction implements Action{
 		keys.add("appl_center");
 		keys.add(appl_center);
 		
-		if(name != null) addKey += "&name=" + name;
+		String addKey = "";
+		if(name != null) addKey += "&name=" + name;//질문
 		for(int i = 1; i<keys.size(); i+=2) {
 			if(keys.get(i) != null) addKey += "&" + keys.get(i-1) + "=" + keys.get(i);
 		}
+		
+		System.out.println("addKey = "  + addKey);
 			
 		ApplDAO dao = ApplDAO.getInstance();
 		int count = dao.getApplicationCount(name, keys);
 		System.out.println("count = " + count);
 		
-		PagingUtil page = new PagingUtil(Integer.parseInt(pageNum) , count, 1, 1, "listByAdmin.do",addKey);
+		PagingUtil page = new PagingUtil(Integer.parseInt(pageNum) , count, 1, 10, "listByAdmin.do",addKey);
 		System.out.println("endrow = " + page.getEndRow());
 		
 		//목록 담기

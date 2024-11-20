@@ -38,7 +38,7 @@ public class WriteAction implements Action{
 		
 		request.setAttribute("notice_msg", "지원 신청 완료");
 		request.setAttribute("notice_url", 
-				   request.getContextPath()+"/appl/writeForm.do");
+				   request.getContextPath()+"/appl/listByUser.do");
 		
 		
 		return "/common/alert_view.jsp";

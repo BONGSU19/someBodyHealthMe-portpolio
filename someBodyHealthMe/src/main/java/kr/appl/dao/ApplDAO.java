@@ -115,7 +115,7 @@ public class ApplDAO {
 	}
 
 	//총 지원 개수 구하기 - 관리자
-	public int getApplicationCount(String name,int appl_status,int field,int career,int appl_center) throws Exception{
+	public int getApplicationCount(String name,ArrayList<String> keys) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -126,33 +126,29 @@ public class ApplDAO {
 
 		try {
 			conn = DBUtil.getConnection();
-
-			if(appl_status == 9) sub_sql = "WHERE 1=1 ";//전체(지원상태)
-			else sub_sql = "WHERE appl_status = ? ";//field 1
-
-			if(field != 9) sub_sql += " AND field = ?";//(분야)		
-
-			if(career != 9) sub_sql += " AND career = ?"; //(경력)
-
-			if(appl_center != 0) sub_sql += " AND appl_center=?"; //지점번호
-
-			if(name != null && !"".equals(name)) {
-				sub_sql += " AND name = '%' || ? || '%'";
-			}
-
+			
+			if(name == null) name ="";
+			sub_sql += "WHERE name LIKE '%' || ? || '%' " ;
+			for(int i=1 ; i<keys.size(); i += 2) {
+				if(keys.get(i) != null) {//숫자가 넘어 왔어
+					int keyValue = Integer.parseInt(keys.get(i));
+					 if(keyValue != 9)  sub_sql += "AND " + keys.get(i-1) + " =  ? ";
+				}
+			}			
+			
 			sql = "SELECT COUNT(*) FROM application JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) " + sub_sql;
-
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(++cnt, appl_status);
-			pstmt.setInt(++cnt, field);
-			pstmt.setInt(++cnt, career);
-			pstmt.setInt(++cnt, appl_center);
-
-			if(name != null && !"".equals(name)) {
-				pstmt.setString(++cnt, name);
+			
+			pstmt = conn.prepareStatement(sql);				
+			
+			
+			pstmt.setString(++cnt, name);
+			
+			for(int i=1 ; i<keys.size(); i += 2) {
+				if(keys.get(i) != null) {//숫자가 넘어 왔어
+					int keyValue = Integer.parseInt(keys.get(i));
+					if(keyValue != 9) pstmt.setInt(++cnt, keyValue);			
+				}
 			}
-
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt(1);
@@ -168,7 +164,7 @@ public class ApplDAO {
 
 
 	//지원 목록 보기 관리자
-	public List<ApplVO> getListByAdmin(int start,int end,String name,int appl_status,int field,int career,int appl_center) throws Exception{
+	public List<ApplVO> getListByAdmin(int start,int end,String name,ArrayList<String> keys) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -180,37 +176,52 @@ public class ApplDAO {
 
 		try {
 			conn = DBUtil.getConnection();
-
-			if(appl_status != 9) sub_sql = "WHERE 1=1 ";//전체(지원상태)
-			else sub_sql = "WHERE appl_status = ? ";//field 1
-
-			if(field != 9) sub_sql += " AND field = ?";//(분야)		
-
-			if(career != 9) sub_sql += " AND career = ?"; //(경력)
-
-			if(appl_center != 0) sub_sql += " AND appl_center=?"; //지점번호
-
-			if(name != null && !"".equals(name)) {
-				sub_sql += " AND name = '%' || ? || '%'";
-			}
-
+			
+			
+			
+			for(int i=1 ; i<keys.size(); i += 2) {
+				if(keys.get(i) != null) {//숫자가 넘어 왔어
+					int keyValue = Integer.parseInt(keys.get(i));
+					 if(keyValue != 9)  sub_sql += "AND " + keys.get(i-1) + " = ?" ;	
+				}
+			}	
+			
 			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM "
 					+ "(SELECT * FROM application JOIN "
-					+ "(SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) " + sub_sql + ")a)"
-							+ " WHERE rnum >=? AND rnum <=?";
+					+ "(SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) WHERE name LIKE '%' || ? || '%'" + sub_sql + ") a)"
+							+ " WHERE rnum >= ? AND rnum <= ?";
 
 			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(++cnt, appl_status);
-			pstmt.setInt(++cnt, field);
-			pstmt.setInt(++cnt, career);
-			pstmt.setInt(++cnt, appl_center);
-			if(name != null && !"".equals(name)) {
+			
+			if(name != null) {
 				pstmt.setString(++cnt, name);
+			}else {
+				pstmt.setString(++cnt, "");
 			}
+			
+			
+			//검사용
+			System.out.println("name = " + name);
+			System.out.println("cnt = " + cnt + ", value = " + name );
+			
+			for(int i=1 ; i<keys.size(); i += 2) {
+				if(keys.get(i) != null) {//숫자가 넘어 왔어
+					int keyValue = Integer.parseInt(keys.get(i));
+					if(keyValue != 9) {
+						pstmt.setInt(++cnt, keyValue);		
+						System.out.println("cnt = " + cnt + ", value = " + keyValue);
+					}
+				}
+			}
+			System.out.println(sql);//성공
 			pstmt.setInt(++cnt, start);
+			System.out.println("cnt = " + cnt + ", start = " + start);
+			
 			pstmt.setInt(++cnt, end);
+			System.out.println("cnt = " + cnt + ", end = " + end);
 
+			System.out.println(sql);
+			
 			rs = pstmt.executeQuery();
 			list = new ArrayList<ApplVO>();
 
@@ -286,7 +297,7 @@ public class ApplDAO {
 		try {
 			conn = DBUtil.getConnection();
 
-			sql = "UPDATE application SET appl_status = 1  WHERE appl_num ?";
+			sql = "UPDATE application SET appl_status = 1  WHERE appl_num = ?";
 
 			pstmt = conn.prepareStatement(sql);
 

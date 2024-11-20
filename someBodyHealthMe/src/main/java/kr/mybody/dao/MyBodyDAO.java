@@ -363,7 +363,7 @@ public class MyBodyDAO{
 	        conn = DBUtil.getConnection();
 
 	        // SQL 쿼리: user_num에 해당하는 모든 인바디 데이터 조회
-	        sql = "SELECT MeasurementDate, MuscleMass, BodyFatPercentage, Weight "
+	        sql = "SELECT MeasurementDate, MuscleMass, BodyFatPercentage "
 	              + "FROM InBody "
 	              + "WHERE user_num = ? "
 	              + "ORDER BY MeasurementDate DESC";  // 날짜별로 최신순 정렬

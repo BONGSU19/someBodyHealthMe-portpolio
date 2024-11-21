@@ -21,53 +21,75 @@
 
             <!-- 인바디 정보 수정 폼 -->
             <section class="user-info">
-            
                 <div class="title">
                     <h2>인바디 측정 정보 수정</h2>
                 </div>
 
                 <!-- 사용자가 등록한 모든 인바디 데이터 목록 -->
                 <div class="info-box">
-		    <h3>등록된 인바디 데이터</h3>
-		    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusEdit.do" method="post">
-		        <select name="measurementDate" id="measurementDate">
-		            <option value="">인바디 데이터를 선택하세요</option>
-		            <!-- 데이터 목록 출력 -->
-		            <c:forEach var="inbody" items="${inbodyStatusList}">
-		                <option value="${inbody.measurementDate}">
-		                    ${inbody.measurementDate} (근육량: ${inbody.muscleMass}kg, 체지방률: ${inbody.bodyFatPercentage}%)
-		                </option>
-		            </c:forEach>
-		        </select>
-		        <input id='insert-button' class="button" type="submit" value="확인"/>
-		    </form>
-		</div>
-		
-		<!-- 선택된 인바디 데이터를 자동으로 수정 폼에 채우기 -->
-		<c:if test="${not empty inbodyStatus}">
-		    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusUpdate.do" method="post">
-		        <div class="info-box">
-		            <div class="info-item">
-		                <label for="measurementDate" class="label">인바디 측정 날짜</label>
-		                <input type="date" id="measurementDate" name="measurementDate" 
-		                       value="${inbodyStatus.measurementDate}" required readonly />
-		            </div>
-		
-		            <div class="info-item">
-		                <label for="muscleMass" class="label">근육량(kg)</label>
-		                <input type="text" id="muscleMass" name="muscleMass" 
-		                       value="${inbodyStatus.muscleMass}" required />
-		            </div>
-		
-		            <div class="info-item">
-		                <label for="bodyFatPercentage" class="label">체지방률(%)</label>
-		                <input type="text" id="bodyFatPercentage" name="bodyFatPercentage" 
-		                       value="${inbodyStatus.bodyFatPercentage}" required />
-		            </div>
+                    <h3>등록된 인바디 데이터</h3>
+                    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusEdit.do" method="post">
+                        <select name="measurementDate" id="measurementDate" onchange="toggleSubmitButton()">
+                            <option value="">인바디 데이터를 선택하세요</option>
+                            <!-- 데이터 목록 출력 -->
+                            <c:forEach var="inbody" items="${inbodyStatusList}">
+                                <option value="${inbody.measurementDate}">
+                                    ${inbody.measurementDate} (근육량: ${inbody.muscleMass}kg, 체지방률: ${inbody.bodyFatPercentage}%)
+                                </option>
+                            </c:forEach>
+                        </select>
+                        <input id="insert-button-modify" class="button" type="submit" value="확인" disabled/>
+                    </form>
+                </div>
 
-		            <input id='modify-button' class="button" type="submit" value="수정"/>
-		        </div>
-		    </form>
-		</c:if>
+                <!-- 선택된 인바디 데이터를 자동으로 수정 폼에 채우기 -->
+                <c:if test="${not empty inbodyStatus}">
+                    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusUpdate.do" method="post">
+                        <div class="info-box">
+                            <div class="info-item">
+                                <label for="measurementDate" class="label">인바디 측정 날짜</label>
+                                <input type="date" id="measurementDate" name="measurementDate" 
+                                       value="${inbodyStatus.measurementDate}" required readonly />
+                            </div>
+
+                            <div class="info-item">
+                                <label for="muscleMass" class="label">근육량(kg)</label>
+                                <input type="text" id="muscleMass" name="muscleMass" 
+                                       value="${inbodyStatus.muscleMass}" required />
+                            </div>
+
+                            <div class="info-item">
+                                <label for="bodyFatPercentage" class="label">체지방률(%)</label>
+                                <input type="text" id="bodyFatPercentage" name="bodyFatPercentage" 
+                                       value="${inbodyStatus.bodyFatPercentage}" required />
+                            </div>
+
+                            <input id='modify-button' class="button" type="submit" value="수정"/>
+                        </div>
+                    </form>
+                </c:if>
+            </section> <!-- section 태그 닫기 -->
+        </div> <!-- main-content div 태그 닫기 -->
+    </div> <!-- page-main div 태그 닫기 -->
+
+    <script>
+        // 버튼을 활성화/비활성화하는 함수
+        function toggleSubmitButton() {
+            var selectElement = document.getElementById('measurementDate');
+            var submitButton = document.getElementById('insert-button-modify');
+            
+            // 선택된 값이 비어 있지 않으면 버튼을 활성화, 비어 있으면 비활성화
+            if (selectElement.value) {
+                submitButton.disabled = false;  // 버튼 활성화
+            } else {
+                submitButton.disabled = true;   // 버튼 비활성화
+            }
+        }
+
+        // 페이지 로드 시 버튼 상태 설정 (기본값으로 비활성화)
+        window.onload = function() {
+            toggleSubmitButton();  // 페이지 로드 시 버튼 상태를 초기화
+        };
+    </script>
 </body>
 </html>

@@ -28,12 +28,13 @@ body {
     padding: 15px;
 }
 .login-title .navbar__logo {
-    color: #F3524C; /* 로고 색상: 요청한 붉은색 */
+    color: #000000; /* 로고 색상: 요청한 붉은색 */
     font-size: 20px; /* 적당한 크기 */
     font-weight: bold; /* 글자 굵기 강조 */
 }
 .login-title .navbar__logo i {
     margin-right: 8px; /* 로고 아이콘과 텍스트 간격 */
+    color: #d48566;
 }
 
 /* 로그인 입력 폼 스타일 */
@@ -55,7 +56,7 @@ body {
     width: 80%; /* 좌우로 길게 */
     padding: 12px;
     margin: 20px auto 0 auto; /* 위쪽 여백 추가, 중앙 정렬 */
-    background: #F3524C; /* 붉은색 버튼 */
+    background: #d48566; /* 붉은색 버튼 */
     color: #ffffff;
     border: none;
     border-radius: 5px;

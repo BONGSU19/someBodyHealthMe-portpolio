@@ -6,6 +6,7 @@
     <title>회원 가입</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/registerForm.css" type="text/css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
+    <script src="https://kit.fontawesome.com/8e490eaab5.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(function(){
             let idChecked = 0, nicknameChecked = 0, emailChecked = 0, phoneChecked = 0;

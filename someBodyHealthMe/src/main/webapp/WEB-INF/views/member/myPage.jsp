@@ -1,84 +1,121 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>마이 페이지</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
-<script src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
-<script>
-    $(document).ready(function() {
-        // 사진 등록/수정/삭제 관련 이벤트
-        $('#photo_btn').click(function() {
-            $('#photo_form').toggle();
-        });
+    <meta charset="UTF-8">
+    <title>마이 페이지</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypageForm.css" type="text/css">
+    <script>
+        // 회원 탈퇴 확인
+        function confirmDeactivation() {
+            if (confirm('정말 탈퇴하시겠습니까?')) {
+                location.href = '${pageContext.request.contextPath}/member/deactivateUser.do';
+            }
+        }
 
-        $('#delete_photo').click(function() {
+        // 사진 삭제 확인
+        function deletePhoto() {
             if (confirm('사진을 삭제하시겠습니까?')) {
                 location.href = '${pageContext.request.contextPath}/member/deletePhoto.do';
             }
-        });
-
-        // 로그아웃 이벤트
-        $('#logout_btn').click(function() {
-            location.href = '${pageContext.request.contextPath}/member/logout.do';
-        });
-
-        // 회원 탈퇴 이벤트
-        $('#delete_account_btn').click(function() {
-            if (confirm('정말 회원 탈퇴를 진행하시겠습니까?')) {
-                location.href = '${pageContext.request.contextPath}/member/deactivateUser.do';
-            }
-        });
-    });
-</script>
+        }
+    </script>
 </head>
 <body>
-<!-- 헤더 영역 -->
-<jsp:include page="/WEB-INF/views/common/mypageheader.jsp"/>
+    <!-- 헤더 -->
+    <jsp:include page="/WEB-INF/views/common/mypageheader.jsp" />
 
-<div class="mypage-container">
-    <div class="profile-section">
-        <!-- 프로필 사진 -->
-        <img id="user_photo" src="<c:choose>
-            <c:when test="${empty member.photo}">
-                ${pageContext.request.contextPath}/images/default_user.png
-            </c:when>
-            <c:otherwise>
-                ${pageContext.request.contextPath}/upload/${member.photo}
-            </c:otherwise>
-        </c:choose>" alt="Profile Photo" class="profile-photo">
+    <!-- 마이페이지 메인 컨테이너 -->
+    <div class="mypage-container">
+        <!-- 왼쪽 섹션 -->
+        <aside class="profile-sidebar">
+            <!-- 프로필 사진 -->
+            <div class="profile-photo">
+                <img src="<c:choose>
+                    <c:when test='${empty member.photo}'>
+                        ${pageContext.request.contextPath}/images/default_user.png
+                    </c:when>
+                    <c:otherwise>
+                        ${pageContext.request.contextPath}/upload/${member.photo}
+                    </c:otherwise>
+                </c:choose>" alt="프로필 사진">
+                <div class="photo-buttons">
+                    <!-- 파일 선택 및 버튼 정리 -->
+                    <form action="${pageContext.request.contextPath}/member/uploadPhoto.do" method="post" enctype="multipart/form-data" style="display: flex; align-items: center; gap: 10px;">
+                        <input type="file" id="photo" name="photo" accept="image/*" required style="flex: 1;">
+                        <button type="submit" class="btn photo-edit-btn">수정</button>
+                        <button type="button" class="btn photo-delete-btn" onclick="deletePhoto()">삭제</button>
+                    </form>
+                </div>
+            </div>
 
-        <!-- 사진 수정/등록 폼 -->
-        <button id="photo_btn">사진 등록/수정</button>
-        <form id="photo_form" action="${pageContext.request.contextPath}/member/uploadPhoto.do" method="post" enctype="multipart/form-data" style="display: none;">
-            <input type="file" name="photo" accept="image/*">
-            <button type="submit">업로드</button>
-        </form>
-        <button id="delete_photo">사진 삭제</button>
+            <!-- 회원 정보 -->
+            <div class="profile-info">
+                <h2>${member.name}</h2>
+                <p>${member.email}</p>
+                <button class="btn logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'">로그아웃</button>
+                <button class="btn deactivate-btn" onclick="confirmDeactivation()">회원탈퇴</button>
+            </div>
 
-        <!-- 이름 -->
-        <h2>${member.name}</h2>
+            <!-- 추가 메뉴 -->
+            <div class="menu-section">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h3>내 프로필</h3>
+                    <button onclick="location.href='${pageContext.request.contextPath}/member/editProfileForm.do'" class="btn edit-profile-btn">정보수정</button>
+                </div>
+                <ul>
+                    <li>닉네임: ${member.nick_name}</li>
+                    <li>전화번호: ${member.phone}</li>
+                </ul>
+                <h3>회원권 및 PT 관리</h3>
+                <ul>
+                    <li><a href="#">회원권 조회</a></li>
+                    <li><a href="#">PT 예약 조회</a></li>
+                </ul>
+                <h3>쇼핑관리</h3>
+                <ul>
+                    <li><a href="#">장바구니</a></li>
+                    <li><a href="#">구매내역 확인</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- 오른쪽 섹션 -->
+        <main class="content-section">
+            <div class="my-posts">
+                <h3>내가 쓴 글 <button class="more-btn">더보기</button></h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>제목</th>
+                            <th>작성시간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">데이터 없음</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="my-comments">
+                <h3>출입 내역 <button class="more-btn">더보기</button></h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>제목</th>
+                            <th>작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">데이터 없음</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
-
-    <!-- 로그아웃 및 회원 탈퇴 버튼 -->
-    <div class="button-group">
-        <button id="logout_btn">로그아웃</button>
-        <button id="delete_account_btn">회원 탈퇴</button>
-    </div>
-
-    <!-- 프로필 정보 -->
-    <div class="profile-info">
-        <ul>
-            <li><strong>닉네임:</strong> ${member.nick_name}</li>
-            <li><strong>전화번호:</strong> ${member.phone}</li>
-            <li><strong>이메일:</strong> ${member.email}</li>
-            <li><strong>회원가입일자:</strong> ${member.registration_date}</li>
-        </ul>
-        <button id="edit_profile_btn" onclick="location.href='${pageContext.request.contextPath}/member/editProfileForm.do'">정보 수정</button>
-    </div>
-</div>
 </body>
 </html>

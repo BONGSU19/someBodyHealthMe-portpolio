@@ -8,6 +8,7 @@ import kr.controller.Action;
 import kr.member.dao.MemberDAO;
 
 import java.io.File;
+import java.util.UUID;
 
 public class UploadPhotoAction implements Action {
 
@@ -22,34 +23,42 @@ public class UploadPhotoAction implements Action {
             return "redirect:/member/loginForm.do";
         }
 
-        // 파일 업로드 처리
-        String uploadPath = request.getServletContext().getRealPath("/upload");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir(); // 디렉토리가 없으면 생성
-        }
+        try {
+            // 파일 업로드 처리
+            String uploadPath = request.getServletContext().getRealPath("/upload");
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir(); // 디렉토리가 없으면 생성
+            }
 
-        // 업로드된 파일 가져오기
-        String fileName = request.getPart("photo").getSubmittedFileName();
-        File uploadFile = new File(uploadPath, fileName);
+            // 업로드된 파일 가져오기
+            String originalFileName = request.getPart("photo").getSubmittedFileName();
+            if (originalFileName == null || originalFileName.isEmpty()) {
+                throw new Exception("업로드된 파일이 없습니다.");
+            }
 
-        request.getPart("photo").write(uploadFile.getAbsolutePath());
+            // 파일 이름 중복 방지 (UUID 사용)
+            String uniqueFileName = UUID.randomUUID().toString() + "_" + originalFileName;
+            File uploadFile = new File(uploadPath, uniqueFileName);
+            request.getPart("photo").write(uploadFile.getAbsolutePath());
 
-        // DB에 업로드된 파일 정보 저장
-        MemberDAO dao = MemberDAO.getInstance();
-        dao.updateUserPhoto(user_num, fileName);
+            // DB에 업로드된 파일 정보 저장
+            MemberDAO dao = MemberDAO.getInstance();
+            dao.updateUserPhoto(user_num, uniqueFileName);
 
-        // 권한에 따른 리다이렉션
-        if (status == 4) { // 마스터 관리자
-            return "redirect:/member/adminPage.do";
-        } else if (status == 2 || status == 3) { // 매니저(사무직, 트레이너)
-            return "redirect:/member/managerPage.do";
-        } else if (status == 1) { // 일반 사용자
-            return "redirect:/member/myPage.do";
-        } else {
-            // 예기치 않은 접근
-            request.setAttribute("notice_msg", "잘못된 요청입니다.");
-            request.setAttribute("notice_url", request.getContextPath() + "/main/main.do");
+            // 권한에 따른 리다이렉션
+            if (status == 4) { // 마스터 관리자
+                return "redirect:/member/adminPage.do";
+            } else if (status == 2 || status == 3) { // 매니저(사무직, 트레이너)
+                return "redirect:/member/managerPage.do";
+            } else if (status == 1) { // 일반 사용자
+                return "redirect:/member/myPage.do";
+            } else {
+                throw new Exception("잘못된 접근입니다.");
+            }
+        } catch (Exception e) {
+            request.setAttribute("notice_msg", "사진 업로드 중 오류가 발생했습니다: " + e.getMessage());
+            request.setAttribute("notice_url", request.getContextPath() + "/member/myPage.do");
             return "common/alert_view.jsp";
         }
     }

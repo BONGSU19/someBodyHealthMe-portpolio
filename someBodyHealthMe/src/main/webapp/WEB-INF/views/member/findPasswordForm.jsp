@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>비밀번호 찾기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/findpasswordForm.css" type="text/css">
+    <script src="https://kit.fontawesome.com/8e490eaab5.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="page-main">

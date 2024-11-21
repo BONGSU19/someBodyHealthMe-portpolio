@@ -5,28 +5,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>header</title>
+    <title>MYPAGE Header</title>
     <script src="https://kit.fontawesome.com/8e490eaab5.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Source+Sans+3:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="navbar">
         <div class="navbar__logo">
             <i class="fa-solid fa-fire"></i>
-            <a href="${pageContext.request.contextPath}/main/main.do">Some Body Health Me</a>
+            <a href="${pageContext.request.contextPath}/main/main.do" class="logo-link">Some Body Health Me</a>
         </div>
         <ul class="navbar__menu">
             <li><a href="${pageContext.request.contextPath}/board/list.do">소통공간</a></li>
             <li><a href="${pageContext.request.contextPath}/goods/list.do">헬스용품</a></li>
+            <c:if test="${!empty user_num}">
+                <li><a href="${pageContext.request.contextPath}/cart/list.do">장바구니</a></li>
+            </c:if>
+            <li><a href="${pageContext.request.contextPath}/friendSearch/friendList.do">친구만들기</a></li>
             <li><a href="${pageContext.request.contextPath}/mybody/myStatus.do">건강지킴이</a></li>
             <li><a href="${pageContext.request.contextPath}/pt/pt.do">PT</a></li>
             <li><a href="${pageContext.request.contextPath}/member/membership.do">회원권</a></li>
         </ul>
 
         <ul class="navbar__button">
-            <!-- 로그인 여부 확인 -->
+            <c:choose>
+                <c:when test="${sessionScope.status == 1}">
+                    <li class="hidden-button"><div class="button"><a href="${pageContext.request.contextPath}/member/myPage.do">MYPAGE</a></div></li>
+                    <li class="hidden-button"><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
+                </c:when>
+                <c:otherwise>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/registerUserForm.do">회원가입</a></div></li>
+                    <li><div class="button"><a href="${pageContext.request.contextPath}/member/loginForm.do">로그인</a></div></li>
+                </c:otherwise>
+            </c:choose>
+        </ul>
+
         <!-- Toggle button -->
         <a href="#" class="navbar__toggleBtn">
             <i class="fa-solid fa-bars"></i>

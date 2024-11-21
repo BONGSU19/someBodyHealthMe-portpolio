@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.member.vo.MemberVO;
 import kr.mybody.vo.InbodyStatusVO;
 import kr.mybody.vo.MyBodyStatusVO;
 import kr.util.DBUtil;
@@ -23,7 +24,7 @@ public class MyBodyDAO{
 	}
 	
 	
-	private MyBodyDAO() {}
+	public MyBodyDAO() {}
 	
 	
 	public MyBodyStatusVO getMyBodyStatus(long user_num)throws Exception{
@@ -423,9 +424,38 @@ public class MyBodyDAO{
 	    return inbodyStatus;
 	}
 
+	public void updateInbodyStatus(InbodyStatusVO inbodyStatusVO) throws Exception {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    String sql = null;
 
-	
-	
+	    try {
+	        // 커넥션풀로부터 커넥션을 할당
+	        conn = DBUtil.getConnection();
+
+	        // SQL문 작성 (InbodyStatus 테이블 업데이트)
+	        sql = "UPDATE inbody SET measurementdate=?, musclemass=?, bodyfatpercentage=?," 
+	            + " modify_date=SYSDATE WHERE measurementdate=?";  // measurement_date는 PK로 가정
+
+	        // PreparedStatement 객체 생성
+	        pstmt = conn.prepareStatement(sql);
+
+	        // ?에 데이터를 바인딩 (inbodyStatusVO 객체에서 데이터를 가져옴)
+	        pstmt.setDate(1, inbodyStatusVO.getMeasurementDate());  // measurement_date
+	        pstmt.setDouble(2, inbodyStatusVO.getMuscleMass());     // muscle_mass
+	        pstmt.setDouble(3, inbodyStatusVO.getBodyFatPercentage()); // body_fat_percentage
+	        pstmt.setDate(4, inbodyStatusVO.getMeasurementDate());   // 업데이트하려는 측정 날짜 기준으로
+
+	        // SQL문 실행
+	        pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        throw new Exception("Inbody status update failed", e);
+	    } finally {
+	        DBUtil.executeClose(null, pstmt, conn);
+	    }
+	}
+
+
 }
 		
 	

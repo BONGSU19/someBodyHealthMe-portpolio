@@ -44,7 +44,7 @@
 
                 <!-- 선택된 인바디 데이터를 자동으로 수정 폼에 채우기 -->
                 <c:if test="${not empty inbodyStatus}">
-                    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusUpdate.do" method="post">
+                    <form action="${pageContext.request.contextPath}/mybody/inbodyStatusModify.do" method="post">
                         <div class="info-box">
                             <div class="info-item">
                                 <label for="measurementDate" class="label">인바디 측정 날짜</label>

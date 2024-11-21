@@ -45,7 +45,7 @@ $(function(){
 			url:'modifyCart.do',
 			type:'post',
 			data:{cart_num:$(this).attr('data-cartnum'),
-				  item_num:$(this).attr('data-itemnum'),
+				  goods_num:$(this).attr('data-itemnum'),
 				  order_quantity:input_quantity.val()},
 			dataType:'json',
 			success:function(param){

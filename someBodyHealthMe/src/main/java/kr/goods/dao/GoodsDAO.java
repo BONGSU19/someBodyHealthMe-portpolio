@@ -11,6 +11,7 @@ import kr.goods.vo.GoodsReviewVO;
 import kr.goods.vo.GoodsVO;
 import kr.util.DBUtil;
 import kr.util.DurationFromNow;
+import kr.util.FileUtil;
 import kr.util.StringUtil;
 
 public class GoodsDAO {
@@ -287,6 +288,47 @@ public class GoodsDAO {
 		return count;
 	}
 
+	//내가 선택한 좋아요 목록
+	public List<GoodsVO> getListGoodsLike(int start, int end, long user_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<GoodsVO> list =null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			//주의!! zboard_fav의 회원번호(좋아요 클릭한 회원번호)로 검색되어야 하기 때문에 f.mem_num으로 표기함
+			sql= "select * from  (select a.*, rownum rnum from (SELECT * "
+					+ "FROM goods_like l "
+					+ "JOIN suser u ON l.user_num = u.user_num "
+					+ "JOIN goods g ON l.goods_num = g.goods_num "
+					+ "WHERE l.user_num = ? "
+					+ "ORDER BY g.goods_num DESC "
+					+ ")a) where rnum >= ? and rnum <= ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, user_num);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			
+			rs= pstmt.executeQuery();
+			list = new ArrayList<GoodsVO>();
+			while(rs.next()) {
+				GoodsVO goods = new GoodsVO();
+				goods.setGoods_num(rs.getLong("goods_num"));
+				goods.setGoods_name(StringUtil.useNoHtml(rs.getString("goods_name")));
+				goods.setGoods_price(rs.getInt("goods_price"));
+				goods.setGoods_img1(rs.getString("goods_img1"));
+				list.add(goods);
+			}
+		}catch (Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		return list;
+	}
+	
+	
 	//회원번호와 게시물 번호를 이용한 좋아요 정보
 	//(회원이 게시물을 호출했을 때 좋아요 선택 여부 표시) 내가 선택한 좋아요 목록!
 	public GoodsLikeVO selectLike(GoodsLikeVO likeVO) throws Exception{

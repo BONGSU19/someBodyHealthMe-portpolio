@@ -37,6 +37,10 @@
 					};
 				</script>
 			</c:if>
+			<div>
+				<input type="button" value="My 메뉴" 
+					onclick="location.href='likePage.do?user_num=${cart.user_num}'">
+			</div>
 			<c:if test="${goods.goods_status == 1}">
 				<div class="result-diplay">
 					<div class="align-center">

@@ -216,3 +216,75 @@ footer{
 	width:300px;
 	height:50px;
 }
+
+.user-item {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+}
+
+
+.user-item.active {
+    background-color: #f0f0f0;  /* 예시: 배경색을 변경 */
+    color: red;                  /* 예시: 글자색 변경 */
+}
+
+#chatting_message{
+	border:1px solid black;
+	width:660px;
+	height:300px;
+	margin:0 auto;
+	padding:10px;
+	overflow:auto;
+}
+
+
+.date-position{
+	text-align:center;
+}
+
+.align-right{
+	text-align:right;
+}
+
+#chatting_message{
+	border:1px solid black;
+	width:660px;
+	height:300px;
+	margin:0 auto;
+	padding:10px;
+	overflow:auto;
+}
+.date-position{
+	text-align:center;
+}
+.date-position span{
+	display:inline-block;
+	width:300px;
+	height:20px;
+	border-radius:10px;
+	background-color:#f2efef;
+}
+.from-position{
+	width:300px;
+	margin:10px 0 10px 330px;
+}
+.from-position .item{
+	background-color:yellow;
+	padding:10px;
+	min-height:50px;
+	border-radius:50px;
+	border-top-right-radius:0;
+}
+.to-position{
+	width:300px;
+	margin:10px 0  10px 0;
+}
+.to-position .item{
+	background-color:pink;
+	padding:10px;
+	min-height:50px;
+	border-radius:20px;
+	border-top-left-radius:0;
+}

@@ -10,6 +10,22 @@ public class FriendVO {
     private long user_Num;        
     private String status;
     private String status2;
+    private String message_text; 
+    private long receiver_num;
+	public long getReceiver_num() {
+		return receiver_num;
+	}
+	public void setReceiver_num(long receiver_num) {
+		this.receiver_num = receiver_num;
+	}
+	public String getMessage_text() {
+		return message_text;
+	}
+	public void setMessage_text(String message_text) {
+		this.message_text = message_text;
+	}
+
+	
 	public long getFriend_Num() {
 		return friend_Num;
 	}

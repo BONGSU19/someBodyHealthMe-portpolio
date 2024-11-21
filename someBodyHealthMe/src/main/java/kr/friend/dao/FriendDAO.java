@@ -57,54 +57,89 @@ public class FriendDAO {
 
 	// 친구 요청 추가 (보내는 사람과 받는 사람) 요청 보내기
 	public String sendFriendRequest(Long user_num, Long receiver) throws Exception {
-		String isRequestSent = "";
-		ResultSet rs=null;
-		conn=  DBUtil.getConnection();
-		String sql = "INSERT INTO friend (friend_num, created_at,user_num , receiver_num, status) " +
-				"VALUES (seq_friend.nextval,SYSDATE, ?, ?,'1')";  // '1'은 친구 요청 상태
-		String sql2="select * from friend where user_num=? and receiver_num=? ";
-		PreparedStatement pstmt2=null;
-		try {
+	    String isRequestSent = "";
+	    ResultSet rs = null;
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    PreparedStatement pstmt2 = null;
+	    
+	    try {
+	        conn = DBUtil.getConnection();
+	        
+	        // 1. 중복 친구 요청 확인 쿼리
+	        String sql2 = "SELECT * FROM friend WHERE user_num = ? AND receiver_num = ?";
+	        pstmt2 = conn.prepareStatement(sql2);
+	        pstmt2.setLong(1, user_num);
+	        pstmt2.setLong(2, receiver);
+	        rs = pstmt2.executeQuery();
 
+	        // 2. 친구 관계가 없을 경우에만 친구 요청을 보낸다.
+	        if (!rs.next()) {
+	            // 3. 친구 요청 쿼리
+	            String sql = """
+	                INSERT INTO friend (friend_num, created_at, user_num, receiver_num, status)
+	                SELECT seq_friend.nextval, SYSDATE, ?, ?, '1'
+	                FROM DUAL
+	                WHERE NOT EXISTS (
+	                    -- 내가 상대방에게 요청을 보낸 경우 또는 상대방이 나에게 요청을 보낸 경우
+	                    SELECT 1
+	                    FROM friend
+	                    WHERE (user_num = ? AND receiver_num = ? AND status = 1)  
+	                       OR (user_num = ? AND receiver_num = ? AND status = 1)OR
+	                       (user_num = ? AND receiver_num = ? AND status = 2)  
+	                       OR (user_num = ? AND receiver_num = ? AND status = 2)  
+	                )
+	            """;
 
-			pstmt2= conn.prepareStatement(sql2);
-			pstmt2.setLong(1, user_num);
-			pstmt2.setLong(2, receiver);
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setLong(1, user_num);
+	            pstmt.setLong(2, receiver);
+	            pstmt.setLong(3, user_num);
+	            pstmt.setLong(4, receiver);
+	            pstmt.setLong(5, receiver);
+	            pstmt.setLong(6, user_num);
+	            pstmt.setLong(7, user_num);
+	            pstmt.setLong(8, receiver);
+	            pstmt.setLong(9, receiver);
+	            pstmt.setLong(10, user_num);
 
-			rs= pstmt2.executeQuery();
-			if(!rs.next()) {
+	            int rowsAffected = pstmt.executeUpdate();
 
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setLong(1, user_num);
-				pstmt.setLong(2, receiver);
-				pstmt.executeUpdate();
-				isRequestSent ="success";
-			}else {
-				isRequestSent = "duple";
+	            // 4. 실행 결과에 따른 응답
+	            if (rowsAffected > 0) {
+	                isRequestSent = "success";
+	            } else {
+	                isRequestSent = "duple";
+	            }
+	        } else {
+	            isRequestSent = "duple";
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();  // 예외 메시지 출력
+	        throw new Exception("Error while sending friend request: " + e.getMessage());
+	    } finally {
+	        try {
+	            if (pstmt != null) pstmt.close();
+	            if (pstmt2 != null) pstmt2.close();
+	            if (rs != null) rs.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (pstmt != null) pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return isRequestSent;
+	    return isRequestSent;
 	}
+
 
 
 	public String sendFriendRequest2(Long user_num, Long receiver) throws Exception {
 		String isRequestSent = "";
 		ResultSet rs=null;
 		conn=  DBUtil.getConnection();
-		
+
 		String sql2= "delete from friend  where user_num=? and receiver_num=? ";
-				
+
 		PreparedStatement pstmt2=null;
 		try {
 
@@ -114,7 +149,7 @@ public class FriendDAO {
 			pstmt2.setLong(2, receiver);
 
 			pstmt2.executeQuery();
-	
+
 			isRequestSent ="success";
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -190,10 +225,10 @@ public class FriendDAO {
 			conn = DBUtil.getConnection();
 
 			if (keyword != null && !"".equals(keyword)) {
-			    //검색 처리
-			    if (keyfield.equals("1")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
-			    else if (keyfield.equals("2")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
-			 
+				//검색 처리
+				if (keyfield.equals("1")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+				else if (keyfield.equals("2")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+
 			}
 
 			//SQL문 작성
@@ -220,7 +255,7 @@ public class FriendDAO {
 
 
 	public  List<FriendVO> getMember(int start,
-		    int end,String keyfield,String keyword,Long user_num)throws Exception{
+			int end,String keyfield,String keyword,Long user_num)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -237,14 +272,14 @@ public class FriendDAO {
 
 
 			if (keyword != null && !"".equals(keyword)) {
-			    //검색 처리
-			    if (keyfield.equals("1")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
-			    else if (keyfield.equals("2")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
-			 
+				//검색 처리
+				if (keyfield.equals("1")) sub_sql += "WHERE name LIKE '%' || ? || '%'";
+				else if (keyfield.equals("2")) sub_sql += "WHERE nick_name LIKE '%' || ? || '%'";
+
 			}
 
 			// Add the user number condition
-			
+
 
 			// SQL 문 작성
 			sql = """
@@ -262,25 +297,25 @@ public class FriendDAO {
 					            ON (s.user_num = f.receiver_num AND f.user_num = ?)  -- 로그인한 사용자가 친구 요청을 보낸 경우
 					       -- 로그인한 사용자가 친구 요청을 받은 경우
 					        """ + sub_sql + """ 
-					        ORDER BY s.user_num DESC NULLS LAST
-					    ) a
-					)
-					WHERE rnum >= ? AND rnum <= ?
-""";
-		
+					        		ORDER BY s.user_num DESC NULLS LAST
+					        		) a
+					        		)
+					        		WHERE rnum >= ? AND rnum <= ?
+					        		""";
+
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(++cnt, user_num);
 			if(keyword != null && !"".equals(keyword)) {
 				pstmt.setString(++cnt, keyword);
 			}
-			
+
 			pstmt.setInt(++cnt, start);
 			pstmt.setInt(++cnt, end);
-			
+
 
 
 			//PreparedStatement 객체 생성
-			
+
 			//?에 데이터 바인딩
 
 			//SQL문 실행
@@ -305,7 +340,7 @@ public class FriendDAO {
 
 
 	public  List<FriendVO> centerGetMember(int start,
-		    int end,String keyfield,String keyword,int center_num ,Long user_num)throws Exception{
+			int end,String keyfield,String keyword,int center_num ,Long user_num)throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -344,12 +379,12 @@ public class FriendDAO {
 					            ON (s.user_num = f.receiver_num AND f.user_num = ?)  -- 로그인한 사용자가 친구 요청을 보낸 경우
 					       -- 로그인한 사용자가 친구 요청을 받은 경우
 					        """ + sub_sql + """ 
-					        ORDER BY s.user_num DESC NULLS LAST
-					    ) a
-					)
-					WHERE rnum >= ? AND rnum <= ?
-""";
-			
+					        		ORDER BY s.user_num DESC NULLS LAST
+					        		) a
+					        		)
+					        		WHERE rnum >= ? AND rnum <= ?
+					        		""";
+
 			//PreparedStatement 객체 생성
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(++cnt, user_num);
@@ -362,7 +397,7 @@ public class FriendDAO {
 
 
 			//PreparedStatement 객체 생성
-			
+
 			//?에 데이터 바인딩
 
 			//SQL문 실행
@@ -387,4 +422,100 @@ public class FriendDAO {
 
 
 
+
+
+
+
+	public List<FriendVO> updateGetMember(Long user_num) throws Exception {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = null;
+	    List<FriendVO> friends = new ArrayList<>();
+
+	    try {
+	        // 커넥션풀로부터 커넥션을 할당
+	        conn = DBUtil.getConnection();
+
+	        // SQL 문 작성
+	        sql = """
+	                SELECT s.user_num AS user_num,
+	                       s.nick_name AS nick_name,
+	                       s.center_num AS center_num,
+	                       NVL(f.status, 'None') AS status,
+	                       s.name AS name
+	                FROM suser_detail s
+	                JOIN friend f 
+	                  ON s.user_num = f.user_num
+	                WHERE f.receiver_num = ? 
+	                  AND f.user_num != ?  
+	                  AND NVL(f.status, 'None') = '1' 
+	                ORDER BY s.user_num DESC
+	              """;
+
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setLong(1, user_num);  // 요청을 받은 사람 (user_num)
+	        pstmt.setLong(2, user_num);  // 자기 자신은 제외
+
+	        // SQL문 실행
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            FriendVO friend = new FriendVO();
+	            friend.setUser_Num(rs.getLong("user_num"));
+	            friend.setNick_Name(rs.getString("nick_name"));
+	            friend.setName(rs.getString("name"));
+	            friend.setCenter_Num(rs.getInt("center_num"));
+	            friend.setStatus(rs.getString("status"));
+	            friends.add(friend);
+	        }
+	    } catch (Exception e) {
+	        throw new Exception(e);
+	    } finally {
+	        DBUtil.executeClose(rs, pstmt, conn);
+	    }
+
+	    return friends;
+	}
+
+
+	
+	
+	public String sulag(Long user_num, Long receiver) throws Exception {
+	    String isRequestSent = "failure";  // 기본값을 'failure'로 설정
+	  
+	    Connection conn = null;
+	    PreparedStatement pstmt2 = null;
+
+	    try {
+	        conn = DBUtil.getConnection();
+	        String sql2 = "UPDATE friend SET status=2 WHERE (user_num=? AND receiver_num=?)or(user_num=? AND receiver_num=?)";
+	        pstmt2 = conn.prepareStatement(sql2);
+	        pstmt2.setLong(1, user_num);
+	        pstmt2.setLong(2, receiver);
+	        pstmt2.setLong(3, receiver);
+	        pstmt2.setLong(4, user_num);
+	        // 쿼리 실행 후 반환된 행의 수를 확인
+	        int rowsAffected = pstmt2.executeUpdate();
+
+	        // 행이 하나 이상 업데이트되었으면 성공
+	        if (rowsAffected > 0) {
+	            isRequestSent = "success";
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        // 예외를 로깅하거나 처리
+	    } finally {
+	        // 리소스를 적절히 닫음
+	        try {
+	            if (pstmt2 != null) pstmt2.close();
+	            if (conn != null) conn.close();  // 연결도 닫아야 함
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return isRequestSent;
+	}
+
+	
 }

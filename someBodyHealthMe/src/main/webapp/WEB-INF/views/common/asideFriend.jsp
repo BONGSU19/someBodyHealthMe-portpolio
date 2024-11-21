@@ -22,7 +22,7 @@
                 </button>
                 <div class="dropdown-content">
                   <a href="${pageContext.request.contextPath}/friendSearch/friendList.do">친구 검색</a>
-                  <a href="#">받은 요청</a>
+                  <a href="${pageContext.request.contextPath}/friendSearch/reciverList.do">받은 요청</a>
                 </div>
               </div>
               
@@ -31,7 +31,7 @@
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">메시지 보내기</a>
+                  <a href="${pageContext.request.contextPath}/friendSearch/chatDetail.do">메시지 보내기</a>
          
    
                 </div>

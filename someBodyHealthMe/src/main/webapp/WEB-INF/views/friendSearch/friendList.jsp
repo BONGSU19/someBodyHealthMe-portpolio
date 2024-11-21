@@ -151,7 +151,14 @@
 							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
 								친구 요청 취소 </a></td>
 					</c:if>
-
+					
+					<c:if test="${friend.status=='2'}">
+						<td><a href="javascript:void(0);"
+							class="sendFriendRequestButton2"
+							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
+								친구입니다! </a></td>
+					</c:if>
+${friend.status}
 				</tr>
 			</c:forEach>
 		</table>

@@ -7,11 +7,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.board.dao.BoardDAO;
 import kr.board.vo.Board_replyVO;
 import kr.controller.Action;
 import kr.util.PagingUtil;
+import kr.util.StringUtil;
 
 public class ListReplyAction implements Action{
 	@Override
@@ -29,7 +31,7 @@ public class ListReplyAction implements Action{
 		BoardDAO dao = BoardDAO.getInstance();
 		int count = dao.getReplyCount(board_num);
 		
-		PagingUtil page = new PagingUtil(Integer.parseInt("pageNum"), count, Integer.parseInt("rowCount"));
+		PagingUtil page = new PagingUtil(Integer.parseInt(pageNum), count, Integer.parseInt(rowCount));
 		
 		List<Board_replyVO> list = null;
 		if(count > 0) {
@@ -38,10 +40,16 @@ public class ListReplyAction implements Action{
 			list = Collections.emptyList();
 		}
 		
-		Map<String, String> mapAjax = new HashMap<String, String>();
+		HttpSession session = request.getSession();
+		Long user_num = (Long)session.getAttribute("user_num");
 		
+		Map<String, Object> mapAjax = new HashMap<String, Object>();
 		
-		return null;
+		mapAjax.put("count", count);
+		mapAjax.put("list", list);
+		
+		mapAjax.put("user_num", user_num);		
+		return StringUtil.parseJSON(request, mapAjax);
 	}
 }
 

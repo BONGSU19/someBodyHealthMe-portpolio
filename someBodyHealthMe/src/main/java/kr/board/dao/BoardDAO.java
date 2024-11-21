@@ -352,6 +352,7 @@ public class BoardDAO {
 				reply.setRe_content(StringUtil.useBrNoHtml(rs.getString("re_content")));
 				reply.setUser_num(rs.getLong("user_num"));
 				reply.setLogin_id(rs.getString("login_id"));
+				reply.setNick_name(rs.getString("nick_name"));
 				list.add(reply);
 			}
 			

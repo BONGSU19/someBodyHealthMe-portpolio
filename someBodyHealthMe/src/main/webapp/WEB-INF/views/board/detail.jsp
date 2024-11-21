@@ -120,9 +120,11 @@
         display: flex;
         flex-direction: row; /* 한 줄로 배치 */
         align-items: flex-start; /* 세로로 상단 정렬 */
-        margin-top: 10px; /* 위쪽 여백 */
-        padding-top: 10px;
+        margin: 15px 0; /* 위쪽 여백 */
+        padding: 10px 0;
         width: 100%;
+        border:1px solid black;
+        border-radius:5px;
     }
 
     #profile {
@@ -184,6 +186,45 @@
         font-size: 15px;
         color: #777;
     }
+    
+    
+    /* 댓글 목록 */    
+   .item {
+    width: 90%;
+    display: flex;
+    align-items: flex-start; /* 상단 정렬 */
+    gap: 25px; /* 아이템 간 간격 */
+    margin: 10px 0; /* 각 댓글 항목 간 간격 */  
+  }
+
+    .re-profile {
+        display: flex;
+        flex-direction: column; /* 수직으로 배치 */
+        align-items: center; /* 이미지와 닉네임을 수직으로 정렬 */
+        gap: 5px; /* 이미지와 닉네임 간 간격 */
+        margin: 0 30px;
+        border-right: 2px solid black;
+        padding-right: 30px;
+    }
+
+    .re-profile img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 1px solid black;
+        margin: 10px 0; /* 이미지와 닉네임 간 간격 */
+    }
+
+    p {
+        flex-grow: 1; /* <p>가 남은 공간을 차지하도록 설정 */
+        margin-top: 10px; /* 기본 마진 제거 */
+        text-align: left;
+        background-color: #f3f0f0;
+        height: 80px;
+     }
+     .re-date{
+     	margin-bottom:10px;
+     }
    
 </style>
 </head>
@@ -220,8 +261,7 @@
     </div>
 	<hr width="100%" size="3" noshade="noshade">
     <!-- 댓글 입력 폼 -->
-    <section id="detail_reply">
-    	<h5>댓글 등록</h5>
+    <section id="detail_reply">    	
         <form id="re_form">
         	<input type="hidden" name="board_num" value="${board.board_num}" id="board_num">
             <div id="profile">
@@ -236,15 +276,16 @@
         </form>
     </section>
     <!-- 댓글 폼 끝 -->
-    
+    <hr size="2">
     <!-- 댓글 목록 -->
-    <div id="output"></div>
-	<div class="paging-button" style="display:none;">
-		<input type="button" value="다음글 보기">
-	</div>
-	<div id="loading" style="display:none;">
-		<img src="${pageContext.request.contextPath}/images/loading.gif" width="50" height="50">
-	</div>
+    <h4>댓글 목록</h4>
+    
+    <hr>
+    <section id="output">
+    <div id="loading" style="display:none;">로딩 이미지 대체</div>
+       
+	</section>
+
     
 </div>
 </body>

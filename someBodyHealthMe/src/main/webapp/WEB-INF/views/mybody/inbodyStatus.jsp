@@ -64,7 +64,7 @@
 		    <!-- mybodystatus가 존재하면 수정 버튼 보이기 -->
 			    <div id='modify-button' class='button'>
 			   	<a href="${pageContext.request.contextPath}/mybody/inbodyStatusModifyForm.do">수정</a>
-		    </div>
+		    	</div>
 	    </c:if>
 	    
 		    <!-- mybodystatus가 존재하면 수정 버튼 보이기 -->

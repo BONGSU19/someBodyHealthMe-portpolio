@@ -39,7 +39,7 @@
 		                </option>
 		            </c:forEach>
 		        </select>
-		        <input type="submit" value="수정할 데이터 선택"/>
+		        <input id='insert-button' class="button" type="submit" value="확인"/>
 		    </form>
 		</div>
 		
@@ -64,14 +64,8 @@
 		                <input type="text" id="bodyFatPercentage" name="bodyFatPercentage" 
 		                       value="${inbodyStatus.bodyFatPercentage}" required />
 		            </div>
-		
-		            <div class="info-item">
-		                <label for="weight" class="label">체중(kg)</label>
-		                <input type="text" id="weight" name="weight" 
-		                       value="${inbodyStatus.weight}" required />
-		            </div>
-		
-		            <input type="submit" value="수정 완료"/>
+
+		            <input id='modify-button' class="button" type="submit" value="수정"/>
 		        </div>
 		    </form>
 		</c:if>

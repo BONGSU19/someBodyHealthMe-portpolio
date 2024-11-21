@@ -31,3 +31,20 @@ create table application(
 );
 
 create sequence appl_seq;
+
+create table board_reply (
+	re_num number not null,
+	re_content varchar2(900) not null,
+	re_regdate date default sysdate not null,
+	re_modifydate date,
+	user_num number not null, -- 댓글 작성자
+	board_num number not null, -- 게시판 글번호
+	constraint board_reply_pk primary key (re_num),
+	constraint board_reply_fk2 foreign key (user_num) references suser (user_num),
+	constraint board_reply_fk1 foreign key (board_num) references board (board_num)
+);
+
+create sequence bd_reply_seq;
+
+
+

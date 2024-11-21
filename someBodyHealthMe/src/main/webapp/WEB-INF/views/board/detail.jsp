@@ -7,9 +7,11 @@
 <meta charset="UTF-8">
 <title>소통공간</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/board.reply.js"></script>
 <style type="text/css">
     body {            
-        min-height: 100vh;
+        min-height: 150vh;
         margin: 0;
         font-family: Arial, sans-serif;
     }
@@ -21,7 +23,7 @@
     }
 
     .container {
-        width: 60%;
+        width: 1080px;
         min-height: 100%;
         flex-grow: 1;
         overflow-y: auto;
@@ -109,92 +111,80 @@
     }
     
     /*댓글*/
-    .detail-comment {
-        display: flex;
-        justify-content: center;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 95%; /* container의 width에 맞추기 */
-        margin: 0 auto;
+    h5{
+    	margin-top : 20px;
+    	align-text : left;
     }
-
-    .comment-form {
+    /* 댓글 입력 폼 스타일 */
+    #re_form {
         display: flex;
-        align-items: flex-start;
+        flex-direction: row; /* 한 줄로 배치 */
+        align-items: flex-start; /* 세로로 상단 정렬 */
+        margin-top: 10px; /* 위쪽 여백 */
+        padding-top: 10px;
         width: 100%;
     }
 
-    /* 왼쪽: 프로필 이미지와 닉네임 */
-    .profile-section {
-        margin-right: 15px;
-        text-align: center;
+    #profile {
+        display: flex;
+        flex-direction: column; /* 세로로 배치 */
+        margin : 0 30px; /* 프로필과 텍스트 영역 간 간격 */
     }
 
-    .profile-img {
+    #profile img {
         width: 50px;
         height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
+        border-radius: 50%; /* 원형 프로필 이미지 */
+        margin: 5px 0;
+        border: 2px solid black;
     }
 
-    .comment-nickname {
-        display: block;
-        margin-top: 10px;
-        font-weight: bold;
-        font-size: 15px;
+    #profile span {
+        font-size: 14px;
+        color: #333;
     }
 
-    /* 오른쪽: 댓글 내용 입력과 제출 버튼 */
-    .comment-section {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-    }
-
-    /* 댓글 입력란과 버튼을 한 줄에 배치 */
-    .comment-input-container {
-        display: flex;
-        align-items: center;
-        width: 100%;
-    }
-
-    textarea {
-        flex-grow: 1;
-        padding: 10px;
+    #re_content {
+        width: 80%; /* 텍스트 영역 너비 */
+        height: 80px; /* 텍스트 영역 높이 */
+        resize: none;
+        padding: 5px;
         border: 1px solid #ddd;
         border-radius: 5px;
-        resize: none;
         font-size: 14px;
-        margin-right: 10px;
+        margin-right: 30px; /* 간격 추가 */
+        line-height: 20px;
+    }
+	
+	/* 버튼 및 글자수 세기*/
+    #re_info {
+        display: flex;
+        flex-direction: column; /* 세로로 배치 */
+        justify-content: space-between;
+        align-items: flex-end; /* 오른쪽 정렬 */
+        margin: 10px 0;
     }
 
-    .submit-btn {
-        padding: 10px 20px;
-        background-color: #D9D9D9;
-        color: black;
+    #re_first {
+        padding: 8px 15px;
+        background-color: #4CAF50;
+        color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
-        flex-shrink: 0; /* 버튼이 축소되지 않도록 설정 */
+        margin-bottom: 10px; /* 버튼과 나머지 요소 간 간격 */
     }
 
-    .submit-btn:hover {
-        background-color: #45a049;
+    #re_first:hover {
+        background-color: #45a049; /* 버튼 hover 효과 */
     }
 
-    /* 글자수 표시 */
-    .char-count {
-        font-size: 12px;
-        color: #555;
-        text-align: right;
-        width: 100%;
-        margin-top: 5px;
+    #re_second {
+        font-size: 15px;
+        color: #777;
     }
+   
 </style>
 </head>
 <body>
@@ -226,39 +216,36 @@
         <div class="content">
             ${board.board_content}
         </div>
-        <hr width="100%" size="3" noshade="noshade">
-        <!-- 첨부파일 목록 -->
-        <div class="board-attachment">
-            <div class="attachment-item">
-                <span>${board.board_attachment}</span>
-                <button onclick="window.location.href='path/to/file1.txt'">다운로드</button>
-            </div>
-        </div>
-        <hr width="100%" size="3" noshade="noshade">
+        <hr>
     </div>
-
+	<hr width="100%" size="3" noshade="noshade">
     <!-- 댓글 입력 폼 -->
-    <section class="detail-comment">
-        <form action="/submit-comment" method="post" class="comment-form">
-            <!-- 왼쪽: 프로필 사진과 닉네임 -->
-            <div class="profile-section">
-                <img src="profile.jpg" alt="프로필 사진" class="profile-img">
-                <span class="comment-nickname">닉네임</span>
+    <section id="detail_reply">
+    	<h5>댓글 등록</h5>
+        <form id="re_form">
+        	<input type="hidden" name="board_num" value="${board.board_num}" id="board_num">
+            <div id="profile">
+                <img src="#" >
+                <span><c:if test="${empty user_num}">닉네임</c:if>${user.nick_name}</span>
             </div>
-            
-            <!-- 오른쪽: 댓글 내용 입력과 제출 버튼 -->
-            <div class="comment-section">
-                <div class="comment-input-container">
-                    <textarea id="comment" name="comment" rows="3" placeholder="댓글을 입력하세요" maxlength="300" required></textarea>
-                    <button type="submit" class="submit-btn">등록</button>
-                </div>
-                <div class="char-count">
-                    <span id="char-count">0</span>/300
-                </div>
+            <textarea name="re_content" id="re_content"></textarea>
+            <div id="re_info">
+                <input type="submit" value="등록" id="re_btn">
+                <span id="re_count">0/300</span>
             </div>
         </form>
     </section>
+    <!-- 댓글 폼 끝 -->
+    
+    <!-- 댓글 목록 -->
+    <div id="output"></div>
+	<div class="paging-button" style="display:none;">
+		<input type="button" value="다음글 보기">
+	</div>
+	<div id="loading" style="display:none;">
+		<img src="${pageContext.request.contextPath}/images/loading.gif" width="50" height="50">
+	</div>
+    
 </div>
-
 </body>
 </html>

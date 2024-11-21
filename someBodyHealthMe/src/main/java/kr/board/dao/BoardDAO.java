@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.board.vo.BoardVO;
+import kr.board.vo.Board_replyVO;
 import kr.util.DBUtil;
+import kr.util.DurationFromNow;
+import kr.util.StringUtil;
 
 public class BoardDAO {
 	//싱글턴 패턴
@@ -259,6 +262,109 @@ public class BoardDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}		
 	}
+	
+	
+	//댓글
+	//댓글 작성
+	public void insertReplyBoard(Board_replyVO reply) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "INSERT INTO board_reply(re_num,re_content,re_regdate,user_num,board_num)"
+					+ " VALUES(bd_reply_seq.nextval,?,SYSDATE,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, reply.getRe_content());
+			pstmt.setLong(2, reply.getUser_num());
+			pstmt.setLong(3, reply.getBoard_num());
+			
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
+	//댓글 개수
+	public int getReplyCount(long board_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		int count = 0;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT COUNT(*) FROM board_reply WHERE board_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, board_num);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) count = rs.getInt(1);
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		return count;		
+	}
+	//댓글 목록
+	public List<Board_replyVO> getReply(int start, int end, long board_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		List<Board_replyVO> list = null;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT * FROM "
+					+ "(SELECT rownum rnum ,a.* FROM "
+					+ "(SELECT * FROM board_reply JOIN (SELECT * FROM suser JOIN suser_detail USING (user_num)) USING (user_num) WHERE board_num = ?) a) WHERE rnum >= ? AND rnum <= ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, board_num);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			
+			rs = pstmt.executeQuery();
+			list = new ArrayList<Board_replyVO>();
+			while(rs.next()) {
+				Board_replyVO reply = new Board_replyVO();
+				reply.setRe_num(rs.getLong("re_num"));
+				reply.setRe_regdate(DurationFromNow.getTimeDiffLabel(rs.getString("re_regdate")));
+				if(rs.getString("re_modifydate") != null) {
+					reply.setRe_modifydate(DurationFromNow.getTimeDiffLabel(rs.getString("re_modifydate")));
+				}
+				reply.setRe_content(StringUtil.useBrNoHtml(rs.getString("re_content")));
+				reply.setUser_num(rs.getLong("user_num"));
+				reply.setLogin_id(rs.getString("login_id"));
+				list.add(reply);
+			}
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		return list;		
+	}
+	//댓글 상세
+	//댓글 수정
+	//댓글 삭제
 
 }
 

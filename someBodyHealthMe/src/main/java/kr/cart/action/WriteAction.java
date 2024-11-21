@@ -19,6 +19,7 @@ public class WriteAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Map<String, String> mapAjax = new HashMap<String, String>();
+		
 		HttpSession session = request.getSession();
 
         Long user_num = (Long)session.getAttribute("user_num");

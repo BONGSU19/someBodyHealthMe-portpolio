@@ -20,26 +20,31 @@ public class CartDAO {
 	private CartDAO() {}
 	
 	//장바구니 등록
-	public void insertCart(CartVO cart) throws Exception{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = null;
-		try {
-			conn = DBUtil.getConnection();
-			sql = "insert into cart (cart_num, goods_num, order_quantity, user_num) values (cart_seq.nextval,?,?,?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, cart.getGoods_num());
-			pstmt.setInt(2, cart.getOrder_quantity());
-			pstmt.setLong(3, cart.getUser_num());
-			pstmt.executeUpdate();
-		}catch (Exception e) {
-			throw new Exception(e);
-		}finally {
-			DBUtil.executeClose(null, pstmt, conn);
-			
+		public void insertCart(CartVO cart)throws Exception{
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			try {
+				//커넥션풀로부터 커넥션 할당
+				conn = DBUtil.getConnection();
+				//SQL문 작성
+				sql = "INSERT INTO cart (cart_num,goods_num,"
+					+ "order_quantity,user_num) VALUES ("
+					+ "cart_seq.nextval,?,?,?)";
+				//PreparedStatement 객체 생성
+				pstmt = conn.prepareStatement(sql);
+				//?에 데이터 바인딩
+				pstmt.setLong(1, cart.getGoods_num());
+				pstmt.setInt(2, cart.getOrder_quantity());
+				pstmt.setLong(3, cart.getUser_num());
+				//SQL문 실행
+				pstmt.executeUpdate();
+			}catch(Exception e) {
+				throw new Exception(e);
+			}finally {
+				DBUtil.executeClose(null, pstmt, conn);
+			}
 		}
-		
-	}
 	//회원번호(user_num) 별 총구매 금액
 	public int getTotalByUser_num(long user_num) throws Exception{
 		Connection conn = null;
@@ -80,7 +85,7 @@ public class CartDAO {
 			sql = "select * from cart c join goods g using(goods_num) where user_num=? order by c.cart_num desc";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, user_num);
-			rs= pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			list = new ArrayList<CartVO>();
 			while(rs.next()) {
 				CartVO cart = new CartVO();
@@ -121,15 +126,15 @@ public class CartDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = null;
 		CartVO cartSaved = null;
+		String sql = null;
 		try {
 			conn = DBUtil.getConnection();
 			sql ="select * from cart where goods_num=? and user_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, cart.getGoods_num());
 			pstmt.setLong(2, cart.getUser_num());
-			rs=pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				cartSaved = new CartVO();
 				cartSaved.setCart_num(rs.getLong("cart_num"));

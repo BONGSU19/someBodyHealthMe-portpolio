@@ -19,7 +19,7 @@ public class LoginAction implements Action {
         MemberVO member = dao.checkLogin(loginId, password);
 
         if (member != null) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession();	
             session.setAttribute("user_num", member.getUser_num()); // 사용자 번호 저장
             session.setAttribute("user_name", member.getName());   // 사용자 이름 저장
             session.setAttribute("status", member.getStatus());    // 사용자 권한 저장

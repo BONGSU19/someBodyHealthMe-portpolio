@@ -32,4 +32,19 @@ CREATE SEQUENCE InBodyID_seq;
 
 ALTER TABLE InBody MODIFY MODIFY_DATE DATE NULL;
 
-
+CREATE TABLE DietPlan (
+    DietID         NUMBER       NOT NULL,           -- 식단 고유 코드, PK
+    FoodName       VARCHAR2(100) NOT NULL,          -- 음식 이름
+    Calories       NUMBER,                           -- 칼로리 함량
+    Protein        NUMBER,                           -- 단백질 함량
+    Carbohydrate   NUMBER,                           -- 탄수화물 함량
+    Fat            NUMBER,                           -- 지방 함량
+    Minerals       NUMBER,                           -- 무기질 함량
+    diet_show      NUMBER,                           -- 노출 정도
+    diet_comment   NUMBER,                           -- 노출 요청
+    user_num       NUMBER       NOT NULL,           -- 각 사용자를 구별하는 고유 ID
+    CONSTRAINT PK_DietPlan PRIMARY KEY (DietID),    -- 식단 고유 코드로 기본키 설정
+    CONSTRAINT FK_UserNum FOREIGN KEY (user_num)    -- 외래키 제약조건
+        REFERENCES SUSER_DETAIL (user_num)          -- SUSER_DETAIL 테이블의 user_num을 참조
+);
+CREATE SEQUENCE DietID_seq;

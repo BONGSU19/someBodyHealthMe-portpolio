@@ -16,7 +16,7 @@
     <div class="navbar">
         <div class="navbar__logo">
             <i class="fa-solid fa-fire"></i>
-            <a href="">Some Body Health Me</a>
+            <a href="${pageContext.request.contextPath}/main/main.do">Some Body Health Me</a>
         </div>
         <ul class="navbar__menu">
             <li><a href="${pageContext.request.contextPath}/board/list.do">소통공간</a></li>

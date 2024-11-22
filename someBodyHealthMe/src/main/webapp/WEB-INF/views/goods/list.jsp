@@ -8,6 +8,8 @@
 <title>상품관리</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css"> 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/goods.like.js"></script>
 <script type="text/javascript">
 	window.onload=function(){
 		const myForm = document.getElementById('search_form');
@@ -60,7 +62,7 @@
 	</div>
 	</c:if>
 	<c:if test="${count > 0}">
-	 	<table>
+	 	<!-- <table>
 	 		<tr>
 	 			<th>카테고리</th>
 	 			<th>상품명</th>
@@ -72,11 +74,38 @@
 	 			<td>${goods.goods_category}</td>
 	 			<td><a href="detail.do?goods_num=${goods.goods_num}">${goods.goods_name}</a></td>
 	 			<td><fmt:formatNumber value="${goods.goods_price}"/>원</td>
-	 			<c:out value="${goods.goods_img1}" />
+	 			 
 	 			<td><img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100"></td>
 	 		</tr>
 	 		</c:forEach>
-	 	</table>
+	 	</table> -->
+	 	<c:forEach var="goods" items="${list}">
+	 	<div class="product-card">
+	 		<%-- 좋아요 --%>
+	        	<div class="product-actions">
+		        <span>
+					<img id="output_like" data-num="${goods.goods_num}"
+					src="${pageContext.request.contextPath}/images/fav01.gif" width="50">
+		        </span>
+		    	</div>
+		    	<%-- 좋아요 --%>
+    		<a href="detail.do?goods_num=${goods.goods_num}" class="product-link">
+	        	<div class="product-image">
+	            	<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100"/>
+	       	 	</div>
+	        	<div class="product-info">
+		            	<h3 class="product-name">${goods.goods_name}</h3>
+		            <div class="product-rating">
+		                <span>${goodsreview.re_rating}</span>
+		            </div>
+		            <div class="product-price">
+		                <span class="price">${goods.goods_price}원</span>
+		            </div>
+	        	</div>
+    		</a>
+    		
+		</div>
+	 	</c:forEach>
 	 	<div class="align-center">${page}</div>
 	</c:if>
 	</div>

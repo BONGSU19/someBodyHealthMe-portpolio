@@ -22,6 +22,8 @@ public class ListAction implements Action{
 		}
 		
 		
+		
+		
 		String pageNum =request.getParameter("pageNum");
 		if(pageNum == null) pageNum ="1";
 		
@@ -36,13 +38,12 @@ public class ListAction implements Action{
 		
 		List<GoodsVO> list = null;
 		if(count > 0 ) {
-			list = dao.getListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword, 0);
+			list = dao.getListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword, 1);
 		}
 		
 		request.setAttribute("count", count);
 		request.setAttribute("list", list);
 		request.setAttribute("page", page.getPage());
-		
 		//jsp 경로 반환
 		return "goods/list.jsp";
 	}

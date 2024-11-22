@@ -20,8 +20,7 @@ public class GetLikeAction implements Action{
 		//전송된 데이터 인코딩 처리
 		request.setCharacterEncoding("utf-8");
 		//전송된 데이터 반환
-		long goods_num = Long.parseLong(
-				        request.getParameter("goods_num"));
+		long goods_num = Long.parseLong(request.getParameter("goods_num"));
 		
 		Map<String,Object> mapAjax = 
 				             new HashMap<String,Object>();

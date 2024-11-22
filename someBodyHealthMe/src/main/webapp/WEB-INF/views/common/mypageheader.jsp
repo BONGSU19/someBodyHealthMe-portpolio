@@ -31,7 +31,7 @@
 
         <ul class="navbar__button">
             <c:choose>
-                <c:when test="${sessionScope.status == 1}">
+                <c:when test="${sessionScope.status == 1 || sessionScope.status == 2 || sessionScope.status == 3 || sessionScope.status == 4}">
                     <li class="hidden-button"><div class="button"><a href="${pageContext.request.contextPath}/member/myPage.do">MYPAGE</a></div></li>
                     <li class="hidden-button"><div class="button"><a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></div></li>
                 </c:when>

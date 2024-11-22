@@ -332,7 +332,7 @@ public class BoardDAO {
 			
 			sql = "SELECT * FROM "
 					+ "(SELECT rownum rnum ,a.* FROM "
-					+ "(SELECT * FROM board_reply JOIN (SELECT * FROM suser JOIN suser_detail USING (user_num)) USING (user_num) WHERE board_num = ?) a) WHERE rnum >= ? AND rnum <= ?";
+					+ "(SELECT * FROM board_reply JOIN (SELECT * FROM suser JOIN suser_detail USING (user_num)) USING (user_num) WHERE board_num = ? ORDER BY re_regdate DESC) a) WHERE rnum >= ? AND rnum <= ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -355,6 +355,8 @@ public class BoardDAO {
 				reply.setNick_name(rs.getString("nick_name"));
 				list.add(reply);
 			}
+			System.out.println("re-rnum_start="+start);
+			System.out.println("re-rnum_end=" + end);
 			
 		}catch(Exception e) {
 			throw new Exception(e);
@@ -364,8 +366,86 @@ public class BoardDAO {
 		return list;		
 	}
 	//댓글 상세
+	public Board_replyVO getReplyBoard(long re_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Board_replyVO reply = null;
+		String sql;
+		
+		try {
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql="SELECT * FROM board_reply WHERE re_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setLong(1, re_num);
+			//SQL문 실행
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				reply = new Board_replyVO();
+				reply.setRe_num(rs.getLong("re_num"));
+				reply.setUser_num(rs.getLong("user_num"));
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return reply;
+	}
+	
 	//댓글 수정
+	public void UpdateReply(Board_replyVO reply) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "UPDATE board_reply SET re_content = ? , re_modifydate = SYSDATE WHERE re_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, reply.getRe_content());
+			pstmt.setLong(2, reply.getRe_num());
+			
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
 	//댓글 삭제
+	public void deleteReply(long re_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "DELETE board_reply WHERE re_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, re_num);
+			
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 
 }
 

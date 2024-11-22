@@ -190,11 +190,11 @@
     
     /* 댓글 목록 */    
    .item {
-    width: 90%;
+    width: 100%;
     display: flex;
     align-items: flex-start; /* 상단 정렬 */
-    gap: 25px; /* 아이템 간 간격 */
-    margin: 10px 0; /* 각 댓글 항목 간 간격 */  
+    gap: 15px; /* 아이템 간 간격 */
+    margin: 5px 0; /* 각 댓글 항목 간 간격 */  
   }
 
     .re-profile {
@@ -205,11 +205,12 @@
         margin: 0 30px;
         border-right: 2px solid black;
         padding-right: 30px;
+        font-size: 15px;
     }
 
     .re-profile img {
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         border: 1px solid black;
         margin: 10px 0; /* 이미지와 닉네임 간 간격 */
@@ -220,10 +221,17 @@
         margin-top: 10px; /* 기본 마진 제거 */
         text-align: left;
         background-color: #f3f0f0;
-        height: 80px;
+        min-height: 80px;
+        border-radius: 5px;
+        width: 80%;
      }
      .re-date{
-     	margin-bottom:10px;
+     	margin-right: 30px;
+     	text-align: right;
+     	font-size: 12px;     	
+     }
+     #output{
+     	padding: 0 25px;
      }
    
 </style>
@@ -282,9 +290,11 @@
     
     <hr>
     <section id="output">
-    <div id="loading" style="display:none;">로딩 이미지 대체</div>
-       
+    <div id="loading" style="display:none;">로딩 이미지 대체</div>       
 	</section>
+	<div class="paging-button">
+    	<input type="button" value="다음 댓글 보기">
+    </div>
 
     
 </div>

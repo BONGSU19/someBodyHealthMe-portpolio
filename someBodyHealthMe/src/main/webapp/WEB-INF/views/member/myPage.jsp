@@ -43,31 +43,38 @@
                 <div class="photo-buttons">
                     <!-- 파일 선택 및 버튼 정리 -->
                     <form action="${pageContext.request.contextPath}/member/uploadPhoto.do" method="post" enctype="multipart/form-data" style="display: flex; align-items: center; gap: 10px;">
-                        <input type="file" id="photo" name="photo" accept="image/*" required style="flex: 1;">
+                        <label for="photo" class="styled-file-label">파일 선택</label>
+                        <input type="file" id="photo" name="photo" accept="image/*" class="styled-file-input" required>
                         <button type="submit" class="btn photo-edit-btn">수정</button>
                         <button type="button" class="btn photo-delete-btn" onclick="deletePhoto()">삭제</button>
                     </form>
                 </div>
-            </div>
-
-            <!-- 회원 정보 -->
-            <div class="profile-info">
-                <h2>${member.name}</h2>
-                <p>${member.email}</p>
-                <button class="btn logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'">로그아웃</button>
-                <button class="btn deactivate-btn" onclick="confirmDeactivation()">회원탈퇴</button>
-            </div>
-
-            <!-- 추가 메뉴 -->
-            <div class="menu-section">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3>내 프로필</h3>
-                    <button onclick="location.href='${pageContext.request.contextPath}/member/editProfileForm.do'" class="btn edit-profile-btn">정보수정</button>
+                <div class="name-email">
+                    <p>${member.name}</p>
+                    <p>${member.email}</p>
                 </div>
+            </div>
+
+            <!-- 로그아웃 및 회원탈퇴 버튼 -->
+            <div class="profile-info-buttons">
+                <button class="logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'">로그아웃</button>
+                <button class="deactivate-btn" onclick="confirmDeactivation()">회원탈퇴</button>
+            </div>
+
+            <!-- 내 프로필 -->
+            <div class="profile-main-box">
+                <h3>내 프로필</h3>
+                <button onclick="location.href='${pageContext.request.contextPath}/member/editProfileForm.do'" class="btn edit-profile-btn">정보수정</button>
+            </div>
+            <div class="profile-details-box">
                 <ul>
                     <li>닉네임: ${member.nick_name}</li>
                     <li>전화번호: ${member.phone}</li>
                 </ul>
+            </div>
+
+            <!-- 추가 메뉴 -->
+            <div class="menu-section">
                 <h3>회원권 및 PT 관리</h3>
                 <ul>
                     <li><a href="#">회원권 조회</a></li>

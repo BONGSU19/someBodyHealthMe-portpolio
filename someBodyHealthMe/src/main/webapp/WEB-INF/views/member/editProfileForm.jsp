@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypageForm.css">
 <script>
     function validateForm() {
         const nickname = document.querySelector('[name="nick_name"]').value.trim();
@@ -21,23 +21,45 @@
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/common/mypageheader.jsp"/>
-<h2>회원정보 수정</h2>
-<form action="${pageContext.request.contextPath}/member/updateProfile.do" method="post" onsubmit="return validateForm();">
-    <label for="nick_name">닉네임</label>
-    <input type="text" id="nick_name" name="nick_name" value="${member.nick_name}"><br>
+<jsp:include page="/WEB-INF/views/common/mypageheader.jsp" />
 
-    <label for="email">이메일</label>
-    <input type="email" id="email" name="email" value="${member.email}"><br>
+<div class="mypage-container">
+    <!-- 왼쪽 섹션 (공간 확보) -->
+    <aside class="profile-sidebar">
+        <!-- 간단한 안내문구 -->
+        <div class="profile-main-box">
+            <h3>회원정보 수정</h3>
+            <p>수정하려는 정보를 입력 후 저장</p>
+        </div>
+    </aside>
 
-    <label for="phone">전화번호</label>
-    <input type="text" id="phone" name="phone" value="${member.phone}"><br>
-
-    <label for="birth_date">생년월일</label>
-    <input type="text" id="birth_date" name="birth_date" value="${member.birth_date}"><br>
-
-    <button type="submit">수정</button>
-    <button type="button" onclick="location.href='${pageContext.request.contextPath}/member/myPage.do'">취소</button>
-</form>
+    <!-- 오른쪽 섹션 -->
+    <main class="content-section">
+        <form class="profile-details-box" action="${pageContext.request.contextPath}/member/updateProfile.do" method="post" onsubmit="return validateForm();">
+            <ul>
+                <li>
+                    <label for="nick_name">닉네임</label>
+                    <input type="text" id="nick_name" name="nick_name" value="${member.nick_name}" placeholder="변경할 닉네임 입력">
+                </li>
+                <li>
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" value="${member.email}" placeholder="변경할 이메일 입력">
+                </li>
+                <li>
+                    <label for="phone">전화번호</label>
+                    <input type="text" id="phone" name="phone" value="${member.phone}" placeholder="변경할 전화번호 입력">
+                </li>
+                <li>
+                    <label for="birth_date">생년월일</label>
+                    <input type="text" id="birth_date" name="birth_date" value="${member.birth_date}" placeholder="생년월일 (YYYYMMDD)">
+                </li>
+            </ul>
+            <div class="profile-info-buttons">
+                <button type="submit" class="btn">수정</button>
+                <button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/member/myPage.do'">취소</button>
+            </div>
+        </form>
+    </main>
+</div>
 </body>
 </html>

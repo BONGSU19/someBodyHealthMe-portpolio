@@ -33,7 +33,7 @@ public class InbodyStatusInsertAction implements Action {
         // 측정 날짜 받기
         String measurementDateStr = request.getParameter("measurementDate");
         
-        // 날짜 형식 처리 (java.sql.Date를 직접 생성)
+        // 날짜 형식 처리 
         if (measurementDateStr != null && !measurementDateStr.isEmpty()) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date measurementDate = new Date(sdf.parse(measurementDateStr).getTime());  // String을 java.sql.Date로 변환

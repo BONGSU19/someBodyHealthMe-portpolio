@@ -1,6 +1,7 @@
 package kr.mybody.action;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,8 @@ public class InbodyStatusEditAction implements Action {
             // DAO를 통해 해당 날짜의 인바디 데이터 조회
             MyBodyDAO dao = MyBodyDAO.getInstance();
             InbodyStatusVO inbodyStatus = dao.getInbodyDataByDate(user_num, measurementDate);
+            // user_num에 해당하는 모든 인바디 데이터 조회
+            List<InbodyStatusVO> inbodyStatusList = dao.getAllInbodyData(user_num);
 
             if (inbodyStatus != null) {
                 // 조회된 데이터를 request에 저장
@@ -44,6 +47,10 @@ public class InbodyStatusEditAction implements Action {
             } else {
                 request.setAttribute("message", "선택한 날짜에 대한 인바디 데이터가 존재하지 않습니다.");
             }
+            
+            // 조회된 데이터 JSP로 전달
+            request.setAttribute("inbodyStatusList", inbodyStatusList);
+            
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", "인바디 데이터 조회 중 오류가 발생했습니다.");

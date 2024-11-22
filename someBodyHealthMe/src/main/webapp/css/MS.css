@@ -104,9 +104,7 @@ margin-right:20px;
 }
 /*어사이드 끝*/
 
-.message{
-width:1000px;
-}
+
 #chat1{
 	width:350px;
 height:800px;
@@ -176,9 +174,9 @@ margin-left:56px;
 }
 
 .chat3 img{
-margin-top:15px;
+margin-top:10px;
 float:left;
-margin-left:15px;
+margin-left:10px;
 }
 footer{
 	height:250px;
@@ -207,7 +205,7 @@ footer{
 	text-align:center;
 }
 .friend{
-	margin:0 auto;
+	font-size:25px;
 }
 .friend td{
 	padding:3px;
@@ -250,8 +248,8 @@ footer{
 
 #chatting_message{
 	border:1px solid black;
-	width:660px;
-	height:300px;
+	width:875px;
+	height:680px;
 	margin:0 auto;
 	padding:10px;
 	overflow:auto;
@@ -268,10 +266,10 @@ footer{
 }
 .from-position{
 	width:300px;
-	margin:10px 0 10px 330px;
+	margin:10px 0 10px 530px;
 }
 .from-position .item{
-	background-color:yellow;
+	background-color:#f2efef;
 	padding:10px;
 	min-height:50px;
 	border-radius:50px;
@@ -282,7 +280,7 @@ footer{
 	margin:10px 0  10px 0;
 }
 .to-position .item{
-	background-color:pink;
+	background-color:#f2efef;
 	padding:10px;
 	min-height:50px;
 	border-radius:20px;

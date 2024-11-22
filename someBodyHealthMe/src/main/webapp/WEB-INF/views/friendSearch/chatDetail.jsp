@@ -56,7 +56,7 @@
 						message_socket.close();
 					}else if(param.result == 'success'){
 						$('#chatting_message').empty();
-						alert('성공');
+		
 						let message_date='';
 						$(param.list).each(function(index,item){
 							let output = '';
@@ -104,7 +104,7 @@
 		        // 클릭한 사용자 recv_num 가져오기
 		        let newRecvNum = $(this).data('recv-num');
 		        $('#recv_num').val(newRecvNum); // 숨겨진 input 값 변경
-				alert('asd'+newRecvNum);
+		
 		        // 선택된 사용자 하이라이트 표시
 		        $('.user-item').removeClass('active');
 		        $(this).addClass('active');
@@ -139,7 +139,7 @@
 					}
 				},
 				error:function(){
-					alert('네트워크 오류 발생');
+					alert('친구를 클릭해주세요');
 				}
 			});
 			//기본 이벤트 제거
@@ -172,7 +172,7 @@
 
 			</div>
 			<c:forEach var="chat" items="${list}">
-			<div>
+			<div style="width:300px; height:150px;">
 				
 					<div class="user-profile"></div>
 	
@@ -188,9 +188,9 @@
 	<div class="chat3">
 		<form action="" id="chatting_form">
   <input type="hidden" id="recv_num" name="recv_num"  />
-        <textarea id="message" name="message"></textarea>
+        <textarea id="message" name="message" style="width: 600px; height: 80px;"></textarea>
 		
-			 <button type="submit"><img alt="" src="${pageContext.request.contextPath}/images/Send.png"
+			 <button type="submit" style="height:80px; width:80px;"><img alt="" src="${pageContext.request.contextPath}/images/Send.png"
 			width="48px" height="48px"></button>
 		</form>
 

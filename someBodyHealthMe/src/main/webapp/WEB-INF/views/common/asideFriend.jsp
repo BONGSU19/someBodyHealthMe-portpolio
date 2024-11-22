@@ -13,7 +13,7 @@
     <div id="box_out">
         <div id="box_in_1">
             <img src="${pageContext.request.contextPath}/images/image 1.png" alt="">
-            <p>커뮤니티</p>
+            <p>친구 만들기</p>
         </div>
         <div class="box_in_2">
             <div class="dropdown">
@@ -37,15 +37,7 @@
                 </div>
               </div>
 
-              <div class="dropdown">
-                <button class="dropdown-button toggle-button">친구 만들기 정보
-                   <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
-                </button>
-                <div class="dropdown-content">
              
-                  
-                </div>
-              </div>
         </div>
 
     </div>
@@ -56,7 +48,7 @@ const image1 = "${pageContext.request.contextPath}/images/free-icon-down-2732661
 
 const image2 = "${pageContext.request.contextPath}/images/free-icon-down-2732661%202.png"; // 두 번째 이미지
 
-// 모든 드롭다운 버튼에 이벤트 리스너 적용
+
 document.querySelectorAll('.dropdown-button').forEach(function(button) {
     button.addEventListener('click', function(event) {
         // 이미지 토글

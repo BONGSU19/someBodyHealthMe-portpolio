@@ -328,7 +328,11 @@ public class FriendDAO {
 				friend.setName(rs.getString("name"));
 				friend.setCenter_Num(rs.getInt("center_num"));
 				friend.setStatus(rs.getString("status"));
+				
 				friends.add(friend);
+				
+				
+				
 			}
 		}catch(Exception e) {
 			throw new Exception(e);

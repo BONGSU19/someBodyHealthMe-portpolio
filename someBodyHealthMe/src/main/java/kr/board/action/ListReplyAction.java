@@ -33,6 +33,7 @@ public class ListReplyAction implements Action{
 		
 		PagingUtil page = new PagingUtil(Integer.parseInt(pageNum), count, Integer.parseInt(rowCount));
 		
+		//댓글 목록반환
 		List<Board_replyVO> list = null;
 		if(count > 0) {
 			list = dao.getReply(page.getStartRow(), page.getEndRow(), board_num);			
@@ -42,11 +43,16 @@ public class ListReplyAction implements Action{
 		
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
+		//관리자 삭제처리 기능
+		Integer status = (Integer)session.getAttribute("status");
 		
 		Map<String, Object> mapAjax = new HashMap<String, Object>();
 		
 		mapAjax.put("count", count);
 		mapAjax.put("list", list);
+		
+		
+		mapAjax.put("status", status);
 		
 		mapAjax.put("user_num", user_num);		
 		return StringUtil.parseJSON(request, mapAjax);

@@ -3,37 +3,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>회원정보 수정</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypageForm.css">
-<script>
-    function validateForm() {
-        const nickname = document.querySelector('[name="nick_name"]').value.trim();
-        const email = document.querySelector('[name="email"]').value.trim();
-        const phone = document.querySelector('[name="phone"]').value.trim();
-
-        if (!nickname && !email && !phone) {
-            alert('적어도 하나의 정보를 입력해야 수정 가능합니다.');
-            return false;
+    <meta charset="UTF-8">
+    <title>회원정보 수정</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypageForm.css">
+    <script>
+        function validateForm() {
+            const nickname = document.querySelector('[name="nick_name"]').value.trim();
+            const email = document.querySelector('[name="email"]').value.trim();
+            const phone = document.querySelector('[name="phone"]').value.trim();
+            if (!nickname && !email && !phone) {
+                alert('적어도 하나의 정보를 입력해야 수정 가능합니다.');
+                return false;
+            }
+            return true;
         }
-        return true;
-    }
-</script>
+    </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/mypageheader.jsp" />
-
 <div class="mypage-container">
-    <!-- 왼쪽 섹션 (공간 확보) -->
     <aside class="profile-sidebar">
-        <!-- 간단한 안내문구 -->
         <div class="profile-main-box">
             <h3>회원정보 수정</h3>
             <p>수정하려는 정보를 입력 후 저장</p>
         </div>
     </aside>
-
-    <!-- 오른쪽 섹션 -->
     <main class="content-section">
         <form class="profile-details-box" action="${pageContext.request.contextPath}/member/updateProfile.do" method="post" onsubmit="return validateForm();">
             <ul>

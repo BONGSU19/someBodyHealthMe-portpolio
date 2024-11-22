@@ -7,14 +7,11 @@
     <title>마이 페이지</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mypageForm.css" type="text/css">
     <script>
-        // 회원 탈퇴 확인
         function confirmDeactivation() {
             if (confirm('정말 탈퇴하시겠습니까?')) {
                 location.href = '${pageContext.request.contextPath}/member/deactivateUser.do';
             }
         }
-
-        // 사진 삭제 확인
         function deletePhoto() {
             if (confirm('사진을 삭제하시겠습니까?')) {
                 location.href = '${pageContext.request.contextPath}/member/deletePhoto.do';
@@ -23,14 +20,11 @@
     </script>
 </head>
 <body>
-    <!-- 헤더 -->
     <jsp:include page="/WEB-INF/views/common/mypageheader.jsp" />
 
-    <!-- 마이페이지 메인 컨테이너 -->
     <div class="mypage-container">
         <!-- 왼쪽 섹션 -->
         <aside class="profile-sidebar">
-            <!-- 프로필 사진 -->
             <div class="profile-photo">
                 <img src="<c:choose>
                     <c:when test='${empty member.photo}'>
@@ -41,7 +35,6 @@
                     </c:otherwise>
                 </c:choose>" alt="프로필 사진">
                 <div class="photo-buttons">
-                    <!-- 파일 선택 및 버튼 정리 -->
                     <form action="${pageContext.request.contextPath}/member/uploadPhoto.do" method="post" enctype="multipart/form-data" style="display: flex; align-items: center; gap: 10px;">
                         <label for="photo" class="styled-file-label">파일 선택</label>
                         <input type="file" id="photo" name="photo" accept="image/*" class="styled-file-input" required>
@@ -54,41 +47,33 @@
                     <p>${member.email}</p>
                 </div>
             </div>
-
-            <!-- 로그아웃 및 회원탈퇴 버튼 -->
             <div class="profile-info-buttons">
                 <button class="logout-btn" onclick="location.href='${pageContext.request.contextPath}/member/logout.do'">로그아웃</button>
                 <button class="deactivate-btn" onclick="confirmDeactivation()">회원탈퇴</button>
             </div>
-
-            <!-- 내 프로필 -->
             <div class="profile-main-box">
-                <h3>내 프로필</h3>
-                <button onclick="location.href='${pageContext.request.contextPath}/member/editProfileForm.do'" class="btn edit-profile-btn">정보수정</button>
-            </div>
-            <div class="profile-details-box">
-                <ul>
+                <div class="profile-header">
+                    <h3>내 프로필</h3>
+                    <button onclick="location.href='${pageContext.request.contextPath}/member/editProfileForm.do'" class="btn edit-profile-btn">정보수정</button>
+                </div>
+                <ul class="profile-details-box">
                     <li>닉네임: ${member.nick_name}</li>
                     <li>전화번호: ${member.phone}</li>
                 </ul>
             </div>
-
-            <!-- 추가 메뉴 -->
             <div class="menu-section">
-                <h3>회원권 및 PT 관리</h3>
+                <h3>회원권 및 PT 관련내역</h3>
                 <ul>
                     <li><a href="#">회원권 조회</a></li>
                     <li><a href="#">PT 예약 조회</a></li>
                 </ul>
-                <h3>쇼핑관리</h3>
+                <h3>쇼핑 관력내역</h3>
                 <ul>
                     <li><a href="#">장바구니</a></li>
                     <li><a href="#">구매내역 확인</a></li>
                 </ul>
             </div>
         </aside>
-
-        <!-- 오른쪽 섹션 -->
         <main class="content-section">
             <div class="my-posts">
                 <h3>내가 쓴 글 <button class="more-btn">더보기</button></h3>

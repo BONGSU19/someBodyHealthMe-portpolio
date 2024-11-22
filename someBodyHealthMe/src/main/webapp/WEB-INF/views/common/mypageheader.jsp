@@ -42,7 +42,7 @@
             </c:choose>
         </ul>
 
-        <!-- Toggle button -->
+        <!-- Toggle button  ㄴ-->
         <a href="#" class="navbar__toggleBtn">
             <i class="fa-solid fa-bars"></i>
         </a>

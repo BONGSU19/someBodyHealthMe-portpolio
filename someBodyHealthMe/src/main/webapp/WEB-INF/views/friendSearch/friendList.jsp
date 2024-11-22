@@ -29,7 +29,7 @@
                         if (response.isRequestSent=='success') {
                             alert("친구 요청이 성공적으로 전송되었습니다!");
                         } else if(response.isRequestSent=='duple'){
-                            alert("중복");
+                            alert("이미 친구입니다");
                         }else{
                         	alert("실패.!ns");
                         }
@@ -56,7 +56,7 @@
                  if (response.isRequestSent=='success') {
                      alert("친구 요청 취소가 완료되었습니다!");
                  } else if(response.isRequestSent=='duple'){
-                     alert("중복");
+                     alert("이미 친구 입니다");
                  }else{
                  	alert("실패.!ns");
                  }
@@ -138,7 +138,7 @@
 					</c:if>
 
 					<c:if test="${friend.status=='None'}">
-						<td><a href="javascript:void(0);"
+						<td style="padding-left:250px;"><a href="javascript:void(0);"
 							class="sendFriendRequestButton"
 							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
 								친구 요청 </a></td>
@@ -146,19 +146,19 @@
 
 
 					<c:if test="${friend.status=='1'}">
-						<td><a href="javascript:void(0);"
+						<td  style="padding-left:250px;"><a href="javascript:void(0);"
 							class="sendFriendRequestButton2"
 							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
 								친구 요청 취소 </a></td>
 					</c:if>
 					
 					<c:if test="${friend.status=='2'}">
-						<td><a href="javascript:void(0);"
+						<td  style="padding-left:250px;"><a href="javascript:void(0);"
 							class="sendFriendRequestButton2"
 							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
 								친구입니다! </a></td>
 					</c:if>
-${friend.status}
+
 				</tr>
 			</c:forEach>
 		</table>

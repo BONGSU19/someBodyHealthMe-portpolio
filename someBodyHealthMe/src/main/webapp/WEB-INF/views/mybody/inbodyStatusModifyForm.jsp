@@ -38,7 +38,7 @@
                                 </option>
                             </c:forEach>
                         </select>
-                        <input id="insert-button-modify" class="button" type="submit" value="확인" disabled/>
+                        <input id="modify-button-getinbody" class="button" type="submit" value="확인" disabled/>
                     </form>
                 </div>
 
@@ -64,7 +64,7 @@
                                        value="${inbodyStatus.bodyFatPercentage}" required />
                             </div>
 
-                            <input id='modify-button' class="button" type="submit" value="수정"/>
+                            <input id='modify-button-getinbody' class="button" type="submit" value="수정"/>
                         </div>
                     </form>
                 </c:if>
@@ -73,23 +73,22 @@
     </div> <!-- page-main div 태그 닫기 -->
 
     <script>
-        // 버튼을 활성화/비활성화하는 함수
-        function toggleSubmitButton() {
-            var selectElement = document.getElementById('measurementDate');
-            var submitButton = document.getElementById('insert-button-modify');
-            
-            // 선택된 값이 비어 있지 않으면 버튼을 활성화, 비어 있으면 비활성화
-            if (selectElement.value) {
-                submitButton.disabled = false;  // 버튼 활성화
-            } else {
-                submitButton.disabled = true;   // 버튼 비활성화
-            }
-        }
-
-        // 페이지 로드 시 버튼 상태 설정 (기본값으로 비활성화)
-        window.onload = function() {
-            toggleSubmitButton();  // 페이지 로드 시 버튼 상태를 초기화
-        };
+	    function toggleSubmitButton() {
+	        var measurementDate = document.getElementById("measurementDate").value; // 선택된 값 가져오기
+	        var modifyButton = document.getElementById("modify-button-getinbody"); // 버튼 요소
+	
+	        // measurementDate 값이 비어 있지 않으면 버튼 활성화, 비어 있으면 비활성화
+	        if (measurementDate) {
+	            modifyButton.disabled = false; // 버튼 활성화
+	        } else {
+	            modifyButton.disabled = true; // 버튼 비활성화
+	        }
+	    }
+	
+	    // 페이지 로드 시에도 초기화
+	    window.onload = function() {
+	        toggleSubmitButton(); // 페이지 로드 시에도 호출하여 초기 상태 설정
+	    };
     </script>
 </body>
 </html>

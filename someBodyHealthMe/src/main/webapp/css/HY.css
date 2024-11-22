@@ -488,18 +488,25 @@ input[type="submit"]:active {
 
 
 
-/* =======================================
-    Main Content 영역 (기존 스타일 유지)
-======================================= */
+.page-body {
+    display: flex;  /* 부모 요소에 flex 적용 */
+    gap: 30px;      /* 자식 요소들 사이에 간격 추가 */
+    padding: 20px;   /* 부모 요소의 padding */
+    width: 100%;     /* 부모 요소가 화면 전체 너비를 차지하도록 */
+    justify-content: space-between;  /* 자식 요소들 간의 공간을 일정하게 분배 */
+}
+
+/* main-content-diet에 대해 적용할 스타일 */
 .main-content-diet {
     padding: 20px;
-    border: 2px solid #ddd; /* 연한 회색 외곽선 */
-    border-radius: 12px; /* 둥근 모서리 */
-    background-color: #fff; /* 배경색 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    max-width: 1200px; /* 최대 너비 설정 */
-    margin: 20px auto; /* 가운데 정렬 */
-    overflow: hidden; /* 안쪽 콘텐츠가 벗어나지 않도록 처리 */
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    flex-grow: 1;  /* 부모 요소 내에서 공간을 최대한 차지 */
+    overflow: hidden;
+    /* left, right margin을 제거하고 flexbox로 간격 조정 */
 }
 
 /* =======================================

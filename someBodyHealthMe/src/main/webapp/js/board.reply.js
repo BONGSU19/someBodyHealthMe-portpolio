@@ -14,7 +14,7 @@ $(function(){
 		
 		//서버와 통신
 		$.ajax({
-			url:'listReply.do',
+			url:'listReply.do', 
 			type:'post',
 			data:{pageNum:pageNum,rowCount:rowCount,board_num:$('#board_num').val()},
 			dataType:'json',

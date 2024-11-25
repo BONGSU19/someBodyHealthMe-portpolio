@@ -22,41 +22,82 @@
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
-		
+
 		<div class="content-main">
 			<c:if test="${status == 4}">
 				<div class="button-container">
-				<input type="button" value="상품 수정" onclick="location.href='updateForm.do?goods_num=${goods.goods_num}'">
-				<input type="button" value="상품 삭제" id="delete_btn">
-				<script type="text/javascript">
-					const delete_btn = document.getElementById('delete_btn');
-					delete_btn.onclick = function() {
-						let choice = confirm('삭제하시겠습니까?');
-						if (choice) {
-							location.replace('delete.do?goods_num=${goods.goods_num}');
-						}
-					};
-				</script>
+					<input type="button" value="상품 수정"
+						onclick="location.href='updateForm.do?goods_num=${goods.goods_num}'">
+					<input type="button" value="상품 삭제" id="delete_btn">
+					<script type="text/javascript">
+						const delete_btn = document
+								.getElementById('delete_btn');
+						delete_btn.onclick = function() {
+							let choice = confirm('삭제하시겠습니까?');
+							if (choice) {
+								location
+										.replace('delete.do?goods_num=${goods.goods_num}');
+							}
+						};
+					</script>
 				</div>
 			</c:if>
 			<div class="button-container">
+			<c:if test="${status == 4}">
+				<input type="button" value="목록" onclick="location.href='adminlist.do'">
+			</c:if>
+			<c:if test="${status != 4}">
 				<input type="button" value="목록" onclick="location.href='list.do'">
-				<input type="button" value="찜 목록" 
+			</c:if>
+				<input type="button" value="찜 목록"
 					onclick="location.href='likePage.do?user_num=${cart.user_num}'">
-				<input type="button" value="장바구니" onclick="location.href='${pageContext.request.contextPath}/cart/list.do'">
+				<input type="button" value="장바구니"
+					onclick="location.href='${pageContext.request.contextPath}/cart/list.do'">
 			</div>
 			<c:if test="${goods.goods_status == 1}">
 				<div class="result-diplay">
 					<div class="align-center">
 						본 상품은 판매 중지되었습니다.
 						<p>
+						<c:if test="${status == 4}">
 							<input type="button" value="판매상품 보기"
-								onclick="location.href='List.do'">
+								onclick="location.href='adminlist.do'">
+						</c:if>
+						<c:if test="${status != 4}">
+							<input type="button" value="판매상품 보기"
+								onclick="location.href='list.do'">
+						</c:if>
+						<h3 class="align-center">${goods.goods_name}</h3>
+						<div class="item-image">
+							<img
+								src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
+								width="400">
+						</div>
+						<div class="item-detail">
+							<form id="goods_cart">
+								<input type="hidden" name="goods_num" value="${goods.goods_num}"
+									id="goods_num"> <input type="hidden" name="goods_price"
+									value="${goods.goods_price}" id="goods_price"> <input
+									type="hidden" name="goods_quantity"
+									value="${goods.goods_quantity}" id="goods_quantity">
+								<ul>
+									<li>가격 : <b><fmt:formatNumber
+												value="${goods.goods_price}" /></b>
+									</li>
+						</div>
+						<hr size="1" noshade="noshade" width="100%">
+						<p>${goods.goods_info}</p>
+						<ul class="detail-sub">
+							<li>
+								<%-- 좋아요 --%> <img id="output_like"
+								data-num="${goods.goods_num}"
+								src="${pageContext.request.contextPath}/images/fav01.gif"
+								width="50"> 좋아요 <span id="output_lcount"></span>
+							</li>
+						</ul>
 					</div>
-				</div>
 			</c:if>
 			<c:if test="${goods.goods_status == 2}">
-				<h3 class="align-center">${goods.goods_name}</h3>
 				<div class="item-image">
 					<img
 						src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
@@ -64,16 +105,15 @@
 				</div>
 				<div class="item-detail">
 					<form id="goods_cart">
-						<input type="hidden" name="goods_num"
-					    value="${goods.goods_num}" id="goods_num">
-						<input type="hidden" name="goods_price"
+						<input type="hidden" name="goods_num" value="${goods.goods_num}"
+							id="goods_num"> <input type="hidden" name="goods_price"
 							value="${goods.goods_price}" id="goods_price"> <input
 							type="hidden" name="goods_quantity"
 							value="${goods.goods_quantity}" id="goods_quantity">
 						<ul>
-							<li>가격 : <b><fmt:formatNumber
-										value="${goods.goods_price}" /></b>
-							</li>
+							<li><br><h1>${goods.goods_name}</h1><br></li>
+							<li class="align-right"><h3><fmt:formatNumber value="${goods.goods_price}" />원</h3></li>
+							<hr size="1" noshade="noshade" width="100%">
 							<li>재고 : <span><fmt:formatNumber
 										value="${goods.goods_quantity}" /></span>
 							</li>
@@ -82,8 +122,15 @@
 									type="number" name="order_quantity" min="1"
 									max="${goods.goods_quantity}" autocomplete="off"
 									id="order_quantity" class="quantity-width"></li>
-								<li><span id="goods_total_txt">총주문 금액 : 0원</span></li>
+								<li>총 상품 금액 : <span id="goods_total_txt">0원</span></li>
 								<li><input type="submit" value="장바구니에 담기"></li>
+								<ul class="detail-sub">
+									<li>
+										<%-- 좋아요 --%> <img id="output_like" data-num="${goods.goods_num}"
+										src="${pageContext.request.contextPath}/images/fav01.gif"
+										width="50"> 좋아요 <span id="output_lcount"></span>
+									</li>
+				</ul>
 							</c:if>
 							<c:if test="${goods.goods_quantity == 0}">
 								<li class="align-center"><span class="sold-out">품절</span></li>
@@ -92,17 +139,13 @@
 					</form>
 				</div>
 				<hr size="1" noshade="noshade" width="100%">
-				<p>${goods.goods_info}</p>
+				<div class="item-image-detail align-center">
+					<img
+						src="${pageContext.request.contextPath}/upload/${goods.goods_img2}"
+						width="400">
+				</div>
+				<p class="align-center">${goods.goods_info}</p>
 
-				
-					<ul class="detail-sub">
-						<li>
-							<%-- 좋아요 --%> <img id="output_like" data-num="${goods.goods_num}"
-							src="${pageContext.request.contextPath}/images/fav01.gif"
-							width="50"> 좋아요 <span id="output_lcount"></span>
-						</li>
-					</ul>
-				
 				<!-- 댓글시작 -->
 				<div id="reply_div">
 					<span class="re-title">댓글 달기</span>

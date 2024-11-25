@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>게시판 글 수정</title>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+	href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
 	<script type="text/javascript">
 		$(function(){
@@ -31,6 +31,7 @@
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
 		<div class="content-main">
 			<h2>상품 수정</h2>
 			<form id="update_form" action="update.do" method="post" enctype="multipart/form-data">
@@ -63,7 +64,7 @@
 					<input type="file" name="goods_img1" id="goods_img1" accept="image/gif,image/png,image/jpeg">
 					<c:if test="${!empty goods.goods_img1}">
 					<div id="file_detail">
-							(${goods.goods_img1}) 파일이 등록되어 있습니다.
+							파일이 등록되어 있습니다.
 							<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100">
 					</div>
 					</c:if>
@@ -73,7 +74,7 @@
 					<input type="file" name="goods_img2" id="goods_img2" accept="image/gif,image/png,image/jpeg">
 					<c:if test="${!empty goods.goods_img2}">
 					<div id="file_detail">
-							(${goods.goods_img2}) 파일이 등록되어 있습니다.
+							파일이 등록되어 있습니다.
 							<img src="${pageContext.request.contextPath}/upload/${goods.goods_img2}" width="100">
 					</div>
 					</c:if>
@@ -84,11 +85,12 @@
 					</li>
 				</ul>
 				<div class="align-center">
-					<input type="submit" value="수정"> 
+					<input id="submit-btn" type="submit" value="수정"> 
 					<input type="button" value="글 상세" onclick="location.href='detail.do?goods_num=${goods.goods_num}'">
 				</div>
 			</form>
 		</div>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 </body>
 </html>

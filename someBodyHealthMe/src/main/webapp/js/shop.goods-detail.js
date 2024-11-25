@@ -4,22 +4,22 @@ $(function(){
 	 * ====================== */
 	$('#order_quantity').on('input',function(){
 		if($('#order_quantity').val()==''){
-			$('#goods_total_txt').text('총주문 금액 : 0원');
+			$('#goods_total_txt').text('0원');
 			return;
 		}
 		if($('#order_quantity').val() <= 0){
 			$('#order_quantity').val('');
-			$('#goods_total_txt').text('총주문 금액 : 0원');
+			$('#goods_total_txt').text('0원');
 			return;
 		}
 		if(Number($('#goods_quantity').val()) < $('#order_quantity').val()){
 			alert('수량이 부족합니다.');
 			$('#order_quantity').val('');
-			$('#goods_total_txt').text('총주문 금액 : 0원');
+			$('#goods_total_txt').text('0원');
 			return;
 		}
 		let total = $('#goods_price').val() * $('#order_quantity').val();
-		$('#goods_total_txt').text('총주문 금액 : ' + total.toLocaleString()+'원');
+		$('#goods_total_txt').text(total.toLocaleString()+'원');
 	});
 		/* =====================
 		 * 장바구니 상품 담기

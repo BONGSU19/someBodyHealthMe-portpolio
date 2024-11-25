@@ -179,9 +179,11 @@ float:left;
 margin-left:10px;
 }
 footer{
-	height:250px;
+	height:150px;
 	width:100%;
 	background-color: rgba(217,217,217,0.58);
+	padding:15px;
+	padding-right:50px;
 }
 
 
@@ -285,4 +287,94 @@ footer{
 	min-height:50px;
 	border-radius:20px;
 	border-top-left-radius:0;
+}
+
+
+
+
+--메인
+.main-1{
+	width:100%;
+	height:240px;
+	
+	
+}
+.main-1-sub{
+	width:360px;
+	height:240px;
+		margin:0 auto;
+		margin-top:50px;
+		text-align:center;
+
+}
+.main-1-1{
+	width:160px;
+	height:160px;
+	border-radius:100%;
+	background-color:black;
+float:left;
+	background-image:url("../images/health1.png");
+	color:white;
+		vertical-align:middle;
+			line-height:160px;
+}
+.main-1-2{
+	width:160px;
+	height:160px;
+	border-radius:100%;
+	background-color:black;
+float:left;
+	background-image:url("../images/health2.png");
+	color:white;
+		vertical-align:middle;
+		line-height:160px;
+}
+.main-1-1-sub{
+	width:40px;
+	height:40px;
+float:left;
+	
+}
+
+
+.main-2{
+	width:100%;
+	height:617px;
+
+	 background-image: url("../images/main.png");
+	 background-position:center center;
+	 background-size:cover cover;
+}
+.main-3{
+	width:100%;
+	height:423px;
+	padding-top:70px;
+	padding-left:50px;
+}
+.main-3-1{
+	width:300px;
+	height:340px;
+	background-color:white;
+	border:1px solid gray;
+}
+
+.main-3-1{
+	width:300px;
+	height:340px;
+	background-color:white;
+	border:1px solid gray;
+}
+.main-3-1-1{
+	width:230px;
+	height:200px;
+	margin:0 auto;
+	border:1px solid gray;
+	margin-top:30px;
+}
+
+.main-3-2{
+	width:230px;
+	height:106px;
+
+	margin:0 auto;
 }

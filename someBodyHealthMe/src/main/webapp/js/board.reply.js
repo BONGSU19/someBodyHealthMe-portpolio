@@ -28,47 +28,54 @@ $(function(){
 					$('#output').empty();
 				}
 				
+				$('#reply_count').text(count);				
+				
+				
 				if(param.count == 0){
-					let output = "<div> 등록된 댓글이 없습니다.</div>";
+					let output = '<div> 등록된 댓글이 없습니다.</div>';
 					$('#output').append(output);
 				}
+				
 								
 				
 				$(param.list).each(function(index,item){
 					let output =  '<div class="item">';
+					output += '<div class="sub-item">';
 					output += '<div class="re-profile">';
-					output += '<img src="#" >';
-					output += '<span>' + item.nick_name +'</span>';
+					output += '<img src="../upload/' + item.photo + '" >';
+					output += '<div>' + item.nick_name +'</div>';
 					output += '</div>';
 					output += '<p>' + item.re_content +'</p>' ;
 					output += '<div class="re-date">';
 							
-								    if(item.re_modifydate){
-										output += '<span class="modify-date">최근 수정일 : ' + item.re_modifydate + '</span><br>';
-									}else{
-										output += '<span class="modify-date">등록일 : ' + item.re_regdate + '</span><br>';
-									}
-													
-									//로그인한 회원번호와 작성자의 회원번호 일치 여부 체크
-									if(param.user_num == item.user_num){						
-										//로그인한 회원번호와 작성자 회원번호 일치
-										output += ' <input type="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';
-										output += ' <input type="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
-									}	
-									//관리자가 타인의 댓글을 삭제할 수 있는 기능
-									if(param.user_num != item.user_num && Number(param.status) == 4){
-										output += ' <input type="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
-									}			
+					if(item.re_modifydate){
+						output += '<span class="modify-date" style="font-size: 14px;">수정 : ' + item.re_modifydate + '</span><br>';
+					}else{
+						output += '<span class="re-regdate" style="font-size: 14px;">등록 : ' + item.re_regdate + '</span><br>';
+					}
+					
+					output +='<div style="margin-bottom:5px">';	
+					//로그인한 회원번호와 작성자의 회원번호 일치 여부 체크
+					if(param.user_num == item.user_num){						
+					//로그인한 회원번호와 작성자 회원번호 일치
+					output += ' <input type="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';
+					output += ' <input type="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+						}	
+					//관리자가 타인의 댓글을 삭제할 수 있는 기능
+					if(param.user_num != item.user_num && Number(param.status) == 4){
+						output += ' <input type="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+					}			
 																					
-									output += "</div>";
-					 output += '</div>';								
+				    output += "</div>";
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';				
+					output += '<hr size="2" width="96%">';
 					
-				
-					output += "<hr>";
-					
-					//댓글 삽입
-					$('#output').append(output);
+					//댓글 목록 삽입
+					$('#output').append(output);				
 				});
+				
 				
 				//페이지 버튼 처리
 				if(currentPage>=Math.ceil(count/rowCount)){
@@ -162,20 +169,22 @@ $(function(){
 		$(document).on('click','.modify-btn',function(){
 			//댓글 번호
 			let re_num = $(this).attr('data-renum');
+
 			//댓글 내용
-			let content = $(this).parents().find('p').html().replace(/<br>/gi,'\n');// g:지정문자열 모두 ,i:대소문자 무시
+			let content = $(this).closest('.sub-item').find('p').html().replace(/<br>/gi,'\n');// g:지정문자열 모두 ,i:대소문자 무시
 			
 			//댓글 수정폼 UI
-			let modifyUI = '<form id="mre_form">'
+			let modifyUI = '<div class="sub-item">';                
+			modifyUI += '<form id="mre_form">'
 			modifyUI += '<input type="hidden" name="re_num" id="mre_num" value="'+re_num+'">';
-			modifyUI += '<textarea rows="3" cols="50" name="re_content" id="mre_content" class="rep-content">'+content+'</textarea>';
-			modifyUI += '<div id="mre_first"><span class="letter-count">300/300</span></div>';
-			modifyUI += '<div id="mre_second" class="align-right">'
-			modifyUI += '<input type="submit" value="수정">';
-			modifyUI += ' <input type="button" value="취소" class="re-reset">';
-			modifyUI += '</div>';
-			modifyUI += '<hr size="1" noshade width="96%">';
-			modifyUI += '</form>';
+			modifyUI += '<textarea name="re_content" id="mre_content" class="rep-content">'+content+'</textarea>';     
+			modifyUI += '<div id="mre_first">'       
+			modifyUI += '<input type="button" value="취소" class="re-reset">';    
+			modifyUI += '<input type="submit" value="수정"><br>';			                        
+			modifyUI += '<span style="margin-left: 2px;" class="letter-count" id="mre_count">300/300</span>'
+		    modifyUI += '</div>'
+			modifyUI += '</form>'
+		    modifyUI += '</div>'
 			
 			//이전에 이미 수정하는 댓글이 있을 경우 수정버튼을 클릭하면 
 			//숨김 sub-item 클래스로 지정한 div를 환원시키고 수정폼 제거
@@ -183,7 +192,7 @@ $(function(){
 			
 			//지금 클릭해서 수정하고자 하는 데이터는 감추기
 			//수정버튼은 감싸고 있는 div를 감춤
-			$(this).parents().hide();
+			$(this).closest('.sub-item').hide();
 			
 			//수정폼을 수정하고자 하는 데이터가 있는 div에 노출
 			$(this).parents('.item').append(modifyUI);
@@ -207,6 +216,8 @@ $(function(){
 		$(document).on('click','.re-reset',function(){
 			initModifyForm();
 		});
+		
+		
 		//댓글 수정
 		$(document).on('submit','#mre_form',function(event){
 			if($('#mre_content').val().trim()==''){
@@ -226,8 +237,8 @@ $(function(){
 					if(param.result=='logout'){
 						alert('로그인 해야 수정할 수 있습니다.');
 					}else if(param.result=='success'){
-						$('#mre_form').parent().find('p').html($('#mre_content').val().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'));
-						$('#mre_form').parent().find('.modify-date').text('최근 수정일 : 5초미만');
+						$('#mre_form').parents('.item').find('p').html($('#mre_content').val().replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>'));
+						$('#mre_form').parent().find('.modify-date').text('최근 수정일 : 5초미만'); 
 						//수정폼 삭제 및 초기화
 						initModifyForm();
 					}else if(param.result=='wrongAccess'){
@@ -243,19 +254,6 @@ $(function(){
 			//기본 이벤트 제거
 			event.preventDefault();
 		});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/* ================================

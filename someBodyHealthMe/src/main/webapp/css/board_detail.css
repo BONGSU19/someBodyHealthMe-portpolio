@@ -3,7 +3,7 @@
     width: 1080px;
     border: 1px solid black;
     margin: 20px;
-    padding: 20px; 
+    padding: 20px;  
     flex-grow: 1;
     float:left;
 }

@@ -2,7 +2,7 @@ $(function(){
 	let rowCount = 5;
 	let currentPage;
 	let count;
-	/*================
+	/*================ 
 	 * 댓글 목록
 	 *================*/
 	//댓글 목록 

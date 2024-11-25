@@ -133,15 +133,6 @@ public class MyBodyDAO{
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//내 건강 정보 수정
 	
 	public void updateMyBodyStatus(MyBodyStatusVO myBodyStatus) throws Exception {

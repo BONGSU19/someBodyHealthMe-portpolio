@@ -32,26 +32,30 @@ $(function(){
 				
 				
 				if(param.count == 0){
-					let output = '<div> 등록된 댓글이 없습니다.</div>';
+					let output = '<div class="re-none"> 등록된 댓글이 없습니다.</div>';
 					$('#output').append(output);
 				}
 				
 								
 				
 				$(param.list).each(function(index,item){
+					let photo;
+					if(item.photo != null) photo = item.photo;
+					else photo = 'User.png'; 
 					let output =  '<div class="item">';
 					output += '<div class="sub-item">';
 					output += '<div class="re-profile">';
-					output += '<img src="../upload/' + item.photo + '" >';
-					output += '<div>' + item.nick_name +'</div>';
+					output += '<img src="../upload/' + photo + '" width="50" height="50">';
+					
+					output += '<div class="list-nick_name">' + item.nick_name +'</div>';
 					output += '</div>';
 					output += '<p>' + item.re_content +'</p>' ;
 					output += '<div class="re-date">';
 							
 					if(item.re_modifydate){
-						output += '<span class="modify-date" style="font-size: 14px;">수정 : ' + item.re_modifydate + '</span><br>';
+						output += '<span class="modify-date" style="font-size: 14px;">수정 : ' + item.re_modifydate + '</span>';
 					}else{
-						output += '<span class="re-regdate" style="font-size: 14px;">등록 : ' + item.re_regdate + '</span><br>';
+						output += '<span class="re-regdate" style="font-size: 14px;">등록 : ' + item.re_regdate + '</span>';
 					}
 					
 					output +='<div style="margin-bottom:5px">';	

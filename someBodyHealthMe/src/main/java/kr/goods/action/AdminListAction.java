@@ -11,7 +11,7 @@ import kr.goods.vo.GoodsVO;
 import kr.util.PagingUtil;
 import kr.controller.Action;
 
-public class ListAction implements Action{
+public class AdminListAction implements Action{
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -25,7 +25,7 @@ public class ListAction implements Action{
 		
 		
 		String pageNum =request.getParameter("pageNum");
-		if(pageNum == null) pageNum ="1";
+		if(pageNum == null) pageNum ="0";
 		
 		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
@@ -45,7 +45,7 @@ public class ListAction implements Action{
 		request.setAttribute("list", list);
 		request.setAttribute("page", page.getPage());
 		//jsp 경로 반환
-		return "goods/list.jsp";
+		return "goods/adminlist.jsp";
 	}
 	
 }

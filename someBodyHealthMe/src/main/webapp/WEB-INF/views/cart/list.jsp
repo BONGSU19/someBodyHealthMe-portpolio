@@ -7,13 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/shop.cart.js"></script>
 </head>
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+		<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
 		<div class="content-main">
 			<h2>장바구니</h2>
 			<c:if test="${empty list}">
@@ -68,6 +69,7 @@
 				</form>
 			</c:if>
 		</div>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 </body>
 </html>

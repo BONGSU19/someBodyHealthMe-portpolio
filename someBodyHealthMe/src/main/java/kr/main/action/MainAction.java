@@ -58,7 +58,7 @@ public class MainAction implements Action{
 		
 		List<GoodsVO> list1 = null;
 		if(count > 0 ) {
-			list1 = dao1.getListGoods(page1.getStartRow(), page1.getEndRow(), keyfield1, keyword1, 0);
+			list1 = dao1.getListGoods(page1.getStartRow(), page1.getEndRow(), keyfield1, keyword1, 1);
 		}
 		
 		request.setAttribute("count1", count1);

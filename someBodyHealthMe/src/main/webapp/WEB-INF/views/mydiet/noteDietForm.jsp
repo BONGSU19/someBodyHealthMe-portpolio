@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>건강지킴이</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -28,7 +28,7 @@
                     $("#foodList").html(''); // 기존 옵션 삭제
                     if (response.length > 0) {
                         $.each(response, function(index, food) {
-                            $("#foodList").append('<li class="food-item" data-id="' + food.id + '">' + food.name + '</li>');
+                            $("#foodList").append('<li class="food-item" data-id="' + food.dietId + '">' + food.foodName + '</li>');
                         });
                     } else {
                         $("#foodList").append('<li>검색 결과 없음</li>');
@@ -166,6 +166,7 @@
                         <option value="breakfast">아침</option>
                         <option value="lunch">점심</option>
                         <option value="dinner">저녁</option>
+                        <option value="dinner">간식</option>
                     </select>
                 </div>
                 

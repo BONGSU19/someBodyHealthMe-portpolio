@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>건강지킴이</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
     <script>
-        // 음식 검색 및 팝업창 동작
+        // 음식 검색
         function searchFood() {
             var keyword = $("#foodKeyword").val(); // 입력한 키워드 값
             if (keyword.trim() === "") {
@@ -20,24 +20,39 @@
 
             // AJAX 요청을 통해 서버로 검색어를 보냄
             $.ajax({
-                url: "${pageContext.request.contextPath}/searchFood", // 검색 처리 URL
+                url: "${pageContext.request.contextPath}/mydiet/noteDietSearch.do", // 검색 처리 URL
                 type: "GET",
                 data: { keyword: keyword },
                 success: function(response) {
-                    // 검색된 음식 목록을 #foodSelect에 업데이트
-                    $("#foodList").html(''); // 기존 옵션 삭제
-                    if (response.length > 0) {
-                        $.each(response, function(index, food) {
-                            $("#foodList").append('<li class="food-item" data-id="' + food.dietId + '">' + food.foodName + '</li>');
-                        });
-                    } else {
-                        $("#foodList").append('<li>검색 결과 없음</li>');
+                    console.log(response); // 서버 응답을 콘솔에 출력해 확인
+
+                    try {
+                        // 응답이 배열인지 확인
+                        if (Array.isArray(response)) {
+                            $("#foodList").html(''); // 기존 옵션 삭제
+                            if (response.length > 0) {
+                                $.each(response, function(index, food) {
+                                    $("#foodList").append('<li class="food-item" data-id="' + food.dietId + '">' + food.foodName + '</li>');
+                                });
+                                // 팝업창 열기
+                                openFoodPopup();
+                            } else {
+                                // 결과가 없으면 alert 띄우기
+                                alert("검색 결과가 없습니다.");
+                            }
+                        } else {
+                            // 응답이 배열이 아니면 오류 메시지 출력
+                            console.error("응답이 배열이 아닙니다:", response);
+                            alert("서버에서 반환한 데이터 형식이 잘못되었습니다.");
+                        }
+                    } catch (e) {
+                        console.error("에러 발생:", e);
+                        alert("서버 응답을 처리하는 중에 오류가 발생했습니다.");
                     }
-                    // 팝업창 열기
-                    openFoodPopup();
                 },
-                error: function() {
-                    alert("검색 중 오류가 발생했습니다.");
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX 요청 실패:", textStatus, errorThrown); // 에러 메시지 출력
+                    alert("검색 중 오류가 발생했습니다. 서버와의 연결을 확인해 주세요.");
                 }
             });
         }
@@ -114,6 +129,9 @@
             font-size: 16px;
             border-radius: 8px 8px 0 0;
             text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         #foodPopup .food-item {
@@ -138,8 +156,6 @@
             padding: 5px;
             border-radius: 4px;
             cursor: pointer;
-            float: right;
-            margin-top: -15px;
         }
 
         #foodPopupClose:hover {
@@ -150,10 +166,10 @@
 <body>
     <div class="page-main">
         <!-- Header 영역 (기존 include) -->
-        <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-        
+        <jsp:include page="/WEB-INF/views/common/header.jsp" />
+
         <!-- Aside 영역 (기존 include) -->
-        <jsp:include page="/WEB-INF/views/common/aside_mybody.jsp"/>
+        <jsp:include page="/WEB-INF/views/common/aside_mybody.jsp" />
 
         <!-- 사용자 입력 폼 -->
         <div class="meal-entry-form">
@@ -166,30 +182,30 @@
                         <option value="breakfast">아침</option>
                         <option value="lunch">점심</option>
                         <option value="dinner">저녁</option>
-                        <option value="dinner">간식</option>
+                        <option value="snack">간식</option>
                     </select>
                 </div>
-                
+
                 <!-- 음식 검색 -->
                 <div class="form-group">
                     <label for="foodKeyword">음식 검색:</label>
                     <input type="text" id="foodKeyword" name="foodKeyword" placeholder="음식 이름을 입력하세요" />
                     <button type="button" onclick="searchFood()">검색</button>
                 </div>
-                
+
                 <!-- 음식 선택 (ID 값으로 처리) -->
                 <div class="form-group">
                     <label for="food">음식 선택:</label>
                     <input type="text" id="foodSelect" name="food" readonly />
                     <input type="hidden" id="foodId" name="foodId" />
                 </div>
-                
+
                 <!-- 음식 양 입력 -->
                 <div class="form-group">
                     <label for="quantity">얼마나 먹었나요?</label>
                     <input type="number" id="quantity" name="quantity" min="1" required>
                 </div>
-                
+
                 <!-- 제출 버튼 -->
                 <div class="form-group">
                     <button type="submit">제출</button>

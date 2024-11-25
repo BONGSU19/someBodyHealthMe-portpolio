@@ -21,25 +21,29 @@
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
+		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
+		
 		<div class="content-main">
 			<c:if test="${status == 4}">
-				<input type="button" value="상품 수정"
-					onclick="location.href='updateForm.do?goods_num=${goods.goods_num}'">
+				<div class="button-container">
+				<input type="button" value="상품 수정" onclick="location.href='updateForm.do?goods_num=${goods.goods_num}'">
 				<input type="button" value="상품 삭제" id="delete_btn">
 				<script type="text/javascript">
 					const delete_btn = document.getElementById('delete_btn');
 					delete_btn.onclick = function() {
 						let choice = confirm('삭제하시겠습니까?');
 						if (choice) {
-							location
-									.replace('delete.do?goods_num=${goods.goods_num}');
+							location.replace('delete.do?goods_num=${goods.goods_num}');
 						}
 					};
 				</script>
+				</div>
 			</c:if>
-			<div>
-				<input type="button" value="My 메뉴" 
+			<div class="button-container">
+				<input type="button" value="목록" onclick="location.href='list.do'">
+				<input type="button" value="찜 목록" 
 					onclick="location.href='likePage.do?user_num=${cart.user_num}'">
+				<input type="button" value="장바구니" onclick="location.href='${pageContext.request.contextPath}/cart/list.do'">
 			</div>
 			<c:if test="${goods.goods_status == 1}">
 				<div class="result-diplay">
@@ -141,6 +145,7 @@
 
 			</c:if>
 		</div>
+		<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 	</div>
 </body>
 </html>

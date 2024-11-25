@@ -99,8 +99,8 @@ public class GoodsDAO {
 			conn = DBUtil.getConnection();
 			if(keyword!=null && !"".equals(keyword)) {
 				//검색처리
-				if(keyfield.equals("1")) sub_sql += "And goods_name '%' || ? || '%' ";
-				else if (keyfield.equals("2")) sub_sql += "And goods_info like '%' || ? || '%' ";
+				if(keyfield.equals("1")) sub_sql += "AND goods_name LIKE ? ";
+				else if (keyfield.equals("2")) sub_sql += "AND goods_info LIKE ? ";
 			}
 			//status의 값이 0이면 , 1(미표시),2(표시) 모두호출 --->관리자용 
 			//status의 값이 1이면, 2(표시) 호출 -> 사용자용
@@ -109,7 +109,7 @@ public class GoodsDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(++cnt, goods_status);
 			if(keyword != null && !"".equals(keyword)) {
-				pstmt.setString(++cnt, keyword);
+				pstmt.setString(++cnt, "%" + keyword + "%");
 			}
 			pstmt.setInt(++cnt, start);
 			pstmt.setInt(++cnt, end);
@@ -119,6 +119,8 @@ public class GoodsDAO {
 				GoodsVO goods = new GoodsVO();
 				goods.setGoods_num(rs.getLong("goods_num"));
 				goods.setGoods_name(StringUtil.useNoHtml(rs.getString("goods_name")));
+				goods.setGoods_img1(rs.getString("goods_img1"));
+				goods.setGoods_img2(rs.getString("goods_img2"));
 				goods.setGoods_category(rs.getString("goods_category"));
 				goods.setGoods_price(rs.getInt("goods_price"));
 				goods.setGoods_quantity(rs.getInt("goods_quantity"));

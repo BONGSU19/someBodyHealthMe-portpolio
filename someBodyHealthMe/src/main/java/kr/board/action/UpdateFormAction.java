@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
+import kr.util.StringUtil;
 
 public class UpdateFormAction implements Action{
 	@Override
@@ -25,10 +26,11 @@ public class UpdateFormAction implements Action{
 		BoardDAO dao = BoardDAO.getInstance();
 		
 		BoardVO board = dao.getBoard(board_num);//글번호로 vo추출
-		if(board.getUser_num() != user_num) {
+		if(board.getUser_num() != user_num) {//작성자 != 수정자
 			return "common/notice.jsp";
 		}
 		//**해야할것 큰 따옴표 처리
+		board.setBoard_title(StringUtil.parseQuot(board.getBoard_title()));
 		
 		request.setAttribute("board", board);
 		

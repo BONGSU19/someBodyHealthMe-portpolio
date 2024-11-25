@@ -8,6 +8,7 @@ import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
 import kr.util.FileUtil;
+import kr.util.StringUtil;
 
 public class WriteAction implements Action{
 	@Override
@@ -28,7 +29,7 @@ public class WriteAction implements Action{
 		board.setBoard_category(Integer.parseInt(request.getParameter("board_category")));
 		board.setBoard_title(request.getParameter("board_title"));
 		board.setBoard_attachment(FileUtil.uploadFile(request, "board_attachment"));
-		board.setBoard_content(request.getParameter("board_content"));
+		board.setBoard_content(StringUtil.useBrNoHtml(request.getParameter("board_content")));
 		board.setUser_num(user_num);
 		
 		BoardDAO dao = BoardDAO.getInstance();

@@ -18,11 +18,13 @@
  			<h3>찜 목록</h3>
  			<table>
 					<tr>
+						<th>상품 이미지</th>
 						<th>상품명</th>
 						<th>가격</th>
 					</tr> 			
 					<c:forEach var="goods" items="${goodsList}">
 					<tr>
+						<td><img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="200"></td>
 						<td><a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${goods.goods_num}"
 						target="_blank">${fn:substring(goods.goods_name,0,26)}</a></td>
 						<td>${goods.goods_price}</td>

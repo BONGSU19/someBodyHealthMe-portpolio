@@ -77,16 +77,12 @@ public class BoardDAO {
 
 			rs = pstmt.executeQuery();
 			if(rs.next()) count = rs.getInt(1);
-
-
-
+			
 		}catch(Exception e ) {
 			throw new Exception(e);
 		}finally {
 			DBUtil.executeClose(rs, pstmt, conn);
 		}
-
-
 
 		return count;
 	}
@@ -99,8 +95,6 @@ public class BoardDAO {
 		int cnt = 0;
 		String sql;
 		String sub_sql = "";
-
-
 
 		try {
 			conn = DBUtil.getConnection();
@@ -128,8 +122,7 @@ public class BoardDAO {
 				BoardVO board = new BoardVO();
 				board.setBoard_num(rs.getLong("board_num"));
 				board.setBoard_title(rs.getString("board_title"));
-				board.setBoard_regdate(rs.getString("board_regdate"));
-				board.setBoard_modifydate(rs.getString("board_modifydate"));
+				board.setBoard_regdate(DurationFromNow.getTimeDiffLabel(rs.getString("board_regdate")));
 				board.setBoard_count(rs.getLong("board_count"));
 				board.setNick_name(rs.getString("nick_name"));
 				board.setLogin_id(rs.getString("login_id"));
@@ -170,12 +163,15 @@ public class BoardDAO {
 				board.setBoard_content(rs.getString("board_content"));
 				board.setBoard_num(rs.getLong("board_num"));
 				board.setBoard_title(rs.getString("board_title"));
-				board.setBoard_regdate(rs.getString("board_regdate"));
-				board.setBoard_modifydate(rs.getString("board_modifydate"));
+				board.setBoard_regdate(DurationFromNow.getTimeDiffLabel(rs.getString("board_regdate")));
+				if(rs.getString("board_modifydate") != null) {
+					board.setBoard_modifydate(DurationFromNow.getTimeDiffLabel(rs.getString("board_modifydate")));
+				}
 				board.setBoard_count(rs.getLong("board_count"));
 				board.setNick_name(rs.getString("nick_name"));
 				board.setLogin_id(rs.getString("login_id"));
 				board.setUser_num(rs.getLong("user_num"));
+				board.setPhoto(rs.getString("photo"));
 			}			
 		}catch(Exception e) {
 			throw new Exception(e);
@@ -350,13 +346,12 @@ public class BoardDAO {
 					reply.setRe_modifydate(DurationFromNow.getTimeDiffLabel(rs.getString("re_modifydate")));
 				}
 				reply.setRe_content(StringUtil.useBrNoHtml(rs.getString("re_content")));
+				if(rs.getString("photo") != null) reply.setPhoto(rs.getString("photo"));
 				reply.setUser_num(rs.getLong("user_num"));
 				reply.setLogin_id(rs.getString("login_id"));
 				reply.setNick_name(rs.getString("nick_name"));
 				list.add(reply);
 			}
-			System.out.println("re-rnum_start="+start);
-			System.out.println("re-rnum_end=" + end);
 			
 		}catch(Exception e) {
 			throw new Exception(e);

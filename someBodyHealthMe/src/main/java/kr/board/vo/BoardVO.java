@@ -12,8 +12,14 @@ public class BoardVO {
 	private long user_num;//회원번호
 	private String nick_name;//닉네임
 	private String login_id; //아이디
+	private String photo;
 	
-	
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 	public long getBoard_num() {
 		return board_num;
 	}

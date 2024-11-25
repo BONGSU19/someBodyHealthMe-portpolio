@@ -11,12 +11,10 @@ public class WriteFormAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
-		Integer status = (Integer)session.getAttribute("status");
 		
-		if(user_num == null) {
+		if(user_num == null) {//비로그인
 			return "redirect:/member/loginForm.do";
-		}
-
+		}		
 		return "board/writeForm.jsp";
 	}
 }

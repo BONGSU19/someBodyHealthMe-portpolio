@@ -144,10 +144,10 @@ public class MemberDAO {
 
         try {
             conn = DBUtil.getConnection();
-            String sql = "SELECT u.user_num, u.login_id, u.status, d.name " +
+            String sql = "SELECT u.user_num, u.login_id, u.status, d.name, d.nick_name " +
                          "FROM SUSER u " +
                          "JOIN SUSER_DETAIL d ON u.user_num = d.user_num " +
-                         "WHERE u.login_id = ? AND d.password = ? AND u.status != 0"; // 상태값이 0이 아닌 경우만 로그인 가능
+                         "WHERE u.login_id = ? AND d.password = ? AND u.status != 0";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, loginId);
             pstmt.setString(2, password);
@@ -159,6 +159,7 @@ public class MemberDAO {
                 member.setLogin_id(rs.getString("login_id"));
                 member.setStatus(rs.getInt("status"));
                 member.setName(rs.getString("name"));
+                member.setNick_name(rs.getString("nick_name")); // 닉네임 설정
             }
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);

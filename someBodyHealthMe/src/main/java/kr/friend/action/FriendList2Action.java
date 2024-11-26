@@ -22,10 +22,9 @@ public class FriendList2Action implements Action {
 		Long user_num = (Long)session.getAttribute("user_num");
 		List<FriendVO> list = null;
 		if(user_num == null) {//로그인이 되지 않은 경우
-			
-
-		
+			return "redirect:/member/loginForm.do";
 		}
+		
 		int center_num=Integer.parseInt(request.getParameter("center_num"));
 		FriendDAO dao = FriendDAO.getInstance();
 		String keyfield = request.getParameter("keyfield");

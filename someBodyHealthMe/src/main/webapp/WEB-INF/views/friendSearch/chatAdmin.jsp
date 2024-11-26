@@ -17,8 +17,8 @@
 <script type="text/javascript">
 	$(function(){
 		//웹소켓 생성
-	const message_socket = new WebSocket("ws://localhost:8088/someBodyHealthMe/webSocket");
-
+		const message_socket = 
+			new WebSocket("ws://localhost:8088/someBodyHealthMe/webSocket");
 		message_socket.onopen = function(evt){
 			message_socket.send('one:');
 		};
@@ -172,23 +172,22 @@
 				</form>
 
 			</div>
-			<c:forEach var="chat" items="${list}">
+			
 			<div style="width:300px; height:150px;">
 				
 					<div class="user-profile"></div>
 	
-					<div class="name-content"><a  href="#" class="user-item" data-recv-num="${chat.user_Num}">${chat.name}</a></div>
-			${chat.message_text}
+					<div class="name-content"><a  href="#" class="user-item" data-recv-num="35">운영자</a></div>
+
 			</div>
 	
-		</c:forEach>
 		</div>
 	</div>
 	<div id="chatting_message"></div>
 
 	<div class="chat3">
 		<form action="" id="chatting_form">
-  <input type="hidden" id="recv_num" name="recv_num"/>
+  <input type="hidden" id="recv_num" name="recv_num"  />
         <textarea id="message" name="message" style="width: 600px; height: 80px;"></textarea>
 		
 			 <button type="submit" style="height:80px; width:80px;"><img alt="" src="${pageContext.request.contextPath}/images/Send.png"
@@ -204,9 +203,8 @@
 
         
 	</div>
-		<div  style="text-align:left;"><a href="${pageContext.request.contextPath}/friendSearch/chatAdmin.do">관리자와 대화하기</a></div>
-
 	
+			
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -17,8 +17,8 @@
 <script type="text/javascript">
 	$(function(){
 		//웹소켓 생성
-	const message_socket = new WebSocket("ws://localhost:8088/someBodyHealthMe/webSocket");
-
+		const message_socket = 
+			new WebSocket("ws://localhost:8088/someBodyHealthMe/webSocket");
 		message_socket.onopen = function(evt){
 			message_socket.send('one:');
 		};
@@ -147,7 +147,8 @@
 			event.preventDefault();
 		});
 		//초기 데이터 호출
-		selectData();		
+		selectData();	
+		alert('이곳은 관리자 전용 페이지 입니다');
 	});
 	
 	
@@ -159,7 +160,7 @@
 	<div class="main-wrap">
 	<div id="user_list">
 		<div id="chat1">
-		
+			<h1>운영자 전용 채팅 장소</h1>
 
 			<div class="search-box">
 				<img src="${pageContext.request.contextPath}/images/Search.png"
@@ -177,7 +178,7 @@
 				
 					<div class="user-profile"></div>
 	
-					<div class="name-content"><a  href="#" class="user-item" data-recv-num="${chat.user_Num}">${chat.name}</a></div>
+					<div class="name-content"><a  href="#" class="user-item" data-recv-num="${chat.user_Num}">${chat.user_Num}</a></div>
 			${chat.message_text}
 			</div>
 	
@@ -188,7 +189,7 @@
 
 	<div class="chat3">
 		<form action="" id="chatting_form">
-  <input type="hidden" id="recv_num" name="recv_num"/>
+  <input type="hidden" id="recv_num" name="recv_num"  />
         <textarea id="message" name="message" style="width: 600px; height: 80px;"></textarea>
 		
 			 <button type="submit" style="height:80px; width:80px;"><img alt="" src="${pageContext.request.contextPath}/images/Send.png"
@@ -204,9 +205,7 @@
 
         
 	</div>
-		<div  style="text-align:left;"><a href="${pageContext.request.contextPath}/friendSearch/chatAdmin.do">관리자와 대화하기</a></div>
-
-	
+		
 	</div>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

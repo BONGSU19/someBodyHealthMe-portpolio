@@ -231,6 +231,4 @@ public class DietPlanDAO {
 
         return count;
     }
-
-    
 }

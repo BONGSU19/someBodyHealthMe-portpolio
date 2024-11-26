@@ -35,7 +35,7 @@
                 <div class="dropdown-content">
                     <a href="${pageContext.request.contextPath}/mydiet/makeDietForm.do">내 식단 보기</a>
                     <a href="${pageContext.request.contextPath}/mydiet/noteDietForm.do">식단 기록</a>
-                    <a href="${pageContext.request.contextPath}/mydiet/myDiet.do">사용자 지정 식단</a>
+                    <a href="${pageContext.request.contextPath}/mydiet/customDietForm.do">사용자 지정 식단</a>
                     <a href="${pageContext.request.contextPath}/mydiet/requestDiet.do">식단 등록 요청</a>
                     <a href="${pageContext.request.contextPath}/mydiet/requestDietList.do">식단 등록 요청 내역</a>
                 </div>

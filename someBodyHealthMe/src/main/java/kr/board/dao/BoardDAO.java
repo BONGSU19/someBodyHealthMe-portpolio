@@ -106,7 +106,7 @@ public class BoardDAO {
 			}		
 
 			//SQL맞음 고치지 말아
-			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM (SELECT * FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING (user_num) "  + sub_sql + " "
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM (SELECT * FROM (SELECT * FROM board LEFT OUTER JOIN (SELECT board_num,COUNT(*) recount FROM BOARD_REPLY GROUP BY board_num) USING(board_num)) JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING (user_num) "  + sub_sql + " "
 					+ "ORDER BY (CASE WHEN board_category=1 THEN 0 ELSE 1 END) , board_num DESC ) a) WHERE rnum >= ? AND rnum <= ?";
 
 			pstmt = conn.prepareStatement(sql);
@@ -131,6 +131,7 @@ public class BoardDAO {
 				board.setBoard_category(rs.getInt("board_category"));
 				board.setNick_name(rs.getString("nick_name"));
 				board.setLogin_id(rs.getString("login_id"));
+				board.setRecount(rs.getInt("recount"));
 
 				list.add(board);
 			}

@@ -9,6 +9,12 @@ import kr.util.DBUtil;
 
 public class DietPlanDAO {
 
+	  private static DietPlanDAO instance = new DietPlanDAO();
+
+	    public static DietPlanDAO getInstance() {
+	        return instance;
+	    }
+
     // 식단 데이터 삽입 메서드
     public void insertDietPlan(DietPlanVO dietPlan) throws Exception {
         Connection conn = null;
@@ -161,35 +167,70 @@ public class DietPlanDAO {
         return dietPlan;
     }
     
-    // 음식 검색
-    public List<DietPlanVO> searchFood(String keyword) throws Exception {
+    public List<DietPlanVO> searchDietByKeyword(String keyword, int startRow, int endRow) throws Exception {
         List<DietPlanVO> foodList = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        String sql = "SELECT DIETID, FOODNAME FROM DIETPLAN WHERE FOODNAME LIKE ?";
+        // Oracle의 페이징을 위한 SQL
+        String sql = "SELECT DIETID, FOODNAME FROM ( "
+                   + "    SELECT DIETID, FOODNAME, ROW_NUMBER() OVER (ORDER BY DIETID DESC) AS row_num "
+                   + "    FROM DIETPLAN "
+                   + "    WHERE FOODNAME LIKE ? "
+                   + ") "
+                   + "WHERE row_num BETWEEN ? AND ?";
 
         try {
-            // DB 연결
             conn = DBUtil.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + keyword + "%");  // %를 사용한 LIKE 검색
+            
+            // 검색어에 %를 추가하여 부분 일치 검색을 수행
+            pstmt.setString(1, "%" + keyword + "%");  // "%고구마%"와 같은 형태로 쿼리
+            
+            // 페이징 처리: 시작 행과 끝 행을 전달
+            pstmt.setInt(2, startRow);  // 시작 인덱스 (예: 1, 11, 21...)
+            pstmt.setInt(3, endRow);    // 끝 인덱스 (예: 10, 20, 30...)
 
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 DietPlanVO dietPlan = new DietPlanVO();
-                dietPlan.setDietId(rs.getInt("DIETID"));
+                dietPlan.setDietId(rs.getLong("DIETID"));
                 dietPlan.setFoodName(rs.getString("FOODNAME"));
                 foodList.add(dietPlan);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("음식 검색 중 오류가 발생했습니다.", e);
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
         }
+
         return foodList;
     }
+
+
+
+    public int getDietCountByKeyword(String keyword) throws Exception {
+        int count = 0;
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT COUNT(*) FROM DIETPLAN WHERE FOODNAME LIKE ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, "%" + keyword + "%");
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+
+        return count;
+    }
+
+    
 }

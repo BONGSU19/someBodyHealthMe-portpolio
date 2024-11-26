@@ -18,6 +18,7 @@ public class SulagAction implements Action {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  Map<String, Object> mapAjax = new HashMap<String, Object>();
+		  
 		HttpSession session = request.getSession();
 		Long receiver   = (Long)session.getAttribute("user_num");
 		  Long user_num = Long.parseLong(request.getParameter("receiverNum"));

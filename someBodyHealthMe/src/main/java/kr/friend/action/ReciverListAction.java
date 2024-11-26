@@ -20,6 +20,9 @@ public class ReciverListAction implements Action {
 		List<FriendVO> list = null;
 		FriendDAO dao = FriendDAO.getInstance();
 		list=dao.updateGetMember(user_num);
+		if(user_num == null) {//로그인이 되지 않은 경우
+			return "redirect:/member/loginForm.do";
+		}
 		
 		request.setAttribute("list", list);
 		return "/friendSearch/reciverList.jsp";

@@ -93,6 +93,39 @@ public class ChatOneDAO {
 		return list;
 	}
 
+	
+	 public List<FriendVO> getReceivedMessages(long userNum) throws Exception {
+	        Connection conn = null;
+	        PreparedStatement pstmt = null;
+	        ResultSet rs = null;
+	        List<FriendVO> list = null;
+
+	        try {
+	            conn = DBUtil.getConnection();
+	            String sql = "SELECT SENDER_NUM "
+	                       + "FROM MESSAGES "
+	                       + "WHERE RECEIVER_NUM = ? "
+	                       + "ORDER BY MESSAGE_DATE DESC";
+	            pstmt = conn.prepareStatement(sql);
+	            pstmt.setLong(1, userNum);
+	            rs = pstmt.executeQuery();
+
+	            list = new ArrayList<>();
+	            while (rs.next()) {
+	            	FriendVO friend = new FriendVO();
+	 
+					friend = new FriendVO();
+					friend.setUser_Num(rs.getLong("SENDER_NUM"));
+			
+	                list.add(friend);
+	            }
+	        } finally {
+	            DBUtil.executeClose(rs, pstmt, conn);
+	        }
+	        return list;
+	    }
+
+	
 
 	public void insertChat(ChatOneVO chat)throws Exception{
 		Connection conn = null;

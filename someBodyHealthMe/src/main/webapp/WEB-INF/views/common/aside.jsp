@@ -50,7 +50,7 @@
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">문의하기</a>
+                  <a href="${pageContext.request.contextPath}/friendSearch/chatAdmin.do">문의하기</a>
                   
                 </div>
               </div>

@@ -16,17 +16,17 @@
   <div class="container">
         <h2>지원하기</h2>
         <hr size="3" noshade="noshade">
-        <form action="writeAppl.do" id="appl_form">
+        <form action="write.do" id="appl_form" method="post" enctype="multipart/form-data">
             <div class="appl-radio">
                 <div>
-                    <label for="field">지원분야</label><p>
+                    <label for="">지원분야</label><p>
                     <div class="radios">
                         <input type="radio" name="field" value="2">트레이너
                         <input type="radio" name="field" value="3">사무직원
                     </div>
                 </div>
                 <div>                    
-                    <label for="career">경력유무</label><p>
+                    <label for="">경력유무</label><p>
                     <div class="radios-2">
                         <input type="radio" name="career" value="1">경력
                         <input type="radio" name="career" value="2">신입
@@ -53,7 +53,7 @@
             
             <div class="appl-btn">
             <c:if test="${status != 4 }">
-                <input type="button" value="지원취소">
+                <input type="button" value="지원취소" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
                 <input type="submit" name="" value="지원하기">
             </c:if>
             <c:if test="${status == 4 }">
@@ -61,12 +61,8 @@
                 <input type="submit" name="" value="관리자전환">
             </c:if>
             </div>
-        </form>
-
-
-        
-    </div>
-  
+        </form>        
+    </div>  
 </body>
 
 

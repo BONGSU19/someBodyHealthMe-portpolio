@@ -68,7 +68,6 @@ select:last-child, input[type="search"]:last-child {
 
 /* 테이블 */
 table {
-    width:1000px;
     border-collapse: collapse; /* 테이블 셀 간의 경계가 겹치지 않도록 */
     margin: 20px 0 0 20px; /* 테이블과 위쪽 내용 사이의 간격 */
     border: 1px solid black;
@@ -89,7 +88,7 @@ th {
 }
 
 td {
-    padding: 12px;
+    padding: 5px;
     text-align: center;
     border-bottom: 1px solid #ddd; /* 셀 간 구분선 */
 }
@@ -115,3 +114,5 @@ tr:last-child td {
 	text-align: center;
 	margin : 20px auto;
 }
+
+

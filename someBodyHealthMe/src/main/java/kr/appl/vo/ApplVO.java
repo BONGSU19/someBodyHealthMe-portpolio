@@ -15,8 +15,35 @@ public class ApplVO {
 	private int appl_center;          // 센터번호
 	private long user_num;            // 회원번호
 	private String name;             //회원명
+	private String login_id;		//회원 아이디
+	private String phone;           //전화번호
+	private String birth_date;      //생년월일
+	private int status;             //상태
 	
-	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	public String getBirth_date() {
+		return birth_date;
+	}
+	public void setBirth_date(String birth_date) {
+		this.birth_date = birth_date;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getLogin_id() {
+		return login_id;
+	}
+	public void setLogin_id(String login_id) {
+		this.login_id = login_id;
+	}
 	public long getAppl_num() {
 		return appl_num;
 	}

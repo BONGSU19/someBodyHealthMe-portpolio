@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
+import kr.util.FileUtil;
 
 public class UpdateAction implements Action{
 	@Override
@@ -34,10 +35,19 @@ public class UpdateAction implements Action{
 		BoardVO board = new BoardVO();
 		board.setBoard_title(request.getParameter("board_title"));
 		board.setBoard_content(request.getParameter("board_content"));
-		board.setBoard_attachment(request.getParameter("board_attachment"));
+		board.setBoard_attachment(FileUtil.uploadFile(request, "board_attachment"));
 		board.setBoard_num(board_num);
 		
 		dao.updateBoard(board);
+		
+		if(board.getBoard_attachment() != null  && !"".equals(board.getBoard_attachment())) {
+			FileUtil.removeFile(request, db_board.getBoard_attachment());
+		}
+		
+		if(board.getBoard_attachment()!=null && !"".equals(board.getBoard_attachment())) {
+			//새 파일로 교체할 때 원래 파일 제거
+			FileUtil.removeFile(request, db_board.getBoard_attachment());
+		}
 		
 		return "redirect:/board/detail.do?board_num=" + board_num;
 	}

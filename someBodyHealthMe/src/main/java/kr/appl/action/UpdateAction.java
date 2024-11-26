@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import kr.appl.dao.ApplDAO;
 import kr.appl.vo.ApplVO;
 import kr.controller.Action;
+import kr.util.FileUtil;
 
 public class UpdateAction implements Action{
 	@Override
@@ -37,6 +38,7 @@ public class UpdateAction implements Action{
 		//받은 값 담을 vo 생성
 		ApplVO appl = new ApplVO();
 		appl.setAppl_num(appl_num);
+		appl.setAppl_attachment(FileUtil.uploadFile(request, "appl_attachment"));
 		appl.setAppl_center(Integer.parseInt(request.getParameter("appl_center")));
 		appl.setField(Integer.parseInt(request.getParameter("field")));
 		appl.setCareer(Integer.parseInt(request.getParameter("career")));
@@ -44,6 +46,12 @@ public class UpdateAction implements Action{
 		appl.setSource(request.getParameter("source"));	
 		//수정처리
 		dao.updateAppl(appl);
+		
+		//첨부파일 변경시
+		if(appl.getAppl_attachment() != null && !"".equals(appl.getAppl_attachment())) {
+			//예전 파일이 있다면 삭제를 해준다.
+			FileUtil.removeFile(request, db_appl.getAppl_attachment());
+		}
 		//알림 처리
 		request.setAttribute("notice_msg", "지원정보가 수정되었습니다.");
 		request.setAttribute("notice_url", request.getContextPath()+"/appl/detail.do?appl_num="+appl_num);			

@@ -122,7 +122,10 @@ public class BoardDAO {
 			while(rs.next()) {
 				BoardVO board = new BoardVO();
 				board.setBoard_num(rs.getLong("board_num"));
-				board.setBoard_title(rs.getString("board_title"));
+				
+				String title = rs.getString("board_title");
+				if(title.length() > 35) title= title.substring(0,35) + "...";				
+				board.setBoard_title(title);
 				board.setBoard_regdate(DurationFromNow.getTimeDiffLabel(rs.getString("board_regdate")));
 				board.setBoard_count(rs.getLong("board_count"));
 				board.setBoard_category(rs.getInt("board_category"));

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import kr.board.dao.BoardDAO;
 import kr.board.vo.BoardVO;
 import kr.controller.Action;
+import kr.util.FileUtil;
 
 public class DeleteAction implements Action{
 	@Override
@@ -32,9 +33,10 @@ public class DeleteAction implements Action{
 			return "common/notice.jsp";
 		}
 		
-		//게시글 삭제(댓글삭제가 선행되어야 한다.)
-		
+		//게시글 삭제				
 		dao.deleteBoard(board_num);
+		//파일삭제
+		FileUtil.removeFile(request, db_board.getBoard_attachment());
 		
 		request.setAttribute("notice_msg", "글 삭제 완료");
 		request.setAttribute("notice_url", request.getContextPath() + "/board/list.do");

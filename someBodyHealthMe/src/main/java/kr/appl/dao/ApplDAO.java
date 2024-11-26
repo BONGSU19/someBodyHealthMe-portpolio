@@ -79,7 +79,10 @@ public class ApplDAO {
 				appl.setAppl_center(rs.getInt("appl_center"));//지원지점
 				appl.setAppl_regdate(rs.getDate("appl_regdate"));//등록일
 				appl.setAppl_status(rs.getInt("appl_status"));//관리자 확인상태
-				appl.setAppl_modifydate(rs.getDate("appl_modifydate"));//변경일		
+				appl.setAppl_modifydate(rs.getDate("appl_modifydate"));//변경일	
+				String content = rs.getString("content");
+				if(content.length() >= 15) content = content.substring(0,15) + "....";
+				appl.setContent(content);
 				list.add(appl);
 			}
 		}catch(Exception e) {
@@ -100,7 +103,7 @@ public class ApplDAO {
 		try {
 			conn = DBUtil.getConnection();
 			
-			sql = "UPDATE application SET field = ?, career= ?, content=?, source=?, appl_center=? ,appl_modifydate = SYSDATE "
+			sql = "UPDATE application SET field = ?, career= ?, content=?, source=?, appl_center=? ,appl_attachment = ?, appl_modifydate = SYSDATE "
 					+ "WHERE appl_num = ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -110,7 +113,8 @@ public class ApplDAO {
 			pstmt.setString(3, appl.getContent());
 			pstmt.setString(4, appl.getSource());
 			pstmt.setInt(5, appl.getAppl_center());
-			pstmt.setLong(6, appl.getAppl_num());
+			pstmt.setString(6,appl.getAppl_attachment());
+			pstmt.setLong(7, appl.getAppl_num());
 			
 			pstmt.executeUpdate();
 			
@@ -252,6 +256,7 @@ public class ApplDAO {
 				appl.setAppl_center(rs.getInt("appl_center"));
 				appl.setAppl_regdate(rs.getDate("appl_regdate"));
 				appl.setAppl_status(rs.getInt("appl_status"));
+				appl.setName(rs.getString("name"));
 				list.add(appl);				
 			}
 
@@ -295,7 +300,10 @@ public class ApplDAO {
 				appl.setAppl_regdate(rs.getDate("appl_regdate"));
 				appl.setAppl_modifydate(rs.getDate("appl_modifydate"));
 				appl.setName(rs.getString("name"));
+				appl.setPhone(rs.getString("phone"));
+				appl.setBirth_date(rs.getString("birth_date"));
 				appl.setUser_num(rs.getLong("user_num"));
+				appl.setStatus(rs.getInt("status"));
 			}			
 		}catch(Exception e) {
 			throw new Exception(e);

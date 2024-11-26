@@ -35,7 +35,10 @@
 						<c:if test="${board.board_category == 3 }">오운완</c:if>
                     </td>
                     <td><a href="detail.do?board_num=${board.board_num}" <c:if test="${board.board_category == 1 }">style="color:#f25050; font-weight:bold;"</c:if>>${board.board_title}</a></td>
-                    <td>${board.nick_name}</td>
+                    <td>
+                    <c:if test="${empty board.nick_name}">${board.login_id}</c:if>
+                    <c:if test="${!empty board.nick_name}">${board.nick_name}</c:if>                                        
+                    </td>
                     <td>${board.board_regdate}</td>
                     <td>${board.board_count}</td>
                 </tr>

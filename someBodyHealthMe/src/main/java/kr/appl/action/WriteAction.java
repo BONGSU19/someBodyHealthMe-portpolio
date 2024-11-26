@@ -23,7 +23,7 @@ public class WriteAction implements Action{
 		
 		//vo 생성 및 전송된 데이터 담기
 		ApplVO appl =  new ApplVO();
-		appl.setAppl_attachment(request.getParameter("appl_attachment"));//첨부파일 처리해줘야함
+		appl.setAppl_attachment(FileUtil.uploadFile(request, "appl_attachment"));
 		appl.setCareer(Integer.parseInt(request.getParameter("career")));
 		appl.setContent(request.getParameter("content"));
 		appl.setField(Integer.parseInt(request.getParameter("field")));

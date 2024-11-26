@@ -59,7 +59,7 @@ public class ListByAdminAction implements Action{
 		int count = dao.getApplicationCount(name, keys);
 		System.out.println("count = " + count);
 		
-		PagingUtil page = new PagingUtil(Integer.parseInt(pageNum) , count, 1, 10, "listByAdmin.do",addKey);
+		PagingUtil page = new PagingUtil(Integer.parseInt(pageNum) , count, 10, 10, "listByAdmin.do",addKey);
 		System.out.println("endrow = " + page.getEndRow());
 		
 		//목록 담기

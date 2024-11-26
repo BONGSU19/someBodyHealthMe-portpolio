@@ -16,7 +16,6 @@
     padding-bottom: 10px;
 }
 h2 {
-    border: 1px solid red;
     border-radius: 5px;
     margin: 5px 0 10px 0; /* 위아래 여백만 */
     padding: 3px 10px;
@@ -27,8 +26,16 @@ h2 {
     display: flex;
     gap: 10px; /* 버튼들 간 간격 */
     padding-right: 10px;
-    border: 1px solid black;
 }
+.board-btn input{
+	font-size : 16px;
+	background-color : #d9d9d9;
+	border:none;
+	border-radius:5px;
+	padding: 5px 10px;
+	font-weight:bold;
+}
+
 /* 제목 및 작성자 조회수 등 */
 .board-info {
     border-bottom: 1px solid black;
@@ -54,6 +61,9 @@ h2 {
     margin-right: 10px; /* 각 항목 간 간격 */
 }
 /* 작성 내용  */
+.board-attachment{
+	text-align:center;
+}
 .board-content{
     font-size: 16px;
     line-height: 1.6;
@@ -76,6 +86,11 @@ h2 {
 /*======================
  댓글 시작 
 ========================= */
+.re-none{
+	text-align:center;
+	padding: 20px 0;
+	margin-top: 10px;
+}
 #reply{
     padding: 5px;
     border-bottom: 2px solid black;
@@ -93,9 +108,11 @@ margin:  0 15px;
 #profile{
     text-align: center;
     width: 116px;
+    font-size:15px;
+    font-weight:bold;
 }
 #profile img{
-    padding-top: 10px;
+    
     width: 60px;
     border-radius: 50%;
     border:1px solid black;
@@ -121,7 +138,7 @@ margin-bottom: 8px; /* 간격 추가 */
 line-height: 20px;
 background-color: #d9d9d9;
 color: black;
-font-size: 20px;
+font-size: 16px;
 }
 
 #re_form input[type="submit"]{
@@ -154,9 +171,12 @@ font-size: 20px;
 }
 /* 사진 */
 .re-profile img{
-    width: 50px;
     border-radius: 50%;
     border: 1px solid black;
+}
+.list-nick_name{
+	font-size:15px;
+	font-weight:bold;
 }
 /* 내용 */
 .item p{
@@ -165,6 +185,7 @@ font-size: 20px;
     padding: 8px 0 10px 8px;
     border-radius: 5px;
     background-color: #ecebeb;
+    font-size:15px;
 }
 /* 날짜 및 버튼 */
 .re-date{
@@ -173,11 +194,13 @@ font-size: 20px;
     flex-direction: column-reverse;      
     padding-bottom: 15px;          
     margin-left: 10px;
+     justify-content: flex-start;
 }
 .paging-button{
 	display: flex;
     justify-content: center; /* 가로 중앙 정렬 */
     align-items: center;     /* 세로 중앙 정렬 */
+    margin-top:10px;
 }
 
 /* ==================
@@ -206,3 +229,8 @@ font-size: 20px;
     background-color : #d9d9d9;
     border:none;
 }
+input[type="button"]{
+	cursor:pointer;
+}
+
+

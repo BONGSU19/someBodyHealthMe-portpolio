@@ -9,7 +9,6 @@
     <title>소통공간</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board_list.css" type="text/css">
-    <link rel="stylesheet" href="board_list.css">
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
@@ -20,16 +19,22 @@
             <table>
                 <tr style="background-color: #d9d9d9; border-bottom: 2px solid black;">
                     <th width="60">글번호</th>
-                    <th width="700">제목</th>
+                    <th width="60">구분</th>
+                    <th width="660">제목</th>
                     <th width="100">작성자</th>
                     <th width="80">작성일</th>
                     <th width="60">조회수</th>
                 </tr>    
                 
                 <c:forEach var="board" items="${list}">
-                <tr>
+                <tr <c:if test="${board.board_category == 1 }">style="color:#f25050; font-weight:bold;"</c:if>>
                     <td>${board.board_num}</td>
-                    <td><a href="detail.do?board_num=${board.board_num}">${board.board_title}</a></td>
+                    <td>
+						<c:if test="${board.board_category == 1 }">공지</c:if>
+						<c:if test="${board.board_category == 2 }">자유</c:if>
+						<c:if test="${board.board_category == 3 }">오운완</c:if>
+                    </td>
+                    <td><a href="detail.do?board_num=${board.board_num}" <c:if test="${board.board_category == 1 }">style="color:#f25050; font-weight:bold;"</c:if>>${board.board_title}</a></td>
                     <td>${board.nick_name}</td>
                     <td>${board.board_regdate}</td>
                     <td>${board.board_count}</td>
@@ -40,7 +45,7 @@
             	<div class="count-0">표시할 게시물이 없습니다.</div> 		
             </c:if>          
             
-            <hr size="3" noshade="noshade" width="94%">
+            <hr size="3" noshade="noshade" width="96.5%">
             <div style="text-align:center;">
             	${page}
             </div>

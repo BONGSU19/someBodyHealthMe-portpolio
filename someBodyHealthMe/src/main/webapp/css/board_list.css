@@ -5,10 +5,10 @@
     flex-grow: 1;
     float:left;
     margin:20px;
-} 
+}
 hr{
 	text-align:center;
-	margin-left:15px;
+	margin: 0 0 10px 20px;	
 }
 h2{
     border-radius: 5px;
@@ -21,7 +21,7 @@ h2{
     
 }
 table{
-    margin: 20px 0 0 10px;
+    margin: 20px 0 0 20px;
     border-collapse: collapse;
     table-layout: fixed;
 }

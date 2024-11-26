@@ -13,6 +13,7 @@ public class DeleteAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
+		Integer status = (Integer)session.getAttribute("status");
 		
 		if(user_num == null) {//비로그인
 			return "redirect:member/loginForm.do";
@@ -27,11 +28,12 @@ public class DeleteAction implements Action{
 		BoardVO db_board = dao.getBoard(board_num);
 		
 		//등록자 삭제자 동일인 체크
-		if(db_board.getUser_num() != user_num) {
+		if(db_board.getUser_num() != user_num && status !=4 ) {
 			return "common/notice.jsp";
 		}
 		
-		//게시글 삭제
+		//게시글 삭제(댓글삭제가 선행되어야 한다.)
+		
 		dao.deleteBoard(board_num);
 		
 		request.setAttribute("notice_msg", "글 삭제 완료");

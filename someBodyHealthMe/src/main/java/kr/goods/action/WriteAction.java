@@ -41,7 +41,7 @@ public class WriteAction implements Action{
 		dao.insertGoods(goods);
 		
 		request.setAttribute("notice_msg", "글쓰기 완료!");
-		request.setAttribute("notice_url", request.getContextPath()+"/goods/list.do");
+		request.setAttribute("notice_url", request.getContextPath()+"/goods/adminlist.do");
 		
 		return "common/alert_view.jsp";
 	}

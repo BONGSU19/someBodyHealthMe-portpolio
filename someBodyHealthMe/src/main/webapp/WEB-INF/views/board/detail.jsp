@@ -19,11 +19,20 @@
         <div class="page-top">
             <h2>상세 글보기</h2>
             <div class="board-btn">
-            <c:if test="${user_num == user_num}">
+            <c:if test="${user_num == board.user_num}">
             	<input type="button" value="수정" onclick="location.href='updateForm.do?board_num=${board.board_num}'">
             </c:if>	
-            <c:if test="${board.user_num == user_num || status > 3}">
-                <input type="button" value="삭제" onclick="location.href='delete.do?board_num=${board.board_num}'">
+            <c:if test="${board.user_num == user_num || status == 4}">
+                <input type="button" value="삭제" id="delete_btn" >
+                <script type="text/javascript">
+                	const delete_btn = document.getElementById('delete_btn');
+                	delete_btn.onclick = function(){
+                		let choice = confirm('게시글을 삭제하시겠습니까?');
+                		if(choice){
+                			location.replace('delete.do?board_num=${board.board_num}');
+                		} 
+                	};
+                </script>
             </c:if>                
                 <input type="button" value="목록" onclick="location.href='list.do'">       
             </div>
@@ -32,13 +41,13 @@
             <h3>${board.board_title}</h3>
             <div class="info-detail">
                 <div>
-                    <span>작성자 
-                    <c:if test="${empty board.nick_name}">{ㅁboard.lonin_in}</c:if>
+                    <span><span style="font-weight:bold;">작성자 </span> 
+                    <c:if test="${empty board.nick_name}">{board.lonin_id}</c:if>
                     <c:if test="${!empty board.nick_name}">${board.nick_name}</c:if>
                     </span>
                     <span>
-                    <c:if test="${empty board.board_modifydate}">작성일 ${board.board_regdate}</c:if>
-                    <c:if test="${!empty board.board_modifydate}">최근 수정일 ${board.board_modifydate}</c:if>
+                    <c:if test="${empty board.board_modifydate}"><span style="font-weight:bold;">작성일 </span> ${board.board_regdate}</c:if>
+                    <c:if test="${!empty board.board_modifydate}"><span>최근 수정일 </span> ${board.board_modifydate}</c:if>
                     </span>
                     
                 </div>
@@ -48,6 +57,11 @@
             </div>
         </div>
         <div class="board-content">
+        <c:if test="${!empty board.board_attachment}">
+        <div class="board-attachment">
+        	<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" class="detail-img">
+        </div>
+        </c:if>        
             ${board.board_content}
         </div>
 	
@@ -60,17 +74,21 @@
             <h3>댓글 등록</h3>
             <div class="reply-form">
                 <div id="profile">
-                    <img src="${pageContext.request.contextPath}/upload/<c:if test="${!empty user_num}">${member.photo}</c:if><c:if test="${empty user_num}">default.jpg</c:if>" id="re_img"><br>
-                    <div><c:if test="${!empty user_num}">${member.nick_name}</c:if><c:if test="${empty user_num}">닉네임</c:if> </div>
+                    <img src="
+                    	<c:if test="${!empty user_num}">${pageContext.request.contextPath}/upload/${member.photo}</c:if>
+                    	<c:if test="${empty user_num}">${pageContext.request.contextPath}/images/User.png</c:if>" 
+                    	id="re_img" width="60" height="60"><br>
+                    	
+                    <div><c:if test="${!empty user_num}">${member.nick_name}</c:if><c:if test="${empty member.nick_name}">${member.login_id}</c:if> </div>
                 </div>
                 <form action="" id="re_form">
                         <input type="hidden" name="board_num" value="${board.board_num}" id="board_num">
                     <div class="re-content">
                     <h4>내용</h4>
-                    <textarea name="re_content" id="re_content" placeholder="댓글을 입력하세요"></textarea>
+                    <textarea name="re_content" id="re_content" placeholder="<c:if test="${empty user_num}">로그인 후 댓글등록이 가능합니다.</c:if><c:if test="${!empty user_num}">댓글을 입력해 주세요.</c:if>" <c:if test="${empty user_num}">disabled</c:if>></textarea>
                     </div>
                     <div class="re-bnt" style="align-content: end; margin-bottom: 8px;">
-                        <input type="submit" value="등록" style="margin-bottom: 10px;">                         
+                        <input type="submit" value="등록" id="re_submit" style="margin-bottom: 10px;" <c:if test="${empty user_num}">disabled</c:if>>            
                         <br><span id="re_count">300/300</span>
                     </div>
                 </form>                
@@ -86,7 +104,7 @@
 			<input type="button" value="다음글 보기">
 		</div>
 		<div id="loading" style="display:none;">
-           로딩바 대기
+           <img src="${pageContext.request.contextPath}/images/loading.gif" width=50;>
         </div>
 
         <!-- 댓글목록 끝-->      

@@ -3,9 +3,8 @@
 /* 전체 레이아웃
 --------------------------*/
 body {
-            
-            min-height: 100vh;
-            margin: 0;
+    min-height: 100vh;
+    margin: 0;
         }
 a:link{
 	text-decoration:none;
@@ -31,6 +30,7 @@ a:hover{
 #search-bar select, #search-bar input[type="search"], #search-bar input[type="submit"]{
     padding: 10px;
     margin-right: 10px;
+    margin-left:10px;
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -46,6 +46,21 @@ a:hover{
 #search-bar input[type="submit"]:hover {
     background-color: #8f9399;
 }
+
+#submit-btn {
+    background-color: #D9D9D9;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    margin-right: 10px;
+    margin-left:10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
 /* 페이지 레이아웃
 --------------------------*/
 .page-main{
@@ -76,6 +91,9 @@ a:hover{
 }
 .align-right{
 	text-align:right;
+}
+#page-selector{
+	margin-left: 260px;
 }
 /* 메뉴
 --------------------------*/
@@ -258,6 +276,15 @@ form#mre_form{
 
 /* 상품
 --------------------------*/
+.item-image img{
+	width: 400px;
+	margin-left: 50px;
+}
+.item-image-detail img{
+	width: 400px;
+	margin-left: 50px;
+}
+
 .item-space .horizontal-area{
 	margin: 2px;
 	padding: 3px;
@@ -287,17 +314,19 @@ label[for="order_quantity"]{
 	float: left;
 }
 .item-detail li{
-	padding:  0 0 5px 0;
+	padding:  0 0 10px 10px;
 }
 .item-detail form{
 	border: none;
-	width: 470px;
-	margin: 0;
+	width: 700px;
+	margin-left: 30px;
 	float: left;
 }
-.item_total_txt{
-	color: #000;
+#goods_total_txt{
+	color: red;
 	font-weight: bold;
+	text-align: right;
+	justify-content: flex-end;  /* 오른쪽 정렬 */
 }
 input[type="number"].quantity-width{
 	width: 40px;
@@ -336,183 +365,60 @@ form[id="cart_order"]{
 	clear: both;
 }
 
-/*==================================
-네비게이션 바(navbar)
-==================================*/
 
-.navbar {
-    display: flex; /* flexbox 레이아웃으로 구성 */
-    justify-content: space-between; /* 좌우 간격을 최대한 띄운다 */
-    align-items: center; /* 세로 중앙 정렬 */
-    background-color: #D9D9D9; /* 배경 색상 설정 */
-    padding: 8px 12px; /* 패딩 설정 */
-}
 
-.navbar__logo {
-    font-size: 24px; /* 로고 텍스트 크기 */
-    color: white; /* 로고 색상 설정 */
-}
 
-.navbar__logo i {
-    color: #d48566; /* 아이콘 색상 */
-}
-
-.navbar__menu {
-    display: flex; /* 메뉴를 가로로 배치 */
-    list-style: none; /* 리스트 스타일 제거 */
-    padding-left: 0; /* 왼쪽 패딩 제거 */
-}
-
-.navbar__menu li {
-    padding: 8px 12px; /* 각 메뉴 항목에 패딩 추가 */
-}
-
-.navbar__menu li:hover {
-    background-color: #12100f2b; /* 마우스를 올렸을 때 배경색 */
-    border-radius: 4px; /* 경계선 둥글게 */
-}
-
-.navbar__button {
-    list-style: none; /* 버튼의 기본 스타일 제거 */
-    color: white;
-    display: flex;
-    padding: 3px;
-}
-
-.navbar__button li {
-    padding: 8px 12px; /* 버튼 항목에 패딩 추가 */
-}
-
-.button:hover {
-    filter: none; /* 호버 시 그림자 제거 */
-    transform: translateY(4px) translateX(4px); /* 버튼을 살짝 아래로 이동 */
-}
-
-.navbar__toggleBtn {
-    display: none; /* 모바일 화면에서는 기본적으로 숨김 */
-    position: absolute;
-    right: 32px;
-    font-size: 24px;
-    color: #d49466;
-}
-
-.button {
-    background-color: #9a9393; /* 버튼 배경 색상 */
-    height: 35px;
-    width: 100px;
-    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 1)); /* 버튼에 그림자 효과 */
-    border-radius: 30px; /* 둥근 버튼 */
-    border: 4px solid #000000; /* 테두리 색상 */
-    text-align: center; /* 수평 가운데 정렬 */
-    display: flex; /* Flexbox 사용 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-    font-size: 16px; /* 글자 크기 설정 */
-}
-
-.button a {
-    color: white; /* 버튼 내 링크 색상 */
-}
-
-#modify-button{ /*mybody 내부 수정 버튼 스타일*/
-	background-color: #5E8BC6; /* 버튼 배경 색상 */
-    height: 35px;
-    width: 100px;
-    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 1)); /* 버튼에 그림자 효과 */
-    border-radius: 30px; /* 둥근 버튼 */
-    border: 4px solid #000000; /* 테두리 색상 */
-    text-align: center; /* 수평 가운데 정렬 */
-    display: flex; /* Flexbox 사용 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-    font-size: 16px; /* 글자 크기 설정 */
-    
-}
-
-#insert-button{ /*mybody 내부 수정 버튼 스타일*/
-	background-color: #F29595; /* 버튼 배경 색상 */
-    height: 35px;
-    width: 100px;
-    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 1)); /* 버튼에 그림자 효과 */
-    border-radius: 30px; /* 둥근 버튼 */
-    border: 4px solid #000000; /* 테두리 색상 */
-    text-align: center; /* 수평 가운데 정렬 */
-    display: flex; /* Flexbox 사용 */
-    justify-content: center; /* 수평 가운데 정렬 */
-    align-items: center; /* 수직 가운데 정렬 */
-    font-size: 16px; /* 글자 크기 설정 */
-    
-}
-
-/*==================================
-aside 영역
-==================================*/
-
-/* box_in_1 스타일: 아이콘과 텍스트를 수평으로 배치 */
-#box_in_1 {
-    display: flex; /* flexbox 레이아웃 */
-    align-items: center; /* 수평 가운데 정렬 */
-}
-
-#box_in_1 i {
-    margin-right: 10px; /* 아이콘과 텍스트 간 간격 */
-}
-
-/* 상품 리스트를 가로로 배치 */
+/* 상품 리스트를 5개씩 가로로 배치 */
 .product-list {
-    display: flex;               /* 플렉스박스를 사용하여 가로로 배치 */
-    flex-wrap: wrap;             /* 아이템들이 넘치면 자동으로 줄바꿈 */
-    gap: 20px;                  /* 각 카드 간 간격을 설정 */
-    justify-content: flex-start; /* 왼쪽 정렬 */
+    display: flex;
+    flex-wrap: wrap;  /* 여러 줄로 배치 */
+    gap: 10px;  /* 각 카드 간의 간격 */
+    justify-content: center;
+    width: 90%;  /* 리스트의 전체 너비를 90%로 설정 */
+    max-width: 1000px;  /* 최대 너비를 설정 (예: 1200px) */
+    margin: 0 auto;  /* 중앙 정렬 */
+    margin-left: 30%; /* 왼쪽 여백을 추가하여 오른쪽으로 이동 */
 }
 
 /* 상품 카드 스타일 */
 .product-card {
     display: flex;
-    border: 1px solid #ddd; /* 카드 경계선 */
-    border-radius: 8px; /* 둥근 모서리 */
-    width: 170px; /* 카드 너비 */
-    margin: 5px; /* 카드 간 간격 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    overflow: hidden; /* 카드가 넘치는 내용이 보이지 않게 */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 호버 시 효과 */
-    flex-direction: column; /* 카드 내 요소들을 세로로 정렬 */
-    position: relative; /* 찜하기 버튼을 우측 하단에 배치할 수 있도록 상대 위치 설정 */
-}
-
-.product-card:hover {
-    transform: translateY(-5px); /* 호버 시 카드 올리기 */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 호버 시 그림자 강하게 */
-}
-
-.product-link {
-    text-decoration: none; /* 링크 밑줄 제거 */
-    color: inherit; /* 링크 색상 상속 */
+    flex-direction: column;  /* 세로 방향으로 정렬 */
+    align-items: center;     /* 카드 내 콘텐츠가 중앙 정렬되도록 */
+    width: 18%;  /* 기본적으로 5개씩 가로 배치되도록 설정 */
+    box-sizing: border-box;
+    margin-bottom: 20px; /* 아래쪽에 여백 추가 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 190px;
 }
 
 /* 상품 이미지 스타일 */
 .product-image {
     display: flex;
-    justify-content: center;  /* 가로 정렬 */
-    align-items: center;      /* 세로 정렬 */
+    justify-content: center;  /* 이미지 가로 정렬 */
+    align-items: center;      /* 이미지 세로 정렬 */
     margin: 10px;
-    width: 150px;  /* 이미지 부모 컨테이너 크기 설정 */
-    height: 150px; /* 이미지 부모 컨테이너 높이 설정 */
+    width: 150px;  /* 이미지 부모 컨테이너 크기 */
+    height: 150px; /* 이미지 부모 컨테이너 높이 */
 }
 
 .product-image img {
     width: 100%;    /* 부모 요소 크기에 맞게 이미지 크기 설정 */
     height: 100%;   /* 부모 요소 크기에 맞게 이미지 크기 설정 */
     object-fit: cover;  /* 이미지 비율 유지하면서 부모 요소 안에 맞추기 */
-    border-radius: 8px; /* 이미지의 모서리 둥글게 */
+    border-radius: 8px; /* 이미지 모서리 둥글게 */
 }
 
 /* 상품 정보 영역 */
 .product-info {
     display: flex;
-    flex-direction: column;  /* 상품 정보 영역을 세로로 정렬 */
+    flex-direction: column;  /* 상품 정보 세로 정렬 */
     padding: 15px;
-    justify-content: space-between; /* 정보 사이에 여백을 두어 고르게 배치 */
+    justify-content: space-between; /* 정보 사이 여백 추가 */
 }
 
 /* 상품명 스타일 */
@@ -523,13 +429,6 @@ aside 영역
     color: #333;
 }
 
-/* 리뷰 점수 스타일 */
-.product-rating {
-    font-size: 14px;
-    color: #f39c12; /* 별점에 주황색 */
-    margin-bottom: 10px;
-}
-
 /* 가격 스타일 */
 .product-price .price {
     font-size: 16px;
@@ -537,13 +436,13 @@ aside 영역
     color: #e74c3c; /* 가격 색상 빨간색 */
 }
 
-/* 찜하기 버튼 스타일 */
-.product-actions {
-    position: absolute; /* 우측 하단에 배치하기 위해 절대 위치 설정 */
-    bottom: 10px; /* 아래로부터 10px 여백 */
-    right: 10px;  /* 오른쪽으로부터 10px 여백 */
-    text-align: center;
+/* 상품 카드 hover 효과 */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
+
 /* 버튼을 감싸는 div 스타일 */
 .button-container {
     display: flex;                /* 플렉스 박스를 사용하여 버튼을 가로로 배치 */

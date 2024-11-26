@@ -21,11 +21,8 @@ public class AdminListAction implements Action{
 			return "redirect:/member/loginForm.do";
 		}
 		
-		
-		
-		
 		String pageNum =request.getParameter("pageNum");
-		if(pageNum == null) pageNum ="0";
+		if(pageNum == null) pageNum ="1";
 		
 		String keyfield = request.getParameter("keyfield");
 		String keyword = request.getParameter("keyword");
@@ -34,11 +31,11 @@ public class AdminListAction implements Action{
 		int count = dao.getGoodsCount(keyfield, keyword, 0);
 		
 		//페이지 처리
-		PagingUtil page = new PagingUtil(keyfield, keyword, Integer.parseInt(pageNum),count,10,10,"list.do");
+		PagingUtil page = new PagingUtil(keyfield, keyword, Integer.parseInt(pageNum),count,10,10,"adminlist.do");
 		
 		List<GoodsVO> list = null;
 		if(count > 0 ) {
-			list = dao.getListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword, 1);
+			list = dao.getListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword, 0);
 		}
 		
 		request.setAttribute("count", count);

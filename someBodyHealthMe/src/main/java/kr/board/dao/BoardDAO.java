@@ -106,7 +106,8 @@ public class BoardDAO {
 			}		
 
 			//SQL맞음 고치지 말아
-			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM (SELECT * FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING (user_num) "  + sub_sql + " ) a) WHERE rnum >= ? AND rnum <= ?";
+			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM (SELECT * FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING (user_num) "  + sub_sql + " "
+					+ "ORDER BY (CASE WHEN board_category=1 THEN 0 ELSE 1 END) , board_num DESC ) a) WHERE rnum >= ? AND rnum <= ?";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -124,6 +125,7 @@ public class BoardDAO {
 				board.setBoard_title(rs.getString("board_title"));
 				board.setBoard_regdate(DurationFromNow.getTimeDiffLabel(rs.getString("board_regdate")));
 				board.setBoard_count(rs.getLong("board_count"));
+				board.setBoard_category(rs.getInt("board_category"));
 				board.setNick_name(rs.getString("nick_name"));
 				board.setLogin_id(rs.getString("login_id"));
 
@@ -167,6 +169,7 @@ public class BoardDAO {
 				if(rs.getString("board_modifydate") != null) {
 					board.setBoard_modifydate(DurationFromNow.getTimeDiffLabel(rs.getString("board_modifydate")));
 				}
+				board.setBoard_attachment(rs.getString("board_attachment"));
 				board.setBoard_count(rs.getLong("board_count"));
 				board.setNick_name(rs.getString("nick_name"));
 				board.setLogin_id(rs.getString("login_id"));
@@ -239,22 +242,31 @@ public class BoardDAO {
 	public void deleteBoard(long board_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
 		String sql = null;
 
 		try {
 			conn = DBUtil.getConnection();
-
-			sql = "DELETE board WHERE board_num = ?";
-
+			conn.setAutoCommit(false);
+			
+			//댓글 삭제
+			sql = "DELETE FROM board_reply WHERE board_num = ?";
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setLong(1, board_num);
-
 			pstmt.executeUpdate();
-
+			
+			//게시글 삭제
+			sql= "DELETE FROM board WHERE board_num = ?";
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setLong(1, board_num);
+			pstmt2.executeUpdate();
+			
+			conn.commit();//성공시 커밋
 		}catch(Exception e) {
+			conn.rollback();//실패시 롤백
 			throw new Exception(e);
 		}finally {
+			DBUtil.executeClose(null, pstmt2, null);
 			DBUtil.executeClose(null, pstmt, conn);
 		}		
 	}

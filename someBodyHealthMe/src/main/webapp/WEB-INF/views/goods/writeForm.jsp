@@ -1,50 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>상품 등록</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
-<style type="text/css">
-	 body {
-            
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            width: 60%;
-            height: 100%;
-            flex-grow: 1; /* 남은 공간을 차지하도록 설정 */ 
-            overflow-y: auto; /* 세로 스크롤 추가 */
-            text-align: center;
- 			margin-top:43px;
- 			margin-left:43px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd; /* 외부 테두리 */
-    		float:left;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            table-layout: fixed;  /* 고정된 테이블 레이아웃 */
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #D9D9D9;
-            color: black;
-        }
-</style>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript">
 	$(function(){
 		//상품 등록 유효성 체크
@@ -112,7 +74,9 @@
 				</ul>
 				<div class="align-center">
 					<input type="submit" value="등록"> 
-					<input type="button" value="목록" onclick="location.href='list.do'">
+					<c:if test="${status == 4}">
+					<input type="button" value="목록" onclick="location.href='adminlist.do'">
+					</c:if>
 				</div>
 			</form>
 		</div>

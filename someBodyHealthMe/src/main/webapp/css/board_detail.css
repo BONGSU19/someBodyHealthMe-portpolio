@@ -160,6 +160,7 @@ font-size: 16px;
 .sub-item{
     display: flex;
     padding: 0 0 0 30px;
+    /* 가로 중앙 정렬 */
 }
 /* 사진 닉네임 */
 .re-profile{
@@ -233,4 +234,10 @@ input[type="button"]{
 	cursor:pointer;
 }
 
+
+#mre_content{
+	margin-left:60px;
+	height:60px;
+	margin-bottom:20px;
+}
 

@@ -29,10 +29,13 @@ public class DetailAction implements Action{
 		appl = dao.getAppl(appl_num);
 		
 		//열람 조건 체크
-		if(status <= 3 && (appl.getUser_num() != user_num)) {//지원자와 열람자가 다르거나 , 관리자가 아니면(접근 권한이 없는 경우)
+		if(status != 4 && (appl.getUser_num() != user_num)) {//지원자와 열람자가 다르거나 , 관리자가 아니면(접근 권한이 없는 경우)
 			return "common/notice.jsp";
 		}	
-		if(status==4) {
+		//관리자로 전환되지 않은 경우 미확인 -> 확인으로 변경
+		int appl_status = dao.getAppl(appl_num).getAppl_status();
+		
+		if(status==4 && appl_status == 0) {
 			dao.updateAppl_status(appl_num);//미확인 -> 확인전환
 		}
 		

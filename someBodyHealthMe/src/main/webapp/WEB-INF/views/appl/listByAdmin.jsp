@@ -27,6 +27,7 @@
 							<option value="9">전체</option>
                             <option value="0">미확인</option>
                             <option value="1">확인</option>                            
+                            <option value="3">전환</option>                            
                         </select>
                     </div>
                     <div>
@@ -102,15 +103,14 @@
                 <td>
                 	<c:if test="${appl.appl_status == 0}">미확인</c:if> 
                 	<c:if test="${appl.appl_status == 1}">확인</c:if> 
-                	<c:if test="${appl.appl_status == 2}">트레이너전환</c:if> 
-                	<c:if test="${appl.appl_status == 3}">사무직전환</c:if> 
+                	<c:if test="${appl.appl_status == 3}">직원전환</c:if> 
                 </td>                
             </tr>
             </c:forEach>
         </table>
         
         <c:if test="${empty list}">
-        	<div class="no-data-message">지원목록이 없습니다.</div>   		
+        	<div class="nodata-msg">지원목록이 없습니다.</div>   		
         </c:if> 
         <div class="page">${page}</div> 
     </div>

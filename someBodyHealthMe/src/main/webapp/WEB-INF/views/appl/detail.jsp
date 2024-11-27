@@ -27,12 +27,19 @@
 			<hr size="3" noshade="noshade"> 
         	<ul>
         		<li>이름 : ${appl.name}</li>
+        		<li>
+        			등급 : <c:if test="${appl.status == 1}">일반회원</c:if>
+        			<c:if test="${appl.status == 2}">트레이너</c:if>
+        			<c:if test="${appl.status == 3}">사무직원</c:if>
+        		</li>
+        		<li>회원번호 : ${appl.user_num}</li>
         		<li>생년월일 : ${appl.birth_date}</li>
         		<li>전화번호 : ${appl.phone}</li>
         	</ul>
         	</c:if>
         </div>
         <form action="updateStatus.do" method="post" id="appl_form" enctype="multipart/form-data">
+        	<input type="hidden" name="appl_num" value="${appl.appl_num}">
             <div class="appl-radio">
                 <div>
                     <label for="">지원분야</label><p>
@@ -68,9 +75,9 @@
            
             
             <div class="appl-btn">
-            <c:if test="${status == 4 }">
+            <c:if test="${status == 4}">
                 <input type="button" value="지원목록" onclick="location.href='listByAdmin.do'">
-                <c:if test="${appl.status != 5 }">
+                <c:if test="${appl.status == 1 && appl.appl_status <= 1}">
                 <input type="submit" value="관리자전환" style="width:110px;">
                 </c:if>                
             </c:if>
@@ -78,8 +85,10 @@
         </form>   
         </c:if> 
         <!-- 관리자 지원상세 페이지 끝 -->
+        
+        
         <!-- 사용자 지원상세 페이지 -->
-        <c:if test="${status ==1}">
+        <c:if test="${status != 5 && status != 4}">
         <form>
             <div class="appl-radio">
                 <div>

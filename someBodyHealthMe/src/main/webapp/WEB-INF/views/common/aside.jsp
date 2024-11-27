@@ -35,11 +35,13 @@
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">                  
-                  <c:if test="${!empty user_num && status <= 3}">
+                  <c:if test="${status != 2 && status !=3 && status !=4}">
                   <a href="${pageContext.request.contextPath}/appl/writeForm.do">지원 신청</a>
+                  </c:if>
+                  <c:if test="${!empty user_num && status <= 3}">
                   <a href="${pageContext.request.contextPath}/appl/listByUser.do">내 지원 목록</a>
                   </c:if>
-                  <c:if test="${!empty user_num && status >=3}">
+                  <c:if test="${!empty user_num && status ==4}">
                   <a href="${pageContext.request.contextPath}/appl/listByAdmin.do">지원 목록 보기</a>
                   </c:if>   
                 </div>                

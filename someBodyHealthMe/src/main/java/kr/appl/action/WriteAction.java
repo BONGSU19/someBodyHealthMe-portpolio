@@ -14,10 +14,18 @@ public class WriteAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
+		Integer status = (Integer)session.getAttribute("status");
 		
 		if(user_num == null) {
 			return "redirect:/member/loginForm.do";
 		}
+		if(status != 1) {
+			request.setAttribute("notice_msg", "일반회원만 지원할 수 있습니다.");
+			request.setAttribute("notice_url", request.getContextPath()+"/main/main.do");
+			return "common/alert_view.jsp";
+		}
+		
+		
 		//전송된 데이터 인코딩 처리
 		request.setCharacterEncoding("utf-8");
 		ApplDAO dao = ApplDAO.getInstance();

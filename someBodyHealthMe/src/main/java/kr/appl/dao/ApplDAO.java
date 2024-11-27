@@ -158,29 +158,6 @@ public class ApplDAO {
 		}
 	}
 
-	//지원 취소 %%수정 해야함
-	public void deleteAppl(long appl_num) throws Exception{
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql;
-
-		try {
-			conn = DBUtil.getConnection();
-
-			sql = "DELETE appl WHERE appl_num = ? AND appl_status =?";
-
-			pstmt = conn.prepareCall(sql);
-
-			pstmt.setLong(1, appl_num);			
-			
-
-		}catch(Exception e) {
-			throw new Exception(e);			
-		}finally {
-			DBUtil.executeClose(null, pstmt, conn);
-		}
-	}
-
 	//총 지원 개수 구하기 - 관리자
 	public int getApplicationCount(String name,ArrayList<String> keys) throws Exception{
 		Connection conn = null;
@@ -253,7 +230,7 @@ public class ApplDAO {
 			
 			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM "
 					+ "(SELECT * FROM application JOIN "
-					+ "(SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) WHERE name LIKE '%' || ? || '%'" + sub_sql + ") a)"
+					+ "(SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) WHERE name LIKE '%' || ? || '%'" + sub_sql + " ORDER BY appl_num DESC) a)"
 							+ " WHERE rnum >= ? AND rnum <= ?";
 
 			pstmt = conn.prepareStatement(sql);
@@ -374,26 +351,51 @@ public class ApplDAO {
 	}
 
 	//관리자 전환
-	public void updateStatus(long user_num, int appl_status) throws Exception{
+	public void updateStatus(ApplVO appl) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
 		String sql;
 
 		try {
 			conn = DBUtil.getConnection();
-
+			conn.setAutoCommit(false);
+			
+			//관리자로 전환시 appl_status(확인상태)를 3으로 바꿈(지원내용을 관리자가 선택한 내용으로 바꿈)
+			sql = "UPDATE application SET field = ?, appl_center = ?, career =?, appl_status = 3 WHERE appl_num = ?";
+			
+			pstmt = conn.prepareStatement(sql);			
+			pstmt.setInt(1, appl.getField());
+			pstmt.setInt(2, appl.getAppl_center());
+			pstmt.setInt(3, appl.getCareer());
+			pstmt.setLong(4, appl.getAppl_num());
+			
+			pstmt.executeUpdate();
+			
+			//등급 변환
 			sql = "UPDATE suser SET status = ? WHERE user_num=? ";
 
-			pstmt = conn.prepareStatement(sql);
+			pstmt2 = conn.prepareStatement(sql);
 
-			pstmt.setInt(1, appl_status);
-			pstmt.setLong(2, user_num);
+			pstmt2.setInt(1, appl.getField());
+			pstmt2.setLong(2, appl.getUser_num());
 
-			pstmt.executeUpdate();
-
+			pstmt2.executeUpdate();
+			
+			//센터번호 변환
+			sql ="UPDATE suser_detail SET center_num = ? WHERE user_num=?";
+			pstmt3 = conn.prepareStatement(sql);
+			
+			pstmt3.setInt(1, appl.getAppl_center());
+			pstmt3.setLong(2, appl.getUser_num());
+			
+			conn.commit();
 		}catch(Exception e) {
+			conn.rollback();
 			throw new Exception(e);
 		}finally {
+			DBUtil.executeClose(null, pstmt2, null);
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}

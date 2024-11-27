@@ -1,6 +1,6 @@
 .container {
     width: 1080px;
-    border: 1px solid black;
+   	
     padding: 20px;
     flex-grow: 1;
     float:left;
@@ -22,7 +22,7 @@ h2{
 form{
     padding: 20px 10px;
     border: 2px solid black;
-    width: 700px;
+    width: 1000px;
     margin:20px 10px 0 20px;
 }
 .form-group {
@@ -63,11 +63,11 @@ select:last-child, input[type="search"]:last-child {
     margin-right: 10px; /* 검색 입력과 버튼 사이에 여백 추가 */
 }
 .search-group button {
-    padding: 8px 16px;
+    padding: 5px 16px;
     background-color: #d9d9d9;
     color: black;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
 }

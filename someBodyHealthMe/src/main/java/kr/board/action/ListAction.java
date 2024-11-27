@@ -30,7 +30,7 @@ public class ListAction implements Action{
 		
 		
 		//페이지 처리
-		PagingUtil page = new PagingUtil(keyfield,keyword, Integer.parseInt(pageNum),count, 10,10,"list.do",addKey);
+		PagingUtil page = new PagingUtil(keyfield,keyword, Integer.parseInt(pageNum),count, 15,10,"list.do",addKey);
 		
 		List<BoardVO> list = null;
 		if(count > 0) {

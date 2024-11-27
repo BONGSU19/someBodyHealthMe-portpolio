@@ -74,7 +74,7 @@ $(function(){
 					output += '</div>';
 					output += '</div>';
 					output += '</div>';				
-					output += '<hr size="2" width="96%">';
+					output += '<hr size="2" width="100%">';
 					
 					//댓글 목록 삽입
 					$('#output').append(output);				

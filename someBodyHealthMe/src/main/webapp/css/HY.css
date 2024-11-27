@@ -397,6 +397,17 @@ input[type="submit"]:active {
 /*==================================
     Main Content 영역
 ==================================*/
+
+.main-content .diet-plan {
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+
 .main-content-nutrition {
     padding: 40px;
     max-width: 1200px;

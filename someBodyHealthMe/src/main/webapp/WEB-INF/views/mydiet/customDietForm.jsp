@@ -29,7 +29,7 @@
                 <!-- 식단 데이터 입력 폼 -->
                 <form action="${pageContext.request.contextPath}/diet/insertDietPlan.do" method="post">
                     <div class="info-box">
-                        <div class="info-item">
+                        <div class="form-item">
                             <label for="foodName" class="label">식품 이름</label>
                             <input type="text" id="foodName" name="foodName" 
                                    placeholder="예: 닭가슴살" 
@@ -37,7 +37,7 @@
                                    required>
                         </div>
 
-                        <div class="info-item">
+                        <div class="form-item">
                             <label for="calories" class="label">칼로리(kcal)</label>
                             <input type="text" id="calories" name="calories" 
                                    placeholder="예: 200" 
@@ -45,7 +45,7 @@
                                    pattern="\d*" maxlength="5" required>
                         </div>
                         
-                        <div class="info-item">
+                        <div class="form-item">
                             <label for="protein" class="label">단백질(g)</label>
                             <input type="text" id="protein" name="protein" 
                                    placeholder="예: 30" 
@@ -53,7 +53,7 @@
                                    pattern="\d*" maxlength="5" required>
                         </div>
 
-                        <div class="info-item">
+                        <div class="form-item">
                             <label for="carbohydrate" class="label">탄수화물(g)</label>
                             <input type="text" id="carbohydrate" name="carbohydrate" 
                                    placeholder="예: 50" 
@@ -61,7 +61,7 @@
                                    pattern="\d*" maxlength="5" required>
                         </div>
 
-                        <div class="info-item">
+                        <div class="form-item">
                             <label for="fat" class="label">지방(g)</label>
                             <input type="text" id="fat" name="fat" 
                                    placeholder="예: 10" 
@@ -69,7 +69,7 @@
                                    pattern="\d*" maxlength="5" required>
                         </div>
 
-                        <div class="info-item">
+                        <div class="form-item">
                             <label for="minerals" class="label">미네랄(g)</label>
                             <input type="text" id="minerals" name="minerals" 
                                    placeholder="예: 5" 

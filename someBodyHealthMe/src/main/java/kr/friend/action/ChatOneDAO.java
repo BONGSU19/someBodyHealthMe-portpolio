@@ -102,10 +102,21 @@ public class ChatOneDAO {
 
 	        try {
 	            conn = DBUtil.getConnection();
-	            String sql = "SELECT SENDER_NUM "
-	                       + "FROM MESSAGES "
-	                       + "WHERE RECEIVER_NUM = ? "
-	                       + "ORDER BY MESSAGE_DATE DESC";
+	            String sql = """
+SELECT "SENDER_NUM"
+FROM (
+    SELECT "SENDER_NUM", 
+           "MESSAGE_DATE", 
+           ROW_NUMBER() OVER (PARTITION BY "SENDER_NUM" ORDER BY "MESSAGE_DATE" ASC) AS rn
+    FROM "MESSAGES"
+    WHERE "RECEIVER_NUM" = ?
+) subquery
+WHERE rn = 1
+ORDER BY "MESSAGE_DATE" ASC
+
+
+
+	            		""";
 	            pstmt = conn.prepareStatement(sql);
 	            pstmt.setLong(1, userNum);
 	            rs = pstmt.executeQuery();

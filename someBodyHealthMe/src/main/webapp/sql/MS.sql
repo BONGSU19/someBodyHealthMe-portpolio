@@ -34,3 +34,20 @@ CREATE SEQUENCE seq_friend
     INCREMENT BY 1
     NOCACHE
     NOCYCLE;
+    
+    
+    
+  CREATE TABLE membershipOrder (
+    order_num INT PRIMARY KEY,
+    user_num INT,
+    typeId INT,
+    receive_phone VARCHAR2(15),
+    price INT,
+    order_date date
+);
+
+-- order_num 컬럼을 자동 증가하도록 SEQUENCE와 트리거 설정
+CREATE SEQUENCE order_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE;

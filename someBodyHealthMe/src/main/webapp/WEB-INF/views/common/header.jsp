@@ -28,6 +28,7 @@
 			</c:if>
             <li><a href="${pageContext.request.contextPath}/friendSearch/friendList.do">친구만들기</a></li>
             <li><a href="${pageContext.request.contextPath}/mybody/myStatus.do">건강지킴이</a></li>
+            <li><a href="${pageContext.request.contextPath}/membership/membershipBuy.do">회원권</a></li>
         </ul>
 
         <ul class="navbar__button">

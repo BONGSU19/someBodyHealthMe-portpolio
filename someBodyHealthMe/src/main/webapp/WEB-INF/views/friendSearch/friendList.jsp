@@ -72,97 +72,189 @@
      location.reload(); // 페이지 새로고침
  }
     </script>
+<style>
+    .container {
+        width: 60%;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
 
+    .button-group .button {
+        background-color: rgba(0, 0, 0, .66);
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .button-group .button:hover {
+        background-color: rgba(0, 0, 0, .66);
+    }
+
+    .search-form ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .search-form li {
+        margin-right: 10px;
+    }
+
+    .sel {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    .search-input {
+        padding: 5px;
+        font-size: 16px;
+        width: 200px;
+    }
+
+    .submit-button {
+        background-color:rgba(0, 0, 0, .66);
+        color: white;
+        padding: 5px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .submit-button:hover {
+        background-color: rgba(0, 0, 0, .66);
+    }
+
+    .list-space {
+        text-align: right;
+        margin-top: 20px;
+    }
+
+    .list-button, .home-button {
+        background-color: rgba(0, 0, 0, .66);
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .list-button:hover, .home-button:hover {
+        background-color: rgba(0, 0, 0, .66);
+    }
+
+    .friend-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .friend-table th, .friend-table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .friend-table th {
+        background-color: rgba(0, 0, 0, .66);
+    }
+
+    .friend-request-button, .friend-cancel-button {
+        text-decoration: none;
+        color: white;
+        background-color: rgba(0, 0, 0, .66);
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .friend-request-button:hover, .friend-cancel-button:hover {
+        background-color: rgba(0, 0, 0, .66);
+    }
+
+    .friend-request-button2 {
+        color: #4CAF50;
+    }
+</style>
 
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	<jsp:include page="/WEB-INF/views/common/asideFriend.jsp" />
-	<div class="main-wrap">
-		<div class="all2">
-			<div class="all1">
-				<a
-					href="${pageContext.request.contextPath}/friendSearch/friendList.do">전체
-					보기</a>
-			</div>
-			<div class="all1">
-				<a
-					href="${pageContext.request.contextPath}/friendSearch/friendList2.do?center_num=1">지점으로
-					보기</a>
-			</div>
-		</div>
-		<div style="clear: both;"></div>
-		<form id="search_form" action="friendList.do" method="get">
-			<ul class="search">
-				<li><select name="keyfield" class="sel">
-						<option value="1"
-							<c:if test="${param.keyfield==1}">selected</c:if>>이름</option>
-						<option value="2"
-							<c:if test="${param.keyfield==2}">selected</c:if>>닉네임</option>
-						
-							
-				</select></li>
-				<li><input type="search" size="16" name="keyword" id="keyword"
-					value="${param.keyword}"></li>
-				<li><input type="submit" value="찾기"
-					style="width: 300px; border: 1px solid black;"></li>
-			</ul>
-		</form>
+	<div class="container">
+    <div class="header">
+        <div class="button-group">
+            <a href="${pageContext.request.contextPath}/friendSearch/friendList.do"  class="home-button">전체 보기</a>
+            <a href="${pageContext.request.contextPath}/friendSearch/friendList2.do?center_num=1" class="home-button">지점으로 보기</a>
+        </div>
+    </div>
 
-		<div class="list-space align-right">
-			<input type="button" value="목록"
-				onclick="location.href='friendList.do'" style="width: 150px;">
-			<input type="button" value="홈으로" style="width: 150px;"
-				onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
-		</div>
+    <form id="search_form" action="friendList.do" method="get" class="search-form">
+        <ul class="search">
+            <li>
+                <select name="keyfield" class="sel">
+                    <option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>이름</option>
+                    <option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>닉네임</option>
+                </select>
+            </li>
+            <li><input type="search" size="16" name="keyword" id="keyword" value="${param.keyword}" class="search-input"></li>
+            <li><input type="submit" value="찾기" class="submit-button"></li>
+        </ul>
+    </form>
 
-		<table class="friend">
+    <div class="list-space">
+        <input type="button" value="목록" onclick="location.href='friendList.do'" class="list-button">
+        <input type="button" value="홈으로" onclick="location.href='${pageContext.request.contextPath}/main/main.do'" class="home-button">
+    </div>
 
-			<tr>
-				<th>이름</th>
-				<th>닉네임</th>
-				<th>번호</th>
+    <table class="friend-table">
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>닉네임</th>
+                <th>번호</th>
+                <th>상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="friend" items="${list}">
+                <tr>
+                    <td>${friend.name}</td>
+                    <td>${friend.nick_name}</td>
+                    <td>
+                        <c:if test="${friend.center_Num=='1'}">강남점</c:if>
+                        <c:if test="${friend.center_Num=='2'}">강북점</c:if>
+                    </td>
+                    <td style="text-align:center;">
+                        <c:if test="${friend.status=='None'}">
+                            <a href="javascript:void(0);" class="friend-request-button sendFriendRequestButton" data-receiver-num="${friend.user_Num}" onclick="refreshPage()">친구 요청</a>
+                        </c:if>
+                        <c:if test="${friend.status=='1'}">
+                            <a href="javascript:void(0);" class="friend-cancel-button sendFriendRequestButton2" data-receiver-num="${friend.user_Num}" onclick="refreshPage()">친구 요청 취소</a>
+                        </c:if>
+                        <c:if test="${friend.status=='2'}">
+                            <span>친구입니다!</span>
+                        </c:if>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
 
-			</tr>
-			<c:forEach var="friend" items="${list}">
-				<tr>
-					<td>${friend.name}</td>
-					<td>${friend.nick_name}</td>
-					<c:if test="${friend.center_Num=='1'}">
-						<td>강남점</td>
-					</c:if>
-
-
-					<c:if test="${friend.center_Num=='2'}">
-						<td>강북점</td>
-					</c:if>
-
-					<c:if test="${friend.status=='None'}">
-						<td style="padding-left:250px;"><a href="javascript:void(0);"
-							class="sendFriendRequestButton"
-							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
-								친구 요청 </a></td>
-					</c:if>
-
-
-					<c:if test="${friend.status=='1'}">
-						<td  style="padding-left:250px;"><a href="javascript:void(0);"
-							class="sendFriendRequestButton2"
-							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
-								친구 요청 취소 </a></td>
-					</c:if>
-					
-					<c:if test="${friend.status=='2'}">
-						<td  style="padding-left:250px;"><a href="javascript:void(0);"
-							class="sendFriendRequestButton2"
-							data-receiver-num="${friend.user_Num}" onclick="refreshPage()">
-								친구입니다! </a></td>
-					</c:if>
-
-				</tr>
-			</c:forEach>
-		</table>
-	</div>
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 </body>
 </html>

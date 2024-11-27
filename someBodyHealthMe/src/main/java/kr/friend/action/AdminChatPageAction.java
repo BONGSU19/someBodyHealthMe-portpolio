@@ -19,12 +19,22 @@ public class AdminChatPageAction implements Action{
 		HttpSession session = request.getSession();
 		Long user_num = 
 				(Long)session.getAttribute("user_num");
+		if(user_num == null) {//로그인이 되지 않은 경우
+			response.setContentType("text/html; charset=UTF-8");
+			 response.getWriter().write("<script>alert('로그인후 이용해주세요.');"
+		             + "window.location.href='../member/loginForm.do';</script>");
+					return null;
+					
+				}
 		if(user_num != 35) {//로그인이 되지 않은 경우
 			
-			return "redirect:/member/loginForm.do";
+			response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().write("<script>alert('접근이 불가능한 페이지입니다. 관리자만 접근할 수 있습니다.');"
+                    + "window.location.href='../main/main.do';</script>");
+            return null;  // 더 이상 후속 처리를 하지 않도록 함
 			
 		}
-		
+
 		
 		String pageNum = request.getParameter("pageNum");
 		if(pageNum==null) pageNum = "1";

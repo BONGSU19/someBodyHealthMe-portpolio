@@ -88,7 +88,9 @@
                     <textarea name="re_content" id="re_content" placeholder="<c:if test="${empty user_num}">로그인 후 댓글등록이 가능합니다.</c:if><c:if test="${!empty user_num}">댓글을 입력해 주세요.</c:if>" <c:if test="${empty user_num}">disabled</c:if>></textarea>
                     </div>
                     <div class="re-bnt" style="align-content: end; margin-bottom: 8px;">
-                        <input type="submit" value="등록" id="re_submit" style="margin-bottom: 10px;" <c:if test="${empty user_num}">disabled</c:if>>            
+                    	<c:if test="${!empty user_num}">
+                        <input type="submit" value="등록" id="re_submit" style="margin-bottom: 10px;">
+                        </c:if>            
                         <br><span id="re_count">300/300</span>
                     </div>
                 </form>                

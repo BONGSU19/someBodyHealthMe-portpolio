@@ -56,9 +56,8 @@
         </table>
         
         <c:if test="${empty list}">
-        	<div class="no-data-message">지원목록이 없습니다.</div>   		
+        	<div class="nodata-msg">지원목록이 없습니다.</div>   		
         </c:if> 
-        <div class="page">${page}</div> 
     </div>
 </body>
 

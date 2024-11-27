@@ -50,34 +50,50 @@ public class BoardDAO {
 	}
 
 	//글의 총 개수/ 검색글 개수
-	public int getBoardCount(String keyfield,String keyword) throws Exception{
+	public int getBoardCount(String keyfield,String keyword,String addkey) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		String sub_sql = "";
 		int count = 0;
+		int cnt = 0;
 
 
 		try {
 			conn = DBUtil.getConnection();
-
-			if(keyword != null && !"".equals(keyword)) {
-				if(keyfield.equals("1")) sub_sql = " WHERE board_title LIKE '%' || ? || '%'";//제목으로 검색
-				if(keyfield.equals("2")) sub_sql = " WHERE board_content LIKE '%' || ? || '%'";//내용으로 검색
-				if(keyfield.equals("3")) sub_sql = " WHERE nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
+			if(addkey != null && !"".equals(addkey)) {
+				sub_sql += " WHERE board_category = ?";
+				if(keyword != null && !"".equals(keyword)) {
+					if(keyfield.equals("1")) sub_sql += " AND board_title LIKE '%' || ? || '%'";//제목으로 검색
+					if(keyfield.equals("2")) sub_sql += " AND board_content LIKE '%' || ? || '%'";//내용으로 검색
+					if(keyfield.equals("3")) sub_sql += " AND nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
+				}
+			}else {
+				if(keyword != null && !"".equals(keyword)) {
+					if(keyfield.equals("1")) sub_sql += " WHERE board_title LIKE '%' || ? || '%'";//제목으로 검색
+					if(keyfield.equals("2")) sub_sql += " WHERE board_content LIKE '%' || ? || '%'";//내용으로 검색
+					if(keyfield.equals("3")) sub_sql += " WHERE nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
+				}
 			}
-
 			sql = "SELECT COUNT(*) FROM board JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING(user_num) " +  sub_sql;
 
 			pstmt = conn.prepareStatement(sql);
-			if(keyword != null && !"".equals(keyword)){
-				pstmt.setString(1, keyword);
+
+			if(addkey != null && !"".equals(addkey)) {
+				pstmt.setInt(++cnt, Integer.parseInt(addkey));
+				if(keyword != null && !"".equals(keyword)) {
+					pstmt.setString(++cnt, keyword);
+				}
+			}else {
+				if(keyword != null && !"".equals(keyword)) {
+					pstmt.setString(++cnt, keyword);
+				}
 			}
 
 			rs = pstmt.executeQuery();
 			if(rs.next()) count = rs.getInt(1);
-			
+
 		}catch(Exception e ) {
 			throw new Exception(e);
 		}finally {
@@ -87,7 +103,7 @@ public class BoardDAO {
 		return count;
 	}
 	//글 목록
-	public List<BoardVO> getListBoard(int start, int end, String keyfield,String keyword) throws Exception{
+	public List<BoardVO> getListBoard(int start, int end, String keyfield,String keyword,String addkey) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -99,20 +115,35 @@ public class BoardDAO {
 		try {
 			conn = DBUtil.getConnection();
 
-			if(keyword != null && !"".equals(keyword)) {
-				if(keyfield.equals("1")) sub_sql = " WHERE board_title LIKE '%' || ? || '%'";//제목으로 검색
-				if(keyfield.equals("2")) sub_sql = " WHERE board_content LIKE '%' || ? || '%'";//내용으로 검색
-				if(keyfield.equals("3")) sub_sql = " WHERE nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
-			}		
-
+			if(addkey != null && !"".equals(addkey)) {
+				sub_sql += " WHERE board_category = ?";
+				if(keyword != null && !"".equals(keyword)) {
+					if(keyfield.equals("1")) sub_sql += " AND board_title LIKE '%' || ? || '%'";//제목으로 검색
+					if(keyfield.equals("2")) sub_sql += " AND board_content LIKE '%' || ? || '%'";//내용으로 검색
+					if(keyfield.equals("3")) sub_sql += " AND nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
+				}
+			}else {
+				if(keyword != null && !"".equals(keyword)) {
+					if(keyfield.equals("1")) sub_sql += " WHERE board_title LIKE '%' || ? || '%'";//제목으로 검색
+					if(keyfield.equals("2")) sub_sql += " WHERE board_content LIKE '%' || ? || '%'";//내용으로 검색
+					if(keyfield.equals("3")) sub_sql += " WHERE nick_name LIKE '%' || ? || '%'";//닉네임으로 검색
+				}
+			}
 			//SQL맞음 고치지 말아
 			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM (SELECT * FROM (SELECT * FROM board LEFT OUTER JOIN (SELECT board_num,COUNT(*) recount FROM BOARD_REPLY GROUP BY board_num) USING(board_num)) JOIN (SELECT * FROM suser LEFT OUTER JOIN suser_detail USING(user_num)) USING (user_num) "  + sub_sql + " "
 					+ "ORDER BY (CASE WHEN board_category=1 THEN 0 ELSE 1 END) , board_num DESC ) a) WHERE rnum >= ? AND rnum <= ?";
 
 			pstmt = conn.prepareStatement(sql);
 
-			if(keyword != null && !"".equals(keyword)) {
-				pstmt.setString(++cnt, keyword);
+			if(addkey != null && !"".equals(addkey)) {
+				pstmt.setInt(++cnt, Integer.parseInt(addkey));
+				if(keyword != null && !"".equals(keyword)) {
+					pstmt.setString(++cnt, keyword);
+				}
+			}else {
+				if(keyword != null && !"".equals(keyword)) {
+					pstmt.setString(++cnt, keyword);
+				}
 			}
 			pstmt.setInt(++cnt, start);
 			pstmt.setInt(++cnt, end);
@@ -122,7 +153,7 @@ public class BoardDAO {
 			while(rs.next()) {
 				BoardVO board = new BoardVO();
 				board.setBoard_num(rs.getLong("board_num"));
-				
+
 				String title = rs.getString("board_title");
 				if(title.length() > 35) title= title.substring(0,35) + "...";				
 				board.setBoard_title(title);
@@ -252,19 +283,19 @@ public class BoardDAO {
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			
+
 			//댓글 삭제
 			sql = "DELETE FROM board_reply WHERE board_num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, board_num);
 			pstmt.executeUpdate();
-			
+
 			//게시글 삭제
 			sql= "DELETE FROM board WHERE board_num = ?";
 			pstmt2 = conn.prepareStatement(sql);
 			pstmt2.setLong(1, board_num);
 			pstmt2.executeUpdate();
-			
+
 			conn.commit();//성공시 커밋
 		}catch(Exception e) {
 			conn.rollback();//실패시 롤백
@@ -274,36 +305,36 @@ public class BoardDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}		
 	}
-	
-	
+
+
 	//댓글
 	//댓글 작성
 	public void insertReplyBoard(Board_replyVO reply) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
-		
+
 		try {
 			conn = DBUtil.getConnection();
-			
+
 			sql = "INSERT INTO board_reply(re_num,re_content,re_regdate,user_num,board_num)"
 					+ " VALUES(bd_reply_seq.nextval,?,SYSDATE,?,?)";
-			
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setString(1, reply.getRe_content());
 			pstmt.setLong(2, reply.getUser_num());
 			pstmt.setLong(3, reply.getBoard_num());
-			
+
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
 			throw new Exception(e);
 		}finally {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
-	
+
 	//댓글 개수
 	public int getReplyCount(long board_num) throws Exception{
 		Connection conn = null;
@@ -311,19 +342,19 @@ public class BoardDAO {
 		ResultSet rs = null;
 		String sql;
 		int count = 0;
-		
+
 		try {
 			conn = DBUtil.getConnection();
-			
+
 			sql = "SELECT COUNT(*) FROM board_reply WHERE board_num = ?";
-			
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setLong(1, board_num);
-			
+
 			rs = pstmt.executeQuery();
 			if(rs.next()) count = rs.getInt(1);
-			
+
 		}catch(Exception e) {
 			throw new Exception(e);
 		}finally {
@@ -338,20 +369,20 @@ public class BoardDAO {
 		ResultSet rs = null;
 		String sql;
 		List<Board_replyVO> list = null;
-		
+
 		try {
 			conn = DBUtil.getConnection();
-			
+
 			sql = "SELECT * FROM "
 					+ "(SELECT rownum rnum ,a.* FROM "
 					+ "(SELECT * FROM board_reply JOIN (SELECT * FROM suser JOIN suser_detail USING (user_num)) USING (user_num) WHERE board_num = ? ORDER BY re_regdate DESC) a) WHERE rnum >= ? AND rnum <= ?";
-			
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setLong(1, board_num);
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
-			
+
 			rs = pstmt.executeQuery();
 			list = new ArrayList<Board_replyVO>();
 			while(rs.next()) {
@@ -368,7 +399,7 @@ public class BoardDAO {
 				reply.setNick_name(rs.getString("nick_name"));
 				list.add(reply);
 			}
-			
+
 		}catch(Exception e) {
 			throw new Exception(e);
 		}finally {
@@ -383,7 +414,7 @@ public class BoardDAO {
 		ResultSet rs = null;
 		Board_replyVO reply = null;
 		String sql;
-		
+
 		try {
 			conn = DBUtil.getConnection();
 			//SQL문 작성
@@ -394,7 +425,7 @@ public class BoardDAO {
 			pstmt.setLong(1, re_num);
 			//SQL문 실행
 			rs = pstmt.executeQuery();
-			
+
 			if(rs.next()) {
 				reply = new Board_replyVO();
 				reply.setRe_num(rs.getLong("re_num"));
@@ -405,52 +436,52 @@ public class BoardDAO {
 		}finally {
 			DBUtil.executeClose(rs, pstmt, conn);
 		}
-		
+
 		return reply;
 	}
-	
+
 	//댓글 수정
 	public void UpdateReply(Board_replyVO reply) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql;
-		
+
 		try {
 			conn = DBUtil.getConnection();
-			
+
 			sql = "UPDATE board_reply SET re_content = ? , re_modifydate = SYSDATE WHERE re_num = ?";
-			
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setString(1, reply.getRe_content());
 			pstmt.setLong(2, reply.getRe_num());
-			
+
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
 			throw new Exception(e);
 		}finally {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
-	
+
 	//댓글 삭제
 	public void deleteReply(long re_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql;
-		
+
 		try {
 			conn = DBUtil.getConnection();
-			
+
 			sql = "DELETE board_reply WHERE re_num = ?";
-			
+
 			pstmt = conn.prepareStatement(sql);
-			
+
 			pstmt.setLong(1, re_num);
-			
+
 			pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
 			throw new Exception(e);
 		}finally {

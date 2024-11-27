@@ -22,7 +22,7 @@ public class ListByAdminAction implements Action{
 		if(user_num == null) {
 			return "redirect:/member/loginForm.do";
 		}
-		if(status < 3) {
+		if(status != 4) {//관리자가 아닌 경우
 			return "/common/notice.jsp";
 		}
 		

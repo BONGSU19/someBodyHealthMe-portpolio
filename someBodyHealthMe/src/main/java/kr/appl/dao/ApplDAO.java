@@ -94,6 +94,39 @@ public class ApplDAO {
 		return list;		
 	}
 	
+	//나의 미확인 지원 개수
+	public ApplVO getMyUncheckedappl(long user_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ApplVO unchecked= null;
+		String sql;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "SELECT APPL_NUM FROM application WHERE user_num = ? AND appl_status = 0";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, user_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				unchecked = new ApplVO();
+				unchecked.setAppl_num(rs.getLong("appl_num"));				
+			}
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return unchecked;
+	}
+	
 	//지원 사항 수정하기
 	public void updateAppl(ApplVO appl) throws Exception {
 		Connection conn = null;

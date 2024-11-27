@@ -8,7 +8,6 @@
 <title>지원하기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/applForm.css" type="text/css">
-
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>

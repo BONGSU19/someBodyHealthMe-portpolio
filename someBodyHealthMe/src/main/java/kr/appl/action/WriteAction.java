@@ -20,6 +20,13 @@ public class WriteAction implements Action{
 		}
 		//전송된 데이터 인코딩 처리
 		request.setCharacterEncoding("utf-8");
+		ApplDAO dao = ApplDAO.getInstance();
+		ApplVO unchecked = dao.getMyUncheckedappl(user_num);
+		if(unchecked != null) {
+			request.setAttribute("notice_msg", "관리자가 미확인한 지원내역이 있습니다.");
+			request.setAttribute("notice_url", request.getContextPath()+"/appl/detail.do?appl_num=" + unchecked.getAppl_num());
+			return "common/alert_view.jsp";
+		}
 		
 		//vo 생성 및 전송된 데이터 담기
 		ApplVO appl =  new ApplVO();
@@ -29,10 +36,8 @@ public class WriteAction implements Action{
 		appl.setField(Integer.parseInt(request.getParameter("field")));
 		appl.setSource(request.getParameter("source"));
 		appl.setAppl_center(Integer.parseInt(request.getParameter("appl_center")));
-		appl.setUser_num(user_num);
+		appl.setUser_num(user_num);		
 		
-		
-		ApplDAO dao = ApplDAO.getInstance();
 		//지원 신청
 		dao.insertAppl(appl);	
 		

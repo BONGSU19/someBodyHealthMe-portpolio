@@ -22,12 +22,14 @@
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">공지사항</a>
-                  <a href="#">오늘 운동 완료</a>
-                  <a href="#">자유 게시판</a>
+                  <a href="${pageContext.request.contextPath}/board/list.do">전체글보기</a>
+                  <a href="${pageContext.request.contextPath}/board/list.do?board_category=1">공지사항</a>
+                  <a href="${pageContext.request.contextPath}/board/list.do?board_category=2">자유 게시판</a>
+                  <a href="${pageContext.request.contextPath}/board/list.do?board_category=3">오늘 운동 완료</a>                 
                 </div>
               </div>
               
+              <c:if test="${!empty user_num}">
               <div class="dropdown">
                 <button class="dropdown-button toggle-button">지원하기
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
@@ -39,11 +41,11 @@
                   </c:if>
                   <c:if test="${!empty user_num && status >=3}">
                   <a href="${pageContext.request.contextPath}/appl/listByAdmin.do">지원 목록 보기</a>
-                  </c:if>
-                  
-   
-                </div>
+                  </c:if>   
+                </div>                
               </div>
+              </c:if>
+              
 
               <div class="dropdown">
                 <button class="dropdown-button toggle-button">1대1문의

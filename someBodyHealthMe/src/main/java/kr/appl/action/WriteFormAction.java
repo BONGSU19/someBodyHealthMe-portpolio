@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.appl.dao.ApplDAO;
+import kr.appl.vo.ApplVO;
 import kr.controller.Action;
 
 public class WriteFormAction implements Action{
@@ -14,6 +16,14 @@ public class WriteFormAction implements Action{
 		
 		if(user_num == null) {
 			return "redirect:/member/loginForm.do";
+		}
+		//미확인 지원이 있다면 상세페이지로 가자고
+		ApplDAO dao = ApplDAO.getInstance();
+		ApplVO unchecked = dao.getMyUncheckedappl(user_num);
+		if(unchecked != null) {
+			request.setAttribute("notice_msg", "관리자가 미확인한 지원내역이 있습니다.");
+			request.setAttribute("notice_url", request.getContextPath()+"/appl/detail.do?appl_num=" + unchecked.getAppl_num());
+			return "common/alert_view.jsp";
 		}
 		
 		return "/appl/writeForm.jsp";

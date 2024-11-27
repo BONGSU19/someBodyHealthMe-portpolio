@@ -29,14 +29,14 @@ public class MainAction implements Action{
 		String keyword = request.getParameter("keyword");
 		
 		BoardDAO dao = BoardDAO.getInstance(); 
-		int count = dao.getBoardCount(keyfield, keyword);
+		int count = dao.getBoardCount(keyfield, keyword,null);
 		
 		//페이지 처리
 		PagingUtil page = new PagingUtil(keyfield,keyword, Integer.parseInt(pageNum),count, 2,2,"list.do");
 		
 		List<BoardVO> list = null;
 		if(count > 0) {
-			list = dao.getListBoard(page.getStartRow(), page.getEndRow(), keyfield,keyword);
+			list = dao.getListBoard(page.getStartRow(), page.getEndRow(), keyfield,keyword,null);
 		}
 		
 		request.setAttribute("count", count);

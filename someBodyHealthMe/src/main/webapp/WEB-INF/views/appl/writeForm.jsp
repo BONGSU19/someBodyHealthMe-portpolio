@@ -53,7 +53,7 @@
             
             <div class="appl-btn">
             <c:if test="${status != 4 }">
-                <input type="button" value="지원취소" onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
+                <input type="button" value="지원취소" onclick="location.href='${pageContext.request.contextPath}/board/list.do'">
                 <input type="submit" name="" value="지원하기">
             </c:if>
             <c:if test="${status == 4 }">

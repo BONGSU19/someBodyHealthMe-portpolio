@@ -59,10 +59,6 @@ a {
     padding: 8px 12px; /* 버튼 항목에 패딩 추가 */
 }
 
-.button:hover {
-    filter: none; /* 호버 시 그림자 제거 */
-    transform: translateY(4px) translateX(4px); /* 버튼을 살짝 아래로 이동 */
-}
 
 .navbar__toggleBtn {
     display: none; /* 모바일 화면에서는 기본적으로 숨김 */
@@ -85,6 +81,12 @@ a {
     align-items: center; /* 수직 가운데 정렬 */
     font-size: 16px; /* 글자 크기 설정 */
 }
+
+.button:hover {
+    filter: none; /* 호버 시 그림자 제거 */
+    transform: translateY(4px) translateX(4px); /* 버튼을 살짝 아래로 이동 */
+}
+
 
 .button a {
     color: white; /* 버튼 내 링크 색상 */
@@ -145,6 +147,8 @@ a {
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center; /* 수직 가운데 정렬 */
     font-size: 16px; /* 글자 크기 설정 */
+    filter: none; /* 호버 시 그림자 제거 */
+    transform: translateY(4px) translateX(4px); /* 버튼을 살짝 아래로 이동 */
     
 }
 

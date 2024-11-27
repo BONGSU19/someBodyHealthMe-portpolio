@@ -167,6 +167,44 @@ public class DietPlanDAO {
         return dietPlan;
     }
     
+ // 식단 데이터 조회 (DIET_SHOW가 0인 것만 조회)
+    public List<DietPlanVO> selectDietPlansWithDietShowZero() throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT DIETID, FOODNAME, CALORIES, PROTEIN, CARBOHYDRATE, FAT, MINERALS, DIET_SHOW, DIET_COMMENT, USER_NUM "
+                   + "FROM DIETPLAN WHERE DIET_SHOW = 0";
+        List<DietPlanVO> dietList = new ArrayList<>();
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                DietPlanVO dietPlan = new DietPlanVO();
+                dietPlan.setDietId(rs.getLong("DIETID"));
+                dietPlan.setFoodName(rs.getString("FOODNAME"));
+                dietPlan.setCalories(rs.getDouble("CALORIES"));
+                dietPlan.setProtein(rs.getDouble("PROTEIN"));
+                dietPlan.setCarbohydrate(rs.getDouble("CARBOHYDRATE"));
+                dietPlan.setFat(rs.getDouble("FAT"));
+                dietPlan.setMinerals(rs.getDouble("MINERALS"));
+                dietPlan.setDietShow(rs.getInt("DIET_SHOW"));
+                dietPlan.setDietComment(rs.getInt("DIET_COMMENT"));
+                dietPlan.setUserNum(rs.getLong("USER_NUM"));
+                dietList.add(dietPlan);
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error while selecting DietPlans with DIET_SHOW = 0", e);
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+
+        return dietList;
+    }
+
+    
     public List<DietPlanVO> searchDietByKeyword(String keyword, int startRow, int endRow) throws Exception {
         List<DietPlanVO> foodList = new ArrayList<>();
         Connection conn = null;

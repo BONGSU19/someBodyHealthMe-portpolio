@@ -10,7 +10,7 @@ public class CustomDietFormAction implements Action{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		return null;
+		return "mydiet/customDietForm.jsp";
 	}
 
 }

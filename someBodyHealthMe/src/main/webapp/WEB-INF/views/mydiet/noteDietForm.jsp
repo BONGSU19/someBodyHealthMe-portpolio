@@ -264,7 +264,7 @@ footer {
                 const foodId = button.getAttribute('data-food-id');
                 const foodName = button.getAttribute('data-food-name');
 
-                // 팝업에 정보 채우기
+                // 팝업에 정보 채우기 
                 document.getElementById('food-id').value = foodId;
 
                 // 팝업 열기

@@ -27,7 +27,7 @@
                 </div>
 
                 <!-- 식단 데이터 입력 폼 -->
-                <form action="${pageContext.request.contextPath}/diet/insertDietPlan.do" method="post">
+                <form action="${pageContext.request.contextPath}/mydiet/insertDiet.do" method="post">
                     <div class="info-box">
                         <div class="form-item">
                             <label for="foodName" class="label">식품 이름</label>

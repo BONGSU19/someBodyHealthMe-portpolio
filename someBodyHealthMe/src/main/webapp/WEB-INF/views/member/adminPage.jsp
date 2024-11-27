@@ -62,21 +62,22 @@
                 </ul>
             </div>
             <div class="menu-section">
-                <h3>관리자 페이지 테스트 1번</h3>
+                <h3>관리자 메뉴</h3>
                 <ul>
-                    <li><a href="#">관리자 페이지 테스트 1-1번</a></li>
-                    <li><a href="#">관리자 페이지 테스트 1-2번</a></li>
-                </ul>
-                <h3>관리자 페이지 테스트 2번</h3>
-                <ul>
-                    <li><a href="#">관리자 페이지 테스트 2-1번</a></li>
-                    <li><a href="#">관리자 페이지 테스트 2-2번</a></li>
+                    <li><a href="#">테스트 1</a></li>
+                    <li><a href="#">테스트 2</a></li>
                 </ul>
             </div>
         </aside>
+
+        <!-- 오른쪽 콘텐츠 섹션 -->
         <main class="content-section">
-            <div class="my-posts">
-                <h3>내가 쓴 글 <button class="more-btn">더보기</button></h3>
+            <!-- 최근 게시글 -->
+            <div class="recent-posts">
+                <div class="section-header">
+                    <h3>최근 게시글</h3>
+                    <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/board/list.do'">더보기</button>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -85,25 +86,70 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="2">데이터 없음</td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty recentPosts}">
+                                <c:forEach var="post" items="${recentPosts}">
+                                    <tr>
+                                        <td>
+                                            <a href="${pageContext.request.contextPath}/board/detail.do?board_num=${post.board_num}">
+                                                ${post.board_title}
+                                            </a>
+                                        </td>
+                                        <td>${post.board_regdate}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="2">작성된 게시글이 없습니다.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
             </div>
-            <div class="my-comments">
-                <h3>출입 내역 <button class="more-btn">더보기</button></h3>
+
+            <!-- 최근 지원 신청 -->
+            <div class="recent-applications">
+                <div class="section-header">
+                    <h3>최근 지원 신청</h3>
+                    <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/appl/listByAdmin.do'">더보기</button>
+                </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>제목</th>
-                            <th>작성일</th>
+                            <th>지원번호</th>
+                            <th>이름</th>
+                            <th>지원분야</th>
+                            <th>지원지점</th>	
+                            <th>등록일</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="2">데이터 없음</td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty recentApplications}">
+                                <c:forEach var="appl" items="${recentApplications}">
+                                    <tr>
+                                        <td>${appl.appl_num}</td>
+                                        <td>${appl.name}</td>
+                                        <td>
+                                            <c:if test="${appl.field == 2}">트레이너</c:if>
+                                            <c:if test="${appl.field == 3}">사무직원</c:if>
+                                        </td>
+                                        <td>
+                                            <c:if test="${appl.appl_center == 1}">강남점</c:if>
+                                            <c:if test="${appl.appl_center == 2}">강북점</c:if>
+                                        </td>
+                                        <td>${appl.appl_regdate}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="5">최근 지원 신청이 없습니다.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
             </div>

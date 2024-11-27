@@ -1,15 +1,19 @@
 package kr.member.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.appl.vo.ApplVO;
+import kr.board.vo.BoardVO;
 import kr.controller.Action;
-import kr.member.dao.MemberDAO;	
+import kr.member.dao.AdminDAO;
+import kr.member.dao.MemberDAO;
 import kr.member.vo.MemberVO;
 
 public class AdminPageAction implements Action {
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
@@ -20,23 +24,26 @@ public class AdminPageAction implements Action {
             return "redirect:/member/loginForm.do";
         }
 
-        MemberDAO dao = MemberDAO.getInstance();
-        MemberVO member = dao.getUserProfile(user_num);
+        MemberDAO memberDAO = MemberDAO.getInstance();
+        MemberVO member = memberDAO.getUserProfile(user_num);
 
-        // 회원 정보 및 권한 체크
+        // 관리자 권한 체크
         if (member == null || member.getStatus() != 4) {
-            // 잘못된 접근 시 알림 메시지 설정
             request.setAttribute("notice_msg", "잘못된 접근입니다.");
             request.setAttribute("notice_url", request.getContextPath() + "/main/main.do");
             return "common/alert_view.jsp";
         }
-        //if(user_num != null && member.getStatus() != 1) { 잠깐 보류
-    	//return "common/notice.jsp";
-        
-        // 관리자 정보를 JSP에 전달
+
+        // DAO 호출
+        AdminDAO adminDAO = AdminDAO.getInstance();
+        List<BoardVO> recentPosts = adminDAO.getRecentPosts();
+        List<ApplVO> recentApplications = adminDAO.getRecentApplications();
+
+        // JSP로 데이터 전달
+        request.setAttribute("recentPosts", recentPosts);
+        request.setAttribute("recentApplications", recentApplications);
         request.setAttribute("member", member);
 
-        // JSP 경로 반환 (adminPage.jsp로 이동)
         return "member/adminPage.jsp";
     }
 }

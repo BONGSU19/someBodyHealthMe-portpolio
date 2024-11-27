@@ -326,3 +326,58 @@ a {
 .more-btn:hover {
     background-color: #d12e39;
 }
+/* 최근 게시글 스타일 */
+.recent-posts {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.section-header h3 {
+    margin: 0;
+}
+
+.more-btn {
+    margin: 0;
+}
+.recent-applications h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #d48566;
+    padding-bottom: 5px;
+    font-size: 18px;
+}
+
+.recent-applications table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.recent-applications table th,
+.recent-applications table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.more-btn {
+    background-color: #d48566;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.more-btn:hover {
+    background-color: #d12e39;
+}

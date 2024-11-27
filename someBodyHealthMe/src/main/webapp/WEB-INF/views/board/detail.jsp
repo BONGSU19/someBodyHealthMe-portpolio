@@ -59,7 +59,7 @@
         <div class="board-content">
         <c:if test="${!empty board.board_attachment}">
         <div class="board-attachment">
-        	<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" class="detail-img">
+        	<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" class="detail-img" width="900" border="1">
         </div>
         </c:if>        
             ${board.board_content}

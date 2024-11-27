@@ -12,9 +12,10 @@
 </head>
 <body>
 <div class="page-main">
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<div class="content-main">
-	<div class="mypage-div">
+	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/aside.jsp" />
+	<div class="content-main">
+		<div class="mypage-div">
  			<h3>찜 목록</h3>
  			<table>
 					<tr>
@@ -31,8 +32,9 @@
 					</tr>
 					</c:forEach>
  			</table>
+ 		</div>
  	</div>
- </div>
+ 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </div> 	
 </body>
 </html>

@@ -281,7 +281,7 @@ label[for="order_quantity"]{
 	float: left;
 }
 .item-detail li{
-	padding:  0 0 10px 10px;
+	padding:  15px 0 10px 10px;
 }
 .item-detail form{
 	border: none;

@@ -100,7 +100,7 @@ public class GoodsDAO {
 			if(keyword!=null && !"".equals(keyword)) {
 				//검색처리
 				if(keyfield.equals("1")) sub_sql += "AND goods_name LIKE ? ";
-				else if (keyfield.equals("2")) sub_sql += "AND goods_info LIKE ? ";
+				else if (keyfield.equals("2")) sub_sql += "AND goods_category LIKE ? ";
 			}
 			//status의 값이 0이면 , 1(미표시),2(표시) 모두호출 --->관리자용 
 			//status의 값이 1이면, 2(표시) 호출 -> 사용자용

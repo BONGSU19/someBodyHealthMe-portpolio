@@ -72,8 +72,8 @@
 			<c:forEach var="order" items="${list}">
 			<tr>
 				<td>${order.order_num}</td>
-				<td><a href="adminDetail.do?order_num=${order.order_num}">${order.item_name}</a></td>
-				<td>${order.id}</td>
+				<td><a href="adminDetail.do?order_num=${order.order_num}">${order.goods_name}</a></td>
+				<td>${order.login_id}</td>
 				<td><fmt:formatNumber value="${order.order_total}"/>원</td>
 				<td>${order.reg_date}</td>
 				<td>
@@ -88,7 +88,8 @@
 		</table>
 		<div class="align-center">${page}</div>
 		</c:if>		
-	</div>	
+	</div>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />	
 </div>
 </body>
 </html>

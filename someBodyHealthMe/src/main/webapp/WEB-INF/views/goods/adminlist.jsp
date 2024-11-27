@@ -33,13 +33,20 @@
 		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
 		<div class="content-main">
 			<form action="adminlist.do" method="get" class="search-bar">
-				<div id="search-bar">
-					<select name="keyfield">
-						<option value="1"
-							<c:if test="${param.keyfield==1}">selected</c:if>>상품명</option>
-					</select> <input type="search-input" placeholder="상품명을 입력하세요." id="search-input"
-						name="keyword"> <input type="submit" value="검색">
-				</div>
+				<ul id="search-bar">
+					<li>
+              	   <select name="keyfield">
+               	     <option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>상품명</option>
+               	     <option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>카테고리</option>
+             	   </select>
+             	</li>
+             	<li>
+              	   <input type="search" placeholder="상품명을 입력하세요." id="search-input" name="keyword">
+              	</li>
+              	<li>
+             	   <input type="submit" value="검색">
+             	</li>
+				</ul>
 			</form>
 			<div class="list-space align-right">
 				<c:if test="${status == 4}">

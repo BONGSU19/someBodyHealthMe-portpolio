@@ -91,8 +91,8 @@
 							<li>
 								<%-- 좋아요 --%> <img id="output_like"
 								data-num="${goods.goods_num}"
-								src="${pageContext.request.contextPath}/images/fav01.gif"
-								width="50"> 좋아요 <span id="output_lcount"></span>
+								src="${pageContext.request.contextPath}/images/like01.png"
+								width="50"><span id="output_lcount"></span>
 							</li>
 						</ul>
 					</div>
@@ -101,7 +101,7 @@
 				<div class="item-image">
 					<img
 						src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
-						width="400">
+						width="400"><br>
 				</div>
 				<div class="item-detail">
 					<form id="goods_cart">
@@ -122,15 +122,21 @@
 									type="number" name="order_quantity" min="1"
 									max="${goods.goods_quantity}" autocomplete="off"
 									id="order_quantity" class="quantity-width"></li>
+									<hr size="1" noshade="noshade" width="100%">
 								<li>총 상품 금액 : <span id="goods_total_txt">0원</span></li>
-								<li><input type="submit" value="장바구니에 담기"></li>
+									<hr size="1" noshade="noshade" width="100%">
+								
 								<ul class="detail-sub">
 									<li>
 										<%-- 좋아요 --%> <img id="output_like" data-num="${goods.goods_num}"
-										src="${pageContext.request.contextPath}/images/fav01.gif"
-										width="50"> 좋아요 <span id="output_lcount"></span>
+										src="${pageContext.request.contextPath}/images/like01.png"
+										width="50">
 									</li>
-				</ul>
+									<li><input type="submit" value="장바구니에 담기"></li>
+									<li>
+									<span id="output_lcount"></span>
+									</li>
+								</ul>
 							</c:if>
 							<c:if test="${goods.goods_quantity == 0}">
 								<li class="align-center"><span class="sold-out">품절</span></li>

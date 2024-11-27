@@ -91,7 +91,7 @@ public class OrderDAO {
 			pstmt3.executeBatch();//쿼리를 전송
 
 			//상품의 재고수 차감
-			sql = "UPDATE goods SET quantity=quantity-? WHERE "
+			sql = "UPDATE goods SET goods_quantity=goods_quantity-? WHERE "
 					+ "goods_num = ?";
 			pstmt4 = conn.prepareStatement(sql);
 
@@ -201,7 +201,7 @@ public class OrderDAO {
 			}
 			
 			sql = "SELECT * FROM (SELECT a.*, rownum rnum FROM ("
-					+ "SELECT * FROM order JOIN (SELECT order_num,"
+					+ "SELECT * FROM orders JOIN (SELECT order_num,"
 					+ "LISTAGG(goods_name,',') WITHIN GROUP "
 					+ "(ORDER BY goods_name) goods_name FROM order_detail "
 					+ "GROUP BY order_num) USING(order_num) JOIN suser USING(user_num) "
@@ -395,7 +395,7 @@ public class OrderDAO {
 			//커넥션풀로부터 커넥션 할당
 			conn = DBUtil.getConnection();
 			//SQL문 작성
-			sql = "SELECT * FROM zorder WHERE order_num=?";
+			sql = "SELECT * FROM orders WHERE order_num=?";
 			//PreparedStatement 객체 생성
 			pstmt = conn.prepareStatement(sql);
 			//?에 데이터 바인딩

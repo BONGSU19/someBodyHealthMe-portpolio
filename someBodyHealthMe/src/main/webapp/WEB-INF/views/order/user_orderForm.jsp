@@ -230,6 +230,7 @@
 </script>	
 <!-- 다음 우편번호 API 끝 -->		
 	</div>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </div>
 </body>
 </html>

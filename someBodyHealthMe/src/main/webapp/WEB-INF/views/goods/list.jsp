@@ -31,13 +31,20 @@
 	
 	<div class="content-main">
 	<form action="list.do" method="get" class="search-bar">
-            	<div id="search-bar">
-              	  <select name="keyfield">
+            	<ul id="search-bar">
+            	<li>
+              	   <select name="keyfield">
                	     <option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>상품명</option>
+               	     <option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>카테고리</option>
              	   </select>
+             	</li>
+             	<li>
               	   <input type="search" placeholder="상품명을 입력하세요." id="search-input" name="keyword">
+              	</li>
+              	<li>
              	   <input type="submit" value="검색">
-            	</div>
+             	</li>
+            	</ul>
             </form>
 	<div class="list-space align-right">
 		<c:if test="${status == 4}">
@@ -54,28 +61,36 @@
 	</div>
 	</c:if>
 	<c:if test="${count > 0}">
-	 	<c:forEach var="goods" items="${list}">
-	 	<div class="product-list">
-		 	<div class="product-card">
-	    		<a href="detail.do?goods_num=${goods.goods_num}" class="product-link">
-		        	<div class="product-image">
-		            	<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100"/>
-		       	 	</div>
-		        	<div class="product-info">
-			            	<h3 class="product-name">${goods.goods_name}</h3>
-			            <div class="product-rating">
-			                <span>${goodsreview.re_rating}</span>
-			            </div>
-			            <div class="product-price">
-			                <span class="price">${goods.goods_price}원</span>
-			            </div>
-		        	</div>
-	    		</a>
-			</div>
-	 	</c:forEach>
-	 	</div>
-	 	<div class="align-center">${page}</div>
-	</c:if>
+			<div class="product-list">
+				<c:forEach var="goods" items="${list}">
+						<div class="product-card">
+							<a href="detail.do?goods_num=${goods.goods_num}"
+								class="product-link">
+								<div class="product-image">
+									<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100">
+								</div>
+								<div class="product-info">
+									<h3 class="product-name">${goods.goods_name}</h3>
+									<div class="product-rating">
+										<span>${goodsreview.re_rating}</span>
+									</div>
+									<c:if test="${goods.goods_status == 1}">
+									<div class="product-price">
+										<span class="price">판매가 중지된 상품</span>
+									</div>
+									</c:if>
+									<c:if test="${goods.goods_status != 1}">
+									<div class="product-price">
+										<span class="price">${goods.goods_price}원</span>
+									</div>
+									</c:if>
+								</div>
+							</a>
+						</div>
+				</c:forEach>
+				</div>
+				<div class="align-center" id="page-selector">${page}</div>
+			</c:if>
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </div>

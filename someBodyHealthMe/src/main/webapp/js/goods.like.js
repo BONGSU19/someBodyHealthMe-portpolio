@@ -47,9 +47,9 @@ $(function(){
 	function displayLike(param){
 		let output;
 		if(param.status == 'yesLike'){//좋아요 선택
-			output = '../images/fav02.gif';
+			output = '../images/like02.png';
 		}else{//좋아요 미선택
-			output = '../images/fav01.gif';
+			output = '../images/like01.png';
 		}
 		//문서 객체에 설정
 		$('#output_like').attr('src',output);

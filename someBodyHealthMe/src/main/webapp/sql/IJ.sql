@@ -90,7 +90,7 @@ create table cart(
 create sequence cart_seq;
 
 --주문
-create table orders(
+/*create table orders(
  order_num number not null,
  user_num number not null,
  goods_num number not null,
@@ -105,9 +105,42 @@ create table orders(
  constraint order_fk2 foreign key (goods_num) references goods (goods_num),
  constraint order_fk3 foreign key (cart_num) references cart (cart_num)
 );
+create sequence order_seq; */
+
+--주문
+create table orders(
+ order_num number not null,
+ order_total number(9) not null,
+ payment number(1) not null, -- 결제 방식
+ status number(1) default 1 not null, -- 배송 상태
+ receive_name varchar2(30) not null,
+ receive_post varchar2(5) not null,
+ receive_address1 varchar2(90) not null,
+ receive_address2 varchar2(90) not null,
+ receive_phone varchar2(15) not null,
+ notice varchar2(4000),
+ reg_date date default sysdate not null,
+ modify_date date,
+ user_num number not null,
+ constraint orders_pk primary key (order_num),
+ constraint orders_fk1 foreign key (user_num)
+                        references suser (user_num)
+);
 create sequence order_seq;
 
-
+create table order_detail(
+ detail_num number not null,
+ goods_num number not null,
+ goods_name varchar2(60) not null,
+ goods_price number(9) not null,
+ goods_total number(9) not null,
+ order_quantity number(7) not null,
+ order_num number not null,
+ constraint order_detail_pk primary key (detail_num),
+ constraint order_detail_fk1 foreign key (order_num) 
+                           references orders (order_num)
+);
+create sequence order_detail_seq;
 
 
 

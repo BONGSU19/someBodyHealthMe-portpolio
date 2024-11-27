@@ -95,39 +95,6 @@ a:hover{
 #page-selector{
 	margin-left: 260px;
 }
-/* 메뉴
---------------------------*/
-#main_logo{
-	padding-top:20px;
-}
-#main_nav{
-	padding:2px 10px 20px 10px;
-	height:20px;
-	background-color:#C1BFBF;
-}
-#main_nav ul{
-	list-style:none;
-	margin:0;
-	padding:0;
-}
-#main_nav ul li{
-	display:inline-block;
-	width:100px;
-	text-align:center;
-	vertical-align:middle;
-	padding-top:8px;
-}
-#main_nav ul li img.my-photo{
-	vertical-align:middle;
-}
-#main_nav ul li.menu-profile{
-	padding-top:5px;
-	width:25px;
-} 
-#main_nav ul li.menu-logout{
-	width:180px;
-	text-align:left;
-}
 /* 공통 등록, 수정 폼
 --------------------------*/
 form{
@@ -342,6 +309,19 @@ form[id="cart_order"]{
 	
 }
 
+/* 주문
+----------------------*/
+form[id="order_modify"],form[id="order_form"]{
+	width: 860px;
+}
+#delivery_text{
+	color:red;
+}
+ul#delivery_info li span{
+	width: 130px; 
+	display: inline-block;
+}
+
 /* 메인
 -----------------------*/
 .image-space .horizontal-area{
@@ -449,3 +429,5 @@ form[id="cart_order"]{
     justify-content: flex-end;     /* 버튼들을 오른쪽 끝으로 정렬 */
     gap: 10px;                     /* 버튼 사이에 10px 간격 추가 */
 }
+
+

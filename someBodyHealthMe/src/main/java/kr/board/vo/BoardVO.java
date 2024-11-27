@@ -13,7 +13,14 @@ public class BoardVO {
 	private String nick_name;//닉네임
 	private String login_id; //아이디
 	private String photo;
+	private int recount;
 	
+	public int getRecount() {
+		return recount;
+	}
+	public void setRecount(int recount) {
+		this.recount = recount;
+	}
 	public String getPhoto() {
 		return photo;
 	}

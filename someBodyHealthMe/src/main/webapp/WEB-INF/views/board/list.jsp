@@ -34,7 +34,9 @@
 						<c:if test="${board.board_category == 2 }">자유</c:if>
 						<c:if test="${board.board_category == 3 }">오운완</c:if>
                     </td>
-                    <td><a href="detail.do?board_num=${board.board_num}" <c:if test="${board.board_category == 1 }">style="color:#f25050; font-weight:bold;"</c:if>>${board.board_title}</a></td>
+                    <td>
+                    <a href="detail.do?board_num=${board.board_num}" <c:if test="${board.board_category == 1 }">style="color:#f25050; font-weight:bold;"</c:if>>${board.board_title}</a> <span style="font-size:15px;">[${board.recount}]</span> 
+                    </td>
                     <td>
                     <c:if test="${empty board.nick_name}">${board.login_id}</c:if>
                     <c:if test="${!empty board.nick_name}">${board.nick_name}</c:if>                                        
@@ -56,7 +58,9 @@
             
             <!-- 글 등록 버튼 -->
             <div class="write-btn-container">
-                <input type="button" value="글쓰기" id="write_btn" onclick="location.href='writeForm.do'">
+            <c:if test="${!empty user_num}">
+            	<input type="button" value="글쓰기" id="write_btn" onclick="location.href='writeForm.do'">
+            </c:if>                
             </div>
             <!-- 검색바 -->
             <form action="list.do" method="get" class="search-bar">
@@ -73,5 +77,6 @@
         </div>           
            
     </div>
+    <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

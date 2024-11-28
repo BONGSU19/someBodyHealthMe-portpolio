@@ -325,4 +325,27 @@ public class DietPlanDAO {
 
         return count;
     }
+
+    public void deleteDietPlan(long dietId, long userNum) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE FROM DIETPLAN WHERE DIETID = ? AND USER_NUM = ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, dietId);
+            pstmt.setLong(2, userNum);
+
+            int rowsDeleted = pstmt.executeUpdate();
+            if (rowsDeleted == 0) {
+                throw new Exception("해당 식단 정보를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("식단 삭제 중 오류 발생: " + e.getMessage(), e);
+        } finally {
+            DBUtil.executeClose(null, pstmt, conn);
+        }
+    }
 }

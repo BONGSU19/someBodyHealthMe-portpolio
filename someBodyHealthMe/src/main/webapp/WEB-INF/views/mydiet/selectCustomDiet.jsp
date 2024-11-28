@@ -1,11 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>사용자 지정 식단 보기</title>
     <!-- 기존 CSS 파일 재사용 -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
@@ -37,29 +35,26 @@
             background-color: #e9e9e9;
         }
 
-        /* 버튼 박스 스타일 */
-        .button-box {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
+        /* 버튼 스타일 */
         .button {
             background-color: #F29595;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-align: center;
-            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 14px;
             cursor: pointer;
             transition: background-color 0.3s;
             text-decoration: none;
             color: white;
+            display: inline-block;
         }
 
         .button:hover {
             background-color: #D27777;
+        }
+
+        /* 테이블 셀 내 버튼 가운데 정렬 */
+        .button-container {
+            text-align: center;
         }
     </style>
 </head>
@@ -87,6 +82,7 @@
                         <th>지방</th>
                         <th>미네랄</th>
                         <th>식단 댓글</th>
+                        <th>삭제</th> <!-- 삭제 열 추가 -->
                     </tr>
                 </thead>
                 <tbody>
@@ -101,6 +97,12 @@
                             <td>${diet.fat}</td>
                             <td>${diet.minerals}</td>
                             <td>${diet.dietComment}</td>
+                            <!-- 삭제 버튼 -->
+                            <td class="button-container">
+                                <div class="button">
+                                    <a href="${pageContext.request.contextPath}/mydiet/deleteDietPlan.do?dietId=${diet.dietId}" style="color: white; text-decoration: none;" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+                                </div>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -111,7 +113,7 @@
                 <c:if test="${not empty dietList}">
                     <!-- 식단 리스트가 존재하면 '식단 수정' 버튼 보이기 -->
                     <div id="modify-button" class="button">
-                        <a href="${pageContext.request.contextPath}/mydiet/showCustomDietAction.do">수정</a>
+                        <a href="${pageContext.request.contextPath}/mydiet/showCustomDietAction.do" style="color: white; text-decoration: none;">수정</a>
                     </div>
                 </c:if>
             </div>

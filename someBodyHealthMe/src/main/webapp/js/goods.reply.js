@@ -149,7 +149,7 @@ $(function(){
 				}
 				modifyUI += '> '+i+'점 </label>';
 			}
-			modifyUI += '</div>';
+			modifyUI += '</div>'; 
 			
 	        modifyUI += '<textarea rows="3" cols="50" name="re_content" id="mre_content" class="rep-content">'+content+'</textarea>';
 	        modifyUI += '<div id="mre_first"><span class="letter-count">300/300</span></div>';

@@ -1,9 +1,11 @@
+.page-main{
+	display: flex;
+	justify-content: space-between;
+	width:1450px;
+}	
 .container {
-    width: 1080px;
-   	
+    width: 1080px;   	
     padding: 20px;
-    flex-grow: 1;
-    float:left;
     margin: 30px 40px;
 }
 h2{
@@ -12,7 +14,7 @@ h2{
     padding: 3px 10px;
     background-color: #d9d9d9;
     font-size: 30px;
-    width: 147px;
+    width: 130px;
     font-weight: bold;
 }
 .content-main {

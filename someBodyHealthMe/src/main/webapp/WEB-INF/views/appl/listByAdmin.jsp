@@ -12,7 +12,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<div class="page-main">
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
 	<div class="container">
         <h2>지원 목록</h2>
         <div class="content-main"> 
@@ -83,7 +84,7 @@
                 	<c:if test="${appl.field == 2}">사무직원</c:if>
                 	<c:if test="${appl.field == 3}">트레이너</c:if>
                 </td>
-                <td><a href="detail.do?appl_num=${appl.appl_num}">${appl.name}</a></td> <!-- 이름 -->
+                <td><a href="detailByAdmin.do?appl_num=${appl.appl_num}">${appl.name}</a></td> <!-- 이름 -->
                 <td>
                 	<c:if test="${appl.career == 1}">경력	</c:if>                	
                 	<c:if test="${appl.career == 2}">신입	</c:if>
@@ -114,6 +115,7 @@
         </c:if> 
         <div class="page">${page}</div> 
     </div>
+</div>    
 </body>
 
 

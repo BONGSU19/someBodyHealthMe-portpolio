@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board_writeForm.css" type="text/css">
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-
-
+<div class="page-main">
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
  <div class="container">
         <h2><span>글수정</span></h2>
         <hr size="3" noshade="noshade">
@@ -49,6 +49,6 @@
             </div>
         </form>
     </div>
-    
+</div>    
 </body>
 </html>

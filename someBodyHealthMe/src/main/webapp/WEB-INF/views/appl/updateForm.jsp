@@ -36,7 +36,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<div class="page-main">
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
     <div class="container">
         <h2 style="width:147px;">내용 수정</h2>
         <hr size="3" noshade="noshade"><br>
@@ -89,6 +90,8 @@
             </div>
         </form>   
     </div>
+</div>
+    
 </body>
 
 

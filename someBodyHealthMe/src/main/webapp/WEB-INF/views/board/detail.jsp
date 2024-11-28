@@ -14,7 +14,8 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<div class="page-main">
+	<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
     <div class="board">
         <div class="page-top">
             <h2>상세 글보기</h2>
@@ -112,7 +113,7 @@
         <!-- 댓글목록 끝-->      
     
     </div>
-
+</div>
 
 </body>
 </html>

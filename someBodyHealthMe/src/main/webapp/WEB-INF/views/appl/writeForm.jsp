@@ -12,7 +12,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<div class="page-main">
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
   <div class="container">
         <h2>지원하기</h2>
         <hr size="3" noshade="noshade">
@@ -36,8 +37,9 @@
 
             <label for="source">지원경로</label><br>
             <textarea name="source" id="source" style="resize: none;" placeholder="지원경로를 입력해 주세요. EX) SNS / 지인소개 기타..."></textarea>
+            <br>
             
-            <label for="">지원지점</label><br>
+            <label for="appl_center">지원지점</label><br>
             <select name="appl_center" id="appl_center">
                 <option value="1">강남점</option>
                 <option value="2">강북점</option>
@@ -63,6 +65,7 @@
             </div>
         </form>        
     </div>  
+</div>    
 </body>
 
 

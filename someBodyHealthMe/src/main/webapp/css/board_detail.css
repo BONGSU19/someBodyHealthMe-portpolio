@@ -1,3 +1,8 @@
+.page-main{
+	display: flex;
+	justify-content: space-between;
+	width:1450px;
+}
  /*전체  */
  .board {
     width: 1080px;
@@ -133,12 +138,13 @@ height: 80px; /* 텍스트 영역 높이 */
 resize: none;
 padding:5px 0 0 8px;
 border-radius: 5px;
-font-size: 14px;
 margin-bottom: 8px; /* 간격 추가 */
 line-height: 20px;
 background-color: #d9d9d9;
 color: black;
 font-size: 16px;
+font-weight:bold;
+font-family: Arial, Helvetica, sans-serif;
 }
 
 #re_form input[type="submit"]{
@@ -187,6 +193,7 @@ font-size: 16px;
     border-radius: 5px;
     background-color: #ecebeb;
     font-size:15px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 /* 날짜 및 버튼 */
 .re-date{

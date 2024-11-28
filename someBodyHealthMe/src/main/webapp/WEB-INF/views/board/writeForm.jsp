@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
-<jsp:include page="/WEB-INF/views/common/AsideBoard.jsp"/>
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
 <div class="container">
         <h2><span>소통공간 글쓰기</span></h2>
         <hr size="3" noshade="noshade">

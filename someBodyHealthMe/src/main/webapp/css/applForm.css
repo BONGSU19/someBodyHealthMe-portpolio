@@ -1,11 +1,15 @@
+.page-main{
+	display: flex;
+	
+	width:1450px;
+}	
  /*전체  */
  .container {
     width: 840px;
     border: 1px solid black;
-    margin: 20px 80px;
+    margin: 20px 0;
     padding: 20px;
-    flex-grow: 1;
-    float:left;
+    font-weight:bold;
 }
 h2{
     border-radius: 5px;
@@ -13,7 +17,7 @@ h2{
     padding: 3px 10px;
     background-color: #d9d9d9;
     font-size: 30px;
-    width: 140px;
+    width: 120px;
     font-weight: bold;
 }
 form{
@@ -27,6 +31,7 @@ label{
     font-size: 20px;
     font-weight: bold;
     background-color: white;
+    display: inline;
 }
 .appl-radio{
     display: flex;
@@ -47,7 +52,7 @@ label{
 }
 .radios-2{
     background-color: #d9d9d9;
-    width: 120px;
+    width: 140px;
     height: 28px;
     font-weight: bold;
     padding: 2px 0 0 5px ;
@@ -67,10 +72,12 @@ textarea{
     font-size: 18px;
     text-align: justify;
     border-radius: 2px;
+    font-weight: bold;
 }
 #source{
     height: 28px;
     margin: 10px auto;
+    padding-top: 3px
 
 }
 #content{
@@ -85,13 +92,13 @@ textarea{
     padding-left: 10px;
     background-color: #d9d9d9;
     border: none;
-    margin-bottom: 15px;
+    margin:5px 0 15px 0;
     border-radius: 2px;
     font-weight: bold;
 }
 input[type="file"]{
     padding: 5px;             
-    margin-bottom: 10px;
+    margin: 5px auto;
     width: 500px;
     background-color: #d9d9d9;
     border-radius: 5px;
@@ -109,8 +116,8 @@ input[type="file"]{
 .appl-btn{
     margin-top: 30px;
     text-align: end;
-    padding-right: 70px;
     text-align: center;
+    
 }
 .appl-btn input{
     font-size: 20px;
@@ -119,8 +126,7 @@ input[type="file"]{
     border-radius:5px;
     border:none;
     width:100px;
-    color:black;
-    
+    color:black;    
 }
 /* 관리자 디테일 페이지 지원자 기본정보 */
 .user-info{

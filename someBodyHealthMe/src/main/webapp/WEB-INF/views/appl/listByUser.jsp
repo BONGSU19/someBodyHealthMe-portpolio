@@ -12,7 +12,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<div class="page-main">
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
 	<div class="container">
         <h2>지원 목록</h2>
         <!-- 지원 목록 테이블 -->
@@ -60,6 +61,7 @@
         	<div class="nodata-msg">지원목록이 없습니다.</div>   		
         </c:if> 
     </div>
+</div>
 </body>
 
 

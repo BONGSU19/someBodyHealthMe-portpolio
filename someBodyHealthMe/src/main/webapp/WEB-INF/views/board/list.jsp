@@ -12,7 +12,8 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<div class="page-main">
+<jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
     <div class="container">
         <h2>소통공간</h2>
         <div class="content-main">   
@@ -77,6 +78,7 @@
         </div>           
            
     </div>
-    <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+</div>    
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

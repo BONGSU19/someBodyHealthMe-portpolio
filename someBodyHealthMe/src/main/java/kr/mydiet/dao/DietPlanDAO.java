@@ -229,13 +229,12 @@ public class DietPlanDAO {
         return dietPlan;
     }
 
-    // 식단 정보를 업데이트하는 메서드
+    // 식단 정보 업데이트 메서드
     public void updateDietPlan(DietPlanVO dietPlan) throws Exception {
         Connection conn = null;
         PreparedStatement pstmt = null;
-
         String sql = "UPDATE DIETPLAN SET FOODNAME = ?, CALORIES = ?, PROTEIN = ?, CARBOHYDRATE = ?, FAT = ?, MINERALS = ? "
-                   + "WHERE DIETID = ? AND USER_NUM = ? AND DIET_SHOW = 0";
+                   + "WHERE DIETID = ? AND USER_NUM = ?";
 
         try {
             conn = DBUtil.getConnection();
@@ -248,9 +247,14 @@ public class DietPlanDAO {
             pstmt.setDouble(6, dietPlan.getMinerals());
             pstmt.setLong(7, dietPlan.getDietId());
             pstmt.setLong(8, dietPlan.getUserNum());
-            pstmt.executeUpdate();
+
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new Exception("해당 식단 정보를 찾을 수 없습니다.");
+            }
         } catch (Exception e) {
-            throw new Exception(e);
+            e.printStackTrace();
+            throw new Exception("식단 정보 업데이트 중 오류 발생: " + e.getMessage(), e);
         } finally {
             DBUtil.executeClose(null, pstmt, conn);
         }

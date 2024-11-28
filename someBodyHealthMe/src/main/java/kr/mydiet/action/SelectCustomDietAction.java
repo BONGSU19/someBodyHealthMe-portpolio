@@ -20,6 +20,8 @@ public class SelectCustomDietAction implements Action {
              // 로그인이 되지 않은 경우
              return "redirect:/member/loginForm.do";
          }
+         
+         request.setCharacterEncoding("utf-8");
 
         // DIET_SHOW가 0인 식단 목록 조회
         DietPlanDAO dao = DietPlanDAO.getInstance();

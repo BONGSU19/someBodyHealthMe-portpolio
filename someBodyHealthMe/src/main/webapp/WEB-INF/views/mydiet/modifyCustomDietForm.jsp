@@ -7,6 +7,16 @@
     <meta charset="UTF-8">
     <title>사용자 지정 식단 수정</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
+    <style>
+        .message {
+            color: green;
+            margin-bottom: 10px;
+        }
+        .errorMessage {
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="page-main">
@@ -24,6 +34,17 @@
                 <div class="title">
                     <h2>사용자 지정 식단 수정</h2>
                 </div>
+
+                <!-- 메시지 표시 -->
+                <c:if test="${not empty sessionScope.message}">
+                    <div class="message">${sessionScope.message}</div>
+                    <c:remove var="message" scope="session"/>
+                </c:if>
+
+                <!-- 에러 메시지 표시 -->
+                <c:if test="${not empty errorMessage}">
+                    <div class="errorMessage">${errorMessage}</div>
+                </c:if>
 
                 <!-- 사용자가 등록한 모든 사용자 지정 식단 목록 -->
                 <div class="info-box">

@@ -20,6 +20,8 @@ public class ShowCustomDietAction implements Action {
             // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
             return "redirect:/member/loginForm.do";
         }
+        
+        request.setCharacterEncoding("utf-8");
 
         try {
             DietPlanDAO dao = DietPlanDAO.getInstance();

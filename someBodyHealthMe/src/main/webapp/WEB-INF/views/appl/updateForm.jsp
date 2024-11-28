@@ -83,7 +83,7 @@
            
             
             <div class="appl-btn">
-                <input type="button" value="수정취소" onclick="location.href='detail.do?appl_num=${appl.appl_num}'">
+                <input type="button" value="수정취소" onclick="history.go(-1)">
                 <c:if test="${appl.appl_status ==0}">
                 <input type="submit" value="수정완료">
                 </c:if>

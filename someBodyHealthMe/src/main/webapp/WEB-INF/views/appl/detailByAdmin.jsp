@@ -65,8 +65,12 @@
             </select>
             <br>
              
-            <label for="appl_attachment">첨부파일다운로드</label><br>
-            <input type="file" name="appl_attachment"><br>
+            <label for="appl_attachment">첨부파일다운</label><br>
+            <div class="attachmentList">
+            <c:if test="${!empty appl.appl_attachment}"><span>${appl.appl_attachment}가 등록되어있습니다.</span></c:if>
+            <c:if test="${empty appl.appl_attachment}"><span>첨부된 파일이 없습니다.</span></c:if>
+            <c:if test="${!empty appl.appl_attachment}"><a href="${pageContext.request.contextPath}/appl/download.do?appl_num=${appl.appl_num}" id="download_file">파일다운로드</a></c:if>
+          	</div>                        
           
             <label for="">자기소개</label><br>
             <textarea name="content" id="content" placeholder="간단한 자기소개와 이력을 입력해 주세요." disabled>${appl.content}</textarea>            

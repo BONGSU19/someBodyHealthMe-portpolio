@@ -26,6 +26,15 @@ public class DetailByAdminAction implements Action{
 		//지원번호를 통해 vo(지원정보) 가져오기
 		ApplVO appl = new ApplVO();
 		appl = dao.getAppl(appl_num);
+		
+		//파일명 가져오기
+		String filename = appl.getAppl_attachment();
+		if(filename != null) {
+			int underbar = filename.indexOf('_');
+			appl.setAppl_attachment(filename.substring(underbar + 1));
+		}
+		
+		
 
 		//열람 조건 체크
 		if(status != 4 && (appl.getUser_num() != user_num)) {//지원자와 열람자가 다르거나 , 관리자가 아니면(접근 권한이 없는 경우)

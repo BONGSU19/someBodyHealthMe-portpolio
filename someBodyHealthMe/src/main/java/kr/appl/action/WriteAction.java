@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import kr.appl.dao.ApplDAO;
 import kr.appl.vo.ApplVO;
 import kr.controller.Action;
-import kr.util.FileUtil;
 
 public class WriteAction implements Action{
 	@Override
@@ -38,7 +37,7 @@ public class WriteAction implements Action{
 		
 		//vo 생성 및 전송된 데이터 담기
 		ApplVO appl =  new ApplVO();
-		appl.setAppl_attachment(FileUtil.uploadFile(request, "appl_attachment"));
+		appl.setAppl_attachment(ApplFile.uploadFile(request, "appl_attachment"));
 		appl.setCareer(Integer.parseInt(request.getParameter("career")));
 		appl.setContent(request.getParameter("content"));
 		appl.setField(Integer.parseInt(request.getParameter("field")));

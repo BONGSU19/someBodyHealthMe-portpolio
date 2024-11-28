@@ -105,13 +105,19 @@ input[type="file"]{
 }
 .attachmentList{/*첨부파일 유무*/
 	text-align:left;
-	margin-bottom:10px;
+	margin: 5px 0 10px 0;
 }
 .attachmentList span{
 	background-color:#d9d9d9;
 	padding: 3px 10px;
 	color:#999696;
 	font-weight:bold;
+}
+#download_file{
+	background-color: #d9d9d9;
+	margin-left:20px;
+	border-radius:5px;
+	padding:2px 5px;
 }
 .appl-btn{
     margin-top: 30px;

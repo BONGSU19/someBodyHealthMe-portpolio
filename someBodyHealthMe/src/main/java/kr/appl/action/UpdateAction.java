@@ -38,7 +38,7 @@ public class UpdateAction implements Action{
 		//받은 값 담을 vo 생성
 		ApplVO appl = new ApplVO();
 		appl.setAppl_num(appl_num);
-		appl.setAppl_attachment(FileUtil.uploadFile(request, "appl_attachment"));
+		appl.setAppl_attachment(ApplFile.uploadFile(request, "appl_attachment"));
 		appl.setAppl_center(Integer.parseInt(request.getParameter("appl_center")));
 		appl.setField(Integer.parseInt(request.getParameter("field")));
 		appl.setCareer(Integer.parseInt(request.getParameter("career")));

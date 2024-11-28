@@ -24,9 +24,13 @@ public class UpdateFormAction implements Action{
 		if(appl.getUser_num() != user_num) {//작성자 수정자 일치 여부
 			return "redirect:/common/notice.jsp";
 		}
-		//업데이트 화면 전송
-		
-		request.setAttribute("appl", appl);	
+
+		//파일명 가져오기
+		String filename = appl.getAppl_attachment();
+		if(filename != null) {
+			int underbar = filename.indexOf('_');
+			appl.setAppl_attachment(filename.substring(underbar + 1));
+		}
 		
 		return "appl/updateForm.jsp";
 	}

@@ -111,7 +111,7 @@
                 <c:if test="${not empty dietList}">
                     <!-- 식단 리스트가 존재하면 '식단 수정' 버튼 보이기 -->
                     <div id="modify-button" class="button">
-                        <a href="${pageContext.request.contextPath}/mydiet/editDietForm.do">수정</a>
+                        <a href="${pageContext.request.contextPath}/mydiet/showCustomDietAction.do">수정</a>
                     </div>
                 </c:if>
             </div>

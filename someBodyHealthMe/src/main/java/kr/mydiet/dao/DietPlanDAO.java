@@ -83,35 +83,6 @@ public class DietPlanDAO {
         return dietPlans;
     }
 
-    // 식단 데이터 수정
-    public void updateDietPlan(DietPlanVO dietPlan) throws Exception {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String sql = "UPDATE DIETPLAN SET FOODNAME = ?, CALORIES = ?, PROTEIN = ?, CARBOHYDRATE = ?, FAT = ?, "
-                   + "MINERALS = ?, DIET_SHOW = ?, DIET_COMMENT = ? WHERE DIETID = ?";
-
-        try {
-            conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(sql);
-
-            pstmt.setString(1, dietPlan.getFoodName());  // FOODNAME
-            pstmt.setDouble(2, dietPlan.getCalories());  // CALORIES
-            pstmt.setDouble(3, dietPlan.getProtein());   // PROTEIN
-            pstmt.setDouble(4, dietPlan.getCarbohydrate()); // CARBOHYDRATE
-            pstmt.setDouble(5, dietPlan.getFat());       // FAT
-            pstmt.setDouble(6, dietPlan.getMinerals());  // MINERALS
-            pstmt.setInt(7, dietPlan.getDietShow());     // DIET_SHOW
-            pstmt.setInt(8, dietPlan.getDietComment());  // DIET_COMMENT
-            pstmt.setLong(9, dietPlan.getDietId());      // DIETID (PK)
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new SQLException("Error while updating DietPlan", e);
-        } finally {
-            DBUtil.executeClose(null, pstmt, conn);
-        }
-    }
-
     // 식단 데이터 삭제
     public void deleteDietPlan(long dietId) throws Exception {
         Connection conn = null;
@@ -167,19 +138,30 @@ public class DietPlanDAO {
         return dietPlan;
     }
     
- // 식단 데이터 조회 (DIET_SHOW가 0인 것만 조회)
-    public List<DietPlanVO> selectDietPlansWithDietShowZero() throws Exception {
+ // 로그인한 사용자의 DIET_SHOW = 0인 사용자 지정 식단 목록을 가져오는 메서드
+    public List<DietPlanVO> selectDietPlansWithDietShowZero(long userNum) throws Exception { 
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+
         String sql = "SELECT DIETID, FOODNAME, CALORIES, PROTEIN, CARBOHYDRATE, FAT, MINERALS, DIET_SHOW, DIET_COMMENT, USER_NUM "
-                   + "FROM DIETPLAN WHERE DIET_SHOW = 0";
+                   + "FROM DIETPLAN WHERE USER_NUM = ? AND DIET_SHOW = 0";
+
         List<DietPlanVO> dietList = new ArrayList<>();
 
         try {
             conn = DBUtil.getConnection();
             pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, userNum);
+
+            System.out.println("Executing SQL: " + sql);
+            System.out.println("With USER_NUM: " + userNum);
+
             rs = pstmt.executeQuery();
+
+            if (!rs.isBeforeFirst()) {
+                System.out.println("No data found for USER_NUM: " + userNum);
+            }
 
             while (rs.next()) {
                 DietPlanVO dietPlan = new DietPlanVO();
@@ -195,13 +177,83 @@ public class DietPlanDAO {
                 dietPlan.setUserNum(rs.getLong("USER_NUM"));
                 dietList.add(dietPlan);
             }
-        } catch (SQLException e) {
-            throw new SQLException("Error while selecting DietPlans with DIET_SHOW = 0", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
         }
 
+        System.out.println("Diet list size: " + dietList.size());
+
         return dietList;
+    }
+
+
+    // 선택한 식단의 상세 정보를 가져오는 메서드
+    public DietPlanVO getDietPlanById(long dietId, long userNum) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        DietPlanVO dietPlan = null;
+
+        String sql = "SELECT DIETID, FOODNAME, CALORIES, PROTEIN, CARBOHYDRATE, FAT, MINERALS, DIET_SHOW, DIET_COMMENT, USER_NUM "
+                   + "FROM DIETPLAN WHERE DIETID = ? AND USER_NUM = ? AND DIET_SHOW = 0";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, dietId);
+            pstmt.setLong(2, userNum);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dietPlan = new DietPlanVO();
+                dietPlan.setDietId(rs.getLong("DIETID"));
+                dietPlan.setFoodName(rs.getString("FOODNAME"));
+                dietPlan.setCalories(rs.getDouble("CALORIES"));
+                dietPlan.setProtein(rs.getDouble("PROTEIN"));
+                dietPlan.setCarbohydrate(rs.getDouble("CARBOHYDRATE"));
+                dietPlan.setFat(rs.getDouble("FAT"));
+                dietPlan.setMinerals(rs.getDouble("MINERALS"));
+                dietPlan.setDietShow(rs.getInt("DIET_SHOW"));
+                dietPlan.setDietComment(rs.getInt("DIET_COMMENT"));
+                dietPlan.setUserNum(rs.getLong("USER_NUM"));
+            }
+        } catch (Exception e) {
+            throw new Exception(e);
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+
+        return dietPlan;
+    }
+
+    // 식단 정보를 업데이트하는 메서드
+    public void updateDietPlan(DietPlanVO dietPlan) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        String sql = "UPDATE DIETPLAN SET FOODNAME = ?, CALORIES = ?, PROTEIN = ?, CARBOHYDRATE = ?, FAT = ?, MINERALS = ? "
+                   + "WHERE DIETID = ? AND USER_NUM = ? AND DIET_SHOW = 0";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, dietPlan.getFoodName());
+            pstmt.setDouble(2, dietPlan.getCalories());
+            pstmt.setDouble(3, dietPlan.getProtein());
+            pstmt.setDouble(4, dietPlan.getCarbohydrate());
+            pstmt.setDouble(5, dietPlan.getFat());
+            pstmt.setDouble(6, dietPlan.getMinerals());
+            pstmt.setLong(7, dietPlan.getDietId());
+            pstmt.setLong(8, dietPlan.getUserNum());
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e);
+        } finally {
+            DBUtil.executeClose(null, pstmt, conn);
+        }
     }
 
     

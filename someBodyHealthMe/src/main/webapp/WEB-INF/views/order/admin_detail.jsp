@@ -12,7 +12,7 @@
 <body>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
 		<h2>구매상세(관리자전용)</h2>
 		<table>

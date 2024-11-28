@@ -31,8 +31,16 @@
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
+		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp" />
 		<div class="content-main">
+			<div class="button-container">
+			<c:if test="${status == 4}">
+				<input type="button" value="상품 목록" onclick="location.href='adminlist.do'">
+			</c:if>
+			<c:if test="${status != 4}">
+				<input type="button" value="상품 목록" onclick="location.href='list.do'">
+			</c:if>
+			</div>
 			<h2>상품 수정</h2>
 			<form id="update_form" action="update.do" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="goods_num" value="${goods.goods_num}">

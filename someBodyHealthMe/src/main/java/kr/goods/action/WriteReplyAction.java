@@ -27,6 +27,7 @@ public class WriteReplyAction implements Action{
 			GoodsReviewVO reply = new GoodsReviewVO();
 			reply.setUser_num(user_num);
 			reply.setRe_content(request.getParameter("re_content"));
+			reply.setRe_rating(Integer.parseInt(request.getParameter("re_rating")));
 			reply.setRe_ip(request.getRemoteAddr());
 			reply.setGoods_num(Long.parseLong(request.getParameter("goods_num")));//댓글의 부모 글 번호
 			

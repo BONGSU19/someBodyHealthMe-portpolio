@@ -65,7 +65,7 @@ public class GoodsDAO {
 			if(keyword!=null && !"".equals(keyword)) {
 				//검색처리
 				if(keyfield.equals("1")) sub_sql += "And goods_name like '%' || ? || '%' ";
-				else if (keyfield.equals("2")) sub_sql += "And goods_info like '%' || ? || '%' ";
+				else if (keyfield.equals("2")) sub_sql += "And goods_category like '%' || ? || '%' ";
 			}
 			//sql 문 작성
 			sql = "select count(*) from goods where goods_status > ? " + sub_sql;
@@ -549,6 +549,54 @@ public class GoodsDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
+	//리뷰 작성 체크
+	public boolean checkReview(long user_num, long goods_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean isReviewed = false;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT COUNT(*) FROM goods_review WHERE user_num = ? AND goods_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, user_num);
+			pstmt.setLong(2, goods_num);
+			rs = pstmt.executeQuery();
+			if(rs.next() && rs.getInt(1) > 0) {
+				isReviewed = true;
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		return isReviewed;
+	}
+	
+	//리뷰 평균 점수
+	public double getAverageRating(long goods_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT AVG(re_rating) AS avg_rating FROM goods_review WHERE goods_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, goods_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getDouble("avg_rating");
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		return 0;
+	}
+	
 	
 	
 }

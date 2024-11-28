@@ -18,30 +18,29 @@
         </div>
         <div class="box_in_2">
             <div class="dropdown">
-                <button class="dropdown-button toggle-button">소통공간 
+                <button class="dropdown-button toggle-button">상품 
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
-                  <a href="#">공지사항</a>
-                  <a href="#">오늘 운동 완료</a>
-                  <a href="#">자유 게시판</a>
+                  <a href="${pageContext.request.contextPath}/goods/list.do?keyfield=2&keyword=닭가슴살">닭가슴살</a>
+                  <a href="${pageContext.request.contextPath}/goods/list.do?keyfield=2&keyword=보충제">보충제</a>
+                  <a href="${pageContext.request.contextPath}/goods/list.do?keyfield=2&keyword=운동용품">운동용품</a>
                 </div>
               </div>
               
               <div class="dropdown">
-                <button class="dropdown-button toggle-button">지원하기
+                <button class="dropdown-button toggle-button">My 쇼핑
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">                  
-                  <c:if test="${!empty user_num && status <= 3}">
-                  <a href="${pageContext.request.contextPath}/appl/writeForm.do">지원 신청</a>
-                  <a href="${pageContext.request.contextPath}/appl/listByUser.do">내 지원 목록</a>
+                  <a href="${pageContext.request.contextPath}/goods/likePage.do">찜 목록</a>
+                  <a href="${pageContext.request.contextPath}/cart/list.do">장바구니</a>
+                  <c:if test="${status == 4}">
+                  <a href="${pageContext.request.contextPath}/order/adminList.do">주문내역</a>
                   </c:if>
-                  <c:if test="${!empty user_num && status >=3}">
-                  <a href="${pageContext.request.contextPath}/appl/listByAdmin.do">지원 목록 보기</a>
+                  <c:if test="${status != 4}">
+                  <a href="${pageContext.request.contextPath}/order/userList.do">주문내역</a>
                   </c:if>
-                  
-   
                 </div>
               </div>
 

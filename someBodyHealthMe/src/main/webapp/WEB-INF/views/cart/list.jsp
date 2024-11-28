@@ -14,7 +14,7 @@
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-		<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 		<div class="content-main">
 			<h2>장바구니</h2>
 			<c:if test="${empty list}">

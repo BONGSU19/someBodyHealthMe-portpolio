@@ -61,7 +61,17 @@ $(function(){
 						//다음 페이지가 존재
 						$('.paging-button').show();
 					}
-				
+					
+					// isReviewed 값에 따라 댓글 작성 폼 비활성화
+					if (param.isReviewed || !param.user_num || !param.checkBuy) {
+					                $('#re_content').prop('disabled', true); // 댓글을 작성할 수 없는 경우
+					                $('#re_content').attr('placeholder', '이미 리뷰를 작성하셨거나 구매 후 댓글을 작성할 수 있습니다.');
+					            } else {
+					                $('#re_content').prop('disabled', false); // 댓글을 작성할 수 있는 경우
+					                $('#re_content').attr('placeholder', '리뷰를 입력하세요');
+					            }
+					
+					
 			},
 			error:function(){
 				$('#loading').hide();
@@ -106,7 +116,7 @@ $(function(){
 					alert('댓글 등록 오류 발생');
 				}
 			},error:function(){
-				alert('네트워크 오류 발생2');
+				alert('평점을 선택하세요');
 			}
 		});
 		//기본이벤트 제거
@@ -127,9 +137,20 @@ $(function(){
 	        // 댓글 내용
 	        let content = $(this).parent().find('p').html().replace(/<br>/gi, '\n'); 
 	                                                                // g:지정문자열 모두 , i: 대소문자 무시
+			let rating = $(this).parent().find('.rating-value').val(); // 예시로 평점을 value로 가져왔다고 가정
 	        // 댓글 수정폼 UI
 	        let modifyUI = '<form id="mre_form">';
 	        modifyUI += '<input type ="hidden" name="re_num" id="mre_num" value="'+re_num+'">';
+			modifyUI += '<div class="rating">';
+			for(let i = 1; i <= 5; i++){
+				modifyUI += '<label><input type="radio" name="re_rating" value="'+i+'" id="rating'+i+'" ';	
+				if (i == rating) {
+				    modifyUI += 'checked'; // 기존 평점과 일치하는 라디오 버튼을 체크
+				}
+				modifyUI += '> '+i+'점 </label>';
+			}
+			modifyUI += '</div>';
+			
 	        modifyUI += '<textarea rows="3" cols="50" name="re_content" id="mre_content" class="rep-content">'+content+'</textarea>';
 	        modifyUI += '<div id="mre_first"><span class="letter-count">300/300</span></div>';
 	        modifyUI += '<div id="mre_second" class="align-right">';
@@ -255,6 +276,26 @@ $(function(){
 				alert('네트워크 오류 발생4');
 			}
 		});
+	});
+	
+	$(document).ready(function(){
+	    // 페이지가 로드될 때 서버에서 평균 rating 값을 가져와서 표시
+	    $.ajax({
+	        url: 'getAverageRating.do',  // 평균 점수를 가져오는 서버의 URL
+	        type: 'post',
+	        data: {goods_num: $('#goods_num').val()},
+	        dataType: 'json',
+	        success: function(param) {
+	            if (param.result == 'success') {
+	                $('#avg_rating_value').text(param.avg_rating.toFixed(1));  // 평균값 소수점 한 자리까지 표시
+	            } else {
+	                $('#avg_rating_value').text('없음');
+	            }
+	        },
+	        error: function() {
+	            alert('평균 점수 로딩 오류');
+	        }
+	    });
 	});
 	
 	

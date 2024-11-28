@@ -464,7 +464,36 @@ public class OrderDAO {
 		}
 	}
 	//사용자 - 주문 취소
-
+	
+	
+	//상품 구매내역 체크
+	public boolean checkBuyGoods(long user_num, long goods_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		boolean checkBuy = false;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "SELECT COUNT(*) FROM orders o "
+		            + "JOIN order_detail od ON o.order_num = od.order_num "
+		            + "WHERE o.user_num = ? AND od.goods_num = ? AND o.status = 4"; // 상태가 4일 때만 유효한 주문 (배송완료)
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, user_num);
+			pstmt.setLong(2, goods_num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				checkBuy = rs.getInt(1) > 0;
+			}
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(rs, pstmt, conn);
+		}
+		
+		return checkBuy;
+	}
+	
 }
 
 

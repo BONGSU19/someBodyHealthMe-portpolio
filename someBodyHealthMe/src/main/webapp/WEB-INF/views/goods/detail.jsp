@@ -21,14 +21,15 @@
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
+		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp" />
 
 		<div class="content-main">
-			<c:if test="${status == 4}">
-				<div class="button-container">
+			<div class="button-container">
+				<c:if test="${status == 4}">
 					<input type="button" value="상품 수정"
 						onclick="location.href='updateForm.do?goods_num=${goods.goods_num}'">
 					<input type="button" value="상품 삭제" id="delete_btn">
+					<input type="button" value="상품 목록" onclick="location.href='adminlist.do'">
 					<script type="text/javascript">
 						const delete_btn = document
 								.getElementById('delete_btn');
@@ -40,19 +41,10 @@
 							}
 						};
 					</script>
-				</div>
-			</c:if>
-			<div class="button-container">
-			<c:if test="${status == 4}">
-				<input type="button" value="목록" onclick="location.href='adminlist.do'">
-			</c:if>
-			<c:if test="${status != 4}">
-				<input type="button" value="목록" onclick="location.href='list.do'">
-			</c:if>
-				<input type="button" value="찜 목록"
-					onclick="location.href='likePage.do?user_num=${cart.user_num}'">
-				<input type="button" value="장바구니"
-					onclick="location.href='${pageContext.request.contextPath}/cart/list.do'">
+				</c:if>
+				<c:if test="${status != 4}">
+				<input type="button" value="상품 목록" onclick="location.href='list.do'">
+				</c:if>
 			</div>
 			<c:if test="${goods.goods_status == 1}">
 				<div class="result-diplay">
@@ -97,12 +89,26 @@
 						</ul>
 					</div>
 			</c:if>
+			<!-- 판매 상품 -->
 			<c:if test="${goods.goods_status == 2}">
+			<div class="detail-info">
 				<div class="item-image">
 					<img
 						src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
-						width="400"><br>
+						width="400" height="400">
+					<div class="re-like-re">
+					<img src="${pageContext.request.contextPath}/images/Star.png" width="48">
+						<div id="average_rating">
+    						<h2><span id="avg_rating_value">0</span></h2>
+						</div>
+					<img src="${pageContext.request.contextPath}/images/like02.png">
+						<h2><span id="output_lcount"></span></h2>
+						<img src="${pageContext.request.contextPath}/images/review.png" width="48">
+						<h2>${recount}</h2>
+					</div>
 				</div>
+				
+			
 				<div class="item-detail">
 					<form id="goods_cart">
 						<input type="hidden" name="goods_num" value="${goods.goods_num}"
@@ -133,9 +139,6 @@
 										width="50">
 									</li>
 									<li><input type="submit" value="장바구니에 담기"></li>
-									<li>
-									<span id="output_lcount"></span>
-									</li>
 								</ul>
 							</c:if>
 							<c:if test="${goods.goods_quantity == 0}">
@@ -144,8 +147,11 @@
 						</ul>
 					</form>
 				</div>
+				
+				</div>
+				<br><br>
 				<hr size="1" noshade="noshade" width="100%">
-				<div class="item-image-detail align-center">
+				<div class="align-center">
 					<img
 						src="${pageContext.request.contextPath}/upload/${goods.goods_img2}"
 						width="400">
@@ -154,27 +160,25 @@
 
 				<!-- 댓글시작 -->
 				<div id="reply_div">
-					<span class="re-title">댓글 달기</span>
 					<form id="re_form">
 						<input type="hidden" name="goods_num" value="${goods.goods_num}"
 							id="goods_num">
-						<!--<div class="rating">
-					<label><input type="radio" name="re_rating" value="1" id="rating1"> 1점	</label>
-					<label><input type="radio" name="re_rating" value="2" id="rating2"> 2점	</label>
-					<label><input type="radio" name="re_rating" value="3" id="rating3"> 3점	</label>
-					<label><input type="radio" name="re_rating" value="4" id="rating4"> 4점	</label>
-					<label><input type="radio" name="re_rating" value="5" id="rating5"> 5점	</label>
-				</div>  -->
+						<div class="rating">
+							<label><input type="radio" name="re_rating" value="1" id="rating1"> 1점	</label>
+							<label><input type="radio" name="re_rating" value="2" id="rating2"> 2점	</label>
+							<label><input type="radio" name="re_rating" value="3" id="rating3"> 3점	</label>
+							<label><input type="radio" name="re_rating" value="4" id="rating4"> 4점	</label>
+							<label><input type="radio" name="re_rating" value="5" id="rating5"> 5점	</label>
+						</div>
 						<textarea rows="3" cols="50" name="re_content" id="re_content"
-							class="rep-content"
-							<c:if test="${empty user_num}">disabled="disabled"</c:if>><c:if
-								test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
+							class="rep-content" <c:if test="${empty user_num}">disabled="disabled"</c:if>> 
+							<c:if test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
 						<c:if test="${!empty user_num}">
 							<div id="re_first">
 								<span class="letter-count">300/300</span>
 							</div>
 							<div id="re_second" class="align-right">
-								<input type="submit" value="전송">
+								<input type="submit" value="리뷰 작성">
 							</div>
 						</c:if>
 					</form>

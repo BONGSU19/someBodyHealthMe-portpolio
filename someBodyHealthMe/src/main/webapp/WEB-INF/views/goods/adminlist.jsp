@@ -30,7 +30,7 @@
 <body>
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
-		<jsp:include page="/WEB-INF/views/common/aside.jsp" />
+		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp" />
 		<div class="content-main">
 			<form action="adminlist.do" method="get" class="search-bar">
 				<ul id="search-bar">
@@ -53,15 +53,9 @@
 					<input type="button" value="상품 등록"
 						onclick="location.href='writeForm.do'">
 				</c:if>
-				<input type="button" value="목록" onclick="location.href='adminlist.do'">
+				<input type="button" value="상품 목록" onclick="location.href='adminlist.do'">
 				<input type="button" value="홈으로"
 					onclick="location.href='${pageContext.request.contextPath}/main/main.do'">
-				<input type="button" value="찜 목록"
-					onclick="location.href='likePage.do'">
-				<input type="button" value="장바구니"
-					onclick="location.href='${pageContext.request.contextPath}/cart/list.do'">
-				<input type="button" value="주문목록"
-					onclick="location.href='${pageContext.request.contextPath}/order/adminList.do'">
 			</div>
 			<c:if test="${count ==0}">
 				<div class="result-display">표시할 상품이 없습니다.</div>

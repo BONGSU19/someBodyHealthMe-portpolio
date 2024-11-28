@@ -35,9 +35,17 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 		<div class="content-main">
 			<h2>상품 등록</h2>
+			<div class="button-container">
+			<c:if test="${status == 4}">
+				<input type="button" value="상품 목록" onclick="location.href='adminlist.do'">
+			</c:if>
+			<c:if test="${status != 4}">
+				<input type="button" value="상품 목록" onclick="location.href='list.do'">
+			</c:if>
+			</div>
 			<form id="write_form" action="write.do" enctype="multipart/form-data" method="post">
 				<ul>
 					<li>

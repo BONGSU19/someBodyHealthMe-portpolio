@@ -27,7 +27,7 @@
 <body>
 <div class="page-main">
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-	<jsp:include page="/WEB-INF/views/common/aside.jsp"/>
+	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
 		<h2>구매 목록(관리자 전용)</h2>
 		<form id="search_form" action="adminList.do" method="get">

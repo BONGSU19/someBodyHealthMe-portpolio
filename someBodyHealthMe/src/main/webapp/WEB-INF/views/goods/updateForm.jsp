@@ -34,6 +34,7 @@
 		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp" />
 		<div class="content-main">
 			<div class="button-container">
+			<input type="button" value="상품으로" onclick="location.href='detail.do?goods_num=${goods.goods_num}'">
 			<c:if test="${status == 4}">
 				<input type="button" value="상품 목록" onclick="location.href='adminlist.do'">
 			</c:if>
@@ -56,10 +57,15 @@
 					</li>
 					<li>
 					<li>
-					<label for="goods_category">카테고리</label> 
-					<input type="text" name="goods_category" id="goods_category" maxlength="30" value="${goods.goods_category}" class="input-check">
-					</li>
-					<li>
+		            <label for="goods_category">카테고리</label> 
+		            <select name="goods_category" id="goods_category" class="input-check">
+	                <!-- 카테고리 목록 -->
+	                <option value="식품" ${goods.goods_category == '식품' ? 'selected' : ''}>식품</option>
+	                <option value="보충제" ${goods.goods_category == '보충제' ? 'selected' : ''}>보충제</option>
+	                <option value="운동용품" ${goods.goods_category == '운동용품' ? 'selected' : ''}>운동용품</option>
+	            	</select>
+        			</li>
+        			<li>
 					<label for="goods_price">가격</label> 
 					<input type="number" name="goods_price" id="goods_price" min="1" max="999999999" value="${goods.goods_price}" class="input-check">
 					</li>
@@ -93,8 +99,7 @@
 					</li>
 				</ul>
 				<div class="align-center">
-					<input id="submit-btn" type="submit" value="수정"> 
-					<input type="button" value="글 상세" onclick="location.href='detail.do?goods_num=${goods.goods_num}'">
+					<input id="submit-btn" type="submit" value="수정">
 				</div>
 			</form>
 		</div>

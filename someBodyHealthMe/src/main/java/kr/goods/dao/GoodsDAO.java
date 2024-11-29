@@ -204,13 +204,14 @@ public class GoodsDAO {
 				sub_sql += ",goods_img2=?";
 			}
 			sql = "update goods set goods_name=?,goods_price=?,goods_info=?,"
-					+ "goods_category=?,goods_mdate=SYSDATE,goods_status=?" + sub_sql
+					+ "goods_category=?,goods_quantity=?,goods_mdate=SYSDATE,goods_status=?" + sub_sql
 					+" where goods_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(++cnt, goods.getGoods_name());
 			pstmt.setInt(++cnt, goods.getGoods_price());
 			pstmt.setString(++cnt, goods.getGoods_info());
 			pstmt.setString(++cnt, goods.getGoods_category());
+			pstmt.setInt(++cnt, goods.getGoods_quantity());
 			pstmt.setInt(++cnt, goods.getGoods_status());
 			if(goods.getGoods_img1()!=null && !"".equals(goods.getGoods_img1())) {
 				pstmt.setString(++cnt, goods.getGoods_img1());

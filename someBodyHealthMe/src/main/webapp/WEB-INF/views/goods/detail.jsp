@@ -36,8 +36,7 @@
 						delete_btn.onclick = function() {
 							let choice = confirm('삭제하시겠습니까?');
 							if (choice) {
-								location
-										.replace('delete.do?goods_num=${goods.goods_num}');
+								location.replace('delete.do?goods_num=${goods.goods_num}');
 							}
 						};
 					</script>
@@ -68,14 +67,12 @@
 						<div class="item-detail">
 							<form id="goods_cart">
 								<input type="hidden" name="goods_num" value="${goods.goods_num}"
-									id="goods_num"> <input type="hidden" name="goods_price"
-									value="${goods.goods_price}" id="goods_price"> <input
-									type="hidden" name="goods_quantity"
-									value="${goods.goods_quantity}" id="goods_quantity">
+									id="goods_num">
+								<input type="hidden" name="goods_price"	value="${goods.goods_price}" id="goods_price">
+								<input type="hidden" name="goods_quantity" value="${goods.goods_quantity}" id="goods_quantity">
 								<ul>
-									<li>가격 : <b><fmt:formatNumber
-												value="${goods.goods_price}" /></b>
-									</li>
+									<li>가격 : <b><fmt:formatNumber value="${goods.goods_price}" /></b></li>
+								</ul>
 						</div>
 						<hr size="1" noshade="noshade" width="100%">
 						<p>${goods.goods_info}</p>
@@ -93,9 +90,7 @@
 			<c:if test="${goods.goods_status == 2}">
 			<div class="detail-info">
 				<div class="item-image">
-					<img
-						src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
-						width="400" height="400">
+					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="400" height="400">
 					<div class="re-like-re">
 					<img src="${pageContext.request.contextPath}/images/Star.png" width="48">
 						<div id="average_rating">
@@ -110,26 +105,21 @@
 				
 			
 				<div class="item-detail">
-					<form id="goods_cart">
-						<input type="hidden" name="goods_num" value="${goods.goods_num}"
-							id="goods_num"> <input type="hidden" name="goods_price"
-							value="${goods.goods_price}" id="goods_price"> <input
-							type="hidden" name="goods_quantity"
-							value="${goods.goods_quantity}" id="goods_quantity">
+					<form id="goods_buy">
+						<input type="hidden" name="goods_num" value="${goods.goods_num}"id="goods_num">
+						<input type="hidden" name="goods_price"	value="${goods.goods_price}" id="goods_price">
+						<input type="hidden" name="goods_quantity" value="${goods.goods_quantity}" id="goods_quantity">
 						<ul>
 							<li><br><h1>${goods.goods_name}</h1><br></li>
 							<li class="align-right"><h3><fmt:formatNumber value="${goods.goods_price}" />원</h3></li>
 							<hr size="1" noshade="noshade" width="100%">
-							<li>재고 : <span><fmt:formatNumber
-										value="${goods.goods_quantity}" /></span>
-							</li>
 							<c:if test="${goods.goods_quantity > 0}">
-								<li><label for="order_quantity">구매수량</label> <input
-									type="number" name="order_quantity" min="1"
-									max="${goods.goods_quantity}" autocomplete="off"
+								<li>재고 : <span><fmt:formatNumber value="${goods.goods_quantity}" /></span></li>
+								<li><label for="order_quantity">구매수량</label>
+								<input type="number" name="order_quantity" min="1" max="${goods.goods_quantity}" autocomplete="off"
 									id="order_quantity" class="quantity-width"></li>
 									<hr size="1" noshade="noshade" width="100%">
-								<li>총 상품 금액 : <span id="goods_total_txt">0원</span></li>
+								<li>총 상품 금액 <span id="goods_total_txt">0원</span></li>
 									<hr size="1" noshade="noshade" width="100%">
 								
 								<ul class="detail-sub">
@@ -138,11 +128,21 @@
 										src="${pageContext.request.contextPath}/images/like01.png"
 										width="50">
 									</li>
-									<li><input type="submit" value="장바구니에 담기"></li>
+									<li><input type="button" id="buygoods" value="구매하기"></li>
+								</ul>
+								<ul>
+									<li class="cart-ask-btn">
+									<input type="button" id="cartgoods" value="장바구니에 담기">
+									<input type="button" value="문의하기" onclick="location.href='${pageContext.request.contextPath}/friendSearch/chatAdmin.do'">
+									</li>
 								</ul>
 							</c:if>
 							<c:if test="${goods.goods_quantity == 0}">
 								<li class="align-center"><span class="sold-out">품절</span></li>
+								<li><%-- 좋아요 --%> <img id="output_like" data-num="${goods.goods_num}"
+									src="${pageContext.request.contextPath}/images/like01.png"
+									width="50">
+								</li>
 							</c:if>
 						</ul>
 					</form>
@@ -171,8 +171,7 @@
 							<label><input type="radio" name="re_rating" value="5" id="rating5"> 5점	</label>
 						</div>
 						<textarea rows="3" cols="50" name="re_content" id="re_content"
-							class="rep-content" <c:if test="${empty user_num}">disabled="disabled"</c:if>> 
-							<c:if test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
+							class="rep-content" <c:if test="${empty user_num}">disabled="disabled"</c:if>><c:if test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
 						<c:if test="${!empty user_num}">
 							<div id="re_first">
 								<span class="letter-count">300/300</span>

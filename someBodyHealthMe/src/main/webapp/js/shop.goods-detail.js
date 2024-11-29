@@ -24,14 +24,14 @@ $(function(){
 		/* =====================
 		 * 장바구니 상품 담기
 		 *====================== */	
-		$('#goods_cart').submit(function(event){
+		$('#cartgoods').click(function(event){
 			if($('#order_quantity').val()==''){
 				alert('수량을 입력하세요!');
 				$('#order_quantity').focus();
 				return false;
 			}
 			
-			let form_data = $(this).serialize();
+			let form_data = $('#goods_buy').serialize();
 			
 			$.ajax({
 				url:'../cart/write.do',
@@ -58,6 +58,44 @@ $(function(){
 			//기본 이벤트 제거
 			event.preventDefault();
 		});
+		
+		
+		/* 바로 구매하기 */
+		$('#buygoods').click(function(event){
+					if($('#order_quantity').val()==''){
+						alert('수량을 입력하세요!');
+						$('#order_quantity').focus();
+						return false;
+					}
+					
+					let form_data = $('#goods_buy').serialize();
+					
+					$.ajax({
+						url:'../order/write.do', /* <---------- 수정해야함 */
+						type:'post',
+						data:form_data,
+						dataType:'json',
+						success:function(param){
+							if(param.result == 'logout'){
+								alert('로그인 후 사용하세요');
+							}else if(param.result == 'success'){
+								alert('구매 페이지로 이동합니다.');
+								location.href='../order/buylist.do';
+							}else if(param.result == 'overQuantity'){
+								alert('기존에 주문한 상품입니다. 개수를 추가하면 재고가 부족합니다.');
+							}else{
+								alert('구매하기 오류');
+							}
+						},
+						error:function(){
+							alert('네트워크 오류 발생66');
+						}
+					});
+					
+					//기본 이벤트 제거
+					event.preventDefault();
+				});
+		
 });
 
 

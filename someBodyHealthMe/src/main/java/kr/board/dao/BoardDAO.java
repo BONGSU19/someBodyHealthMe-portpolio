@@ -251,18 +251,28 @@ public class BoardDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
+		String sub_sql = "";
+		int cnt = 0;
 
 		try {
 			conn = DBUtil.getConnection();
+			
+			if(board.getBoard_attachment()!=null 
+					&& !"".equals(board.getBoard_attachment())) {
+				sub_sql += ",board_attachment=?";
+			}
 
-			sql = "UPDATE board SET board_title=?, board_content=?, board_attachment=?, board_modifydate=SYSDATE WHERE board_num=?";
+			sql = "UPDATE board SET board_title=?, board_content=? " + sub_sql+ " ,board_modifydate=SYSDATE WHERE board_num=?";
 
 			pstmt = conn.prepareStatement(sql);
 
-			pstmt.setString(1, board.getBoard_title());
-			pstmt.setString(2, board.getBoard_content());
-			pstmt.setString(3, board.getBoard_attachment());
-			pstmt.setLong(4, board.getBoard_num());
+			pstmt.setString(++cnt, board.getBoard_title());
+			pstmt.setString(++cnt, board.getBoard_content());
+			if(board.getBoard_attachment()!=null 
+				    && !"".equals(board.getBoard_attachment())) {
+			pstmt.setString(++cnt, board.getBoard_attachment());
+		}
+			pstmt.setLong(++cnt, board.getBoard_num());
 
 			pstmt.executeUpdate();
 
@@ -272,6 +282,30 @@ public class BoardDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}		
 	}	
+	
+	public void deleteAttachment(long board_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			//커넥션풀로부터 커넥션 할당
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "UPDATE board SET board_attachment='' WHERE board_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setLong(1, board_num);
+			//SQL문 실행
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			//자원정리
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
+	
 
 	//글 삭제
 	public void deleteBoard(long board_num) throws Exception{

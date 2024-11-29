@@ -52,6 +52,7 @@
                 	<c:if test="${appl.appl_status == 0}">미확인</c:if> 
                 	<c:if test="${appl.appl_status == 1}">확인</c:if> 
                 	<c:if test="${appl.appl_status == 3}">직원전환</c:if> 
+                	<c:if test="${appl.appl_status == 4}">확인</c:if> 
                 </td>                
             </tr>
             </c:forEach>

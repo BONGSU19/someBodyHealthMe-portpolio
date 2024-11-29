@@ -176,15 +176,23 @@ $(function(){
 
 			//댓글 내용
 			let content = $(this).closest('.sub-item').find('p').html().replace(/<br>/gi,'\n');// g:지정문자열 모두 ,i:대소문자 무시
+			let mre_photo = $(this).closest('.sub-item').find('img').attr('src');
+			let mre_nick_name = $(this).closest('.sub-item').find('.list-nick_name').text();
 			
 			//댓글 수정폼 UI
-			let modifyUI = '<div class="sub-item">';                
-			modifyUI += '<form id="mre_form">'
+			let modifyUI = '<h4 class="mre-title">댓글 수정</h4>';	
+			modifyUI += '<div class="sub-item" style="background-color : #ecebeb;">'; 
+			modifyUI += '<form id="mre_form">';			
+			modifyUI += '<div class="mre-profile">';		
+			modifyUI += '<img src="' + mre_photo +'" width="50" height="50">';								
+			modifyUI += '<div class="list-nick_name">' + mre_nick_name +'</div>';
+			modifyUI += '</div>';              
+			
 			modifyUI += '<input type="hidden" name="re_num" id="mre_num" value="'+re_num+'">';
 			modifyUI += '<textarea name="re_content" id="mre_content" class="rep-content">'+content+'</textarea>';     
 			modifyUI += '<div id="mre_first">'       
-			modifyUI += '<input type="button" value="취소" class="re-reset">';    
-			modifyUI += '<input type="submit" value="수정"><br>';			                        
+			modifyUI += '<input type="submit" value="수정">';			                        
+			modifyUI += '<input type="button" value="취소" class="re-reset"> <br>';    
 			modifyUI += '<span style="margin-left: 2px;" class="letter-count" id="mre_count">300/300</span>'
 		    modifyUI += '</div>'
 			modifyUI += '</form>'
@@ -214,6 +222,7 @@ $(function(){
 		function initModifyForm(){
 			$('.sub-item').show();
 			$('#mre_form').remove();
+			$('.mre-title').remove();
 		}
 		
 		//수정폼에서 취소 버튼 클릭시 수정폼 초기화
@@ -242,7 +251,7 @@ $(function(){
 						alert('로그인 해야 수정할 수 있습니다.');
 					}else if(param.result=='success'){
 						$('#mre_form').parents('.item').find('p').html($('#mre_content').val().replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>'));
-						$('#mre_form').parent().find('.modify-date').text('최근 수정일 : 5초미만'); 
+						$('#mre_form').parents('.item').find('.modify-date').text('수정 : 5초미만'); 
 						//수정폼 삭제 및 초기화
 						initModifyForm();
 					}else if(param.result=='wrongAccess'){

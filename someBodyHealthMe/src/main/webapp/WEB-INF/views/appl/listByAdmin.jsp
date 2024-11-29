@@ -12,9 +12,9 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-<div class="page-main">
+<div class="page-main2">
 <jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
-	<div class="container">
+	<div class="container2">
         <h2>지원 목록</h2>
         <div class="content-main"> 
             <!-- 관리자 검색 조건 -->
@@ -104,7 +104,8 @@
                 <td>
                 	<c:if test="${appl.appl_status == 0}">미확인</c:if> 
                 	<c:if test="${appl.appl_status == 1}">확인</c:if> 
-                	<c:if test="${appl.appl_status == 3}">직원전환</c:if> 
+                	<c:if test="${appl.appl_status == 3}"><b>직원전환</b></c:if> 
+                	<c:if test="${appl.appl_status == 4}">전환회원</c:if> 
                 </td>                
             </tr>
             </c:forEach>

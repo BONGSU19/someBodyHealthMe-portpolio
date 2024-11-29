@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-public class ApplFile {
+import kr.util.FileUtil;
+
+public class ApplFile extends FileUtil{
 	//업로드 상대경로
 		public static final String UPLOAD_PATH = "/upload";
 		//파일 업로드
@@ -30,16 +32,6 @@ public class ApplFile {
 				part.write(upload+"/"+filename);//지정된 경로에 파일 저장
 			}
 			return filename;
-		}
-		
-		//파일 삭제
-		public static void removeFile(HttpServletRequest request, String filename) {
-			if(filename!=null) {
-				//컨텍스트 경로상의 파일 업로드 절대경로 구하기
-				String upload = request.getServletContext().getRealPath(UPLOAD_PATH);
-				File file = new File(upload+"/"+filename);
-				if(file.exists()) file.delete();
-			}
 		}
 		
 		//파일 다운로드		

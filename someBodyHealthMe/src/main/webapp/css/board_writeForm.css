@@ -61,12 +61,12 @@ form{
     font-size: 16px;
     font-weight: bold;
 }
-.db_attachment img{
+#db_attachment img{
     font-weight: bold;
     display: block;
     margin: 5px 0 ;
 }
-.db_attachment span{
+#db_attachment span{
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight:bold;	
 }

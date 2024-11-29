@@ -140,7 +140,7 @@ padding:5px 0 0 8px;
 border-radius: 5px;
 margin-bottom: 8px; /* 간격 추가 */
 line-height: 20px;
-background-color: #d9d9d9;
+background-color: #ecebeb;
 color: black;
 font-size: 16px;
 font-weight:bold;
@@ -222,29 +222,61 @@ font-family: Arial, Helvetica, sans-serif;
 
 #mre_form textarea{
     width: 700px;
-    min-height: 100px;
-    margin-right: 5px;
+    min-height: 80px;
+    margin: 0;
     resize: none;
     padding: 5px 5px 0 5px;
     font-size: 15px;
+    background-color: white;   
 }
 .mre-form-btn{
     align-content: end;
 }
 #mre_form input{
-    font-size: 16px;
-    margin: 5px 0 0 5px;
-    background-color : #d9d9d9;
+    margin: 5px 0 0 2px;
     border:none;
+    width:40px;
+    border-radius:3px;
+    font-size:13px;
+    background-color: #f0f0f0;
+    border: 1px solid black;
+    padding:0;
 }
 input[type="button"]{
 	cursor:pointer;
 }
-
-
 #mre_content{
 	margin-left:60px;
 	height:60px;
 	margin-bottom:20px;
+	border-radius: 5px;
+}
+#mre_first{
+	padding-top:30px;
+	margin-left:10px;
+}
+/* 사진 닉네임 */
+.mre-profile{
+    text-align: center;
+   	height:100px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    width: 120px;   
+    
+}
+/* 사진 */
+.mre-profile img{
+    border-radius: 50%;
+    border: 1px solid black;
+}
+.re-reset{
+	height:21px;
+	font-size:16px;
+	padding:1px 2px;
 }
 
+.mre-title{
+	margin:0 40px;
+	
+	
+}

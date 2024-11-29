@@ -66,11 +66,12 @@
                 <h3>관리자 메뉴</h3>
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/member/adminMembershipList.do">회원권 조회</a></li>
+                    <li><a href="${pageContext.request.contextPath}/friendSearch/adminChatPage.do">관리자 채팅</a></li>
                 </ul>
             </div>
         </aside>
 
-        <!-- 오른쪽 콘텐츠 섹션 -->
+        <!-- 오른쪽 콘텐츠 섹션 -->	
         <main class="content-section">
             <!-- 최근 게시글 -->
             <div class="recent-posts">
@@ -154,10 +155,10 @@
                 </table>
             </div>
 
-            <!-- 회원 결제 승인 -->
+            <!-- 회원 결제 내역 -->
             <div class="recent-payments">
                 <div class="section-header">
-                    <h3>회원 결제 승인</h3>
+                    <h3>회원 결제 내역</h3>
                     <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/order/adminList.do'">더보기</button>
                 </div>
                 <table>

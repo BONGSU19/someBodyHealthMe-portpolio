@@ -74,7 +74,10 @@
             <label for="appl_attachment">첨부파일</label><br>
             <input type="file" name="appl_attachment"><br>
             <div class="attachmentList">
-            <c:if test="${!empty appl.appl_attachment}"><span>${appl.appl_attachment}가 등록되어있습니다.</span></c:if>
+            <c:if test="${!empty appl.appl_attachment}">
+            <span>${appl.appl_attachment}가 등록되어있습니다.</span>
+            <input type="button" id="del_attachment" value="파일삭제">
+            </c:if>
             <c:if test="${empty appl.appl_attachment}"><span>첨부된 파일이 없습니다.</span></c:if>
           	</div>
           	

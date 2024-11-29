@@ -1,4 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>구매 목록(관리자 전용)</title>
+<title>구매 목록</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript">
 	window.onload=function(){
@@ -29,14 +29,13 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
-		<h2 class="align-center">구매 목록(관리자 전용)</h2>
-		<form id="search_form" action="adminList.do" method="get">
+		<h2>구매 목록</h2>
+		<form id="search_form" action="orderList.do" method="get">
 			<ul class="search">
 				<li>
 					<select name="keyfield">
-						<option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>주문번호</option>
-						<option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>ID</option>
-						<option value="3" <c:if test="${param.keyfield==3}">selected</c:if>>상품명</option>
+						<option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>상품명</option>
+						<option value="2" <c:if test="${param.keyfield==2}">selected</c:if>>주문번호</option>
 					</select>
 				</li>
 				<li>
@@ -50,7 +49,7 @@
 		</form>
 		<div class="list-space align-right">
 			<input type="button" value="목록"
-			       onclick="location.href='adminList.do'">
+			       onclick="location.href='orderList.do'">
 			<input type="button" value="홈으로"
 			       onclick="location.href='${pageContext.request.contextPath}/main/main.do'">       
 		</div>
@@ -64,7 +63,6 @@
 			<tr>
 				<th>주문번호</th>
 				<th>주문상품</th>
-				<th>주문자ID</th>
 				<th>총주문금액</th>
 				<th>주문날짜</th>
 				<th>상태</th>
@@ -72,8 +70,7 @@
 			<c:forEach var="order" items="${list}">
 			<tr>
 				<td>${order.order_num}</td>
-				<td><a href="adminDetail.do?order_num=${order.order_num}">${order.goods_name}</a></td>
-				<td>${order.login_id}</td>
+				<td><a href="orderDetail.do?order_num=${order.order_num}">${order.goods_name}</a></td>
 				<td><fmt:formatNumber value="${order.order_total}"/>원</td>
 				<td>${order.reg_date}</td>
 				<td>

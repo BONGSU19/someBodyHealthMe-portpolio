@@ -32,6 +32,8 @@ public class UpdateFormAction implements Action{
 			appl.setAppl_attachment(filename.substring(underbar + 1));
 		}
 		
+		request.setAttribute("appl", appl);
+		
 		return "appl/updateForm.jsp";
 	}
 }

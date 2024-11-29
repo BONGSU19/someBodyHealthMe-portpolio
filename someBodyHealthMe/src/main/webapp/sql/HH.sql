@@ -30,3 +30,13 @@ CREATE SEQUENCE user_seq
     START WITH 1
     INCREMENT BY 1
     NOCACHE;
+    
+--회원 입장시간 체크용 테이블 ( 회원 출입 관련 항목 신규 생성 )
+    CREATE TABLE entry_logs (
+    entry_id NUMBER PRIMARY KEY,          -- 고유 ID
+    user_num NUMBER NOT NULL,             -- 회원 번호 (suser_detail.user_num FK)
+    phone_number VARCHAR2(15) NOT NULL,   -- 핸드폰 번호 (suser_detail.phone FK)
+    entry_time TIMESTAMP DEFAULT SYSDATE  -- 입장 시간
+);
+
+CREATE SEQUENCE entry_logs_seq START WITH 1 INCREMENT BY 1;

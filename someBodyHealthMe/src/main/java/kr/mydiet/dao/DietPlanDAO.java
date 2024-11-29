@@ -348,4 +348,27 @@ public class DietPlanDAO {
             DBUtil.executeClose(null, pstmt, conn);
         }
     }
+    
+    public void updateDietComment(long dietId, int dietComment) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        String sql = "UPDATE DIETPLAN SET DIET_COMMENT = ? WHERE DIETID = ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, dietComment);
+            pstmt.setLong(2, dietId);
+
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new Exception("해당 식단 정보를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("DIET_COMMENT 업데이트 중 오류 발생: " + e.getMessage(), e);
+        } finally {
+            DBUtil.executeClose(null, pstmt, conn);
+        }
+    }
 }

@@ -47,8 +47,9 @@ public class InsertDietAction implements Action{
         dao.insertDietPlan(diet);
 
         // 완료 메시지 설정
+        request.setAttribute("notice_url", request.getContextPath() + "/mydiet/customDietForm.do");
         request.setAttribute("notice_msg", "식단 등록이 완료되었습니다!");
-        request.setAttribute("notice_url", request.getContextPath() + "/mybody/myStatus.do");
+        
 
         return "common/alert_view.jsp";
     }

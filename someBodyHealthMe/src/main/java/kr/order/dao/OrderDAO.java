@@ -493,7 +493,6 @@ public class OrderDAO {
 		
 		return checkBuy;
 	}
-	
 }
 
 

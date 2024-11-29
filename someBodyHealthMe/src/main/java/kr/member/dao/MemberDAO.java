@@ -357,4 +357,32 @@ public class MemberDAO {
     	        DBUtil.executeClose(null, pstmt, conn);
     	    }
     	}
-}
+    	public MemberVO getMemberByPhone(String phoneNumber) throws Exception {
+            Connection conn = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            MemberVO member = null;
+
+            try {
+                conn = DBUtil.getConnection();
+                String sql = "SELECT * FROM suser WHERE phone = ?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, phoneNumber);
+                rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    member = new MemberVO();
+                    member.setUser_num(rs.getLong("user_num"));
+                    member.setName(rs.getString("name"));
+                    member.setPhone(rs.getString("phone"));
+                    member.setEmail(rs.getString("email"));
+                }
+            } catch (Exception e) {
+                throw new Exception(e);
+            } finally {
+                DBUtil.executeClose(rs, pstmt, conn);
+            }
+
+            return member;
+        }
+    }

@@ -326,3 +326,7 @@ a {
 .more-btn:hover {
     background-color: #d12e39;
 }
+.mypage-container .pagination {
+    text-align: center !important;
+    margin-top: 20px;
+}

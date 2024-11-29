@@ -1,28 +1,25 @@
-package kr.member.action;
+package kr.entry.action;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import kr.appl.vo.ApplVO;
-import kr.board.vo.BoardVO;
 import kr.controller.Action;
 import kr.entry.dao.EntryDAO;
 import kr.entry.vo.EntryVO;
-import kr.member.dao.AdminDAO;
 import kr.member.dao.MemberDAO;
 import kr.member.vo.MemberVO;
-import kr.order.vo.OrderVO;
 
-public class AdminPageAction implements Action {
+public class EntryLogsListAction implements Action {
+    private static final int ROWS_PER_PAGE = 10;
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         Long user_num = (Long) session.getAttribute("user_num");
 
-        // 로그인 여부 체크
+        // 로그인 여부 확인
         if (user_num == null) {
             return "redirect:/member/loginForm.do";
         }
@@ -30,30 +27,30 @@ public class AdminPageAction implements Action {
         MemberDAO memberDAO = MemberDAO.getInstance();
         MemberVO member = memberDAO.getUserProfile(user_num);
 
-        // 관리자 권한 체크
+        // 관리자 권한 확인
         if (member == null || member.getStatus() != 4) {
             request.setAttribute("notice_msg", "잘못된 접근입니다.");
             request.setAttribute("notice_url", request.getContextPath() + "/main/main.do");
             return "common/alert_view.jsp";
         }
 
-        // DAO 호출
-        AdminDAO adminDAO = AdminDAO.getInstance();
-        List<BoardVO> recentPosts = adminDAO.getRecentPosts();
-        List<ApplVO> recentApplications = adminDAO.getRecentApplications();
-        List<OrderVO> recentOrders = adminDAO.getRecentOrdersForAdmin();
+        // 현재 페이지 번호 가져오기
+        String pageStr = request.getParameter("page");
+        int page = (pageStr != null) ? Integer.parseInt(pageStr) : 1;
 
-        // 출입 내역 DAO 호출
         EntryDAO entryDAO = EntryDAO.getInstance();
-        List<EntryVO> recentEntries = entryDAO.getRecentEntries(5); // 최근 5개의 출입 내역
 
-        // JSP로 데이터 전달
-        request.setAttribute("recentPosts", recentPosts);
-        request.setAttribute("recentApplications", recentApplications);
-        request.setAttribute("recentOrders", recentOrders);
-        request.setAttribute("recentEntries", recentEntries); // 출입 내역 추가
-        request.setAttribute("member", member);
+        // 페이징 데이터 가져오기
+        int totalCount = entryDAO.getEntryCount(); // 총 데이터 개수
+        int totalPages = (int) Math.ceil(totalCount / (double) ROWS_PER_PAGE);
 
-        return "member/adminPage.jsp";
+        List<EntryVO> entryLogs = entryDAO.getEntryLogsByPage(page, ROWS_PER_PAGE);
+
+        // 데이터 전달
+        request.setAttribute("entryLogs", entryLogs);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", totalPages);
+
+        return "member/entryLogsList.jsp";
     }
 }

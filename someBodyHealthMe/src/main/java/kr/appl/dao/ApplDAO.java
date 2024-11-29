@@ -356,6 +356,7 @@ public class ApplDAO {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
 		String sql;
 
 		try {
@@ -389,6 +390,13 @@ public class ApplDAO {
 			
 			pstmt3.setInt(1, appl.getAppl_center());
 			pstmt3.setLong(2, appl.getUser_num());
+			
+			//전환시 다른 지원목록 전환된 회원이라고 표시
+			sql = "UPDATE application SET appl_status = 4 WHERE user_num =? AND appl_num != ?";
+			pstmt4 = conn.prepareStatement(sql);
+			pstmt4.setLong(1, appl.getUser_num());
+			pstmt4.setLong(2, appl.getAppl_num());
+			pstmt4.executeUpdate();
 			
 			conn.commit();
 		}catch(Exception e) {

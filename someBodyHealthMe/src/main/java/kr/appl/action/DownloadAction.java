@@ -28,7 +28,7 @@ public class DownloadAction implements Action{
 		//파일이 없는 경우
 		if(realName == null) {
 			request.setAttribute("notice_msg", "첨부파일이 없는 지원 정보입니다.");
-			request.setAttribute("notice_url", request.getContextPath()+"/appl/listByAdmin.do");
+			request.setAttribute("notice_url", request.getContextPath()+"/appl/listByAdmin.do?appl_num="+appl_num);
 			return "common/alert_view.jsp";
 		}
 		

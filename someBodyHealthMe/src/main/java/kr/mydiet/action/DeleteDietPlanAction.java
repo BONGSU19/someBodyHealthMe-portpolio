@@ -29,7 +29,7 @@ public class DeleteDietPlanAction implements Action {
 
             // 삭제 완료 후 메시지를 설정하고 식단 목록 페이지로 리다이렉트
             session.setAttribute("message", "식단이 성공적으로 삭제되었습니다.");
-            return "redirect:/mydiet/customDietList.do";
+            return "redirect:/mydiet/selectCustomDiet.do";
         } catch (NumberFormatException e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "잘못된 요청입니다.");

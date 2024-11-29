@@ -9,19 +9,19 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css"> 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
-	window.onload=function(){
-		const myForm = document.getElementById('search-bar');
-		//이벤트 연결
-		myForm.onsubmit = function(){
-			const keyword = document.getElementById('keyword');
-			if(keyword.value.trim()==''){
-				alert('검색어를 입력하세요');
-				keyword.value='';
-				keyword.focus();
-				return false;
-			}
-		};
+window.onload=function(){
+	const myForm = document.getElementById('search_form');
+	//이벤트 연결
+	myForm.onsubmit=function(){
+		const keyword = document.getElementById('keyword');
+		if(keyword.value.trim()==''){
+			alert('검색어를 입력하세요!');
+			keyword.value = '';
+			keyword.focus();
+			return false;
+		}
 	};
+};
 </script>
 </head>
 <body>
@@ -30,7 +30,7 @@
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	
 	<div class="content-main">
-	<form action="list.do" method="get" class="search-bar">
+	<form action="list.do" method="get" id="search_form">
             	<ul id="search-bar">
             	<li>
               	   <select name="keyfield">
@@ -39,7 +39,8 @@
              	   </select>
              	</li>
              	<li>
-              	   <input type="search" placeholder="상품명을 입력하세요." id="search-input" name="keyword">
+              	   <input type="search" placeholder="상품명을 입력하세요."
+					id="keyword" name="keyword">
               	</li>
               	<li>
              	   <input type="submit" value="검색">

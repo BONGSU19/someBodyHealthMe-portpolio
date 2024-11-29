@@ -381,3 +381,7 @@ a {
 .more-btn:hover {
     background-color: #d12e39;
 }
+/* 섹션 간 간격 추가 */
+.content-section > div {
+    margin-bottom: 20px; /* 섹션 간 아래쪽 공백 */
+}

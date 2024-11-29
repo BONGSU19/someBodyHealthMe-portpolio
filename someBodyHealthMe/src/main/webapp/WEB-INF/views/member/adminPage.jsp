@@ -64,8 +64,7 @@
             <div class="menu-section">
                 <h3>관리자 메뉴</h3>
                 <ul>
-                    <li><a href="#">테스트 1</a></li>
-                    <li><a href="#">테스트 2</a></li>
+                    <li><a href="${pageContext.request.contextPath}/member/adminMembershipList.do">회원권 조회</a></li>
                 </ul>
             </div>
         </aside>
@@ -121,7 +120,7 @@
                             <th>지원번호</th>
                             <th>이름</th>
                             <th>지원분야</th>
-                            <th>지원지점</th>	
+                            <th>지원지점</th>
                             <th>등록일</th>
                         </tr>
                     </thead>
@@ -150,6 +149,73 @@
                                 </tr>
                             </c:otherwise>
                         </c:choose>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 회원 출입 내역 -->
+            <div class="recent-entries">
+                <div class="section-header">
+                    <h3>회원 출입 내역</h3>
+                    <button class="more-btn">더보기</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>출입번호</th>
+                            <th>회원 이름</th>
+                            <th>출입 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">데이터가 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 회원 결제 승인 -->
+            <div class="recent-payments">
+                <div class="section-header">
+                    <h3>회원 결제 승인</h3>
+                    <button class="more-btn">더보기</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>결제번호</th>
+                            <th>회원 이름</th>
+                            <th>결제 금액</th>
+                            <th>결제 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">데이터가 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 식단 등록 요청 내역 -->
+            <div class="recent-diet-requests">
+                <div class="section-header">
+                    <h3>식단 등록 요청 내역</h3>
+                    <button class="more-btn">더보기</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>요청번호</th>
+                            <th>회원 이름</th>
+                            <th>요청 날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">데이터가 없습니다.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

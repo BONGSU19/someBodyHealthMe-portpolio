@@ -8,6 +8,7 @@ import java.util.List;
 
 import kr.appl.vo.ApplVO;
 import kr.board.vo.BoardVO;
+import kr.membership.vo.MembershipVO;
 import kr.util.DBUtil;
 
 public class AdminDAO {
@@ -97,6 +98,115 @@ public class AdminDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("지원 신청 조회 중 오류 발생: " + e.getMessage());
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+        return list;
+    }
+    public List<MembershipVO> getAllMemberships() throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<MembershipVO> list = new ArrayList<>();
+
+        String sql = "SELECT " +
+                     "    mo.order_num, " +
+                     "    mo.user_num, " +
+                     "    mo.typeId, " +
+                     "    mo.price, " +
+                     "    mo.order_date, " +
+                     "    mt.DURATION_MONTHS AS duration_months, " +
+                     "    sd.name AS user_name " +
+                     "FROM membershipOrder mo " +
+                     "JOIN membership_types mt ON mo.typeId = mt.TYPE_ID " +
+                     "JOIN suser_detail sd ON mo.user_num = sd.user_num";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                MembershipVO vo = new MembershipVO();
+                vo.setMem_num(rs.getLong("order_num"));
+                vo.setUser_num(rs.getLong("user_num"));
+                vo.setMem_type(rs.getInt("typeId"));
+                vo.setMem_price(rs.getInt("price"));
+                vo.setMem_startdate(rs.getDate("order_date"));
+                vo.setDuration_months(rs.getInt("duration_months"));
+                vo.setUser_name(rs.getString("user_name"));
+                list.add(vo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("회원권 조회 중 오류 발생", e);
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+        return list;
+    }
+
+    public int getMembershipCount() throws Exception {
+        String sql = "SELECT COUNT(*) FROM membershipOrder";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("회원권 개수 조회 중 오류 발생", e);
+        }
+        return 0;
+    }
+    public List<MembershipVO> getMembershipsByPage(int startRow, int pageSize) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<MembershipVO> list = new ArrayList<>();
+
+        String sql = "SELECT * " +
+                     "FROM ( " +
+                     "    SELECT inner_query.*, ROWNUM rnum " +
+                     "    FROM ( " +
+                     "        SELECT mo.order_num, " +
+                     "               mo.user_num, " +
+                     "               mo.typeId, " +
+                     "               mo.price, " +
+                     "               mo.order_date, " +
+                     "               mt.DURATION_MONTHS AS duration_months, " +
+                     "               sd.name AS user_name " +
+                     "        FROM membershipOrder mo " +
+                     "        JOIN membership_types mt ON mo.typeId = mt.TYPE_ID " +
+                     "        JOIN suser_detail sd ON mo.user_num = sd.user_num " +
+                     "        ORDER BY mo.order_date DESC " +
+                     "    ) inner_query " +
+                     "    WHERE ROWNUM <= ? " +
+                     ") " +
+                     "WHERE rnum > ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, startRow + pageSize); // 페이지 끝 범위
+            pstmt.setInt(2, startRow); // 페이지 시작 범위
+
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                MembershipVO vo = new MembershipVO();
+                vo.setMem_num(rs.getLong("order_num"));
+                vo.setUser_num(rs.getLong("user_num"));
+                vo.setMem_type(rs.getInt("typeId"));
+                vo.setMem_price(rs.getInt("price"));
+                vo.setMem_startdate(rs.getDate("order_date"));
+                vo.setDuration_months(rs.getInt("duration_months"));
+                vo.setUser_name(rs.getString("user_name"));
+                list.add(vo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("회원권 조회 중 오류 발생", e);
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
         }

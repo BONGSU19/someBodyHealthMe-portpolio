@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -153,33 +154,11 @@
                 </table>
             </div>
 
-            <!-- 회원 출입 내역 -->
-            <div class="recent-entries">
-                <div class="section-header">
-                    <h3>회원 출입 내역</h3>
-                    <button class="more-btn">더보기</button>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>출입번호</th>
-                            <th>회원 이름</th>
-                            <th>출입 시간</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="3">데이터가 없습니다.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
             <!-- 회원 결제 승인 -->
             <div class="recent-payments">
                 <div class="section-header">
                     <h3>회원 결제 승인</h3>
-                    <button class="more-btn">더보기</button>
+                    <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/order/adminList.do'">더보기</button>
                 </div>
                 <table>
                     <thead>
@@ -191,9 +170,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td colspan="4">데이터가 없습니다.</td>
-                        </tr>
+                        <c:choose>
+                            <c:when test="${not empty recentOrders}">
+                                <c:forEach var="order" items="${recentOrders}">
+                                    <tr>
+                                        <td>${order.order_num}</td>
+                                        <td>${order.goods_name}</td>
+                                        <td><fmt:formatNumber value="${order.order_total}"/>원</td>
+                                        <td><fmt:formatDate value="${order.reg_date}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    </tr>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <tr>
+                                    <td colspan="4">표시할 결제 내역이 없습니다.</td>
+                                </tr>
+                            </c:otherwise>
+                        </c:choose>
                     </tbody>
                 </table>
             </div>
@@ -202,7 +195,7 @@
             <div class="recent-diet-requests">
                 <div class="section-header">
                     <h3>식단 등록 요청 내역</h3>
-                    <button class="more-btn">더보기</button>
+                    <button class="more-btn" onclick="location.href='#'">더보기</button>
                 </div>
                 <table>
                     <thead>

@@ -12,6 +12,7 @@ import kr.controller.Action;
 import kr.member.dao.AdminDAO;
 import kr.member.dao.MemberDAO;
 import kr.member.vo.MemberVO;
+import kr.order.vo.OrderVO;
 
 public class AdminPageAction implements Action {
     @Override
@@ -38,10 +39,12 @@ public class AdminPageAction implements Action {
         AdminDAO adminDAO = AdminDAO.getInstance();
         List<BoardVO> recentPosts = adminDAO.getRecentPosts();
         List<ApplVO> recentApplications = adminDAO.getRecentApplications();
+        List<OrderVO> recentOrders = adminDAO.getRecentOrdersForAdmin(); // 추가
 
         // JSP로 데이터 전달
         request.setAttribute("recentPosts", recentPosts);
         request.setAttribute("recentApplications", recentApplications);
+        request.setAttribute("recentOrders", recentOrders); // 추가
         request.setAttribute("member", member);
 
         return "member/adminPage.jsp";

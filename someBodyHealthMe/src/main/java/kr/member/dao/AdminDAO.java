@@ -9,6 +9,7 @@ import java.util.List;
 import kr.appl.vo.ApplVO;
 import kr.board.vo.BoardVO;
 import kr.membership.vo.MembershipVO;
+import kr.order.vo.OrderVO;
 import kr.util.DBUtil;
 
 public class AdminDAO {
@@ -207,6 +208,37 @@ public class AdminDAO {
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("회원권 조회 중 오류 발생", e);
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+        return list;
+    }
+    public List<OrderVO> getRecentOrdersForAdmin() throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<OrderVO> list = new ArrayList<>();
+        String sql = null;
+
+        try {
+            conn = DBUtil.getConnection();
+            sql = "SELECT * FROM (SELECT o.order_num, o.order_total, o.reg_date, "
+                + "o.status, od.goods_name FROM orders o "
+                + "JOIN (SELECT order_num, LISTAGG(goods_name, ',') WITHIN GROUP (ORDER BY goods_name) goods_name "
+                + "FROM order_detail GROUP BY order_num) od ON o.order_num = od.order_num "
+                + "ORDER BY o.reg_date DESC) WHERE rownum <= 5";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                OrderVO order = new OrderVO();
+                order.setOrder_num(rs.getLong("order_num"));
+                order.setOrder_total(rs.getInt("order_total"));
+                order.setReg_date(rs.getDate("reg_date"));
+                order.setStatus(rs.getInt("status"));
+                order.setGoods_name(rs.getString("goods_name"));
+                list.add(order);
+            }
         } finally {
             DBUtil.executeClose(rs, pstmt, conn);
         }

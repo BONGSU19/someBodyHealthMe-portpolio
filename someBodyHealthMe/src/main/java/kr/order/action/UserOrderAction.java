@@ -116,6 +116,8 @@ public class UserOrderAction implements Action{
 		request.setAttribute("result_url", url);
 		
 		return "common/result_view.jsp";
+		
+		
 	}
 
 }

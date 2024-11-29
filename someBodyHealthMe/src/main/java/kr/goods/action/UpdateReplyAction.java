@@ -37,7 +37,7 @@ public class UpdateReplyAction implements Action{
         	GoodsReviewVO reply = new GoodsReviewVO();
         	reply.setRe_num(re_num);
         	reply.setRe_content(request.getParameter("re_content"));
-        	reply.setRe_ip(request.getRemoteAddr());
+        	reply.setRe_rating(Integer.parseInt(request.getParameter("re_rating")));
         	
         	//댓글수정
             dao.updateGoodsReview(reply);

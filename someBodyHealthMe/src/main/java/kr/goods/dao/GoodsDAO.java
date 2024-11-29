@@ -519,10 +519,10 @@ public class GoodsDAO {
 		try {
 			conn = DBUtil.getConnection();
 			//sql문 작성
-			sql = "update goods_review set re_content=?, re_mdate=SYSDATE, re_ip=? WHERE re_num=?";
+			sql = "update goods_review set re_content=?, re_mdate=SYSDATE, re_rating=? WHERE re_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,review.getRe_content());
-			pstmt.setString(2, review.getRe_ip());
+			pstmt.setInt(2, review.getRe_rating());
 			pstmt.setLong(3, review.getRe_num());
 			pstmt.executeUpdate();
 

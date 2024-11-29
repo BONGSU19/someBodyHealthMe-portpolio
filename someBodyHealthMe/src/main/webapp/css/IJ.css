@@ -95,6 +95,14 @@ a:hover{
 #page-selector{
 	margin-left: 260px;
 }
+/* 상품 상세 이미지 */
+.goods-detail-img{
+	text-align:center;
+	margin-top: 50px;
+	
+}
+
+
 /* 공통 등록, 수정 폼
 --------------------------*/
 form{

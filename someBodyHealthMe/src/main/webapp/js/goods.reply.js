@@ -137,15 +137,15 @@ $(function(){
 	        // 댓글 내용
 	        let content = $(this).parent().find('p').html().replace(/<br>/gi, '\n'); 
 	                                                                // g:지정문자열 모두 , i: 대소문자 무시
-			let rating = $(this).parent().find('.rating-value').val(); // 예시로 평점을 value로 가져왔다고 가정
+			let rating = $(this).parent().find('.rating-value').data('rating'); // 예시로 평점을 value로 가져왔다고 가정
 	        // 댓글 수정폼 UI
 	        let modifyUI = '<form id="mre_form">';
 	        modifyUI += '<input type ="hidden" name="re_num" id="mre_num" value="'+re_num+'">';
-			modifyUI += '<div class="rating">';
+			modifyUI += '<div class="rating-value">';
 			for(let i = 1; i <= 5; i++){
-				modifyUI += '<label><input type="radio" name="re_rating" value="'+i+'" id="rating'+i+'" ';	
+				modifyUI += '<label><input type="radio" name="re_rating" value="'+i+'" id="rating'+i+'"';	
 				if (i == rating) {
-				    modifyUI += 'checked'; // 기존 평점과 일치하는 라디오 버튼을 체크
+				    modifyUI += ' checked'; // 기존 평점과 일치하는 라디오 버튼을 체크
 				}
 				modifyUI += '> '+i+'점 </label>';
 			}
@@ -197,6 +197,15 @@ $(function(){
 			}
 			//폼에 입력한 데이터 반환
 			let form_data = $(this).serialize();
+			
+			let selectedRating = $('input[name="re_rating"]:checked').val();
+			if (selectedRating) {
+			    form_data = form_data.replace(/re_rating=[^&]*/, 're_rating=' + selectedRating);  // 기존 re_rating을 새로운 값으로 교체
+			} else {
+			    alert("평점을 선택해주세요!");
+			    return false;
+			}
+			
 			//서버와 통신
 			$.ajax({
 				url:'updateReply.do',

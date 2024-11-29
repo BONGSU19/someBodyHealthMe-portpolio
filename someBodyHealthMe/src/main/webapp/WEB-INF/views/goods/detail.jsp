@@ -151,10 +151,10 @@
 				</div>
 				<br><br>
 				<hr size="1" noshade="noshade" width="100%">
-				<div class="align-center">
+				<div class="goods-detail-img">
 					<img
 						src="${pageContext.request.contextPath}/upload/${goods.goods_img2}"
-						width="400">
+						width="1280">
 				</div>
 				<p class="align-center">${goods.goods_info}</p>
 
@@ -163,7 +163,7 @@
 					<form id="re_form">
 						<input type="hidden" name="goods_num" value="${goods.goods_num}"
 							id="goods_num">
-						<div class="rating">
+						<div class="rating-value">
 							<label><input type="radio" name="re_rating" value="1" id="rating1"> 1점	</label>
 							<label><input type="radio" name="re_rating" value="2" id="rating2"> 2점	</label>
 							<label><input type="radio" name="re_rating" value="3" id="rating3"> 3점	</label>

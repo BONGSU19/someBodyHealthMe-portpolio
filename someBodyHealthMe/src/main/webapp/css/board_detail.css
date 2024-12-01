@@ -47,9 +47,13 @@ h2 {
     margin: 5px 0; /* 위아래 여백 */
     padding: 0 15px 5px 15px;
 }
+a{
+	font-size: 14px;
+	cursor: pointer;
+}
 .board-info h3{
-    margin: 5px auto;
-    font-size: 20px;
+    margin: 0 auto;
+    font-size: 24px;
 }
 /* 작성자 조회수 */
 .info-detail {
@@ -68,6 +72,9 @@ h2 {
 /* 작성 내용  */
 .board-attachment{
 	text-align:center;
+}
+.board-attachment img{
+	max-width: 100%;
 }
 .board-content{
     font-size: 16px;
@@ -189,11 +196,13 @@ font-family: Arial, Helvetica, sans-serif;
 .item p{
     width: 700px;
     margin: 10px 0;
-    padding: 8px 0 10px 8px;
+    padding: 8px 10px 10px 8px;
     border-radius: 5px;
     background-color: #ecebeb;
-    font-size:15px;
+    font-size:16px;
     font-family: Arial, Helvetica, sans-serif;
+    white-space: normal; /* 텍스트는 기본적으로 줄바꿈되도록 */
+    word-wrap: break-word; /* 긴 단어가 넘어갈 때 줄바꿈 */
 }
 /* 날짜 및 버튼 */
 .re-date{

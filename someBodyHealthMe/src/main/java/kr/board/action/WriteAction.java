@@ -37,7 +37,7 @@ public class WriteAction implements Action{
 		
 		request.setAttribute("notice_msg", "글쓰기 완료!");
 		request.setAttribute("notice_url", 
-				   request.getContextPath()+"/board/list.do");
+				   request.getContextPath()+"/board/list.do?board_category");
 		
 		return "common/alert_view.jsp";
 	}

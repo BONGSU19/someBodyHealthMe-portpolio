@@ -32,7 +32,7 @@ public class DetailAction implements Action{
 		}
 		//파일명 가져오기
 		String filename = appl.getAppl_attachment();
-		if(filename != null) {
+		if(filename != null && !"".equals(filename)) {
 			int underbar = filename.indexOf('_');
 			appl.setAppl_attachment(filename.substring(underbar + 1));
 		}

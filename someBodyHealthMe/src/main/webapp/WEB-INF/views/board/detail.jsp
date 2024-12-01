@@ -35,10 +35,15 @@
                 	};
                 </script>
             </c:if>                
-                <input type="button" value="목록" onclick="location.href='list.do'">       
+                <input type="button" value="목록" onclick="location.href='list.do<c:if test="${!empty cate}">?board_category=${cate}</c:if>'">       
             </div>
         </div>
         <div class="board-info">
+            <a onclick="location.href='${pageContext.request.contextPath}/board/list.do?board_category=${board.board_category}'">
+            <c:if test="${board.board_category == 1}">공지사항 ></c:if>            
+            <c:if test="${board.board_category == 2}">자유게시판 ></c:if>            
+            <c:if test="${board.board_category == 3}">오늘 운동 완료 ></c:if>            
+            </a>
             <h3>${board.board_title}</h3>
             <div class="info-detail">
                 <div>
@@ -60,7 +65,7 @@
         <div class="board-content">
         <c:if test="${!empty board.board_attachment}">
         <div class="board-attachment">
-        	<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" class="detail-img" width="900" border="1">
+        	<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" class="detail-img" border="1">
         </div>
         </c:if>        
             ${board.board_content}
@@ -114,6 +119,6 @@
     
     </div>
 </div>
-
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </body>
 </html>

@@ -39,27 +39,24 @@ public class ApplFile extends FileUtil{
 		    // 업로드된 파일이 저장된 경로
 		    String uploadDir = request.getServletContext().getRealPath(UPLOAD_PATH);
 		    
-		    
 		    // 다운로드할 파일의 경로
 		    File file = new File(uploadDir, filename);
 		    
 		    // 파일이 존재하는지 확인
 		    if (file.exists()) {
-		        // 파일의 MIME 타입을 설정 (파일 확장자에 맞는 MIME 타입을 설정)
+		        // MIME 타입을 설정 (파일 확장자에 맞는 MIME 타입을 설정)
 		        String mimeType = request.getServletContext().getMimeType(file.getName());
-		        
-		        // MIME 타입을 application/octet-stream으로 강제 설정하여 브라우저에서 파일을 열지 않도록 함
-		        if (mimeType == null || mimeType.equals("application/pdf") || mimeType.equals("image/jpeg") || mimeType.equals("image/png")) {
-		            mimeType = "application/octet-stream";  // 기본 MIME 타입
+		        if (mimeType == null) {
+		            mimeType = "application/octet-stream"; // 기본 MIME 타입 설정
 		        }
 		        
 		        // 응답 헤더 설정 (다운로드할 때 파일 이름 지정)
 		        response.setContentType(mimeType);
 		        response.setContentLength((int) file.length());
 		        
-		        // 파일 다운로드 시, 다운로드 창에 파일 이름이 보이도록 설정
+		        // 파일 이름에 특수 문자가 있을 수 있으므로 UTF-8로 인코딩
 		        String headerKey = "Content-Disposition";
-		        String headerValue = "attachment; filename=\"" + filename + "\"";
+		        String headerValue = "attachment; filename=\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
 		        response.setHeader(headerKey, headerValue);
 		        
 		        // 파일을 클라이언트로 전송 (파일 스트림을 사용)
@@ -72,14 +69,14 @@ public class ApplFile extends FileUtil{
 		            while ((bytesRead = in.read(buffer)) != -1) {
 		                out.write(buffer, 0, bytesRead);
 		            }
-		            return 0 ;//성공
+		            return 0; // 성공
 		        }
 		    } else {
 		        // 파일이 존재하지 않으면 404 오류 반환
-		        response.sendError(HttpServletResponse.SC_NOT_FOUND, "File not found");
-		        return 1 ;//실패
+		        return 1; // 실패 
 		    }
 		}
+
 
 
 }

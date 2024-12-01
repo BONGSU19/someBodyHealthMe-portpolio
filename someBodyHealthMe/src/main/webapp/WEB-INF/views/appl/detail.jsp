@@ -64,7 +64,6 @@
         </form>   
     </div>  
 </div>    
+<jsp:include page="/WEB-INF/views/board/board_footer.jsp"/>
 </body>
-
-
 </html>

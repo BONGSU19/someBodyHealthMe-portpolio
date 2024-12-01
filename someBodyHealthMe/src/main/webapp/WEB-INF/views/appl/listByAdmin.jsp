@@ -18,7 +18,7 @@
         <h2>지원 목록</h2>
         <div class="content-main"> 
             <!-- 관리자 검색 조건 -->
-            <form action="listByAdmin.do" method="get">
+            <form action="listByAdmin.do" method="get" id="search_form">
             
                 <!-- 확인 상태와 지원 분야를 한 줄로 배치 -->
                 <div class="form-group">
@@ -28,7 +28,8 @@
 							<option value="9">전체</option>
                             <option value="0">미확인</option>
                             <option value="1">확인</option>                            
-                            <option value="3">전환</option>                            
+                            <option value="4">전환회원</option>                            
+                            <option value="3">직원전환</option>                            
                         </select>
                     </div>
                     <div>
@@ -59,7 +60,7 @@
 
                 <!-- 이름 검색과 제출 버튼을 한 줄에 배치 -->
                 <div class="search-group">
-                    <input type="search" name="name" placeholder="이름 검색">
+                    <input type="search" name="name" id="search_name" placeholder="이름 검색">
                     <button type="submit">검색</button>
                 </div>
 
@@ -81,10 +82,15 @@
             <tr>
                 <td>${appl.appl_num}</td>
                 <td>
-                	<c:if test="${appl.field == 2}">사무직원</c:if>
-                	<c:if test="${appl.field == 3}">트레이너</c:if>
+                	<c:if test="${appl.field == 2}">트레이너</c:if>
+                	<c:if test="${appl.field == 3}">사무직원</c:if>
                 </td>
-                <td><a href="detailByAdmin.do?appl_num=${appl.appl_num}">${appl.name}</a></td> <!-- 이름 -->
+                <td>
+                <a href="detailByAdmin.do?appl_num=${appl.appl_num}">
+                	<c:if test="${!empty appl.name}">${appl.name}</c:if>
+                	<c:if test="${empty appl.name}">${appl.login_id }</c:if>                	
+                </a>
+                </td> <!-- 이름 -->
                 <td>
                 	<c:if test="${appl.career == 1}">경력	</c:if>                	
                 	<c:if test="${appl.career == 2}">신입	</c:if>
@@ -104,7 +110,7 @@
                 <td>
                 	<c:if test="${appl.appl_status == 0}">미확인</c:if> 
                 	<c:if test="${appl.appl_status == 1}">확인</c:if> 
-                	<c:if test="${appl.appl_status == 3}"><b>직원전환</b></c:if> 
+                	<c:if test="${appl.appl_status == 3}"><b style="color:red;">직원전환</b></c:if> 
                 	<c:if test="${appl.appl_status == 4}">전환회원</c:if> 
                 </td>                
             </tr>
@@ -117,6 +123,7 @@
         <div class="page">${page}</div> 
     </div>
 </div>    
+<jsp:include page="/WEB-INF/views/board/board_footer.jsp"/>
 </body>
 
 

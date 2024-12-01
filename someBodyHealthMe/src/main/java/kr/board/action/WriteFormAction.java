@@ -11,6 +11,8 @@ public class WriteFormAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
+		String board_category = request.getParameter("board_category");
+		if(board_category != null && !"".equals(board_category)) request.setAttribute("cate", board_category);
 		
 		if(user_num == null) {//비로그인
 			return "redirect:/member/loginForm.do";

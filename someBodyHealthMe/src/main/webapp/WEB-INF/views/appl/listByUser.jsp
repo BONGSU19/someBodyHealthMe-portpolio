@@ -33,8 +33,8 @@
                 	<a href="detail.do?appl_num=${appl.appl_num}">${appl.content}</a>
                 </td> <!-- 내용 -->
                 <td>
-                	<c:if test="${appl.field ==2}">사무직원</c:if>
-                	<c:if test="${appl.field ==3}">트레이너</c:if>
+                	<c:if test="${appl.field ==2}">트레이너</c:if>
+                	<c:if test="${appl.field ==3}">사무직원</c:if>
                 </td>
                 <td>
            			<c:if test="${appl.appl_center == 1}">강남점</c:if>
@@ -63,6 +63,7 @@
         </c:if> 
     </div>
 </div>
+<jsp:include page="/WEB-INF/views/board/board_footer.jsp"/>
 </body>
 
 

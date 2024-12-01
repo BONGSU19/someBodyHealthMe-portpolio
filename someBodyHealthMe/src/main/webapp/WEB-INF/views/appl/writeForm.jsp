@@ -75,7 +75,7 @@
             <br>
              
             <label for="appl_attachment">첨부파일</label><br>
-            <input type="file" name="appl_attachment"><br>
+            <input type="file" name="appl_attachment" accept=".hwp, .jpg, .jpeg, .png, .gif, .pdf, .doc, .docx"><br>
           
             <label for="">자기소개</label><br>
             <textarea name="content" id="content" placeholder="간단한 자기소개와 이력을 입력해 주세요." maxlength="500"></textarea>            

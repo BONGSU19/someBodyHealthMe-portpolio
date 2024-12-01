@@ -54,7 +54,7 @@
             </div>
             <div class="form-group">
                 <label for="board_title">제목</label>
-                <input type="text" name="board_title" id="board_title" placeholder="제목을 입력해 주세요" class="input-check" required>
+                <input type="text" name="board_title" id="board_title" placeholder="제목을 입력해 주세요" maxlength="100" class="input-check" required>
             </div>
             <div class="form-group">
                 <label for="board_attachment">첨부파일(이미지)</label>

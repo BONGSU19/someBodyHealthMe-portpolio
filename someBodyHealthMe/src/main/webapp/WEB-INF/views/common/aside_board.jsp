@@ -13,7 +13,7 @@
       color: #000000a8;
       width: 295px;
       background-color: white;
-      height: 500px;
+      height: 450px;
       border: 1px solid black;
       margin : 20px 30px 0 30px; 
     }

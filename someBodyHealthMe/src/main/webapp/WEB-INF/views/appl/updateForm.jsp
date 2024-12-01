@@ -87,10 +87,10 @@
             <br>
              
             <label for="appl_attachment">첨부파일</label><br>
-            <input type="file" name="appl_attachment"><br>
+            <input type="file" name="appl_attachment" accept=".hwp, .jpg, .jpeg, .png, .gif, .pdf, .doc, .docx"><br>
             <div class="attachmentList">
             <c:if test="${!empty appl.appl_attachment}">
-            <span>${appl.appl_attachment}가 등록되어있습니다.</span>
+            <span>${appl.appl_attachment}가 등록되어있습니다.</span>            
             <input type="button" id="del_attachment" value="파일삭제">
             <script type="text/javascript">
             	$('#del_attachment').click(function(){

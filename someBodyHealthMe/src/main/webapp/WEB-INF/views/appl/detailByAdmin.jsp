@@ -17,10 +17,10 @@
         <h2 style="width:130px;">지원 상세</h2>
         <hr size="3" noshade="noshade"><br>  
         <div class="user-info">
-        	<c:if test="${appl.status == 5}">
+        	<c:if test="${appl.status == 0}">
         		${appl.login_id}님은 탈퇴회원입니다.
         	</c:if>
-        	<c:if test="${appl.status == 0}">
+        	<c:if test="${appl.status == 5}">
         		${appl.login_id}님은 정지회원입니다.
         	</c:if>
         	<c:if test="${appl.status != 5}">

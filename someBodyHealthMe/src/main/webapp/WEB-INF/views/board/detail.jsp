@@ -21,7 +21,7 @@
             <h2>상세 글보기</h2>
             <div class="board-btn">
             <c:if test="${user_num == board.user_num}">
-            	<input type="button" value="수정" onclick="location.href='updateForm.do?board_num=${board.board_num}'">
+            	<input type="button" value="수정" onclick="location.href='updateForm.do?board_num=${board.board_num}<c:if test="${!empty cate}">&board_category=${cate}</c:if>'">
             </c:if>	
             <c:if test="${board.user_num == user_num || status == 4}">
                 <input type="button" value="삭제" id="delete_btn" >
@@ -30,7 +30,11 @@
                 	delete_btn.onclick = function(){
                 		let choice = confirm('게시글을 삭제하시겠습니까?');
                 		if(choice){
-                			location.replace('delete.do?board_num=${board.board_num}');
+                			var url = 'delete.do?board_num=${board.board_num}';
+                			<c:if test="${!empty cate}">
+                			val += '&board_category=${cate}';
+                			</c:if>
+                			location.replace(url);
                 		} 
                 	};
                 </script>

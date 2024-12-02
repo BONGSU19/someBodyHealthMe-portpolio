@@ -15,6 +15,7 @@ public class WriteAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
+		Integer status = (Integer)session.getAttribute("status");
 		
 		if(user_num == null) {//로그인인 되지 않은 경우
 			return "redirect:/member/loginForm.do";		
@@ -24,9 +25,15 @@ public class WriteAction implements Action{
 		//전송된 데이터 인코딩 처리
 		request.setCharacterEncoding("utf-8"); 
 		
+		int board_category = Integer.parseInt(request.getParameter("board_category"));
+		
+		if(board_category == 1 && status != 4) {
+			return "common/notice.jsp";
+		}
+		
 		//VO생성
 		BoardVO board = new BoardVO();
-		board.setBoard_category(Integer.parseInt(request.getParameter("board_category")));
+		board.setBoard_category(board_category);
 		board.setBoard_title(request.getParameter("board_title"));
 		board.setBoard_attachment(FileUtil.uploadFile(request, "board_attachment"));
 		board.setBoard_content(StringUtil.useBrNoHtml(request.getParameter("board_content")));
@@ -37,7 +44,7 @@ public class WriteAction implements Action{
 		
 		request.setAttribute("notice_msg", "글쓰기 완료!");
 		request.setAttribute("notice_url", 
-				   request.getContextPath()+"/board/list.do?board_category");
+				   request.getContextPath()+"/board/list.do?board_category="+board_category);
 		
 		return "common/alert_view.jsp";
 	}

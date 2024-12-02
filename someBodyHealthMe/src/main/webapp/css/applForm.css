@@ -3,6 +3,9 @@
 	
 	width:1450px;
 }	
+input[type="button"]{
+	cursor: pointer;
+}
  /*전체  */
  .container {
     width: 840px;

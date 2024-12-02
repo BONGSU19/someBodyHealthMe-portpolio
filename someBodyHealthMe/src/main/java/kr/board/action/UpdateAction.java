@@ -14,7 +14,7 @@ public class UpdateAction implements Action{
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
-		
+		Integer status = (Integer)session.getAttribute("status");
 		if(user_num == null) {//비로그인
 			return "redirect:member/loginForm.do";
 		}
@@ -26,6 +26,10 @@ public class UpdateAction implements Action{
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		BoardVO db_board = dao.getBoard(board_num);
+		
+		if(db_board.getBoard_category() == 1 && status !=4) {
+			return "common/notice.jsp";
+		}
 		
 		//등록자 수정자 동일인 체크
 		if(db_board.getUser_num() != user_num) {
@@ -45,7 +49,7 @@ public class UpdateAction implements Action{
 			FileUtil.removeFile(request, db_board.getBoard_attachment());
 		}
 		
-		return "redirect:/board/detail.do?board_num=" + board_num;
+		return "redirect:/board/detail.do?board_num=" + board_num+"&board_category="+db_board.getBoard_category();
 	}
 }
 

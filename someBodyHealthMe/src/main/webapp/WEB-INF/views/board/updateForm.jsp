@@ -21,16 +21,16 @@
 					items[i].focus();
 					return false;
 				}
+			}	
+			/*
+			const category = $('#board_category').val();
+			const attachment = $('#board_attachment').val();
+			const attach_check = $('#attach_check').val();
+			if(category == 3 && attachment =='' && attach_check ==''){
+				alert('오늘 운동 완료 게시판에는 사진을 필수로 첨부해야 합니다.');
+				return false;
 			}
-			
-			const board_category = document.getElementById('board_category')
-			if(board_category.value == 3){
-				const board_attachment = document.getElementById('board_attachment');
-				if(board_attachment.value== ''){
-					alert('오늘 운동 완료 게시판에는 사진을 첨부해야 합니다.');
-					return false;
-				}
-			}
+			*/
 		});
 	});
 </script>
@@ -59,15 +59,17 @@
             <div class="form-group">
                 <label for="board_attachment">첨부파일(이미지)</label>
                 <input type="file" id="board_attachment" class="form-attr" name="board_attachment" accept="jpg, .jpeg, .png, .gif"> 
+				<input type="hidden" value="${board.board_attachment}" id="attach_check">
             </div>
             <c:if test="${!empty board.board_attachment}">
 					<div id="db_attachment">
 						<span>(${board.board_attachment})파일이 등록되어 있습니다.</span> <br>
-						<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" width="400" border="1">
+						<img src="${pageContext.request.contextPath}/upload/${board.board_attachment}" border="1" style="max-width:600px; max-height:400px;">
+						<c:if test="${board.board_category != 3}">
 						<input type="button" value="파일삭제" id="file_del">
 						<script type="text/javascript">
 							$('#file_del').click(function(){
-								let choice = confirm('삭제하시겠습니까?');
+								let choice = confirm('등록된 파일을 삭제하시겠습니까?\n(삭제 시, 수정 완료 없이 현재 게시글 내용에서 삭제됩니다.)');
 								if(choice){
 									//서버와 통신
 									$.ajax({
@@ -80,6 +82,7 @@
 												alert('로그인 후 사용하세요');
 											}else if(param.result == 'success'){
 												$('#db_attachment').hide();
+												$('#attach_check').val('');
 												alert('삭제 완료');
 											}else if(param.result == 'wrongAccess'){
 												alert('잘못된 접속입니다.');
@@ -94,6 +97,7 @@
 								}
 							});
 						</script>
+						</c:if>
 					</div>
 					</c:if>       
             <div class="form-group">

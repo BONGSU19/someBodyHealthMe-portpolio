@@ -3,6 +3,9 @@
 	justify-content: space-between;
 	width:1450px;
 }
+input[type="button"]{
+	cursor: pointer;
+}
  /*전체  */
  .board {
     width: 1080px;

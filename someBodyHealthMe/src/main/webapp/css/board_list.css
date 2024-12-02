@@ -5,6 +5,9 @@
 	min-height: 625px;
 	margin: 10px 10px;;
 }	
+input[type="button"]{
+	cursor: pointer;
+}
 .container{
     width: 1080px;
     margin-top :10px;

@@ -21,17 +21,14 @@
 					items[i].focus();
 					return false;
 				}
-			}
+			}		
 			
-			const board_category = document.getElementById('board_category')
-			if(board_category.value == 3){
-				const board_attachment = document.getElementById('board_attachment');
-				if(board_attachment.value== ''){
-					alert('오늘 운동 완료 게시판에는 사진을 첨부해야 합니다.');
-					return false;
-				}
+			const category = $('#board_category').val();
+			const attachment = $('#board_attachment').val();
+			if(category == 3 && attachment ==''){
+				alert('오늘 운동 완료 게시판에는 사진을 필수로 첨부해야 합니다.');
+				return false;
 			}
-			
 		});
 	});
 </script>

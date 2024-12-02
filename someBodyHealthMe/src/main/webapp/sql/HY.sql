@@ -48,3 +48,15 @@ CREATE TABLE DietPlan (
         REFERENCES SUSER_DETAIL (user_num)          -- SUSER_DETAIL 테이블의 user_num을 참조
 );
 CREATE SEQUENCE DietID_seq;
+
+CREATE TABLE MealLog (
+    MealLogID   NUMBER          NOT NULL,
+    FoodName    VARCHAR2(100)   NOT NULL,
+    MealType    VARCHAR2(50)    NOT NULL,
+    CreatedAt   DATE            NOT NULL,
+    user_num    NUMBER          NOT NULL,
+    CONSTRAINT meallog_pk PRIMARY KEY (MealLogID),
+    CONSTRAINT meallog_user_fk FOREIGN KEY (user_num) REFERENCES SUSER_DETAIL(user_num)
+);
+
+CREATE SEQUENCE MealLogID_seq;

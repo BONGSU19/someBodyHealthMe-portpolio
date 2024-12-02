@@ -228,6 +228,47 @@ public class DietPlanDAO {
 
         return dietPlan;
     }
+    
+    // 식단 ID로 DietPlanVO 가져오기
+    public DietPlanVO getDietPlanById(long dietId) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String sql = null;
+        DietPlanVO dietPlan = null;
+
+        try {
+            conn = DBUtil.getConnection();
+
+            sql = "SELECT * FROM DietPlan WHERE dietId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, dietId);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dietPlan = new DietPlanVO();
+                dietPlan.setDietId(rs.getLong("dietId"));
+                dietPlan.setFoodName(rs.getString("foodName"));
+                dietPlan.setCalories(rs.getDouble("calories"));
+                dietPlan.setProtein(rs.getDouble("protein"));
+                dietPlan.setCarbohydrate(rs.getDouble("carbohydrate"));
+                dietPlan.setFat(rs.getDouble("fat"));
+                dietPlan.setMinerals(rs.getDouble("minerals"));
+                dietPlan.setDietShow(rs.getInt("diet_show"));
+                dietPlan.setDietComment(rs.getInt("diet_comment"));
+                dietPlan.setUserNum(rs.getLong("user_num"));
+            }
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new Exception(e);
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+
+        return dietPlan;
+    }
 
     // 식단 정보 업데이트 메서드
     public void updateDietPlan(DietPlanVO dietPlan) throws Exception {

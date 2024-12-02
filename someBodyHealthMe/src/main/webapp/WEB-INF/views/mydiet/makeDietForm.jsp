@@ -137,12 +137,6 @@
 				</div>
 			</div>
 
-			<!-- 사람 몸 모양 이미지 -->
-			<div class="body-image">
-				<img src="${pageContext.request.contextPath}/images/body-shape.png"
-					alt="몸 모양" />
-			</div>
-
 			<!-- 섭취해야 할 칼로리, 단백질, 지방, 탄수화물 정보 -->
 			<div class="nutrition-info">
 				<h2>오늘 섭취해야 하는 영양소</h2>

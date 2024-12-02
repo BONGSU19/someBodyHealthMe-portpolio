@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript">
 	window.onload=function(){
-		const myForm = document.getElementById('search_form');
+		const myForm = document.getElementById('search-bar');
 		//이벤트 연결
 		myForm.onsubmit=function(){
 			const keyword = document.getElementById('keyword');
@@ -30,8 +30,8 @@
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
 		<h2>구매 목록</h2>
-		<form id="search_form" action="orderList.do" method="get">
-			<ul class="search">
+		<form class="search-bar" action="orderList.do" method="get">
+			<ul id="search-bar">
 				<li>
 					<select name="keyfield">
 						<option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>상품명</option>

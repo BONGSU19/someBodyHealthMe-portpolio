@@ -8,6 +8,34 @@
 <title>소통공간 글쓰기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board_writeForm.css" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#write_form').submit(function(){
+			const items = document.querySelectorAll('.input-check');
+			for(let i=0;i<items.length;i++){
+				if(items[i].value.trim()==''){
+					const label = document.querySelector('label[for="'+ items[i].id+'"]');
+					alert(label.textContent + '필수 입력');
+					items[i].value='';
+					items[i].focus();
+					return false;
+				}
+			}
+			
+			const board_category = document.getElementById('board_category')
+			if(board_category.value == 3){
+				const board_attachment = document.getElementById('board_attachment');
+				if(board_attachment.value== ''){
+					alert('오늘 운동 완료 게시판에는 사진을 첨부해야 합니다.');
+					return false;
+				}
+			}
+			
+		});
+	});
+</script>
+</head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="page-main">
@@ -15,18 +43,18 @@
 <div class="container">
         <h2><span>소통공간 글쓰기</span></h2>
         <hr size="3" noshade="noshade">
-        <form action="write.do" method="post" enctype="multipart/form-data">
+        <form action="write.do" method="post" enctype="multipart/form-data" id="write_form">
             <div class="form-group">
                 <label for="board_category">게시판 선택</label>
                 <select name="board_category" id="board_category" class="form-attr">
-                    <c:if test="${status >= 4}"><option value="1">공지사항</option></c:if>
-                    <option value="2">자유게시판</option>
-                    <option value="3">오늘 운동 완료</option>
+                    <c:if test="${status >= 4}"><option value="1" <c:if test="${cate == 1}">selected</c:if>>공지사항</option></c:if>
+                    <option value="2" <c:if test="${cate == 2}">selected</c:if>>자유게시판</option>
+                    <option value="3" <c:if test="${cate == 3}">selected</c:if>>오늘 운동 완료</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="board_title">제목</label>
-                <input type="text" name="board_title" id="board_title" placeholder="제목을 입력해 주세요" class="form-attr" required>
+                <input type="text" name="board_title" id="board_title" placeholder="제목을 입력해 주세요" maxlength="100" class="input-check" required>
             </div>
             <div class="form-group">
                 <label for="board_attachment">첨부파일(이미지)</label>
@@ -34,7 +62,7 @@
             </div>
             <div class="form-group">
                 <label for="board_content">내용</label>
-                <textarea name="board_content" id="board_content" placeholder="내용을 입력하세요" class="form-attr" required></textarea>
+                <textarea name="board_content" id="board_content" placeholder="내용을 입력하세요" class="input-check" required></textarea>
             </div>
             <div class="align-end">
                 <input type="button" value="등록취소" onclick="history.go(-1)">            
@@ -43,5 +71,6 @@
         </form>
     </div>
 </div>    
+<jsp:include page="/WEB-INF/views/board/board_footer.jsp"/>
 </body>
 </html>

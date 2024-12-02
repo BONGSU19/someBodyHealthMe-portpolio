@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 import kr.appl.dao.ApplDAO;
 import kr.appl.vo.ApplVO;
 import kr.controller.Action;
-import kr.util.FileUtil;
 
 public class UpdateAction implements Action{
 	@Override
@@ -50,12 +49,9 @@ public class UpdateAction implements Action{
 		//첨부파일 변경시
 		if(appl.getAppl_attachment() != null && !"".equals(appl.getAppl_attachment())) {
 			//예전 파일이 있다면 삭제를 해준다.
-			FileUtil.removeFile(request, db_appl.getAppl_attachment());
-		}
-		//알림 처리
-		request.setAttribute("notice_msg", "지원정보가 수정되었습니다.");
-		request.setAttribute("notice_url", request.getContextPath()+"/appl/detail.do?appl_num="+appl_num);			
-		return "common/alert_view.jsp";
+			ApplFile.removeFile(request, db_appl.getAppl_attachment());
+		}			
+		return "redirect:/appl/detail.do?appl_num=" + appl_num;
 	
 	}
 }

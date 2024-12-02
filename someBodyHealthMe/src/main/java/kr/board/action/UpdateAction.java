@@ -40,10 +40,6 @@ public class UpdateAction implements Action{
 		
 		dao.updateBoard(board);
 		
-		if(board.getBoard_attachment() != null  && !"".equals(board.getBoard_attachment())) {
-			FileUtil.removeFile(request, db_board.getBoard_attachment());
-		}
-		
 		if(board.getBoard_attachment()!=null && !"".equals(board.getBoard_attachment())) {
 			//새 파일로 교체할 때 원래 파일 제거
 			FileUtil.removeFile(request, db_board.getBoard_attachment());

@@ -32,15 +32,14 @@ public class DetailAction implements Action{
 			MemberDAO memberdao = MemberDAO.getInstance();
 			MemberVO member = memberdao.getUserProfile(user_num);
 			request.setAttribute("member", member);
-		}
-		
-		
+		}	
 		 
 		request.setAttribute("board", board);
 		
-		//할 작업 : 조회수 증가 ,제목, 내용 -> html 불허, 수정했으면 수정일로 변경(jsp)
-		
-		
+		String cate = request.getParameter("board_category");
+		if(cate != null && !"".equals(cate)) {
+			request.setAttribute("cate", cate);
+		}	
 		
 		return "/board/detail.jsp";
 	}

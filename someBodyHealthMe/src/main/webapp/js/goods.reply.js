@@ -65,7 +65,7 @@ $(function(){
 					// isReviewed 값에 따라 댓글 작성 폼 비활성화
 					if (param.isReviewed || !param.user_num || !param.checkBuy) {
 					                $('#re_content').prop('disabled', true); // 댓글을 작성할 수 없는 경우
-					                $('#re_content').attr('placeholder', '이미 리뷰를 작성하셨거나 구매 후 댓글을 작성할 수 있습니다.');
+					                $('#re_content').attr('placeholder', '이미 리뷰를 작성하셨거나 구매 후 리뷰를 작성할 수 있습니다.');
 					            } else {
 					                $('#re_content').prop('disabled', false); // 댓글을 작성할 수 있는 경우
 					                $('#re_content').attr('placeholder', '리뷰를 입력하세요');

@@ -69,11 +69,8 @@ public class ListByAdminAction implements Action{
 		}
 
 		request.setAttribute("count", count);
-		System.out.println(1);
 		request.setAttribute("list", list);
-		System.out.println(1);
 		request.setAttribute("page", page.getPage());		
-		System.out.println(1);		
 		
 		//JSP 경로 반환/
 		return "appl/listByAdmin.jsp";

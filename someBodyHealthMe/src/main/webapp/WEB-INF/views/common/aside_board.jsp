@@ -11,26 +11,26 @@
     	text-align: center;
     	font-family: Arial, sans-serif;          
       color: #000000a8;
-      font-weight: bold;
-      width: 285px;
+      width: 295px;
       background-color: white;
-      height: 500px;
+      height: 450px;
       border: 1px solid black;
-      margin : 20px 30px 0 20px; 
+      margin : 20px 30px 0 30px; 
     }
 
     .aside-title {
       text-align: center;
       font-size: 32px;
-      margin-top: 10px;
+      margin-top: 20px;
+      margin-bottom:10px;
       display: flex;
       justify-content: center; /* 수평 중앙 정렬 */
       align-items: center;
       height: 55px;  
-      border-bottom: 2px solid black ;
       padding-bottom: 10px;
-      color: rgb(94, 91, 91);
-    }
+      color: rgb(94, 91, 91);    
+      }
+      
     .aside-title img{
         margin-right: 10px;
     }
@@ -40,13 +40,11 @@
       list-style: none;
       padding: 0;
       font-size: 20px;
-      margin-top: 5px;
     }
 
     .menu-title {
       cursor: pointer;
-      background-color: #eceaea;
-      border-bottom: 1px solid black;
+      background-color: #f0f0f0;
       transition: background-color 0.3s;
       width: 100%;
       box-sizing: border-box;
@@ -55,17 +53,12 @@
       display: flex;             /* Flexbox 활성화 */
       justify-content: space-between; /* 왼쪽과 오른쪽 끝에 배치 */
       align-items: center;
-      padding: 0 20px;
-      margin-bottom: 5px;
+      padding: 0 10px;
     }
     .menu-title p{
       margin: 0px;
       font-size: 24px;
       color: #000000a8;
-    }
-
-    .menu-title:hover {
-      background-color: #d0d0d0;
     }
 
     .submenu {
@@ -76,23 +69,23 @@
     }
 
     .submenu li {
-      padding: 5px 30px;
-      border-radius: 3px;
-      border-bottom: 1px solid black;
+      padding: 12px 18px;
+      border-bottom: 1px solid white;
       transition: background-color 0.3s;
       width: 100%;
+      height:50px;
       box-sizing: border-box;
       text-align: left;
-      font-size: 20px;
-      margin-bottom: 2px;
+      font-size: 18px;
+      background-color: #f0f0f0;
     }
     a{
       text-decoration: none;
-      color:#000;
+      cursor: pointer;
     }
 
     .submenu li:hover {
-      background-color: #fbecec;
+      background-color: #d0d0d0;
     }
 </style>
 </head>

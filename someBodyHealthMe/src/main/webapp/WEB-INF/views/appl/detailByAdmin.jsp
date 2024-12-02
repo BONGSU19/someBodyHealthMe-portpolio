@@ -18,7 +18,10 @@
         <hr size="3" noshade="noshade"><br>  
         <div class="user-info">
         	<c:if test="${appl.status == 5}">
-        		탈퇴회원입니다.
+        		${appl.login_id}님은 탈퇴회원입니다.
+        	</c:if>
+        	<c:if test="${appl.status == 0}">
+        		${appl.login_id}님은 정지회원입니다.
         	</c:if>
         	<c:if test="${appl.status != 5}">
 			지원자 기본정보(지원번호 : ${appl.appl_num})
@@ -85,7 +88,7 @@
             <script type="text/javascript">
             	const update_btn = document.getElementById('update_btn');
             	update_btn.onclick=function(event){
-            		let choice = confirm('${appl.name}님을 관리자로 전환하시겠습니까?');
+            		let choice = confirm('${appl.name}(${appl.user_num})님을 관리자로 전환하시겠습니까?');
             		if(!choice){            		
             			event.preventDefault();                      
             		}
@@ -94,6 +97,7 @@
         </form>   
     </div>  
 </div>    
+<jsp:include page="/WEB-INF/views/board/board_footer.jsp"/>
 </body>
 
 

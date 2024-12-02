@@ -8,6 +8,34 @@
 <title>지원하기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/applForm.css" type="text/css">
+<script type="text/javascript">
+	window.onload = function(){
+		const update_form = document.getElementById('appl_form');
+		
+		appl_form.onsubmit=function(){
+			const field = document.querySelector('input[name="field"]:checked');
+	        if (field==null) {
+	            alert('지원분야를 선택해 주세요.');
+	            return false;  
+	        }
+
+	        const career = document.querySelector('input[name="career"]:checked');
+	        if (career==null) {
+	            alert('경력유무를 선택해 주세요.');
+	            return false; 
+	        }	
+						
+			
+			const content = document.getElementById('content');
+			if(content.value.trim()==''){
+				alert('자기소개는 필수 입력 사항입니다.');
+				content.value='';
+				content.focus();
+				return false;
+			}
+		}		
+	};
+</script>
 
 </head>
 <body>
@@ -36,7 +64,7 @@
             </div>
 
             <label for="source">지원경로</label><br>
-            <textarea name="source" id="source" style="resize: none;" placeholder="지원경로를 입력해 주세요. EX) SNS / 지인소개 기타..."></textarea>
+            <textarea name="source" id="source" style="resize: none;" maxlength="50" placeholder="지원경로를 입력해 주세요. EX) SNS / 지인소개 기타..."></textarea>
             <br>
             
             <label for="appl_center">지원지점</label><br>
@@ -47,10 +75,10 @@
             <br>
              
             <label for="appl_attachment">첨부파일</label><br>
-            <input type="file" name="appl_attachment"><br>
+            <input type="file" name="appl_attachment" accept=".hwp, .jpg, .jpeg, .png, .gif, .pdf, .doc, .docx"><br>
           
             <label for="">자기소개</label><br>
-            <textarea name="content" id="content" placeholder="간단한 자기소개와 이력을 입력해 주세요."></textarea>            
+            <textarea name="content" id="content" placeholder="간단한 자기소개와 이력을 입력해 주세요." maxlength="500"></textarea>            
            
             
             <div class="appl-btn">
@@ -66,6 +94,7 @@
         </form>        
     </div>  
 </div>    
+<jsp:include page="/WEB-INF/views/board/board_footer.jsp"/>
 </body>
 
 

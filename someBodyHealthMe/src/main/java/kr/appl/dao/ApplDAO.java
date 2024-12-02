@@ -132,22 +132,29 @@ public class ApplDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql;
+		String sub_sql ="";
+		int cnt = 0;
 		
 		try {
 			conn = DBUtil.getConnection();
+			if(appl.getAppl_attachment() != null && !"".equals(appl.getAppl_attachment())) {
+				sub_sql = " ,appl_attachment = ? ";
+			}
 			
-			sql = "UPDATE application SET field = ?, career= ?, content=?, source=?, appl_center=? ,appl_attachment = ?, appl_modifydate = SYSDATE "
+			sql = "UPDATE application SET field = ?, career= ?, content=?, source=?, appl_center=? " + sub_sql + " , appl_modifydate = SYSDATE "
 					+ "WHERE appl_num = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, appl.getField());
-			pstmt.setInt(2, appl.getCareer());
-			pstmt.setString(3, appl.getContent());
-			pstmt.setString(4, appl.getSource());
-			pstmt.setInt(5, appl.getAppl_center());
-			pstmt.setString(6,appl.getAppl_attachment());
-			pstmt.setLong(7, appl.getAppl_num());
+			pstmt.setInt(++cnt, appl.getField());
+			pstmt.setInt(++cnt, appl.getCareer());
+			pstmt.setString(++cnt, appl.getContent());
+			pstmt.setString(++cnt, appl.getSource());
+			pstmt.setInt(++cnt, appl.getAppl_center());
+			if(appl.getAppl_attachment() != null && !"".equals(appl.getAppl_attachment())) {
+				pstmt.setString(++cnt, appl.getAppl_attachment());
+			}
+			pstmt.setLong(++cnt, appl.getAppl_num());
 			
 			pstmt.executeUpdate();
 			
@@ -157,6 +164,32 @@ public class ApplDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
+	
+	//지원하기 수정 파일 삭제 처리
+	public void deleteAttachment(long appl_num) throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn = DBUtil.getConnection();
+			
+			sql = "UPDATE application SET appl_attachment = '' WHERE appl_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setLong(1, appl_num);
+			
+			pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+		
+	}
+	
 
 	//총 지원 개수 구하기 - 관리자
 	public int getApplicationCount(String name,ArrayList<String> keys) throws Exception{
@@ -314,6 +347,7 @@ public class ApplDAO {
 				appl.setBirth_date(rs.getString("birth_date"));
 				appl.setUser_num(rs.getLong("user_num"));
 				appl.setStatus(rs.getInt("status"));
+				appl.setLogin_id(rs.getString("login_id"));
 			}			
 		}catch(Exception e) {
 			throw new Exception(e);

@@ -37,6 +37,7 @@ public class ListAction implements Action{
 			list = dao.getListBoard(page.getStartRow(), page.getEndRow(), keyfield, keyword, board_category);
 		}
 		
+		request.setAttribute("cate", board_category);
 		request.setAttribute("count", count);
 		request.setAttribute("list", list);
 		request.setAttribute("page", page.getPage());

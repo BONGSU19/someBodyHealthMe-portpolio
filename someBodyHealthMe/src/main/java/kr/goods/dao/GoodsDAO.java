@@ -137,6 +137,60 @@ public class GoodsDAO {
 
 		return list;
 	}
+	
+	//관리자 전체글 목록/검색글 목록
+		public List<GoodsVO> getAdminListGoods(int start, int end, String keyfield, String keyword, int goods_status) throws Exception{
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			List<GoodsVO> list =null;
+			String sql = null;
+			String sub_sql = "";
+			int cnt = 0;
+			try {
+				conn = DBUtil.getConnection();
+				if(keyword!=null && !"".equals(keyword)) {
+					//검색처리
+					if(keyfield.equals("1")) sub_sql += "AND goods_name LIKE ? ";
+					else if (keyfield.equals("2")) sub_sql += "AND goods_category LIKE ? ";
+				}
+				//status의 값이 0이면 , 1(미표시),2(표시) 모두호출 --->관리자용 
+				//status의 값이 1이면, 2(표시) 호출 -> 사용자용
+				sql = "select * from (select a.*, rownum rnum from (select * from goods where goods_status > ?" +sub_sql
+						+" order by goods_num desc)a) where rnum >= ? and rnum <= ?"	;
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(++cnt, goods_status);
+				if(keyword != null && !"".equals(keyword)) {
+					pstmt.setString(++cnt, "%" + keyword + "%");
+				}
+				pstmt.setInt(++cnt, start);
+				pstmt.setInt(++cnt, end);
+				rs = pstmt.executeQuery();
+				list = new ArrayList<GoodsVO>();
+				while (rs.next()) {
+					GoodsVO goods = new GoodsVO();
+					goods.setGoods_num(rs.getLong("goods_num"));
+					goods.setGoods_name(StringUtil.useNoHtml(rs.getString("goods_name")));
+					goods.setGoods_img1(rs.getString("goods_img1"));
+					goods.setGoods_img2(rs.getString("goods_img2"));
+					goods.setGoods_category(rs.getString("goods_category"));
+					goods.setGoods_price(rs.getInt("goods_price"));
+					goods.setGoods_quantity(rs.getInt("goods_quantity"));
+					goods.setGoods_date(rs.getDate("goods_date"));
+					goods.setGoods_status(rs.getInt("goods_status"));
+
+					list.add(goods);
+				}
+			}catch (Exception e) {
+				throw new Exception(e);
+			}finally {
+				DBUtil.executeClose(rs, pstmt, conn);
+			}
+
+			return list;
+		}
+	
+	
 	//관리자 / 사용자 - 상품 상세
 	public GoodsVO getGoods(long goods_num) throws Exception{
 		Connection conn = null;
@@ -292,12 +346,13 @@ public class GoodsDAO {
 	}
 
 	//내가 선택한 좋아요 목록
-	public List<GoodsVO> getListGoodsLike(int start, int end, long user_num) throws Exception{
+	public List<GoodsVO> getListGoodsLike(int start, int end,long user_num) throws Exception{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<GoodsVO> list =null;
 		String sql = null;
+		
 		try {
 			conn = DBUtil.getConnection();
 			//주의!! zboard_fav의 회원번호(좋아요 클릭한 회원번호)로 검색되어야 하기 때문에 f.mem_num으로 표기함
@@ -330,6 +385,8 @@ public class GoodsDAO {
 		}
 		return list;
 	}
+	
+	
 	
 	
 	//회원번호와 게시물 번호를 이용한 좋아요 정보

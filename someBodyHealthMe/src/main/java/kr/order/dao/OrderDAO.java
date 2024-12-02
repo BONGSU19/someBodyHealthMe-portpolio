@@ -464,8 +464,6 @@ public class OrderDAO {
 		try {
 			//커넥션풀로부터 커넥션 할당
 			conn = DBUtil.getConnection();
-			//오토 커밋 해제
-			conn.setAutoCommit(false);
 			//SQL문 작성
 			sql = "UPDATE orders SET status=?, modify_date=SYSDATE "
 					+ "WHERE order_num=?";

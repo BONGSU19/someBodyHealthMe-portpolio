@@ -40,7 +40,7 @@ public class AdminListAction implements Action{
 		
 		List<GoodsVO> list = null;
 		if(count > 0 ) {
-			list = dao.getListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword, 0);
+			list = dao.getAdminListGoods(page.getStartRow(), page.getEndRow(), keyfield, keyword, 0);
 		}
 		
 		request.setAttribute("count", count);

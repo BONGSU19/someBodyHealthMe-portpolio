@@ -29,9 +29,9 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
-		<h2 class="align-center">구매 목록(관리자 전용)</h2>
-		<form id="search_form" action="adminList.do" method="get">
-			<ul class="search">
+		<h2 class="align-center">구매 목록</h2>
+		<form class="search-bar" action="adminList.do" method="get">
+			<ul id="search-bar">
 				<li>
 					<select name="keyfield">
 						<option value="1" <c:if test="${param.keyfield==1}">selected</c:if>>주문번호</option>
@@ -86,7 +86,7 @@
 			</tr>
 			</c:forEach>
 		</table>
-		<div class="align-center">${page}</div>
+		<div class="align-center" id="page-selector">${page}</div>
 		</c:if>		
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />	

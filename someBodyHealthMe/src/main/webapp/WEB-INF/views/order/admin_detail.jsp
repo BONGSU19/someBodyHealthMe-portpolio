@@ -14,7 +14,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
-		<h2>구매상세(관리자전용)</h2>
+		<h2 class="align-center">구매상세</h2>
 		<table>
 			<tr>
 				<th>상품명</th>

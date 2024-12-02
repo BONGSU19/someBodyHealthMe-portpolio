@@ -55,14 +55,12 @@
 			<tr>
 				<td>
 					<a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${cart.goods_num}">
-					    <!-- CartVO에 등록된 ItemVO의 photo1 프로퍼티 호출 -->
-						<!-- <img src="${pageContext.request.contextPath}/upload/${cart.goods_img1}" width="80"> -->
-						${cart.goods_name}
+					    ${cart.goods_name}
 					</a>
 				</td>
 				<td class="align-center"><fmt:formatNumber value="${cart.order_quantity}"/></td>
 				<td class="align-center"><fmt:formatNumber value="${cart.goods_price}"/>원</td>
-				<td class="align-center"><fmt:formatNumber value="${cart.sub_total}"/></td>
+				<td class="align-center"><fmt:formatNumber value="${cart.goods_total}"/></td>
 			</tr>
 			</c:forEach>
 			<tr>

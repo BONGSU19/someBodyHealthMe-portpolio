@@ -85,9 +85,8 @@ tr:hover {
 						<th>탄수화물</th>
 						<th>지방</th>
 						<th>미네랄</th>
-						<th>식단 댓글</th>
+						<th>요청 상태</th>
 						<th>삭제</th>
-						<!-- 삭제 열 추가 -->
 					</tr>
 				</thead>
 				<tbody>
@@ -101,8 +100,15 @@ tr:hover {
 							<td>${diet.carbohydrate}</td>
 							<td>${diet.fat}</td>
 							<td>${diet.minerals}</td>
-							<td>${diet.dietComment}</td>
-							<!-- 삭제 버튼 -->
+							<td>
+								<c:choose>
+									<c:when test="${diet.dietComment == 0}">등록 요청되지 않음</c:when>
+									<c:when test="${diet.dietComment == 1}">등록 요청 중</c:when>
+									<c:when test="${diet.dietComment == 2}">등록됨</c:when>
+									<c:when test="${diet.dietComment == 3}">반려됨</c:when>
+									<c:otherwise>알 수 없음</c:otherwise>
+								</c:choose>
+							</td>
 							<td class="button-container">
 								<div class="button">
 									<a

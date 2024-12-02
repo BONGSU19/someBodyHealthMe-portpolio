@@ -37,7 +37,6 @@
                     <a href="${pageContext.request.contextPath}/mydiet/noteDietForm.do">식단 기록</a>
                     <a href="${pageContext.request.contextPath}/mydiet/customDietForm.do">사용자 지정 식단</a>
                     <a href="${pageContext.request.contextPath}/mydiet/registerCustomDietRequestForm.do">식단 등록 요청</a>
-                    <a href="${pageContext.request.contextPath}/mydiet/requestDietList.do">식단 등록 요청 내역</a>
                 </div>
             </div>
         </div>

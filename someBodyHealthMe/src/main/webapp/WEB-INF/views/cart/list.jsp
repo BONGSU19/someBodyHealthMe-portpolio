@@ -64,7 +64,7 @@
 						</tr>
 					</table>
 					<div class="align-center">
-						<input type="submit" value="구매하기">
+						<input type="submit" value="구매하기" id="order_btn">
 					</div>
 				</form>
 			</c:if>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>배송상태 변경(관리자전용)</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 </head>
 <body>
 <div class="page-main">

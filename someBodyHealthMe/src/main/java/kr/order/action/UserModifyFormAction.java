@@ -1,11 +1,16 @@
 package kr.order.action;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.cart.dao.CartDAO;
+import kr.cart.vo.CartVO;
 import kr.controller.Action;
 import kr.order.dao.OrderDAO;
+import kr.order.vo.OrderDetailVO;
 import kr.order.vo.OrderVO;
 import kr.util.StringUtil;
 
@@ -23,7 +28,13 @@ public class UserModifyFormAction implements Action{
 		OrderDAO dao = OrderDAO.getInstance();
 		OrderVO order = dao.getOrder(order_num);
 		
+		if(order.getUser_num()!=user_num) {
+			//구매자 회원번호와 로그인한 회원번호가 불일치할 경우
+			return "common/notice.jsp";
+		}
+		List<OrderDetailVO> detailList = dao.getListOrderDetail(order_num);
 		request.setAttribute("order", order);
+		request.setAttribute("detailList", detailList);
 		
 		return "order/user_modifyForm.jsp";
 	}

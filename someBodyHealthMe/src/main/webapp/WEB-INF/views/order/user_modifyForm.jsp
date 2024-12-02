@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>상품 구매</title>
+<title>배송지 정보 수정</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
@@ -43,7 +43,7 @@
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
 		
-		<h2>상품 구매</h2>
+		<h2>배송지정보 수정</h2>
 		<table>
 			<tr>
 				<th>상품명</th>
@@ -51,17 +51,17 @@
 				<th>상품가격</th>
 				<th>합계</th>
 			</tr>
-			<c:forEach var="order" items="${list}">
+			<c:forEach var="cart" items="${detailList}">
 			<tr>
 				<td>
 					<a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${cart.goods_num}">
 					    <!-- CartVO에 등록된 ItemVO의 photo1 프로퍼티 호출 -->
-						<img src="${pageContext.request.contextPath}/upload/${cart.goodsVO.goods_img1}" width="80">
-						${cart.goodsVO.goods_name}
+						<!-- <img src="${pageContext.request.contextPath}/upload/${cart.goods_img1}" width="80"> -->
+						${cart.goods_name}
 					</a>
 				</td>
 				<td class="align-center"><fmt:formatNumber value="${cart.order_quantity}"/></td>
-				<td class="align-center"><fmt:formatNumber value="${cart.goodsVO.goods_price}"/>원</td>
+				<td class="align-center"><fmt:formatNumber value="${cart.goods_price}"/>원</td>
 				<td class="align-center"><fmt:formatNumber value="${cart.sub_total}"/></td>
 			</tr>
 			</c:forEach>

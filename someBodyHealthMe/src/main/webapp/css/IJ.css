@@ -65,7 +65,6 @@ a:hover{
 --------------------------*/
 .page-main{
 	background:#FFFFFF;
-	margin:40px 0;
 	border-radius:5px;
 	box-shadow:0 2px 6px rgba(100,100,100,0.3);
 	min-height:650px;
@@ -245,8 +244,12 @@ ul.detail-sub input[type="button"]:active {
 }
 div#reply_div{
 	padding: 5px 10px 40px 10px;
-	margin-top:10px;
-	background-color: #EEE;
+    margin: 10px auto; /* 가로 중앙 정렬 */
+    background-color: #EEE;
+    max-width: 1280px;
+    display: flex;
+    justify-content: center; /* 가로 정렬 */
+    align-items: center; /* 세로 정렬 */
 }
 form#re_form{
 	width: 650px;
@@ -266,13 +269,13 @@ textarea.rep-content{
 	height: 50px;
 	margin: 10px;
 }
-#div#re_first, div#mre_first{
+div#re_first, div#mre_first{
 	float: left;
 	width: 70%;
 	padding-left: 15px;
 	margin-bottom: 10px;
 }
-#div#re_second, div#mre_second{
+div#re_second, div#mre_second{
 	float: left;
 	width: 19%;
 	margin-bottom: 10px;
@@ -283,7 +286,10 @@ div#loading{
 div.paging-button{
 	text-align: right;
 }
-#div#output{
+div#output{
+	padding: 5px 10px 40px 10px;
+    margin: 10px auto; /* 가로 중앙 정렬 */
+    max-width: 1280px;
 	clear:both;
 }
 form#mre_form{

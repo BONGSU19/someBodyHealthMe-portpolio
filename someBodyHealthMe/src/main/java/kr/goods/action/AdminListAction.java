@@ -20,6 +20,11 @@ public class AdminListAction implements Action{
 		if(user_num == null) {//로그인 되지 않은 경우
 			return "redirect:/member/loginForm.do";
 		}
+		Integer status = (Integer)session.getAttribute("status");
+		if(status != 4) {//관리자로 로그인하지 않은 경우
+			return "common/notice.jsp";
+		}
+		
 		
 		String pageNum =request.getParameter("pageNum");
 		if(pageNum == null) pageNum ="1";

@@ -54,8 +54,13 @@ public class UpdateAction implements Action{
 			//새 파일로 교체할 때 원래 파일 제거
 			FileUtil.removeFile(request, db_goods.getGoods_img2());
 		}
+		
+		
+		request.setAttribute("notice_msg", "정상적으로 수정되었습니다.");
+		request.setAttribute("notice_url", 
+				request.getContextPath()+"/goods/updateForm.do?goods_num="+goods_num);
 
-		return "redirect:/goods/detail.do?goods_num="+goods_num;
+		return "common/alert_view.jsp";
 	}
 
 }

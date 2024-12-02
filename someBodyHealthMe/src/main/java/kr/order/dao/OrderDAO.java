@@ -427,6 +427,34 @@ public class OrderDAO {
 		return order;
 	}
 	//관리자/사용자 - 배송지정보 수정
+	public void modifyAddress(OrderVO order)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			//커넥션풀로부터 커넥션 할당
+			conn = DBUtil.getConnection();
+			//SQL문 작성
+			sql = "UPDATE orders SET receive_name=?, receive_post=?, receive_address1=?, "
+					+ "receive_address2=?, receive_phone=?, notice=?, modify_date=SYSDATE "
+					+ "WHERE order_num=?";
+			//PreparedStatement 객체 생성
+			pstmt = conn.prepareStatement(sql);
+			//?에 데이터 바인딩
+			pstmt.setString(1, order.getReceive_name());
+			pstmt.setString(2, order.getReceive_post());
+			pstmt.setString(3, order.getReceive_address1());
+			pstmt.setString(4, order.getReceive_address2());
+			pstmt.setString(5, order.getReceive_phone());
+			pstmt.setString(6, order.getNotice());
+			pstmt.setLong(7, order.getOrder_num());
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	//관리자 - 배송상태 수정
 	public void updateOrderStatus(OrderVO order)throws Exception{
 		Connection conn = null;
@@ -463,8 +491,56 @@ public class OrderDAO {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
 	}
-	//사용자 - 주문 취소
 	
+	//사용자 - 주문 취소
+	public void updateOrderCancel(long order_num)throws Exception{
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sql = null;
+		try {
+			//커넥션풀로부터 커넥션 할당
+			conn = DBUtil.getConnection();
+			//오토커밋해제
+			conn.setAutoCommit(false);
+			//SQL문 작성
+			sql = "UPDATE orders SET status=5,"
+					+ "modify_date=SYSDATE WHERE order_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, order_num);
+			pstmt.executeUpdate();
+			
+			//주문번호에 해당하는 상품정보 구하기
+			List<OrderDetailVO> detailList = getListOrderDetail(order_num);
+			
+			//주문 취소로 주문상품의 재고수 환원
+			sql = "UPDATE goods SET goods_quantity=goods_quantity+? "
+					+ "WHERE goods_num=?";
+			pstmt2 = conn.prepareStatement(sql);
+			for(int i=0;i<detailList.size();i++	) {
+				OrderDetailVO detail = detailList.get(i);
+				pstmt2.setInt(1, detail.getOrder_quantity());
+				pstmt2.setLong(2, detail.getGoods_num());
+				pstmt2.addBatch();
+				
+				//계속 추가하면 outOfMemory 발생, 1000개 단위로
+				//executeBatch()
+				if(i % 1000 == 0) {
+					pstmt2.executeBatch();
+				}
+			}
+			pstmt2.executeBatch();
+			//모든 SQL문이 성공하면 커밋
+			conn.commit();
+		}catch(Exception e) {
+			//SQL문이 하나라도 실패하면
+			conn.rollback();
+			throw new Exception(e);
+		}finally {
+			DBUtil.executeClose(null, pstmt2, conn);
+			DBUtil.executeClose(null, pstmt, conn);
+		}
+	}
 	
 	//상품 구매내역 체크
 	public boolean checkBuyGoods(long user_num, long goods_num) throws Exception{

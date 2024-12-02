@@ -47,10 +47,12 @@ public class ListReplyAction implements Action{
 		}
 		
 		HttpSession session = request.getSession();
+		Integer status = (Integer)session.getAttribute("status");
 		Long user_num = (Long)session.getAttribute("user_num");
 		
 		boolean isReviewed = dao.checkReview(user_num, goods_num);
 		boolean checkBuy = odao.checkBuyGoods(user_num, goods_num);
+		
 		
 		Map<String, Object> mapAjax = new HashMap<String, Object>();
 		mapAjax.put("count", count);
@@ -59,6 +61,7 @@ public class ListReplyAction implements Action{
 		mapAjax.put("user_num", user_num);
 		mapAjax.put("isReviewed", isReviewed);
 		mapAjax.put("checkBuy", checkBuy);
+		mapAjax.put("status", status);
 		
 		return StringUtil.parseJSON(request, mapAjax);
 	}

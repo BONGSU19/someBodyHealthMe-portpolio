@@ -2,6 +2,7 @@ package kr.goods.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
 import kr.goods.dao.GoodsDAO;
@@ -12,6 +13,9 @@ public class DetailAction implements Action{
 	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		HttpSession session = request.getSession();
+		Integer status = (Integer)session.getAttribute("status");
 		// 상품번호 반환
 		long goods_num = Long.parseLong(request.getParameter("goods_num"));
 		

@@ -24,6 +24,32 @@
 					}
 				}//end of for
 			});//end of submit
+			
+			//상품 이미지 미리보기
+			$('#goods_img1,#goods_img2').change(function(){
+				let my_img = this.files[0];
+				let $goods_img = $(this).parent().find('.my-photo');
+				if(!my_img){
+					$goods_img.attr('src','../upload/'+$goods_img.attr('data-img'));
+					return;
+				}
+				
+				//이미지 용량 체크
+				if(my_img.size > 1024 * 1024){
+					alert(Math.round(my_img.size/1024) + 'kbytes(1024kbytes까지만 업로드 가능)');
+					$(this).val('');
+					return;
+				}
+				
+				const reader = new FileReader();
+				reader.readAsDataURL(my_img);
+				
+				reader.onload = function(){
+					$goods_img.attr('src',reader.result);
+				};
+				
+			});
+			
 		});
 	
 	</script>
@@ -42,14 +68,16 @@
 				<input type="button" value="상품 목록" onclick="location.href='list.do'">
 			</c:if>
 			</div>
-			<h2>상품 수정</h2>
 			<form id="update_form" action="update.do" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="goods_num" value="${goods.goods_num}">
 				<ul>
+					<li><h2 class="align-center">상품 수정</h2></li>
 					<li>
 					<label>상품표시여부</label> 
-					<input type="radio" name="goods_status" value="1" id="status1">미표시
-					<input type="radio" name="goods_status" value="2" id="status2" checked>표시
+					<input type="radio" name="goods_status" value="1" id="status1"
+					<c:if test="${goods.goods_status == 1}">checked</c:if>>미표시
+					<input type="radio" name="goods_status" value="2" id="status2"
+					<c:if test="${goods.goods_status == 2}">checked</c:if>>표시
 					<li>
 					<li>
 					<label for="goods_name">상품명</label> 
@@ -74,24 +102,24 @@
 					<input type="number" name="goods_quantity" id="goods_quantity" min="0" max="9999999" value="${goods.goods_quantity}" class="input-check">
 					</li>
 					<li>
-					<label for="goods_img1">상품사진1</label> 
-					<input type="file" name="goods_img1" id="goods_img1" accept="image/gif,image/png,image/jpeg">
-					<c:if test="${!empty goods.goods_img1}">
-					<div id="file_detail">
-							파일이 등록되어 있습니다.
-							<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="100">
-					</div>
-					</c:if>
+					<label for="goods_img1">상품사진1</label>
+					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
+							data-img="${goods.goods_img1}" width="50" height="50"
+							class="my-photo">
+					<br>
+					<input type="file" name="goods_img1" id="goods_img1"
+					       accept="image/gif,image/png,image/jpeg"  
+					       class="form-notice">
 					</li>
 					<li>
 					<label for="goods_img2">상품사진2</label> 
-					<input type="file" name="goods_img2" id="goods_img2" accept="image/gif,image/png,image/jpeg">
-					<c:if test="${!empty goods.goods_img2}">
-					<div id="file_detail">
-							파일이 등록되어 있습니다.
-							<img src="${pageContext.request.contextPath}/upload/${goods.goods_img2}" width="100">
-					</div>
-					</c:if>
+					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img2}"
+							data-img="${goods.goods_img2}" width="50" height="50"
+							class="my-photo">
+					<br>
+					<input type="file" name="goods_img2" id="goods_img2"
+					       accept="image/gif,image/png,image/jpeg"  
+					       class="form-notice">
 					</li>
 					<li>
 					<label for="goods_info">상품설명</label> 

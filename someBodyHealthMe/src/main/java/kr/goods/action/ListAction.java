@@ -29,7 +29,7 @@ public class ListAction implements Action{
 		String keyword = request.getParameter("keyword");
 		
 		GoodsDAO dao = GoodsDAO.getInstance();
-		int count = dao.getGoodsCount(keyfield, keyword, 0);
+		int count = dao.getGoodsCount(keyfield, keyword, 1);
 		
 		//페이지 처리
 		PagingUtil page = new PagingUtil(keyfield, keyword, Integer.parseInt(pageNum),count,10,10,"list.do");

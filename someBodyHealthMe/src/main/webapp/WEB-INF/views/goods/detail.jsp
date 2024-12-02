@@ -22,8 +22,9 @@
 	<div class="page-main">
 		<jsp:include page="/WEB-INF/views/common/header.jsp" />
 		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp" />
-
+		
 		<div class="content-main">
+			
 			<div class="button-container">
 				<c:if test="${status == 4}">
 					<input type="button" value="상품 수정"
@@ -45,47 +46,80 @@
 				<input type="button" value="상품 목록" onclick="location.href='list.do'">
 				</c:if>
 			</div>
+			
+			
+			<!-- 판매 X -->
 			<c:if test="${goods.goods_status == 1}">
-				<div class="result-diplay">
-					<div class="align-center">
-						본 상품은 판매 중지되었습니다.
-						<p>
-						<c:if test="${status == 4}">
-							<input type="button" value="판매상품 보기"
-								onclick="location.href='adminlist.do'">
-						</c:if>
-						<c:if test="${status != 4}">
-							<input type="button" value="판매상품 보기"
-								onclick="location.href='list.do'">
-						</c:if>
-						<h3 class="align-center">${goods.goods_name}</h3>
-						<div class="item-image">
-							<img
-								src="${pageContext.request.contextPath}/upload/${goods.goods_img1}"
-								width="400">
+				<div class="detail-info">
+					<div class="item-image">
+					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="400" height="400">
+					<div class="re-like-re">
+					<img src="${pageContext.request.contextPath}/images/Star.png" width="48">
+						<div id="average_rating">
+    						<h2><span id="avg_rating_value">0</span></h2>
 						</div>
-						<div class="item-detail">
-							<form id="goods_cart">
-								<input type="hidden" name="goods_num" value="${goods.goods_num}"
-									id="goods_num">
-								<input type="hidden" name="goods_price"	value="${goods.goods_price}" id="goods_price">
-								<input type="hidden" name="goods_quantity" value="${goods.goods_quantity}" id="goods_quantity">
-								<ul>
-									<li>가격 : <b><fmt:formatNumber value="${goods.goods_price}" /></b></li>
-								</ul>
-						</div>
-						<hr size="1" noshade="noshade" width="100%">
-						<p>${goods.goods_info}</p>
-						<ul class="detail-sub">
-							<li>
-								<%-- 좋아요 --%> <img id="output_like"
-								data-num="${goods.goods_num}"
-								src="${pageContext.request.contextPath}/images/like01.png"
-								width="50"><span id="output_lcount"></span>
-							</li>
-						</ul>
+					<img src="${pageContext.request.contextPath}/images/like02.png">
+						<h2><span id="output_lcount"></span></h2>
+						<img src="${pageContext.request.contextPath}/images/review.png" width="48">
+						<h2>${recount}</h2>
 					</div>
+				</div>
+				
+			
+				<div class="item-detail">
+					<form id="goods_buy">
+						<input type="hidden" name="goods_num" value="${goods.goods_num}"id="goods_num">
+						<input type="hidden" name="goods_price"	value="${goods.goods_price}" id="goods_price">
+						<input type="hidden" name="goods_quantity" value="${goods.goods_quantity}" id="goods_quantity">
+						<ul>
+							<li><br><h1>${goods.goods_name}</h1><br></li>
+							<li class="align-right"><h3><fmt:formatNumber value="${goods.goods_price}" />원</h3></li>
+							<hr size="1" noshade="noshade" width="100%">
+							<c:if test="${goods.goods_quantity > 0}">
+								<li>재고 : <span><fmt:formatNumber value="${goods.goods_quantity}" /></span></li>
+								<li>
+								<div class="align-center">
+								본 상품은 판매 중지되었습니다.
+								<p>
+								<input type="button" value="판매상품 보기" onclick="location.href='adminlist.do'">
+								</div>
+								</li>
+									<hr size="1" noshade="noshade" width="100%">
+								<ul class="detail-sub">
+									<li>
+										<%-- 좋아요 --%> <img id="output_like" data-num="${goods.goods_num}"
+										src="${pageContext.request.contextPath}/images/like01.png"
+										width="50">
+									</li>
+								</ul>
+								
+							</c:if>
+						</ul>
+					</form>
+				</div>
+				
+				</div>
+				<br><br>
+				<hr size="1" noshade="noshade" width="100%">
+				<div class="goods-detail-img">
+					<img
+						src="${pageContext.request.contextPath}/upload/${goods.goods_img2}"
+						width="1280">
+				</div>
+				<p class="align-center">${goods.goods_info}</p>
+				
+				<div id="output"></div>
+				<div class="paging-button" style="display: none;">
+					<input type="button" value="다음글 보기">
+				</div>
+				<div id="loading" style="display: none;">
+					<img src="${pageContext.request.contextPath}/images/loading.gif"
+						width="50" height="50">
+				</div>
+				
 			</c:if>
+			<!-- 판매 X -->
+			
 			<!-- 판매 상품 -->
 			<c:if test="${goods.goods_status == 2}">
 			<div class="detail-info">

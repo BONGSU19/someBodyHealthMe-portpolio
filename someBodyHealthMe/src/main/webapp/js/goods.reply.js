@@ -20,6 +20,9 @@ $(function(){
 			success:function(param){
 				//로딩 이미지 감추기
 				$('#loading').hide();
+				
+				console.log('param.status:', param.status); // 이 부분을 통해 status 값을 확인해봅니다.
+				
 				count = param.count;
 				
 				if(pageNum==1){
@@ -41,7 +44,7 @@ $(function(){
 					if(param.user_num == item.user_num){
 						output += ' <input type ="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';						
 						output += ' <input type ="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
-					}else if(param.user_num == 26){
+					}else if(param.status == 4){
 						output += ' <input type ="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
 					}
 					output += '<hr size="1" noshade width="100%">';

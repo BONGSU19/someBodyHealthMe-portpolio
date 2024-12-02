@@ -475,6 +475,7 @@ public class GoodsDAO {
 				review.setGoods_num(rs.getLong("goods_num"));
 				review.setUser_num(rs.getLong("user_num"));
 				review.setNick_name(rs.getString("nick_name"));
+				review.setRe_rating(rs.getInt("re_rating"));
 
 				list.add(review);
 			}

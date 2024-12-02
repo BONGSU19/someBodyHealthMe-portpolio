@@ -17,7 +17,7 @@
 		<form action="modifyStatus.do" method="post" id="status_modify">
 			<input type="hidden" name="order_num" value="${order.order_num}">
 			<ul>
-				<li>
+				<li class="align-center">
 					<c:if test="${order.status != 5}">
 					<input type="radio" name="status"
 					 id="status1" value="1"
@@ -41,7 +41,7 @@
 			</ul>
 			<div class="align-center">
 				<c:if test="${order.status != 5}">
-				<input type="submit" value="수정">
+				<input type="submit" value="수정" id="my-btn">
 				</c:if>
 				<input type="button" value="주문상세"
 				 onclick="location.href='adminDetail.do?order_num=${order.order_num}'">

@@ -70,18 +70,40 @@
 				<c:if test="${order.status == 5}">주문취소</c:if>
 			</li>
 		</ul>
-		<div class="align-center">
-			<c:if test="${order.status == 1}">
-			<input type="button" value="배송지정보 수정" 
-			onclick="location.href='modifyForm.do?order_num=${order.order_num}'">
-			</c:if>
-			<c:if test="${order.status != 5}">
-			<input type="button" value="배송상태 수정" 
-			onclick="location.href='modifyStatusForm.do?order_num=${order.order_num}'">
-			</c:if>
-			<input type="button" value="주문목록" 
+		<form action="modifyStatus.do" method="post" id="status_modify">
+			<input type="hidden" name="order_num" value="${order.order_num}">
+			<ul>
+				<li class="align-center">
+					<c:if test="${order.status != 5}">
+					<input type="radio" name="status"
+					 id="status1" value="1"
+					 <c:if test="${order.status == 1}">checked</c:if>>배송대기
+					<input type="radio" name="status"
+					 id="status2" value="2"
+					 <c:if test="${order.status == 2}">checked</c:if>>배송준비중
+					<input type="radio" name="status"
+					 id="status3" value="3"
+					 <c:if test="${order.status == 3}">checked</c:if>>배송중
+					<input type="radio" name="status"
+					 id="status4" value="4"
+					 <c:if test="${order.status == 4}">checked</c:if>>배송완료
+					</c:if>
+					
+					<input type="radio" name="status"
+					 id="status5" value="5"
+					 <c:if test="${order.status == 5}">checked</c:if>>주문취소
+					
+				</li>
+			</ul>
+			<div class="align-center">
+				<c:if test="${order.status != 5}">
+				<input type="submit" value="수정" id="my-btn">
+				</c:if>
+				<input type="button" value="주문목록" 
 			onclick="location.href='adminList.do'">
-		</div>
+			</div>
+		</form>
+		
 	</div>
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </div>

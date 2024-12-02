@@ -1,294 +1,340 @@
 $(function(){
-	let rowCount =10;
+	let rowCount = 10;
 	let currentPage;
 	let count;
+
 	/*===========================
-		 댓글 목록
-	================================*/
-	//댓글목록
+		댓글 목록
+	===========================*/
 	function selectList(pageNum){
 		currentPage = pageNum;
 		
-		//로딩 이미지 노출
 		$('#loading').show();
-		//서버와 통신
 		$.ajax({
-			url:'listReply.do',
-			type : 'post',
-			data:{pageNum:pageNum, rowCount:rowCount, goods_num:$('#goods_num').val(), status:$('#status').val()},
-			dataType :'json',
-			success:function(param){
-				//로딩 이미지 감추기
+			url: 'listReply.do',
+			type: 'post',
+			data: {pageNum: pageNum, rowCount: rowCount, goods_num: $('#goods_num').val(), status: $('#status').val()},
+			dataType: 'json',
+			success: function(param){
 				$('#loading').hide();
-				
-				console.log('param.status:', param.status); // 이 부분을 통해 status 값을 확인해봅니다.
-				
 				count = param.count;
 				
-				if(pageNum==1){
-					//처음 호출시는 해당 id 의 div 내부 내용물을 제거
+				if(pageNum == 1){
 					$('#output').empty();
 				}
-				$(param.list).each(function(index,item){
-					let output ='<div class = "item">';
+				$(param.list).each(function(index, item){
+					
+					let output = '<div class="item">';
+					// 평점에 맞는 이미지를 동적으로 표시 (각 평점에 맞는 이미지를 보여주는 부분)
+					let rating = item.re_rating;  // 각 리뷰의 평점 값 가져오기
+					output += '<div class="rating-value" data-rating="' + rating + '">';
+					// 평점에 맞는 이미지를 보여주는 코드
+					let starImage;
+					switch (parseInt(rating)) {
+						case 1: starImage = contextPath + '/images/star1.png'; break;
+						case 2: starImage = contextPath + '/images/star2.png'; break;
+						case 3: starImage = contextPath + '/images/star3.png'; break;
+						case 4: starImage = contextPath + '/images/star4.png'; break;
+						case 5: starImage = contextPath + '/images/star5.png'; break;
+						default: starImage = contextPath + '/images/star.png'; break;  // 평점이 없는 경우
+						}
+						// 이미지로 평점 표시 (별을 클릭할 수 없도록 표시)
+						output += '<img src="' + starImage + '" class="star-image" />';
+						output += '</div>';
 					output += '<h4>' + item.nick_name + '</h4>';
-					output += '<div class ="sub-item">';
+					output += '<div class="sub-item">';
 					output += '<p>' + item.re_content + '</p>';
+					
+					
+					
 					if(item.re_mdate){
 						output += '<span class="modify-date">최근 수정일: ' + item.re_mdate + '</span>';
 					}else{
 						output += '<span class="modify-date">등록일: ' + item.re_date + '</span>';
 					}
 					
-					//로그인한 회원번호와 작성자의 회원번호 일치 여부 체크
 					if(param.user_num == item.user_num){
-						output += ' <input type ="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';						
-						output += ' <input type ="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+						output += '<div id="button-container">';
+						output += '<input type="button" data-renum="'+item.re_num+'" value="수정" class="modify-btn">';						
+						output += '<input type="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+						output += '</div>';
 					}else if(param.status == 4){
-						output += ' <input type ="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+						output += '<div class="button-container">';
+						output += '<input type="button" data-renum="'+item.re_num+'" value="삭제" class="delete-btn">';
+						output += '</div>';
 					}
-					output += '<hr size="1" noshade width="100%">';
+					
 					output += '</div>';
 					output += '</div>';
 					
-					//문서객체에 추가
 					$('#output').append(output);
+				});
 
-					});//end of each
-					
-					//page button 처리
-					if(currentPage>=Math.ceil(count/rowCount)){
-						//다음 페이지가 없음
-						$('.paging-button').hide();
-					}else{
-						//다음 페이지가 존재
-						$('.paging-button').show();
-					}
-					
-					// isReviewed 값에 따라 댓글 작성 폼 비활성화
-					if (param.isReviewed || !param.user_num || !param.checkBuy) {
-					                $('#re_content').prop('disabled', true); // 댓글을 작성할 수 없는 경우
-					                $('#re_content').attr('placeholder', '이미 리뷰를 작성하셨거나 구매 후 리뷰를 작성할 수 있습니다.');
-					            } else {
-					                $('#re_content').prop('disabled', false); // 댓글을 작성할 수 있는 경우
-					                $('#re_content').attr('placeholder', '리뷰를 입력하세요');
-					            }
-					
-					
+				if(currentPage >= Math.ceil(count / rowCount)){
+					$('.paging-button').hide();
+				}else{
+					$('.paging-button').show();
+				}
+				
+				if(param.isReviewed || !param.user_num || !param.checkBuy) {
+					$('#re_content').prop('disabled', true); 
+					$('#re_content').attr('placeholder', '이미 리뷰를 작성하셨거나 구매 후 리뷰를 작성할 수 있습니다.');
+				} else {
+					$('#re_content').prop('disabled', false); 
+					$('#re_content').attr('placeholder', '리뷰를 입력하세요');
+				}
 			},
-			error:function(){
+			error: function(){
 				$('#loading').hide();
 				alert('네트워크 오류발생1');
 			}
-			
 		});
 	}
-	//페이지 처리 이벤트 연결(다음 댓글 보기 버튼 클릭시 데이터 추가)
+
 	$('.paging-button input').click(function(){
 		selectList(currentPage + 1);
 	});
-	
+
 	/*===========================
-	* 댓글 등록
-	================================*/
-	//댓글 등록 이벤트 연결
-	
+		댓글 등록
+	===========================*/
 	$('#re_form').submit(function(event){
-		if($('#re_content').val().trim()==''){
+		if($('#re_content').val().trim() == ''){
 			alert('내용을 입력하세요!');
 			$('#re_content').val('').focus();
 			return false;
 		}
-		//form 이하의 태그에 입력한 데이터를 모두 읽어서 쿼리 스트링으로 반환
-		let form_data = $(this).serialize();
-		//서버와 통신
+
+		// 평점이 선택되지 않았으면 오류 메시지
+		let selectedRating = $('.rating-value').attr('data-rating');
+		if (!selectedRating || selectedRating === 'null') {
+			alert("평점을 선택해주세요!");
+			return false;
+		}
+
+		let form_data = $(this).serialize() + '&re_rating=' + selectedRating;
+		
 		$.ajax({
-			url:'writeReply.do',
-			type:'post',
-			data:form_data,
-			dataType:'json',
-			success:function(param){
-				if(param.result=='logout'){
+			url: 'writeReply.do',
+			type: 'post',
+			data: form_data,
+			dataType: 'json',
+			success: function(param){
+				if(param.result == 'logout'){
 					alert('로그인해야 작성할 수 있습니다.')
-				}else if(param.result=='success'){
-					//폼 초기화
+				}else if(param.result == 'success'){
 					initForm();
-					//댓글 작성이 성공하면 새로 삽입한 글을 포함해서 첫번째 페이지의 게시글 목록을 다시 호출함 
 					selectList(1);
 				}else{
 					alert('댓글 등록 오류 발생');
 				}
-			},error:function(){
-				alert('평점을 선택하세요');
+			},
+			error: function(){
+				alert('네트워크 오류발생 15');
 			}
 		});
-		//기본이벤트 제거
+		
 		event.preventDefault();
 	});
-	//댓글 작성 폼 초기화 
+
 	function initForm(){
 		$('textarea').val('');
 		$('#re_first.letter-count').text('300/300');
 	}
+	
+	
+
 	/*===========================
-		* 댓글 수정
-	================================*/
-	// 댓글 수정 버튼 클릭시 수정폼 노출
-	    $(document).on('click','.modify-btn',function(){
-	        // 댓글 번호
-	        let re_num = $(this).attr('data-renum');
-	        // 댓글 내용
-	        let content = $(this).parent().find('p').html().replace(/<br>/gi, '\n'); 
-	                                                                // g:지정문자열 모두 , i: 대소문자 무시
-			let rating = $(this).parent().find('.rating-value').data('rating'); // 예시로 평점을 value로 가져왔다고 가정
-	        // 댓글 수정폼 UI
-	        let modifyUI = '<form id="mre_form">';
-	        modifyUI += '<input type ="hidden" name="re_num" id="mre_num" value="'+re_num+'">';
-			modifyUI += '<div class="rating-value">';
-			for(let i = 1; i <= 5; i++){
-				modifyUI += '<label><input type="radio" name="re_rating" value="'+i+'" id="rating'+i+'"';	
-				if (i == rating) {
-				    modifyUI += ' checked'; // 기존 평점과 일치하는 라디오 버튼을 체크
-				}
-				modifyUI += '> '+i+'점 </label>';
-			}
-			modifyUI += '</div>'; 
-			
-	        modifyUI += '<textarea rows="3" cols="50" name="re_content" id="mre_content" class="rep-content">'+content+'</textarea>';
-	        modifyUI += '<div id="mre_first"><span class="letter-count">300/300</span></div>';
-	        modifyUI += '<div id="mre_second" class="align-right">';
-	        modifyUI += ' <input type="submit" value="수정">';
-	        modifyUI += ' <input type="button" value="취소" class="re-reset">';
-	        modifyUI += "</div>";
-	        modifyUI += '<hr size="1" noshade width="96%">';
-	        modifyUI += '</form>';
-	        
-			//이전에 이미 수정하는 댓글이 있을 경우 수정버튼을 클릭하면 숨김 sub-item 클래스로 지정한 dic를 환원시키고 수정폼을 제거
-			initModifyForm();
-			
-	        // 지금 클릭해서 수정하고자하는 데이터는 감추기 수정버튼을 감싸고 있는 div
-	        $(this).parent().hide();
-	        
-	        // 수정폼을 수정하고자 하는 데이터가 있는 div에 노출
-	        $(this).parents('.item').append(modifyUI);
-	        
-			//입력한 글자수 셋팅
-			let inputLength = $('#mre_content').val().length;
-			let remain = 300 -inputLength;
-			remain += '/300';
-			//문서 객체에 반영
-			$('#mre_first .letter-count').text(remain);
-	        
+		별점
+	===========================*/
+	$(document).ready(function(){
+	    $('.star').on('click', function() {
+	        var rating = $(this).data('rating');
+	        $('.star').attr('src', function() {
+	            return $(this).attr('src').replace(contextPath + '/images/star.png', contextPath + '/images/emptystar.png');
+	        });
+
+	        for (var i = 1; i <= rating; i++) {
+	            $('#star' + i).attr('src', contextPath + '/images/star.png');
+	        }
+
+	        $('.rating-value').attr('data-rating', rating); // 평점 값 설정
+	    });
+	});
+
+	$(document).on('click', '.star', function() {
+	    var rating = $(this).data('rating');
+	    var ratingContainer = $(this).closest('.rating-value');
+	    ratingContainer.attr('data-rating', rating);
+
+	    ratingContainer.find('.star').attr('src', function() {
+	        return $(this).attr('src').replace(contextPath + '/images/star.png', contextPath + '/images/emptystar.png');
 	    });
 
-	    // 댓글 수정폼 초기화
-	    function initModifyForm(){
-	        $('.sub-item').show();
-	        $('#mre_form').remove();
+	    for (var i = 1; i <= rating; i++) {
+	        ratingContainer.find('#star' + i).attr('src', contextPath + '/images/star.png');
 	    }
+	});
+
+	/*===========================
+		댓글 수정
+	===========================*/
+	// 댓글 수정 버튼 클릭 시
+	$(document).on('click', '.modify-btn', function () {
+	    let re_num = $(this).attr('data-renum');
+	    let content = $(this).parent().closest('.item').find('.sub-item p').html().replace(/<br>/gi, '\n'); 
+	    let rating = $(this).parent().find('.rating-value').attr('data-rating');  // 기존 평점 값 가져오기
+
+	    // 기존 수정 폼이 있을 경우 삭제
+	    $(this).closest('.item').find('#mre_form').remove();
+
+	    // 수정 UI를 생성
+	    let modifyUI = '<form id="mre_form">';
+	    modifyUI += '<input type="hidden" name="re_num" id="mre_num" value="' + re_num + '">';
+	    modifyUI += '<div class="rating-value" data-rating="' + rating + '">';
+	    for (let i = 1; i <= 5; i++) {
+	        modifyUI += '<label>';
+	        modifyUI += '<img src="' + (i <= rating ? contextPath + '/images/star.png' : contextPath + '/images/emptystar.png') + '" class="star" data-rating="' + i + '" id="star' + i + '" />';
+	        modifyUI += '</label>';
+	    }
+	    modifyUI += '</div>';
+	    modifyUI += '<textarea rows="3" cols="50" name="re_content" id="mre_content" class="rep-content">' + content + '</textarea>';
+	    modifyUI += '<div id="mre_first"><span class="letter-count">300/300</span></div>';
+	    modifyUI += '<div id="mre_second" class="align-right">';
+	    modifyUI += ' <input type="submit" value="수정" id="my-btn">';
+	    modifyUI += ' <input type="button" value="취소" class="re-reset">';
+	    modifyUI += "</div>";
+	    modifyUI += '<hr size="1" noshade width="96%">';
+	    modifyUI += '</form>';
+
+	    // 수정 버튼을 눌렀을 때 삭제 버튼 숨기기
+	    $(this).hide(); // 수정 버튼 숨기기
+	    $(this).parent().find('.delete-btn').hide(); // 삭제 버튼 숨기기
+
+	    // 수정 UI를 추가
+	    $(this).parents('.item').append(modifyUI);
+
+	    // 평점 설정
+	    setRatingForModifyForm(rating);
+
+	    // 글자 수 제한
+	    let inputLength = $('#mre_content').val().length;
+	    let remain = 300 - inputLength;
+	    remain += '/300';
+	    $('#mre_first .letter-count').text(remain);
+	});
+
+	function setRatingForModifyForm(rating) {
+	    var ratingContainer = $('#mre_form .rating-value');
 	    
-	    // 수정폼에서 취소 버튼 클릭시 수정폼 초기화
-	    $(document).on('click','.re-reset',function(){
-	        initModifyForm();
+	    // 수정 폼의 평점 값 설정
+	    ratingContainer.attr('data-rating', rating);
+
+	    // 평점 UI 업데이트
+	    for (var i = 1; i <= 5; i++) {
+	        var starImg = ratingContainer.find('.star[data-rating="'+i+'"]');
+	        if (i <= rating) {
+	            starImg.attr('src', contextPath + '/images/star.png'); // 선택된 별
+	        } else {
+	            starImg.attr('src', contextPath + '/images/emptystar.png'); // 선택되지 않은 별
+	        }
+	    }
+	}
+
+	// 별점 클릭 이벤트 처리
+	// 수정폼 내 별점 클릭 이벤트
+	$(document).on('click', '#mre_form .star', function() {
+	    var rating = $(this).data('rating'); // 클릭된 별점 (1~5)
+	    var ratingContainer = $(this).closest('.rating-value'); // 평점 컨테이너 찾기
+	    
+	    // 평점 값 변경
+	    ratingContainer.attr('data-rating', rating);
+	    
+	    // 별 이미지의 src 속성 변경 (모든 별을 빈 별로 초기화)
+	    ratingContainer.find('.star').attr('src', function() {
+	        return $(this).attr('src').replace(contextPath + '/images/star.png', contextPath + '/images/emptystar.png');
 	    });
-	    // 댓글수정
-		$(document).on('submit', '#mre_form', function(event){
-			if($('#mre_content').val().trim()==''){
-				alert('내용을 입력하세요!');
-				$('#mre_content').val('').focus();
-				return false;
-			}
-			//폼에 입력한 데이터 반환
-			let form_data = $(this).serialize();
-			
-			let selectedRating = $('input[name="re_rating"]:checked').val();
-			if (selectedRating) {
-			    form_data = form_data.replace(/re_rating=[^&]*/, 're_rating=' + selectedRating);  // 기존 re_rating을 새로운 값으로 교체
-			} else {
-			    alert("평점을 선택해주세요!");
-			    return false;
-			}
-			
-			//서버와 통신
+
+	    // 선택된 별에 대해 채워진 별 이미지로 변경
+	    for (var i = 1; i <= rating; i++) {
+	        ratingContainer.find('#star' + i).attr('src', contextPath + '/images/star.png');
+	    }
+	});
+
+	$(document).on('submit', '#mre_form', function(event) {
+	    let selectedRating = $('#mre_form .rating-value').attr('data-rating');
+	    
+	    // 평점이 없으면 오류 메시지 표시
+	    if (!selectedRating || selectedRating === 'undefined') {
+	        alert("평점을 선택해주세요!");
+	        return false;
+	    }
+
+	    let form_data = $(this).serialize() + '&re_rating=' + selectedRating;
+
+	    $.ajax({
+	        url: 'updateReply.do', 
+	        type: 'post',
+	        data: form_data,
+	        dataType: 'json',
+	        success: function(param) {
+	            if (param.result == 'success') {
+	                // 성공시 동작
+	                $(this).parent().find('.modify-btn').show();
+	                $(this).parent().find('.delete-btn').show();
+	                $(this).parent().find('.modify-date').text(param.modifyDate);
+	                $(this).remove();
+	                selectList(currentPage);
+	            } else {
+	                alert('댓글 수정 오류 발생');
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.log("AJAX Error:", error);
+	            alert('네트워크 오류발생 19');
+	        }
+	    });
+	    event.preventDefault();
+	});
+
+	// 취소 버튼 클릭 시
+	$(document).on('click', '.re-reset', function() {
+	    // 수정 폼을 삭제하고 기존 UI로 돌아가기
+	    var item = $(this).closest('.item'); // 부모 요소인 .item을 찾음
+	    item.find('#mre_form').remove(); // 수정 폼 삭제
+	    item.find('.modify-btn').show(); // 수정 버튼 다시 표시
+	    item.find('.delete-btn').show(); // 삭제 버튼 다시 표시
+	    item.find('.modify-date').show(); // 수정 날짜 표시
+	});
+
+	/*===========================
+		댓글 삭제
+	===========================*/
+	$(document).on('click', '.delete-btn', function(){
+		let re_num = $(this).data('renum');
+		let deleteConfirm = confirm("정말 삭제하시겠습니까?");
+		
+		if(deleteConfirm){
 			$.ajax({
-				url:'updateReply.do',
-				type:'post',
-				data:form_data,
-				dataType:'json',
-				success:function(param){
-					if(param.result =='logout'){
-						alert('로그인해야 수정할 수 있습니다.');
-					}else if(param.result == 'success'){
-						$('#mre_form').parent().find('p').html(
-							$('#mre_content').val().replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g, '<br>'));
-							$('#mre_form').parent().find('.modify-date').text('최근 수정일 : 5초미만');
-							//수정폼 삭제 및 초기화
-							initModifyForm();
-					}else if(param.result == 'wrongAccess'){
-						alert('타인의 글을 수정할 수 없습니다.');
+				url: 'deleteReply.do',
+				type: 'post',
+				data: {re_num: re_num},
+				dataType: 'json',
+				success: function(param){
+					if(param.result == 'success'){
+						selectList(currentPage);
 					}else{
-						alert('댓글 수정 오류 발생');
+						alert('댓글 삭제 오류');
 					}
 				},
-				error:function(){
-					alert('네트워크 오류 발생3');
+				error: function(){
+					alert('네트워크 오류발생3');
 				}
 			});
-			//기본이벤트 제거
-			event.preventDefault();
-		});
-	
-	/*===========================
-		* 댓글 등록 및 수정 공통(textarea에 내용 입력시 글자수 체크)
-	================================*/	
-	$(document).on('keyup', 'textarea', function(){
-		//입력한 글자수 구함
-		let inputLength = $(this).val().length;
-		
-		if(inputLength>300){//300자가 넘어선 경우
-			$(this).val($(this).val().substring(0,300));
-		}else{//300자 이하인경우
-			let remain = 300 - inputLength;
-			remain +='/300';
-			if($(this).attr('id') == 
-			're_content'){
-				//등록폼 글자수
-				$('#re_first .letter-count').text(remain);
-			}else{
-				//수정폼 글자수
-				$('#mre_first .letter-count').text(remain);
-			}
 		}
 	});
-	/*===========================
-			* 댓글 삭제
-	================================*/
-	$(document).on('click','.delete-btn',function(){
-		//댓글번호
-		let re_num = $(this).attr('data-renum');
-		//서버와 통신
-		$.ajax({
-			url: 'deleteReply.do',
-			type:'post',
-			data:{re_num:re_num},
-			dataType:'json',
-			success:function(param){
-				if(param.result=='logout'){
-					alert('로그인해야 삭제할 수 있습니다.');
-				}else if(param.result == 'success'){
-					alert('삭제완료!');
-					selectList(1);
-				}else if(param.result == 'wrongAccess'){
-					alert('타인의 글을 삭제할 수 없습니다.');
-				}else{
-					alert('댓글 삭제 오류 발생!');
-				}
-			},
-			error:function(){
-				alert('네트워크 오류 발생4');
-			}
-		});
-	});
+	
+
 	
 	$(document).ready(function(){
 	    // 페이지가 로드될 때 서버에서 평균 rating 값을 가져와서 표시

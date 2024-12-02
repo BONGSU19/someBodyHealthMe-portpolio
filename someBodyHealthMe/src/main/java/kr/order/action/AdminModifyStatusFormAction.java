@@ -29,7 +29,7 @@ public class AdminModifyStatusFormAction implements Action{
 		
 		request.setAttribute("order", order);
 		//JSP 경로 반환
-		return "order/admin_modifyStatusForm.jsp";
+		return "order/admin_detail.jsp";
 	}
 
 }

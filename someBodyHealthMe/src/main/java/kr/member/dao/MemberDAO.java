@@ -385,4 +385,35 @@ public class MemberDAO {
 
             return member;
         }
+    	// 특정 회원의 남은 회원권 일수 계산
+    	public int getRemainingMembershipDays(long userNum) throws Exception {
+    	    Connection conn = null;
+    	    PreparedStatement pstmt = null;
+    	    ResultSet rs = null;
+
+    	    String sql = "SELECT ROUND((mt.duration_months * 30) - (SYSDATE - mo.order_date)) AS remaining_days " +
+    	                 "FROM membershipOrder mo " +
+    	                 "JOIN membership_types mt ON mo.typeId = mt.type_id " +
+    	                 "WHERE mo.user_num = ? " +
+    	                 "AND SYSDATE BETWEEN mo.order_date AND ADD_MONTHS(mo.order_date, mt.duration_months) " +
+    	                 "ORDER BY mo.order_date DESC";
+
+    	    try {
+    	        conn = DBUtil.getConnection();
+    	        pstmt = conn.prepareStatement(sql);
+    	        pstmt.setLong(1, userNum);
+    	        rs = pstmt.executeQuery();
+
+    	        if (rs.next()) {
+    	            return rs.getInt("remaining_days");
+    	        } else {
+    	            return 0; // 유효한 회원권이 없는 경우
+    	        }
+    	    } catch (Exception e) {
+    	        e.printStackTrace();
+    	        throw new Exception("남은 회원권 일수 계산 중 오류 발생", e);
+    	    } finally {
+    	        DBUtil.executeClose(rs, pstmt, conn);
+    	    }
+    	}
     }

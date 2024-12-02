@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,13 +72,17 @@
             <div class="menu-section">
                 <h3>회원권 관련 내역</h3>
                 <ul>
-                    <!-- 일반 사용자용 회원권 조회로 연결 -->
                     <li><a href="${pageContext.request.contextPath}/member/myMembershipList.do">회원권 조회</a></li>
+                    <li><strong>남은 구독 기간:</strong> ${remainingDays}일</li>
                 </ul>
                 <h3>쇼핑 관련 내역</h3>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/cart/viewCart.do">장바구니</a></li>
-                    <li><a href="${pageContext.request.contextPath}/order/list.do">구매내역 확인</a></li>
+                    <li><a href="${pageContext.request.contextPath}/cart/list.do">장바구니</a></li>
+                    <li><a href="${pageContext.request.contextPath}/order/orderList.do">구매내역 확인</a></li>
+                </ul>
+                <h3>출입 내역</h3>
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/entry/myEntryLogsList.do">출입 내역 조회</a></li>
                 </ul>
             </div>
         </aside>
@@ -123,23 +128,35 @@
                 </table>
             </div>
 
-            <div class="my-comments">
-                <h3>출입 내역 
-                    <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/entry/myEntryLogsList.do'">더보기</button>
-                </h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>제목</th>
-                            <th>작성일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">데이터 없음</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="my-entry-logs">
+               <h3>출입 내역 
+    <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/entry/myEntryLogsList.do'">더보기</button>
+</h3>
+<table>
+    <thead>
+        <tr>
+            <th>출입 시간</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:choose>
+            <c:when test="${not empty entryLogs}">
+                <c:forEach var="entry" items="${entryLogs}">
+                    <tr>
+                        <td>
+                            <fmt:formatDate value="${entry.entryTime}" pattern="yyyy-MM-dd HH:mm"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <td colspan="1">출입 내역이 없습니다.</td>
+                </tr>
+            </c:otherwise>
+        </c:choose>
+    </tbody>
+</table>
             </div>
         </main>
     </div>

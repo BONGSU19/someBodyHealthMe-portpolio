@@ -2,7 +2,10 @@ package kr.mydiet.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import kr.mydiet.vo.MealLogVO;
 import kr.util.DBUtil;
@@ -41,5 +44,32 @@ public class MealLogDAO {
         } finally {
             DBUtil.executeClose(null, pstmt, conn);
         }
+    }
+    
+ // 특정 사용자(UserNum)의 식사 기록을 조회
+    public List<MealLogVO> getMealLogsByUser(int userNum) {
+        List<MealLogVO> mealLogs = new ArrayList<>();
+        String sql = "SELECT MEALLOGID, FOODNAME, MEALTYPE, CREATEDAT, USER_NUM FROM MEALLOG WHERE USER_NUM = ? ORDER BY CREATEDAT DESC";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userNum);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    MealLogVO log = new MealLogVO();
+                    log.setMealLogId(rs.getInt("MEALLOGID"));
+                    log.setFoodName(rs.getString("FOODNAME"));
+                    log.setMealType(rs.getString("MEALTYPE"));
+                    log.setCreatedAt(rs.getDate("CREATEDAT"));
+                    log.setUserNum(rs.getInt("USER_NUM"));
+                    mealLogs.add(log);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return mealLogs;
     }
 }

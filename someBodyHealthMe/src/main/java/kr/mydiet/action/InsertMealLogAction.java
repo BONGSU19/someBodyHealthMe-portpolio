@@ -70,13 +70,13 @@ public class InsertMealLogAction implements Action {
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("notice_msg", "식단 추가 중 오류가 발생했습니다.");
-            request.setAttribute("notice_url", request.getContextPath() + "/mydiet/selectCustomDiet.do");
+            request.setAttribute("notice_url", request.getContextPath() + "/mydiet/makeDietForm.do");
             return "common/alert_view.jsp";
         }
 
         // 완료 메시지 설정
         request.setAttribute("notice_msg", "식단이 성공적으로 추가되었습니다!");
-        request.setAttribute("notice_url", request.getContextPath() + "/mydiet/selectCustomDiet.do");
+        request.setAttribute("notice_url", request.getContextPath() + "/mydiet/makeDietForm.do");
 
         return "common/alert_view.jsp";
     }

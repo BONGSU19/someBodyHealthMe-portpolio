@@ -231,25 +231,27 @@
         </thead>
         <tbody>
             <c:forEach var="friend" items="${list}">
-                <tr>
-                    <td>${friend.name}</td>
-                    <td>${friend.nick_name}</td>
-                    <td>
-                        <c:if test="${friend.center_Num=='1'}">강남점</c:if>
-                        <c:if test="${friend.center_Num=='2'}">강북점</c:if>
-                    </td>
-                    <td style="text-align:center;">
-                        <c:if test="${friend.status=='None'}">
-                            <a href="javascript:void(0);" class="friend-request-button sendFriendRequestButton" data-receiver-num="${friend.user_Num}" onclick="refreshPage()">친구 요청</a>
-                        </c:if>
-                        <c:if test="${friend.status=='1'}">
-                            <a href="javascript:void(0);" class="friend-cancel-button sendFriendRequestButton2" data-receiver-num="${friend.user_Num}" onclick="refreshPage()">친구 요청 취소</a>
-                        </c:if>
-                        <c:if test="${friend.status=='2'}">
-                            <span>친구입니다!</span>
-                        </c:if>
-                    </td>
-                </tr>
+                <c:if test="${friend.status2!=0}">
+	                <tr>
+	                    <td>${friend.name}</td>
+	                    <td>${friend.nick_name}</td>
+	                    <td>
+	                        <c:if test="${friend.center_Num=='1'}">강남점</c:if>
+	                        <c:if test="${friend.center_Num=='2'}">강북점</c:if>
+	                    </td>
+	                    <td style="text-align:center;">
+	                        <c:if test="${friend.status=='None'}">
+	                            <a href="javascript:void(0);" class="friend-request-button sendFriendRequestButton" data-receiver-num="${friend.user_Num}" onclick="refreshPage()">친구 요청</a>
+	                        </c:if>
+	                        <c:if test="${friend.status=='1'}">
+	                            <a href="javascript:void(0);" class="friend-cancel-button sendFriendRequestButton2" data-receiver-num="${friend.user_Num}" onclick="refreshPage()">친구 요청 취소</a>
+	                        </c:if>
+	                        <c:if test="${friend.status=='2'}">
+	                            <span>친구입니다!</span>
+	                        </c:if>
+	                    </td>
+	                </tr>
+            	</c:if>
             </c:forEach>
         </tbody>
     </table>

@@ -283,24 +283,35 @@ public class FriendDAO {
 
 			// SQL 문 작성
 			sql = """
-					SELECT user_num, nick_name, center_num, status, rnum,name
-					FROM (
-					    SELECT a.user_num, a.nick_name,a.name, a.center_num, a.status, rownum AS rnum  -- rownum을 별칭으로 지정
-					    FROM (
-					        SELECT s.user_num AS user_num,
-					               s.nick_name AS nick_name,
-					               s.center_num AS center_num,
-					               s.name,
-					               NVL(f.status, 'None') AS status
-					        FROM suser_detail s
-					        LEFT JOIN friend f 
-					            ON (s.user_num = f.receiver_num AND f.user_num = ?)  -- 로그인한 사용자가 친구 요청을 보낸 경우
-					       -- 로그인한 사용자가 친구 요청을 받은 경우
-					        """ + sub_sql + """ 
-					        		ORDER BY s.user_num DESC NULLS LAST
-					        		) a
-					        		)
-					        		WHERE rnum >= ? AND rnum <= ?
+					SELECT user_num, nick_name, center_num, status2, status, rnum, name
+FROM (
+    SELECT a.user_num, 
+           a.nick_name, 
+           a.name, 
+           a.center_num, 
+           a.status, 
+           a.status2, 
+           rownum AS rnum
+    FROM (
+        SELECT sd.user_num AS user_num,
+               sd.nick_name AS nick_name,
+               sd.center_num AS center_num,
+               s.status AS status2,              -- suser_detail 테이블의 status
+               sd.name as name,
+               NVL(f.status, 'None') AS status -- friend 테이블의 status
+        FROM suser s
+        LEFT JOIN suser_detail sd 
+            ON s.user_num = sd.user_num               -- suser와 suser_detail 연결
+        LEFT JOIN friend f 
+            ON (s.user_num = f.receiver_num AND f.user_num = ?) -- friend 테이블 조인
+        """ + sub_sql + """
+        ORDER BY s.user_num DESC NULLS LAST
+    ) a
+)
+WHERE rnum >= ? 
+  AND rnum <= ? 
+  AND user_num != ? 
+  AND user_num != 35
 					        		""";
 
 			pstmt = conn.prepareStatement(sql);
@@ -311,7 +322,7 @@ public class FriendDAO {
 
 			pstmt.setInt(++cnt, start);
 			pstmt.setInt(++cnt, end);
-
+			pstmt.setLong(++cnt, user_num);
 
 
 			//PreparedStatement 객체 생성
@@ -328,7 +339,8 @@ public class FriendDAO {
 				friend.setName(rs.getString("name"));
 				friend.setCenter_Num(rs.getInt("center_num"));
 				friend.setStatus(rs.getString("status"));
-				
+				friend.setStatus2(rs.getString("status2"));
+			
 				friends.add(friend);
 				
 				
@@ -386,7 +398,7 @@ public class FriendDAO {
 					        		ORDER BY s.user_num DESC NULLS LAST
 					        		) a
 					        		)
-					        		WHERE rnum >= ? AND rnum <= ?
+					        		WHERE rnum >= ? AND rnum <= ? and user_num!=? and user_num!=35
 					        		""";
 
 			//PreparedStatement 객체 생성
@@ -398,7 +410,7 @@ public class FriendDAO {
 			pstmt.setInt(++cnt, center_num);
 			pstmt.setInt(++cnt, start);
 			pstmt.setInt(++cnt, end);
-
+			pstmt.setLong(++cnt, user_num);
 
 			//PreparedStatement 객체 생성
 

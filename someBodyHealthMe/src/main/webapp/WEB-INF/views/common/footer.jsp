@@ -18,7 +18,7 @@
 </div>
 <a href="${pageContext.request.contextPath}/main/main.do"  style="float:right;">Some Body<br> Health Me</a>
 <img alt="asd" src="${pageContext.request.contextPath}/images/icon _fire_.png" style="float:right;">
-		<a href="${pageContext.request.contextPath}/friendSearch/adminChatPage.do">운영자 전용 채팅 공간</a>
+
 </footer>
 </body>
 </html>

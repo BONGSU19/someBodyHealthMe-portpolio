@@ -3,7 +3,11 @@ package kr.membership.dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import kr.membership.vo.MembershipVO;
 import kr.util.DBUtil;
 
 public class MembershipDAO {
@@ -65,5 +69,44 @@ public class MembershipDAO {
 		}finally {
 			DBUtil.executeClose(null, pstmt, conn);
 		}
+    }
+    public List<MembershipVO> getMembershipsByUser(long user_num, int startRow, int pageSize) throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<MembershipVO> list = new ArrayList<>();
+
+        String sql = "SELECT * " +
+                     "FROM ( " +
+                     "    SELECT mo.order_num, mo.typeId, mo.price, mo.order_date, " +
+                     "           mt.DURATION_MONTHS AS duration_months " +
+                     "    FROM membershipOrder mo " +
+                     "    JOIN membership_types mt ON mo.typeId = mt.TYPE_ID " +
+                     "    WHERE mo.user_num = ? " +
+                     "    ORDER BY mo.order_date DESC " +
+                     " ) " +
+                     "WHERE ROWNUM BETWEEN ? AND ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, user_num);
+            pstmt.setInt(2, startRow + 1); // 1-based index
+            pstmt.setInt(3, startRow + pageSize);
+
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                MembershipVO vo = new MembershipVO();
+                vo.setMem_num(rs.getLong("order_num"));
+                vo.setMem_type(rs.getInt("typeId"));
+                vo.setMem_price(rs.getInt("price"));
+                vo.setMem_startdate(rs.getDate("order_date"));
+                vo.setDuration_months(rs.getInt("duration_months"));
+                list.add(vo);
+            }
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+        return list;
     }
 }

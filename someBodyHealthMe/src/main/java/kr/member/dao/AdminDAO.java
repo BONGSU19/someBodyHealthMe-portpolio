@@ -136,7 +136,7 @@ public class AdminDAO {
                 vo.setMem_startdate(rs.getDate("order_date"));
                 vo.setDuration_months(rs.getInt("duration_months"));
                 vo.setUser_name(rs.getString("user_name"));
-                list.add(vo);
+                list.add(vo);	
             }
         } catch (Exception e) {
             e.printStackTrace();

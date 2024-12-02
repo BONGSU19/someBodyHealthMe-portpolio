@@ -71,12 +71,13 @@
             <div class="menu-section">
                 <h3>회원권 관련 내역</h3>
                 <ul>
-                    <li><a href="#">회원권 조회</a></li>
+                    <!-- 일반 사용자용 회원권 조회로 연결 -->
+                    <li><a href="${pageContext.request.contextPath}/member/myMembershipList.do">회원권 조회</a></li>
                 </ul>
                 <h3>쇼핑 관련 내역</h3>
                 <ul>
-                    <li><a href="#">장바구니</a></li>
-                    <li><a href="#">구매내역 확인</a></li>
+                    <li><a href="${pageContext.request.contextPath}/cart/viewCart.do">장바구니</a></li>
+                    <li><a href="${pageContext.request.contextPath}/order/list.do">구매내역 확인</a></li>
                 </ul>
             </div>
         </aside>
@@ -124,7 +125,7 @@
 
             <div class="my-comments">
                 <h3>출입 내역 
-                    <button class="more-btn">더보기</button>
+                    <button class="more-btn" onclick="location.href='${pageContext.request.contextPath}/entry/myEntryLogsList.do'">더보기</button>
                 </h3>
                 <table>
                     <thead>

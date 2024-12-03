@@ -1,70 +1,74 @@
-// src/main/java/kr/mydiet/action/MakeDietFormAction.java
 package kr.mydiet.action;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
 import kr.mydiet.dao.MealLogDAO;
+import kr.mydiet.vo.DietPlanVO;
 import kr.mydiet.vo.MealLogVO;
 
 public class MakeDietFormAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // 요청 인코딩 설정
         request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession();
         Long user_num = (Long) session.getAttribute("user_num");
 
         if (user_num == null) {
-            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
             return "redirect:/member/loginForm.do";
         }
 
-        // DAO 인스턴스 생성
         MealLogDAO dao = MealLogDAO.getInstance();
 
-        // 사용자 식사 기록 조회
-        List<MealLogVO> mealLogs = dao.getMealLogsByUser(user_num);
+        // 끼니별 식사 기록 조회
+        List<MealLogVO> breakfastLogs = dao.getMealLogsByUserAndMealType(user_num, "아침");
+        List<MealLogVO> lunchLogs = dao.getMealLogsByUserAndMealType(user_num, "점심");
+        List<MealLogVO> dinnerLogs = dao.getMealLogsByUserAndMealType(user_num, "저녁");
+        List<MealLogVO> snackLogs = dao.getMealLogsByUserAndMealType(user_num, "간식");
 
-        // 식사 타입별로 그룹화
-        List<MealLogVO> breakfastLogs = new ArrayList<>();
-        List<MealLogVO> lunchLogs = new ArrayList<>();
-        List<MealLogVO> dinnerLogs = new ArrayList<>();
-        List<MealLogVO> snackLogs = new ArrayList<>();
+        // 영양 성분 합산
+        Map<String, Double> breakfastSummary = calculateNutritionSummary(breakfastLogs, dao);
+        Map<String, Double> lunchSummary = calculateNutritionSummary(lunchLogs, dao);
+        Map<String, Double> dinnerSummary = calculateNutritionSummary(dinnerLogs, dao);
+        Map<String, Double> snackSummary = calculateNutritionSummary(snackLogs, dao);
 
-        for (MealLogVO meal : mealLogs) {
-            switch (meal.getMealType()) {
-                case "아침":
-                    breakfastLogs.add(meal);
-                    break;
-                case "점심":
-                    lunchLogs.add(meal);
-                    break;
-                case "저녁":
-                    dinnerLogs.add(meal);
-                    break;
-                case "간식":
-                    snackLogs.add(meal);
-                    break;
-                default:
-                    // 기타 식사 타입 처리 (필요 시 추가)
-                    break;
-            }
-        }
-
-        // JSP에 전달하기 위해 request에 저장
+        // JSP에 데이터 저장
         request.setAttribute("breakfastLogs", breakfastLogs);
         request.setAttribute("lunchLogs", lunchLogs);
         request.setAttribute("dinnerLogs", dinnerLogs);
         request.setAttribute("snackLogs", snackLogs);
+        request.setAttribute("breakfastSummary", breakfastSummary);
+        request.setAttribute("lunchSummary", lunchSummary);
+        request.setAttribute("dinnerSummary", dinnerSummary);
+        request.setAttribute("snackSummary", snackSummary);
 
-        // JSP 페이지 경로 반환
         return "mydiet/makeDietForm.jsp";
+    }
+
+    private Map<String, Double> calculateNutritionSummary(List<MealLogVO> logs, MealLogDAO dao) {
+        Map<String, Double> summary = new HashMap<>();
+        summary.put("calories", 0.0);
+        summary.put("protein", 0.0);
+        summary.put("carbohydrate", 0.0);
+        summary.put("fat", 0.0);
+
+        for (MealLogVO log : logs) {
+            DietPlanVO dietPlan = dao.getDietPlanByFoodName(log.getFoodName());
+            if (dietPlan != null) {
+                summary.put("calories", summary.get("calories") + dietPlan.getCalories());
+                summary.put("protein", summary.get("protein") + dietPlan.getProtein());
+                summary.put("carbohydrate", summary.get("carbohydrate") + dietPlan.getCarbohydrate());
+                summary.put("fat", summary.get("fat") + dietPlan.getFat());
+            }
+        }
+
+        return summary;
     }
 }

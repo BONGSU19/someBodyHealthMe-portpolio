@@ -62,14 +62,12 @@
 	<a href="${pageContext.request.contextPath}/goods/list.do"><h3 style="float:right; margin-top:20px;"> 더보기>></h3> </a>
 	<div class="main-3" style=" margin-bottom:70px;">
 	   <c:forEach var="cart" items="${list1}" begin="0" end="3">
-	   <a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${cart.goods_num}">
-		<div class="main-3-1" style="float:left;">
+		<div class="main-3-1">
+	   		<a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${cart.goods_num}">
 			<div class="main-3-1-1">
 				<img src="${pageContext.request.contextPath}/upload/${cart.goods_img1}">
 			</div>
 			<div class="main-3-2">
-		
-			
 			<p id="main-name">${cart.goods_name}</p>
 			<p id="main-price"><fmt:formatNumber value="${cart.goods_price}"/> 원</p>
 			</div>

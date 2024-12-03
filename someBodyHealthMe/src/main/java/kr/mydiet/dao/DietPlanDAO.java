@@ -412,4 +412,46 @@ public class DietPlanDAO {
             DBUtil.executeClose(null, pstmt, conn);
         }
     }
+
+ // 모든 DietPlan 데이터를 가져오기
+    public List<DietPlanVO> getAllDietPlans() {
+        List<DietPlanVO> dietPlans = new ArrayList<>();
+        String sql = "SELECT DIETID, FOODNAME, CALORIES, PROTEIN, CARBOHYDRATE, FAT, MINERALS, DIET_SHOW, DIET_COMMENT, USER_NUM "
+                   + "FROM DIETPLAN";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                DietPlanVO dietPlan = new DietPlanVO();
+                dietPlan.setDietId(rs.getLong("DIETID"));
+                dietPlan.setFoodName(rs.getString("FOODNAME"));
+                dietPlan.setCalories(rs.getDouble("CALORIES"));
+                dietPlan.setProtein(rs.getDouble("PROTEIN"));
+                dietPlan.setCarbohydrate(rs.getDouble("CARBOHYDRATE"));
+                dietPlan.setFat(rs.getDouble("FAT"));
+                dietPlan.setMinerals(rs.getDouble("MINERALS"));
+                dietPlan.setDietShow(rs.getInt("DIET_SHOW"));
+                dietPlan.setDietComment(rs.getInt("DIET_COMMENT"));
+                dietPlan.setUserNum(rs.getLong("USER_NUM"));
+                dietPlans.add(dietPlan);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dietPlans;
+    }
+
+    // DietPlan 데이터 업데이트
+    public void updateDietPlan(long dietId, int dietShow, int dietComment) {
+        String sql = "UPDATE DIETPLAN SET DIET_SHOW = ?, DIET_COMMENT = ? WHERE DIETID = ?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, dietShow);
+            pstmt.setInt(2, dietComment);
+            pstmt.setLong(3, dietId);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

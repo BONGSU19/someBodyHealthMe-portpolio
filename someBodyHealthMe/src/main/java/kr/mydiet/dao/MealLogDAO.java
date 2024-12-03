@@ -3,6 +3,7 @@ package kr.mydiet.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import kr.mydiet.vo.DietPlanVO;
@@ -67,5 +68,21 @@ public class MealLogDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void insertMealLog(MealLogVO mealLog) throws Exception {
+        String sql = "INSERT INTO MEALLOG (MEALLOGID, FOODNAME, MEALTYPE, CREATEDAT, USER_NUM) " +
+                     "VALUES (MEALLOGID_SEQ.NEXTVAL, ?, ?, SYSDATE, ?)";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, mealLog.getFoodName());
+            pstmt.setString(2, mealLog.getMealType());
+            pstmt.setLong(3, mealLog.getUserNum());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

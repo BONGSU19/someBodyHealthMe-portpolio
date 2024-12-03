@@ -24,7 +24,7 @@
 			</tr>
 			<c:forEach var="detail" items="${detailList}">
 			<tr>
-				<td>${detail.goods_name}</td>
+				<td><a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${detail.goods_num}">${detail.goods_name}</a>${detail.goods_name}</td>
 				<td class="align-center"><fmt:formatNumber value="${detail.order_quantity}"/></td>
 				<td class="align-center"><fmt:formatNumber value="${detail.goods_price}"/>원</td>
 				<td class="align-center"><fmt:formatNumber value="${detail.goods_total}"/>원</td>

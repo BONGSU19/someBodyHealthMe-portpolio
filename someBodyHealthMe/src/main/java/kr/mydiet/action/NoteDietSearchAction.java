@@ -3,6 +3,7 @@ package kr.mydiet.action;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
 import kr.mydiet.dao.DietPlanDAO;
@@ -16,6 +17,15 @@ public class NoteDietSearchAction implements Action {
     	
     	request.setCharacterEncoding("UTF-8");
         // 요청 파라미터에서 검색어(keyword) 가져오기
+    	
+    	HttpSession session = request.getSession();
+        Long user_num = (Long) session.getAttribute("user_num");
+
+        if (user_num == null) {
+            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+            return "redirect:/member/loginForm.do";
+        }
+        
         String keyword = request.getParameter("keyword");
         if (keyword == null) {
             keyword = "";  // 기본값 설정

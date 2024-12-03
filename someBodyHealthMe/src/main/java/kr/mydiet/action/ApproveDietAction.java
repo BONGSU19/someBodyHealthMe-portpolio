@@ -2,6 +2,8 @@ package kr.mydiet.action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import kr.controller.Action;
 import kr.mydiet.dao.DietPlanDAO;
 
@@ -9,7 +11,13 @@ public class ApproveDietAction implements Action {
     
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // 관리자인지 확인하는 로직 필요 (예: 세션에서 관리자 정보 확인)
+    	HttpSession session = request.getSession();
+        Long user_num = (Long) session.getAttribute("user_num");
+
+        if (user_num == null) {
+            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+            return "redirect:/member/loginForm.do";
+        }
         // 여기서는 간단히 생략하고 진행하겠습니다.
 
         // 요청 파라미터에서 dietId 가져오기

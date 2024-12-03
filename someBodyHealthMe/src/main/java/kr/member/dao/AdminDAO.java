@@ -9,6 +9,7 @@ import java.util.List;
 import kr.appl.vo.ApplVO;
 import kr.board.vo.BoardVO;
 import kr.membership.vo.MembershipVO;
+import kr.mydiet.vo.DietPlanVO;
 import kr.order.vo.OrderVO;
 import kr.util.DBUtil;
 
@@ -244,4 +245,33 @@ public class AdminDAO {
         }
         return list;
     }
+    public List<DietPlanVO> getRecentDietPlans() throws Exception {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<DietPlanVO> recentDietPlans = new ArrayList<>();
+        String sql = "SELECT DIETID, FOODNAME, USER_NUM, DIET_COMMENT "
+                   + "FROM (SELECT * FROM DIETPLAN ORDER BY DIETID DESC) "
+                   + "WHERE ROWNUM <= ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, 5); // 미리보기 5개
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                DietPlanVO dietPlan = new DietPlanVO();
+                dietPlan.setDietId(rs.getLong("DIETID"));
+                dietPlan.setFoodName(rs.getString("FOODNAME"));
+                dietPlan.setUserNum(rs.getLong("USER_NUM"));
+                dietPlan.setDietComment(rs.getInt("DIET_COMMENT"));
+                recentDietPlans.add(dietPlan);
+            }
+        } finally {
+            DBUtil.executeClose(rs, pstmt, conn);
+        }
+        return recentDietPlans;
+    }
 }
+

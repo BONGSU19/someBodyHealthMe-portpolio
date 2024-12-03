@@ -76,12 +76,19 @@
 									</div>
 									<c:if test="${goods.goods_status == 1}">
 									<div class="product-price">
-										<span class="price">판매가 중지된 상품</span>
+										<span class="price">판매 중지</span>
 									</div>
 									</c:if>
 									<c:if test="${goods.goods_status != 1}">
 									<div class="product-price">
-										<span class="price">${goods.goods_price}원</span>
+									<c:if test="${goods.goods_quantity == 0}">
+										<span class="price">품절</span>
+									</c:if>
+									<c:if test="${goods.goods_quantity > 0}">
+										<span class="price">
+										<fmt:formatNumber value="${goods.goods_price}" type="number" pattern="#,###" />원
+										</span>
+									</c:if>
 									</div>
 									</c:if>
 								</div>

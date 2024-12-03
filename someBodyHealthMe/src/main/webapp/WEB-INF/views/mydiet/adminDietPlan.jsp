@@ -21,16 +21,6 @@
             padding: 20px;
         }
 
-        aside {
-            background-color: #f8f9fa;
-            color: #333;
-            width: 20%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
         .main-content {
             flex-grow: 1;
             max-width: 75%;
@@ -76,12 +66,11 @@
     <!-- Header -->
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
 
+	<jsp:include page="/WEB-INF/views/common/aside_mybody.jsp" />
+
     <!-- Sidebar -->
     <div class="page-main">
-        <aside>
-            <jsp:include page="/WEB-INF/views/common/aside_mybody.jsp" />
-        </aside>
-
+        
         <!-- Main Content -->
         <div class="main-content">
             <h2>DietPlan 관리자 페이지</h2>
@@ -107,20 +96,20 @@
                             <td>${diet.carbohydrate}</td>
                             <td>${diet.fat}</td>
                             <td>
-                                <form action="${pageContext.request.contextPath}/mydiet/adminUpdateDietPlan.do" method="post">
-                                    <select name="dietShow">
-                                        <option value="0" <c:if test="${diet.dietShow == 0}">selected</c:if>>비공개</option>
-                                        <option value="1" <c:if test="${diet.dietShow == 1}">selected</c:if>>공개</option>
-                                    </select>
+                                <select name="dietShow" form="form-${diet.dietId}">
+                                    <option value="0" <c:if test="${diet.dietShow == 0}">selected</c:if>>비공개</option>
+                                    <option value="1" <c:if test="${diet.dietShow == 1}">selected</c:if>>공개</option>
+                                </select>
                             </td>
                             <td>
-                                    <select name="dietComment">
-                                        <option value="0" <c:if test="${diet.dietComment == 0}">selected</c:if>>비요청</option>
-                                        <option value="1" <c:if test="${diet.dietComment == 1}">selected</c:if>>요청</option>
-                                        <option value="2" <c:if test="${diet.dietComment == 2}">selected</c:if>>반려됨</option>
-                                    </select>
+                                <select name="dietComment" form="form-${diet.dietId}">
+                                    <option value="0" <c:if test="${diet.dietComment == 0}">selected</c:if>>비요청</option>
+                                    <option value="1" <c:if test="${diet.dietComment == 1}">selected</c:if>>요청</option>
+                                    <option value="2" <c:if test="${diet.dietComment == 2}">selected</c:if>>반려됨</option>
+                                </select>
                             </td>
                             <td>
+                                <form id="form-${diet.dietId}" action="${pageContext.request.contextPath}/mydiet/adminUpdateDietPlan.do" method="post">
                                     <input type="hidden" name="dietId" value="${diet.dietId}" />
                                     <button type="submit">수정</button>
                                 </form>

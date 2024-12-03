@@ -19,7 +19,12 @@ public class AdminUpdateDietPlanAction implements Action {
         DietPlanDAO dao = DietPlanDAO.getInstance();
         dao.updateDietPlan(dietId, dietShow, dietComment);
 
-        // 관리자 페이지로 리다이렉트
-        return "mydiet/dietPlanAdmin.do";
+        // 알림 메시지와 이동 URL 설정
+        request.setAttribute("notice_url", request.getContextPath() + "/mydiet/adminDietPlan.do");
+        request.setAttribute("notice_msg", "업데이트가 완료되었습니다.");
+        
+
+        // alert_view.jsp로 포워딩
+        return "common/alert_view.jsp";
     }
 }

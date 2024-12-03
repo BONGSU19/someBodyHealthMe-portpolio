@@ -9,8 +9,9 @@
     <script src="https://kit.fontawesome.com/8e490eaab5.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Source+Sans+3:wght@400;700&display=swap" rel="stylesheet">
-</head>
+    <link
+	href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gowun+Dodum&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+	rel="stylesheet">
 <body>
     <div class="navbar">
         <div class="navbar__logo">

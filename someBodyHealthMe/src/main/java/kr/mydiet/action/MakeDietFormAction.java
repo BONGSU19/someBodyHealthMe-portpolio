@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kr.controller.Action;
 import kr.mydiet.dao.MealLogDAO;
@@ -17,18 +18,19 @@ public class MakeDietFormAction implements Action {
         // 요청 인코딩 설정
         request.setCharacterEncoding("UTF-8");
 
-        // 로그인한 사용자의 USER_NUM을 세션에서 가져옴
-        Integer userNum = (Integer) request.getSession().getAttribute("USER_NUM");
-        if (userNum == null) {
-            // 로그인되지 않은 사용자라면 로그인 페이지로 리다이렉트
-            return "redirect:/login.do";
+        HttpSession session = request.getSession();
+        Long user_num = (Long) session.getAttribute("user_num");
+
+        if (user_num == null) {
+            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+            return "redirect:/member/loginForm.do";
         }
 
         // DAO 인스턴스 생성
         MealLogDAO dao = MealLogDAO.getInstance();
 
         // 사용자 식사 기록 조회
-        List<MealLogVO> mealLogs = dao.getMealLogsByUser(userNum);
+        List<MealLogVO> mealLogs = dao.getMealLogsByUser(user_num);
 
         // 식사 타입별로 그룹화
         List<MealLogVO> breakfastLogs = new ArrayList<>();

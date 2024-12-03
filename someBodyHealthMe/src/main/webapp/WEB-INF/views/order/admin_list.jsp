@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>구매 목록(관리자 전용)</title>
+<title>사용자 구매 내역</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 <script type="text/javascript">
 	window.onload=function(){
@@ -29,7 +29,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 	<div class="content-main">
-		<h2 class="align-center">구매 목록</h2>
+		<h2 class="align-center">사용자 구매 내역</h2>
 		<form class="search-bar" action="adminList.do" method="get">
 			<ul id="search-bar">
 				<li>

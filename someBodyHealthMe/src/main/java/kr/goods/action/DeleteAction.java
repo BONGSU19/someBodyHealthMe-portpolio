@@ -36,7 +36,7 @@ public class DeleteAction implements Action{
 		
 		request.setAttribute("notice_msg", "글 삭제 완료!");
 		request.setAttribute("notice_url", 
-				 request.getContextPath()+"/goods/list.do");		
+				 request.getContextPath()+"/goods/adminlist.do");		
 		
 		return "common/alert_view.jsp";
 	}

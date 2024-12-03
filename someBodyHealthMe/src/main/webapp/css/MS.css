@@ -350,6 +350,8 @@ float:left;
 	height:423px;
 	padding-top:70px;
 	padding-left:50px;
+	display: flex;
+	justify-content: center;
 }
 .main-3-1{
 	width:300px;
@@ -360,21 +362,47 @@ float:left;
 
 .main-3-1{
 	width:300px;
-	height:340px;
+	height:360px;
 	background-color:white;
-	border:1px solid gray;
+	border: 1px solid #ddd;
+    border-radius: 8px;
+    align-items: center;
+    margin-right:80px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.main-3-1:hover{
+	transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
 .main-3-1-1{
-	width:230px;
-	height:200px;
-	margin:0 auto;
-	border:1px solid gray;
+	display: flex;
 	margin-top:30px;
+	justify-content: center;  /* 이미지 가로 정렬 */
+    align-items: center;      /* 이미지 세로 정렬 */
+}
+.main-3-1-1 img{
+	border-radius: 8px; /* 이미지 모서리 둥글게 */
+	width: 250px;
+	height: 250px;
+	margin-top : -8px;
 }
 
 .main-3-2{
 	width:230px;
 	height:106px;
-
-	margin:0 auto;
+	margin:10px auto 0 auto;
 }
+#main-name{
+	font-weight: bold;
+	font-size: 18px;
+}
+#main-price{
+	font-size: 25px;
+	font-weight: bold;
+    color: #e74c3c; /* 가격 색상 빨간색 */
+}
+

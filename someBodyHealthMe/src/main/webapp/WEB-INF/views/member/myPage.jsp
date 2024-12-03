@@ -80,10 +80,6 @@
                     <li><a href="${pageContext.request.contextPath}/cart/list.do">장바구니</a></li>
                     <li><a href="${pageContext.request.contextPath}/order/orderList.do">구매내역 확인</a></li>
                 </ul>
-                <h3>출입 내역</h3>
-                <ul>
-                    <li><a href="${pageContext.request.contextPath}/entry/myEntryLogsList.do">출입 내역 조회</a></li>
-                </ul>
             </div>
         </aside>
 

@@ -7,44 +7,6 @@
     <meta charset="UTF-8">
     <title>건강지킴이 - 식사 기록</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
-    <style>
-        .meal-box {
-            margin-left: 20px;
-        }
-
-        .meal-records .meal-box {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .meal-records .meal-box h3 {
-            margin: 0 0 10px 0;
-        }
-
-        .meal-records .meal-box .meal-info {
-            flex-grow: 1;
-            margin-bottom: 10px;
-        }
-
-        .meal-records .meal-box .add-button {
-            align-self: flex-end;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .nutrition-summary {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
-        }
-    </style>
 </head>
 <body>
     <div class="page-main">
@@ -156,6 +118,15 @@
                     <button class="add-button"
                         onclick="location.href='${pageContext.request.contextPath}/mydiet/noteDietForm.do'">+</button>
                 </div>
+            </div>
+
+            <!-- 총 영양 성분 합계 -->
+            <div class="total-summary">
+                <h3>총 영양 성분 합계</h3>
+                칼로리: ${totalSummary.calories} kcal<br/>
+                단백질: ${totalSummary.protein} g<br/>
+                탄수화물: ${totalSummary.carbohydrate} g<br/>
+                지방: ${totalSummary.fat} g<br/>
             </div>
         </div>
     </div>

@@ -39,6 +39,17 @@ public class MakeDietFormAction implements Action {
         Map<String, Double> dinnerSummary = calculateNutritionSummary(dinnerLogs, dao);
         Map<String, Double> snackSummary = calculateNutritionSummary(snackLogs, dao);
 
+        // 총 영양 성분 합계 계산
+        Map<String, Double> totalSummary = new HashMap<>();
+        totalSummary.put("calories", breakfastSummary.get("calories") + lunchSummary.get("calories")
+                + dinnerSummary.get("calories") + snackSummary.get("calories"));
+        totalSummary.put("protein", breakfastSummary.get("protein") + lunchSummary.get("protein")
+                + dinnerSummary.get("protein") + snackSummary.get("protein"));
+        totalSummary.put("carbohydrate", breakfastSummary.get("carbohydrate") + lunchSummary.get("carbohydrate")
+                + dinnerSummary.get("carbohydrate") + snackSummary.get("carbohydrate"));
+        totalSummary.put("fat", breakfastSummary.get("fat") + lunchSummary.get("fat")
+                + dinnerSummary.get("fat") + snackSummary.get("fat"));
+
         // JSP에 데이터 저장
         request.setAttribute("breakfastLogs", breakfastLogs);
         request.setAttribute("lunchLogs", lunchLogs);
@@ -48,6 +59,7 @@ public class MakeDietFormAction implements Action {
         request.setAttribute("lunchSummary", lunchSummary);
         request.setAttribute("dinnerSummary", dinnerSummary);
         request.setAttribute("snackSummary", snackSummary);
+        request.setAttribute("totalSummary", totalSummary);
 
         return "mydiet/makeDietForm.jsp";
     }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>지원하기</title>
+<title>SBHM 지원하기 : 지원 상세</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/applForm.css" type="text/css">
 </head>

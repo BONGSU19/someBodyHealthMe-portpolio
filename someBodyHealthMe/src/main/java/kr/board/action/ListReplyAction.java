@@ -41,6 +41,13 @@ public class ListReplyAction implements Action{
 			list = Collections.emptyList();
 		}
 		
+		for(int i = 0;i < list.size(); i++) {
+			String photo = list.get(i).getPhoto(); 
+			if(photo == null || "".equals(photo) || photo.equals("default_user_photo.png")) {
+				list.get(i).setPhoto("User.png");
+			}
+		}
+		
 		HttpSession session = request.getSession();
 		Long user_num = (Long)session.getAttribute("user_num");
 		//관리자 삭제처리 기능

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>소통공간</title>
+<title>SBHM 지원하기</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/applList.css" type="text/css">
 

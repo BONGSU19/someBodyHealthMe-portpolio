@@ -58,7 +58,7 @@
 					<div class="item-image">
 					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="400" height="400">
 					<div class="re-like-re">
-					<img src="${pageContext.request.contextPath}/images/star.png" width="48">
+					<img src="${pageContext.request.contextPath}/images/Star111.png" width="48">
 						<div id="average_rating">
     						<h2><span id="avg_rating_value">0</span></h2>
 						</div>
@@ -166,7 +166,7 @@
 				<div class="item-image">
 					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="400" height="400">
 					<div class="re-like-re">
-					<img src="${pageContext.request.contextPath}/images/star.png" width="48">
+					<img src="${pageContext.request.contextPath}/images/Star111.png" width="48">
 						<div id="average_rating">
     						<h2><span id="avg_rating_value">0</span></h2>
 						</div>
@@ -283,7 +283,7 @@
 				<div class="item-image">
 					<img src="${pageContext.request.contextPath}/upload/${goods.goods_img1}" width="400" height="400">
 					<div class="re-like-re">
-					<img src="${pageContext.request.contextPath}/images/star.png" width="48">
+					<img src="${pageContext.request.contextPath}/images/Star111.png" width="48">
 						<div id="average_rating">
     						<h2><span id="avg_rating_value">0</span></h2>
 						</div>

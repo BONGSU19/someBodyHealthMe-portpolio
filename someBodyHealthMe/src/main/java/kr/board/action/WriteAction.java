@@ -36,7 +36,7 @@ public class WriteAction implements Action{
 		board.setBoard_category(board_category);
 		board.setBoard_title(request.getParameter("board_title"));
 		board.setBoard_attachment(FileUtil.uploadFile(request, "board_attachment"));
-		board.setBoard_content(StringUtil.useBrNoHtml(request.getParameter("board_content")));
+		board.setBoard_content(request.getParameter("board_content"));
 		board.setUser_num(user_num);
 		
 		BoardDAO dao = BoardDAO.getInstance();

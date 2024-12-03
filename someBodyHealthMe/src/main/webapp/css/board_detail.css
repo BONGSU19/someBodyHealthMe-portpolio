@@ -78,14 +78,16 @@ h2 {
 }
 .board-attachment img{
 	max-width: 100%;
+	margin-bottom: 30px;
 }
 .board-content{
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.6;
     margin: 10px auto;
     min-height: 50vh;          
-    padding: 0 15px;
+    padding: 20px 15px;
     border-bottom:2px solid black;
+	
 }
 /* 하단 신고 좋아요 버튼 */
 .board-end {
@@ -155,6 +157,9 @@ color: black;
 font-size: 16px;
 font-weight:bold;
 font-family: Arial, Helvetica, sans-serif;
+ caret-color: black; /* 깜빡이는 커서 색상 설정 */
+    visibility: visible; /* 커서가 보이도록 설정 */
+    opacity: 1; /* 커서 투명도를 설정 */
 }
 
 #re_form input[type="submit"]{

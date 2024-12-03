@@ -14,7 +14,7 @@
 <div class="page-main">
 <jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
   <div class="container">
-        <h2 style="width:130px;">지원 상세</h2>
+        <h2 style="width:133px;">지원 상세</h2>
         <hr size="3" noshade="noshade"><br>         
         <!-- 사용자 지원상세 페이지 -->
         <form>

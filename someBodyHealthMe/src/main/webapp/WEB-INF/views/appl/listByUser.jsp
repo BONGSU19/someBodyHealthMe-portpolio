@@ -15,7 +15,7 @@
 <div class="page-main">
 <jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
 	<div class="container">
-        <h2>지원 목록</h2>
+        <h2 style="width:135px;">지원 목록</h2>
         <!-- 지원 목록 테이블 -->
         <table >
             <tr>

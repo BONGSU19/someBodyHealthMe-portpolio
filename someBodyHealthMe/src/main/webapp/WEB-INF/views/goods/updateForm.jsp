@@ -75,9 +75,9 @@
 					<li>
 					<label>상품표시여부</label> 
 					<input type="radio" name="goods_status" value="1" id="status1"
-					<c:if test="${goods.goods_status == 1}">checked</c:if>>미표시
+					<c:if test="${goods.goods_status == 1}">checked</c:if>>미판매
 					<input type="radio" name="goods_status" value="2" id="status2"
-					<c:if test="${goods.goods_status == 2}">checked</c:if>>표시
+					<c:if test="${goods.goods_status == 2}">checked</c:if>>판매
 					<li>
 					<li>
 					<label for="goods_name">상품명</label> 

@@ -16,7 +16,7 @@
 	<jsp:include page="/WEB-INF/views/common/aside_goods.jsp" />
 	<div class="content-main">
 		<div class="mypage-div">
- 			<h3>찜 목록</h3>
+ 			<h2 class="align-center">찜 목록</h2>
  			<div class="button-container">
 			<c:if test="${status == 4}">
 				<input type="button" value="상품 목록" onclick="location.href='adminlist.do'">
@@ -49,6 +49,7 @@
  			</table>
  			</c:if>
  		</div>
+ 		<div class="align-center" id="page-selector">${page}</div>
  	</div>
  	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </div> 	

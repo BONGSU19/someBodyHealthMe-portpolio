@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>구매상세</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/IJ.css" type="text/css">
 </head>
 <body>
 <div class="page-main">
@@ -24,7 +24,7 @@
 			</tr>
 			<c:forEach var="detail" items="${detailList}">
 			<tr>
-				<td>${detail.goods_name}</td>
+				<td class="align-center">${detail.goods_name}</td>
 				<td class="align-center"><fmt:formatNumber value="${detail.order_quantity}"/></td>
 				<td class="align-center"><fmt:formatNumber value="${detail.goods_price}"/>원</td>
 				<td class="align-center"><fmt:formatNumber value="${detail.goods_total}"/>원</td>

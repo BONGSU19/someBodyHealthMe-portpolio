@@ -16,7 +16,7 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 		<jsp:include page="/WEB-INF/views/common/aside_goods.jsp"/>
 		<div class="content-main">
-			<h2>장바구니</h2>
+			<h2 class="align-center">장바구니</h2>
 			<c:if test="${empty list}">
 			<div class="result-display">
 			장바구니에 담은 상품이 없습니다.
@@ -64,7 +64,7 @@
 						</tr>
 					</table>
 					<div class="align-center">
-						<input type="submit" value="구매하기">
+						<input type="submit" value="구매하기" id="order_btn">
 					</div>
 				</form>
 			</c:if>

@@ -22,9 +22,16 @@
                    <img src="${pageContext.request.contextPath}/images/free-icon-down-2732661 2.png" class="toggle-image" alt="">
                 </button>
                 <div class="dropdown-content">
+                <c:if test="${status != 4}">
                   <a href="${pageContext.request.contextPath}/goods/list.do?keyfield=2&keyword=식품">식품</a>
                   <a href="${pageContext.request.contextPath}/goods/list.do?keyfield=2&keyword=보충제">보충제</a>
                   <a href="${pageContext.request.contextPath}/goods/list.do?keyfield=2&keyword=운동용품">운동용품</a>
+                  </c:if>
+                <c:if test="${status == 4}">
+                  <a href="${pageContext.request.contextPath}/goods/adminlist.do?keyfield=2&keyword=식품">식품</a>
+                  <a href="${pageContext.request.contextPath}/goods/adminlist.do?keyfield=2&keyword=보충제">보충제</a>
+                  <a href="${pageContext.request.contextPath}/goods/adminlist.do?keyfield=2&keyword=운동용품">운동용품</a>
+                </c:if>
                 </div>
               </div>
               

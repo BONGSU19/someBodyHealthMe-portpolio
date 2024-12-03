@@ -32,6 +32,7 @@ public class DetailAction implements Action{
 			MemberDAO memberdao = MemberDAO.getInstance();
 			MemberVO member = memberdao.getUserProfile(user_num);
 			request.setAttribute("member", member);
+			System.out.println("aa = "+member.getPhoto());
 		}	
 		 
 		request.setAttribute("board", board);

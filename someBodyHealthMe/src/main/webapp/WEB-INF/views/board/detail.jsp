@@ -5,7 +5,7 @@
 <html>
 <head> 
 <meta charset="UTF-8">
-<title>소통공간</title>
+<title>SBHM 소통공간</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/HY.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/board_detail.css" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="board-info">
-            <a onclick="location.href='${pageContext.request.contextPath}/board/list.do?board_category=${board.board_category}'">
+            <a onclick="location.href='${pageContext.request.contextPath}/board/list.do?board_category=${board.board_category}'" id="boardCate">
             <c:if test="${board.board_category == 1}">공지사항 ></c:if>            
             <c:if test="${board.board_category == 2}">자유게시판 ></c:if>            
             <c:if test="${board.board_category == 3}">오늘 운동 완료 ></c:if>            
@@ -85,7 +85,15 @@
             <div class="reply-form">
                 <div id="profile">
                     <img src="
-                    	<c:if test="${!empty user_num}">${pageContext.request.contextPath}/upload/${member.photo}</c:if>
+                    	<c:if test="${!empty user_num}">
+                    		<c:if test="${member.photo!=null && member.photo !='' && member.photo != 'default_user_photo.png'}">
+                    		${pageContext.request.contextPath}/upload/${member.photo}
+                    		</c:if>
+                    		<c:if test="${member.photo == null || member.photo =='' || member.photo == 'default_user_photo.png'}">
+                    		${pageContext.request.contextPath}/images/User.png
+                    		</c:if>                    		
+                    		
+                    	</c:if>
                     	<c:if test="${empty user_num}">${pageContext.request.contextPath}/images/User.png</c:if>" 
                     	id="re_img" width="60" height="60"><br>
                     	

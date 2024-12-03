@@ -5,6 +5,7 @@ body {
     margin: 0; /* 기본 마진 제거 */
     font-family: "Source Sans 3", sans-serif; /* 폰트 설정 */
     font-size: large; /* 글자 크기 설정 */
+    caret-color: transparent;
 }
 
 a {

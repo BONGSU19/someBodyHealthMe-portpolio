@@ -302,9 +302,9 @@
 								<c:if test="${empty user_num}">disabled="disabled"</c:if>><c:if
 									test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
 							<c:if test="${!empty user_num}">
-								<div id="re_first">
+								<!-- <div id="re_first">
 									<span class="letter-count">300/300</span>
-								</div>
+								</div>  -->
 								<div id="re_second" class="align-right">
 									<div id="my-btn">
 										<input type="submit" value="리뷰 작성">
@@ -444,9 +444,9 @@
 								<c:if test="${empty user_num}">disabled="disabled"</c:if>><c:if
 									test="${empty user_num}">로그인해야 작성할 수 있습니다.</c:if></textarea>
 							<c:if test="${!empty user_num}">
-								<div id="re_first">
+								<!-- <div id="re_first">
 									<span class="letter-count">300/300</span>
-								</div>
+								</div>  -->
 								<div id="re_second" class="align-right">
 									<div id="my-btn">
 										<input type="submit" value="리뷰 작성">

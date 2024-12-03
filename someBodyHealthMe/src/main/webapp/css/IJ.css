@@ -349,6 +349,7 @@ div#re_second, div#mre_second{
 	float: left;
 	width: 15%;
 	margin-bottom: 10px;
+	margin-left: 460px;
 }
 div#loading{
 	text-align: center;

@@ -55,29 +55,30 @@
 				<th>상품가격</th>
 				<th>합계</th>
 			</tr>
-			<c:forEach var="cart" items="${list}">
 			<tr>
 				<td>
 					<a href="${pageContext.request.contextPath}/goods/detail.do?goods_num=${cart.goods_num}">
 					    <!-- CartVO에 등록된 ItemVO의 photo1 프로퍼티 호출 -->
-						<img src="${pageContext.request.contextPath}/upload/${cart.goodsVO.goods_img1}" width="80">
-						${cart.goodsVO.goods_name}
+						<img src="${pageContext.request.contextPath}/upload/${photo}" width="80">
+						${cart.goods_name}
 					</a>
 				</td>
 				<td class="align-center"><fmt:formatNumber value="${cart.order_quantity}"/></td>
-				<td class="align-center"><fmt:formatNumber value="${cart.goodsVO.goods_price}"/>원</td>
-				<td class="align-center"><fmt:formatNumber value="${cart.sub_total}"/></td>
+				<td class="align-center"><fmt:formatNumber value="${cart.goods_price}"/>원</td>
+				<td class="align-center"><fmt:formatNumber value="${cart.goods_total}"/></td>
 			</tr>
-			</c:forEach>
 			<tr>
 				<td colspan="3" class="align-right">
 					<b>총구매 금액</b>
 				</td>
-				<td class="align-center"><fmt:formatNumber value="${all_total}"/>원</td>
+				<td class="align-center"><fmt:formatNumber value="${cart.goods_total}"/>원</td>
 			</tr>
 		</table>
-		<form id="order_form" action="order.do"
-		                                method="post">
+		<form id="order_form" action="directWrite.do" method="post">
+			<input type="hidden" name="order_quantity" value="${cart.order_quantity}">
+			<input type="hidden" name="goods_price" value="${cart.goods_price}">
+			<input type="hidden" name="goods_total" value="${cart.goods_total}">
+			<input type="hidden" name="goods_num" value="${cart.goods_num}">
 			<ul>
 				<li>
 					<label for="receive_name">받는 사람</label>

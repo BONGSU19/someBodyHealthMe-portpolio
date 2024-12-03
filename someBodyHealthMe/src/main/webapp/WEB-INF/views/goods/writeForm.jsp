@@ -48,14 +48,14 @@
 					<input type="radio" name="goods_status" value="2" id="status2">판매
 					<li>
 					<label for="goods_name">상품명</label> 
-					<input type="text" name="goods_name" id="goods_name" maxlength="10" class="input-check">
+					<input type="text" name="goods_name" id="goods_name" maxlength="20" class="input-check">
 					</li>
 					<li>
 					<label for="goods_category">카테고리</label> 
 					<select name="goods_category" id="goods_category" class="input-check">
 	                <!-- 카테고리 목록 -->
 	                <option value="식품">식품</option>
-	                <option value="보충제">보충제</option>
+	                <option value="보충제 & 영양제">보충제 & 영양제</option>
 	                <option value="운동용품">운동용품</option>
 	            	</select>
 					</li>
@@ -78,7 +78,7 @@
 					       accept="image/gif,image/png,image/jpeg">
 					<li>
 					<label for="goods_info">상품설명</label> 
-					<textarea rows="5" cols="30" name="goods_info" id="goods_info" class="input-check"></textarea>
+					<textarea rows="5" cols="30" name="goods_info" id="goods_info"></textarea>
 					</li>
 				</ul>
 				<div class="align-center">

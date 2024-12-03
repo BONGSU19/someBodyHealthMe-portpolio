@@ -14,6 +14,7 @@ import kr.entry.vo.EntryVO;
 import kr.member.dao.AdminDAO;
 import kr.member.dao.MemberDAO;
 import kr.member.vo.MemberVO;
+import kr.mydiet.vo.DietPlanVO;
 import kr.order.vo.OrderVO;
 
 public class AdminPageAction implements Action {
@@ -42,6 +43,7 @@ public class AdminPageAction implements Action {
         List<BoardVO> recentPosts = adminDAO.getRecentPosts();
         List<ApplVO> recentApplications = adminDAO.getRecentApplications();
         List<OrderVO> recentOrders = adminDAO.getRecentOrdersForAdmin();
+        List<DietPlanVO> recentDietPlans = adminDAO.getRecentDietPlans(); // 최근 5개의 식단 요청
 
         // 출입 내역 DAO 호출
         EntryDAO entryDAO = EntryDAO.getInstance();
@@ -52,6 +54,7 @@ public class AdminPageAction implements Action {
         request.setAttribute("recentApplications", recentApplications);
         request.setAttribute("recentOrders", recentOrders);
         request.setAttribute("recentEntries", recentEntries); // 출입 내역 추가
+        request.setAttribute("recentDietPlans", recentDietPlans);
         request.setAttribute("member", member);
 
         return "member/adminPage.jsp";

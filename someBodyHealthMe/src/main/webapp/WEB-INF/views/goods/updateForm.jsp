@@ -89,7 +89,7 @@
 		            <select name="goods_category" id="goods_category" class="input-check">
 	                <!-- 카테고리 목록 -->
 	                <option value="식품" ${goods.goods_category == '식품' ? 'selected' : ''}>식품</option>
-	                <option value="보충제" ${goods.goods_category == '보충제' ? 'selected' : ''}>보충제</option>
+	                <option value="보충제 & 영양제" ${goods.goods_category == '보충제 & 영양제' ? 'selected' : ''}>보충제 & 영양제</option>
 	                <option value="운동용품" ${goods.goods_category == '운동용품' ? 'selected' : ''}>운동용품</option>
 	            	</select>
         			</li>
@@ -123,7 +123,7 @@
 					</li>
 					<li>
 					<label for="goods_info">상품설명</label> 
-					<textarea rows="5" cols="30" name="goods_info" id="goods_info" class="input-check">${goods.goods_info}</textarea>
+					<textarea rows="5" cols="30" name="goods_info" id="goods_info">${goods.goods_info}</textarea>
 					</li>
 				</ul>
 				<div class="align-center">

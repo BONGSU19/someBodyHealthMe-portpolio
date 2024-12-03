@@ -567,6 +567,85 @@ public class OrderDAO {
 		
 		return checkBuy;
 	}
+	
+	//즉시 주문 등록
+	public void insertOrder(OrderVO order, OrderDetailVO orderDetail) throws Exception{
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	PreparedStatement pstmt2 = null;
+	PreparedStatement pstmt3 = null;
+	PreparedStatement pstmt4 = null;
+	ResultSet rs = null;
+	String sql = null;
+	long order_num = 0L;
+	try {
+	//커넥션풀로부터 커넥션을 할당
+	conn = DBUtil.getConnection();
+	//오토 커밋 해제
+	conn.setAutoCommit(false);
+	//order_num 구하기
+	sql = "SELECT order_seq.nextval FROM dual";
+	pstmt = conn.prepareStatement(sql);
+	rs = pstmt.executeQuery();
+	if(rs.next()) {
+	order_num = rs.getLong(1);
+	}
+
+	//주문정보
+	sql = "INSERT INTO orders (order_num,order_total,payment,receive_name,receive_post,receive_address1,receive_address2,"
+	+ "receive_phone,notice,user_num) "
+	+ "VALUES (?,?,?,?,?,?,?,?,?,?)";
+	pstmt2 = conn.prepareStatement(sql);
+	pstmt2.setLong(1, order_num);
+	pstmt2.setInt(2, order.getOrder_total());
+	pstmt2.setInt(3, order.getPayment());
+	pstmt2.setString(4, order.getReceive_name());
+	pstmt2.setString(5, order.getReceive_post());
+	pstmt2.setString(6, order.getReceive_address1());
+	pstmt2.setString(7, order.getReceive_address2());
+	pstmt2.setString(8, order.getReceive_phone());
+	pstmt2.setString(9, order.getNotice());
+	pstmt2.setLong(10, order.getUser_num());
+	pstmt2.executeUpdate();
+
+	//주문상세정보
+	sql = "INSERT INTO order_detail (detail_num,goods_num,goods_name,goods_price,goods_total,order_quantity,order_num) "
+	+ "VALUES (order_detail_seq.nextval,?,?,?,?,?,?)";
+	pstmt3 = conn.prepareStatement(sql);
+
+
+	pstmt3.setLong(1, orderDetail.getGoods_num());
+	pstmt3.setString(2, orderDetail.getGoods_name());
+	pstmt3.setInt(3, orderDetail.getGoods_price());
+	pstmt3.setInt(4, orderDetail.getGoods_total());
+	pstmt3.setInt(5, orderDetail.getOrder_quantity());
+	pstmt3.setLong(6, order_num);
+
+	pstmt3.executeUpdate();
+
+	//상품의 재고수 차감
+	sql = "UPDATE goods SET goods_quantity=goods_quantity-? WHERE goods_num = ?";
+	pstmt4 = conn.prepareStatement(sql);
+	pstmt4.setInt(1, orderDetail.getOrder_quantity());
+	pstmt4.setLong(2, orderDetail.getGoods_num());
+
+	pstmt4.executeUpdate();
+
+	//모든 SQL문이 정상 수행
+	conn.commit();
+	}catch(Exception e) {
+	//SQL문이 하나라도 실패하면 롤백
+	conn.rollback();
+	throw new Exception(e);
+	}finally {
+	DBUtil.executeClose(null, pstmt4, null);
+	DBUtil.executeClose(null, pstmt3, null);
+	DBUtil.executeClose(null, pstmt2, null);
+	DBUtil.executeClose(rs, pstmt, conn);
+	}
+	}
+	
+	
 }
 
 

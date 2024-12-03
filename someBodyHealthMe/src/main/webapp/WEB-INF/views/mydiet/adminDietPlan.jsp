@@ -73,7 +73,7 @@
         
         <!-- Main Content -->
         <div class="main-content">
-            <h2>DietPlan 관리자 페이지</h2>
+            <h2>DietPlan 관리자 수정 페이지</h2>
             <table class="diet-table">
                 <thead>
                     <tr>

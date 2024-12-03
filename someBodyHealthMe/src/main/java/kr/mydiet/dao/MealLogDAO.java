@@ -47,14 +47,14 @@ public class MealLogDAO {
     }
     
  // 특정 사용자(UserNum)의 식사 기록을 조회
-    public List<MealLogVO> getMealLogsByUser(int userNum) {
+    public List<MealLogVO> getMealLogsByUser(Long user_num) {
         List<MealLogVO> mealLogs = new ArrayList<>();
         String sql = "SELECT MEALLOGID, FOODNAME, MEALTYPE, CREATEDAT, USER_NUM FROM MEALLOG WHERE USER_NUM = ? ORDER BY CREATEDAT DESC";
 
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, userNum);
+            pstmt.setLong(1, user_num);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     MealLogVO log = new MealLogVO();

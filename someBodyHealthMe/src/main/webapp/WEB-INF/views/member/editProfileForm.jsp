@@ -17,6 +17,11 @@
             }
             return true;
         }
+
+        // 취소 버튼 클릭 시 이전 페이지로 이동
+        function goBack() {
+            history.back();
+        }
     </script>
 </head>
 <body>
@@ -50,7 +55,7 @@
             </ul>
             <div class="profile-info-buttons">
                 <button type="submit" class="btn">수정</button>
-                <button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/member/myPage.do'">취소</button>
+                <button type="button" class="btn" onclick="goBack()">취소</button>
             </div>
         </form>
     </main>

@@ -39,10 +39,17 @@
             font-size: 16px;
         }
 
-        .nutrition-summary {
+        .nutrition-summary, .total-summary {
             margin-top: 10px;
             font-size: 14px;
             color: #555;
+        }
+
+        .total-summary {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -156,6 +163,15 @@
                     <button class="add-button"
                         onclick="location.href='${pageContext.request.contextPath}/mydiet/noteDietForm.do'">+</button>
                 </div>
+            </div>
+
+            <!-- 총 영양 성분 합계 -->
+            <div class="total-summary">
+                <h3>총 영양 성분 합계</h3>
+                칼로리: ${totalSummary.calories} kcal<br/>
+                단백질: ${totalSummary.protein} g<br/>
+                탄수화물: ${totalSummary.carbohydrate} g<br/>
+                지방: ${totalSummary.fat} g<br/>
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@
 <div class="page-main2">
 <jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
 	<div class="container2">
-        <h2>지원 목록</h2>
+        <h2 style="width:135px;">지원 목록</h2>
         <div class="content-main"> 
             <!-- 관리자 검색 조건 -->
             <form action="listByAdmin.do" method="get" id="search_form">

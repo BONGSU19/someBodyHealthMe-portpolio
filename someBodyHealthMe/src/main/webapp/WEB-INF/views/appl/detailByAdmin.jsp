@@ -14,7 +14,7 @@
 <div class="page-main">
 <jsp:include page="/WEB-INF/views/common/aside_board.jsp"/>
   <div class="container">
-        <h2 style="width:130px;">지원 상세</h2>
+        <h2 style="width:135px;">지원 상세</h2>
         <hr size="3" noshade="noshade"><br>  
         <div class="user-info">
         	<c:if test="${appl.status == 0}">
